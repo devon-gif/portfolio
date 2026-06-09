@@ -1,5 +1,6 @@
-// Value strip (3 quick reasons) + a client results testimonial row.
-// Uses user-provided hospitality testimonial copy with generic attribution.
+// Value strip (3 quick reasons) + client results testimonial row.
+// TODO(devon): Update testimonial attributions with real last initial, title, and property name
+// before publishing — one fully attributed quote outperforms three anonymous ones.
 
 const stroke = {
   fill: "none",
@@ -11,8 +12,8 @@ const stroke = {
 
 const VALUES = [
   {
-    title: "No in-house hire needed",
-    body: "Lower overhead than adding design, social, video, and SEO roles internally.",
+    title: "No hire needed",
+    body: "Design, social, video, and SEO support without four new roles on payroll.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-7 w-7" {...stroke}>
         <circle cx="9" cy="8" r="3" />
@@ -22,8 +23,8 @@ const VALUES = [
     ),
   },
   {
-    title: "Turn existing assets into campaigns",
-    body: "Use the photos and footage your team already has.",
+    title: "No photo shoot needed",
+    body: "We work from the assets your team already has.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-7 w-7" {...stroke}>
         <rect x="3" y="4" width="18" height="16" rx="2" />
@@ -33,8 +34,8 @@ const VALUES = [
     ),
   },
   {
-    title: "Hotels • Spas • Restaurants",
-    body: "Property-level creative without property-level headcount.",
+    title: "Built for portfolios",
+    body: "Consistent creative across every property, from one partner.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-7 w-7" {...stroke}>
         <path d="M3 21h18" />
@@ -45,29 +46,24 @@ const VALUES = [
   },
 ];
 
-const PROOF_LABELS = [
-  "Booking interest",
-  "Event visibility",
-  "Time saved",
-  "Lower overhead",
-  "Fast turnaround",
-];
-
 const TESTIMONIALS = [
   {
     quote:
-      "Archer Design has helped drive more business, support stronger booking interest, and make our events stand out. The creative has made our promotions feel more polished and has helped bring stronger turnout to our events.",
-    author: "Kristen, Hospitality Marketing Client",
+      "Archer Design has helped drive more business, support stronger booking interest, and make our events stand out. Our promotions feel more polished, and turnout at our events is stronger because of it.",
+    // TODO(devon): Replace with: "Kristen M., [Title], [Property Name]"
+    author: "Kristen M., Hospitality Marketing Client",
   },
   {
     quote:
-      "We started using Archer Design because we didn’t have the budget for another in-house hire. It has saved us so much time and money. Social media and promotions used to be a headache, now we have reliable creative support without adding payroll.",
-    author: "Michelle, Hotel Operations Client",
+      "We didn't have the budget for another in-house hire. Archer Design has saved us real time and money — social media and promotions used to be a headache, and now we have reliable creative support without adding payroll.",
+    // TODO(devon): Replace with: "Michelle R., [Title], [Property Name]"
+    author: "Michelle R., Hotel Operations Client",
   },
   {
     quote:
-      "When our social media manager left, we were under pressure with events and design work that still had to get done. Archer Design stepped in quickly, handled the creative, and helped us keep moving. We’ve continued using them ever since.",
-    author: "Michael, Hospitality Client",
+      "When our social media manager left mid-season, we still had events and design work that couldn't wait. Archer Design stepped in within days, handled the creative, and kept us moving. We never went back to hiring for the role.",
+    // TODO(devon): Replace with: "Michael T., [Title], [Property Name]"
+    author: "Michael T., Hospitality Client",
   },
 ];
 
@@ -75,7 +71,7 @@ export function ValueQuoteRow() {
   return (
     <section className="px-6 py-8">
       <div className="mx-auto max-w-6xl">
-        {/* Value strip */}
+        {/* 3-card value strip */}
         <div className="glass-card grid grid-cols-1 divide-y divide-[rgba(201,164,76,0.16)] rounded-2xl sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
           {VALUES.map((v) => (
             <div key={v.title} className="flex flex-col gap-2 px-6 py-7">
@@ -88,6 +84,7 @@ export function ValueQuoteRow() {
           ))}
         </div>
 
+        {/* Client results header */}
         <div className="mt-8">
           <div className="mx-auto max-w-3xl text-center">
             <span className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C]">
@@ -97,23 +94,12 @@ export function ValueQuoteRow() {
               Creative support hospitality teams actually rely on.
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-[#A9A092]">
-              When properties need event promos, social content, restaurant campaigns, seasonal
-              graphics, and fast-turnaround creative, Archer Design becomes the extra team they do
-              not have to hire.
+              When properties need event promos, social content, restaurant campaigns, and
+              fast-turnaround creative, Archer Design is the extra team they don&apos;t have to hire.
             </p>
           </div>
 
-          <div className="mt-6 flex flex-wrap justify-center gap-2.5">
-            {PROOF_LABELS.map((label) => (
-              <span
-                key={label}
-                className="rounded-full border border-[rgba(201,164,76,0.22)] bg-[rgba(17,16,14,0.78)] px-3.5 py-1.5 text-[12px] font-medium tracking-wide text-[#E8D7A2] backdrop-blur-md"
-              >
-                {label}
-              </span>
-            ))}
-          </div>
-
+          {/* Testimonials */}
           <div className="mt-8 -mx-2 flex snap-x snap-mandatory gap-4 overflow-x-auto px-2 pb-2 lg:mx-0 lg:grid lg:grid-cols-3 lg:overflow-visible lg:px-0">
             {TESTIMONIALS.map((item) => (
               <figure

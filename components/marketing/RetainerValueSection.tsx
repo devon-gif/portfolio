@@ -11,45 +11,13 @@ type PackageOption = {
 const PACKAGE_OPTIONS: PackageOption[] = [
   { label: "Hotel Creative System, $1,999/month", monthly: 1999 },
   { label: "Hotel Creative + SEO, $3,999/month", monthly: 3999 },
-  { label: "Spa Social Starter, $499/month", monthly: 499 },
+  { label: "Spa & Wellness Creative, $499/month", monthly: 499 },
   { label: "Spa Social + SEO, $999/month", monthly: 999 },
   { label: "Restaurant Social Starter, $399/month", monthly: 399 },
   { label: "Restaurant Social + SEO, $699/month", monthly: 699 },
 ];
 
-const IN_HOUSE_COSTS = [
-  "Salary",
-  "Health insurance",
-  "Benefits",
-  "Payroll taxes",
-  "Workers comp",
-  "PTO / sick time",
-  "Recruiting",
-  "Onboarding",
-  "Software",
-  "Management time",
-];
-
-const ARCHER_OUTPUTS = [
-  "Social graphics",
-  "Short-form motion",
-  "Event promos",
-  "Restaurant/bar campaigns",
-  "Spa/wellness creative",
-  "Seasonal campaigns",
-  "Local campaign visuals",
-  "Optional SEO support",
-  "Flexible monthly support",
-  "No employee overhead",
-];
-
 const currency = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  maximumFractionDigits: 0,
-});
-
-const currencyPrecise = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
   maximumFractionDigits: 0,
@@ -87,22 +55,24 @@ export function RetainerValueSection() {
     <section className="px-6 py-20">
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+          {/* Left: headline + context */}
           <div className="lg:col-span-6">
-            <span className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C]">RETAINER VALUE</span>
-            <h2 className="mt-4 max-w-2xl font-serif text-[clamp(34px,5vw,56px)] font-semibold leading-[0.94] text-[#F6F1E7]">
-              Premium creative without hiring in-house.
+            <span className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C]">
+              Retainer value
+            </span>
+            <h2 className="mt-4 max-w-2xl font-serif text-[clamp(28px,4.4vw,50px)] font-semibold leading-[1.0] text-[#F6F1E7]">
+              One in-house creative hire costs $90K–$180K a year, fully loaded.{" "}
+              <span className="text-[#C9A44C]">Here&apos;s the leaner option.</span>
             </h2>
-            <p className="mt-4 max-w-2xl text-[15px] font-semibold leading-relaxed text-[#E8D7A2]">
-              No salary. No insurance. No payroll taxes. No recruiting. Just consistent hospitality creative support.
-            </p>
-            <p className="mt-4 max-w-2xl text-[14px] leading-relaxed text-[#A9A092]">
-              Hiring in-house means salary, benefits, insurance, payroll taxes, recruiting, onboarding, software,
-              management time, and the risk of replacing someone if they leave. Archer Design gives hospitality teams
-              a lean creative layer for social graphics, short-form motion, event promos, restaurant campaigns,
-              spa/wellness content, seasonal visuals, and optional SEO support without adding another full-time role.
+            <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-[#A9A092]">
+              Salary, insurance, payroll taxes, software, recruiting, management time — and the risk
+              of starting over if they leave. Archer Design gives your properties consistent creative
+              output for a fraction of one loaded salary, with no employee overhead and no long-term
+              commitment.
             </p>
           </div>
 
+          {/* Right: calculator */}
           <div className="relative lg:col-span-6">
             <div
               className="pointer-events-none absolute -inset-6 -z-10 rounded-[30px] blur-[42px]"
@@ -114,8 +84,10 @@ export function RetainerValueSection() {
             />
             <div className="glass-card-strong rounded-[28px] border-[rgba(201,164,76,0.34)] p-6">
               <div className="flex items-center justify-between gap-3">
-                <h3 className="font-serif text-2xl text-[#F6F1E7]">Estimate your overhead avoided.</h3>
-                <span className="rounded-full border border-[rgba(201,164,76,0.32)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#E8D7A2]">
+                <h3 className="font-serif text-2xl text-[#F6F1E7]">
+                  Estimate what you&apos;d avoid by not making the hire.
+                </h3>
+                <span className="rounded-full border border-[rgba(201,164,76,0.32)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#E8D7A2] shrink-0">
                   Planning tool
                 </span>
               </div>
@@ -161,107 +133,69 @@ export function RetainerValueSection() {
 
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 <div className="rounded-xl border border-[rgba(169,160,146,0.2)] bg-[rgba(5,5,5,0.35)] p-4">
-                  <p className="text-[11px] uppercase tracking-[0.16em] text-[#A9A092]">Estimated loaded in-house monthly cost</p>
-                  <p className="mt-2 font-serif text-3xl leading-none text-[#F6F1E7]">{currencyPrecise.format(loadedMonthly)}</p>
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-[#A9A092]">
+                    Estimated loaded in-house monthly cost
+                  </p>
+                  <p className="mt-2 font-serif text-3xl leading-none text-[#F6F1E7]">
+                    {currency.format(loadedMonthly)}
+                  </p>
                 </div>
                 <div className="rounded-xl border border-[rgba(169,160,146,0.2)] bg-[rgba(5,5,5,0.35)] p-4">
-                  <p className="text-[11px] uppercase tracking-[0.16em] text-[#A9A092]">Archer Design monthly package</p>
-                  <p className="mt-2 font-serif text-3xl leading-none text-[#E8D7A2]">{currencyPrecise.format(archerMonthly)}</p>
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-[#A9A092]">
+                    Archer Design monthly package
+                  </p>
+                  <p className="mt-2 font-serif text-3xl leading-none text-[#E8D7A2]">
+                    {currency.format(archerMonthly)}
+                  </p>
                 </div>
                 <div className="rounded-xl border border-[rgba(201,164,76,0.35)] bg-[rgba(201,164,76,0.08)] p-4">
-                  <p className="text-[11px] uppercase tracking-[0.16em] text-[#E8D7A2]">Estimated monthly overhead avoided</p>
-                  <p className="mt-2 font-serif text-3xl leading-none text-[#F6F1E7]">{currencyPrecise.format(monthlySavings)}</p>
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-[#E8D7A2]">
+                    Estimated monthly overhead avoided
+                  </p>
+                  <p className="mt-2 font-serif text-3xl leading-none text-[#F6F1E7]">
+                    {currency.format(monthlySavings)}
+                  </p>
                 </div>
                 <div className="rounded-xl border border-[rgba(201,164,76,0.35)] bg-[rgba(201,164,76,0.08)] p-4">
-                  <p className="text-[11px] uppercase tracking-[0.16em] text-[#E8D7A2]">Estimated annual overhead avoided</p>
-                  <p className="mt-2 font-serif text-3xl leading-none text-[#C9A44C]">{currencyPrecise.format(annualSavings)}</p>
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-[#E8D7A2]">
+                    Estimated annual overhead avoided
+                  </p>
+                  <p className="mt-2 font-serif text-3xl leading-none text-[#C9A44C]">
+                    {currency.format(annualSavings)}
+                  </p>
                 </div>
               </div>
 
               {monthlySavings < 0 && (
                 <p className="mt-4 rounded-xl border border-[rgba(201,164,76,0.2)] bg-[rgba(201,164,76,0.08)] px-4 py-3 text-[13px] leading-relaxed text-[#E8D7A2]">
-                  This package may be above your current in-house estimate, but it can still provide flexible support
-                  across design, motion, social, and SEO depending on scope.
+                  This package may be above your current in-house estimate, but it can still provide
+                  flexible support across design, motion, social, and SEO depending on scope.
                 </p>
               )}
 
               <p className="mt-4 text-[12px] leading-relaxed text-[#A9A092]">
-                Estimates are for planning only. Actual internal costs vary by role, market, benefits, insurance,
-                software, recruiting, and management structure.
+                Estimates are for planning only. Actual internal costs vary by role, market,
+                benefits, insurance, software, recruiting, and management structure.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
-          <article className="glass-card-strong rounded-2xl p-6">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#A9A092]">IN-HOUSE CREATIVE HIRE</p>
-            <p className="mt-2 font-serif text-[clamp(32px,4.5vw,48px)] leading-none text-[#F6F1E7]">$90K-$180K+/year</p>
-            <p className="mt-3 text-[14px] leading-relaxed text-[#A9A092]">
-              Estimated loaded annual cost for one full-time creative, social, or digital marketing hire after salary,
-              insurance, benefits, payroll taxes, software, recruiting, and management overhead.
-            </p>
-          </article>
-          <article className="glass-card-strong rounded-2xl border-[rgba(201,164,76,0.42)] p-6 shadow-[0_0_52px_rgba(201,164,76,0.18)]">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#E8D7A2]">ARCHER DESIGN</p>
-            <p className="mt-2 font-serif text-[clamp(32px,4.5vw,48px)] leading-none text-[#C9A44C]">Starting at $1,999/month</p>
-            <p className="mt-3 text-[14px] leading-relaxed text-[#D8CFBE]">
-              Monthly hospitality creative support for hotels, restaurants, spas, events, social graphics,
-              short-form motion, seasonal campaigns, and optional SEO.
-            </p>
-          </article>
-          <article className="glass-card-strong rounded-2xl p-6">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#A9A092]">POTENTIAL OVERHEAD AVOIDED</p>
-            <p className="mt-2 font-serif text-[clamp(32px,4.5vw,48px)] leading-none text-[#F6F1E7]">$60K-$150K+/year</p>
-            <p className="mt-3 text-[14px] leading-relaxed text-[#A9A092]">
-              A leaner way to get consistent creative output without adding another full-time employee to payroll.
-            </p>
-          </article>
-        </div>
-
-        <div className="mt-7 grid gap-4 md:grid-cols-2">
-          <div className="glass-card rounded-2xl p-6">
-            <h3 className="font-serif text-xl text-[#F6F1E7]">With an in-house hire, you may pay for:</h3>
-            <ul className="mt-4 grid grid-cols-1 gap-2 text-[14px] text-[#A9A092] sm:grid-cols-2">
-              {IN_HOUSE_COSTS.map((item) => (
-                <li key={item} className="relative pl-5">
-                  <span className="absolute left-0 text-[#A9A092]">-</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="glass-card rounded-2xl border-[rgba(201,164,76,0.3)] p-6">
-            <h3 className="font-serif text-xl text-[#F6F1E7]">With Archer Design, you get:</h3>
-            <ul className="mt-4 grid grid-cols-1 gap-2 text-[14px] text-[#D8CFBE] sm:grid-cols-2">
-              {ARCHER_OUTPUTS.map((item) => (
-                <li key={item} className="relative pl-5">
-                  <span className="absolute left-0 text-[#C9A44C]">◆</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-8 rounded-2xl border border-[rgba(201,164,76,0.3)] bg-[rgba(5,5,5,0.48)] p-6 text-center shadow-[0_0_60px_rgba(201,164,76,0.12)]">
-          <h3 className="font-serif text-2xl text-[#F6F1E7]">Want to see what this looks like before committing?</h3>
+        {/* Under-calculator CTA */}
+        <div className="mt-8 rounded-2xl border border-[rgba(201,164,76,0.3)] bg-[rgba(5,5,5,0.48)] p-8 text-center shadow-[0_0_60px_rgba(201,164,76,0.12)]">
+          <h3 className="font-serif text-2xl text-[#F6F1E7]">
+            Want to see the quality before any monthly commitment?
+          </h3>
           <a
             href="/contact"
-            className="mt-5 inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#1a1407]"
+            className="mt-5 inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
             style={{ background: GOLD_GRADIENT }}
           >
-            Request a 7-Day Trial <span aria-hidden>→</span>
+            Get 5 Free Sample Assets <span aria-hidden>→</span>
           </a>
-          <p className="mx-auto mt-4 max-w-3xl text-[13px] leading-relaxed text-[#A9A092]">
-            Send existing photos, menus, event details, spa services, or campaign notes. We will create 5 sample
-            assets so you can see the quality before adding any monthly support.
-          </p>
-          <p className="mt-4 text-[12px] text-[#A9A092]">
-            Default planning example: {currency.format(75000)} salary with 30% overhead = {currency.format(8125)}
-            loaded monthly. Hotel Creative System ({currency.format(1999)}/month) can indicate an estimated
-            {" "}{currency.format(6126)} monthly and {currency.format(73512)} annual overhead difference.
+          <p className="mx-auto mt-4 max-w-xl text-[13px] leading-relaxed text-[#A9A092]">
+            Send existing photos, menus, or event details. You&apos;ll have 5 finished pieces in 7
+            days — free.
           </p>
         </div>
       </div>

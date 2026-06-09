@@ -70,12 +70,12 @@ export function MetricsStrip() {
           ))}
         </div>
         <p className="mx-auto mt-6 max-w-3xl text-center text-[14px] text-[#E8D7A2]">
-          Campaign creative with measurable reach, built for rooms, restaurants, events, spa
-          services, and seasonal offers.
+          13.9M+ impressions &middot; 543K+ direct engagements &middot; 3.6M+ reach &middot; 2,400+ assets delivered
         </p>
+        {/* TODO(devon): Fill in your real start year below. */}
         <p className="mx-auto mt-2 max-w-3xl text-center text-[13px] text-[#A9A092]">
-          Trusted by Revest Properties, Hotel Indigo Pittsburgh University-Oakland, Eliza Hot Metal
-          Bistro, Hampton Inn Greensburg &amp; Johnstown, and Elements spa/wellness.
+          Across 5 hospitality brands since 2024 — hotels, restaurants, spas, and event venues in
+          active markets.
         </p>
       </div>
     </section>

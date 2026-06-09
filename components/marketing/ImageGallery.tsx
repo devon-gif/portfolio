@@ -9,15 +9,15 @@ export function ImageGallery() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-10 max-w-2xl">
           <span className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C]">
-            Stills & campaigns
+            Stills &amp; campaigns
           </span>
           <h2 className="mt-3 font-serif text-[clamp(26px,4vw,44px)] font-semibold leading-tight text-[#F6F1E7]">
-            Existing assets, turned into finished hospitality campaigns.
+            The photos your properties already have, turned into finished campaigns.
           </h2>
           <p className="mt-3 text-[#A9A092]">
-            Most properties already have the photos, spaces, menus, and offers. We turn those raw
-            assets into consistent creative that keeps rooms, restaurants, events, and services
-            visible between major campaigns.
+            Most hotels are sitting on usable assets — room photography, menus, event spaces, spa
+            interiors. We turn that raw material into consistent, on-brand creative that keeps
+            rooms, restaurants, events, and services visible between major campaigns.
           </p>
         </div>
 
