@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { LazyVideo } from "./LazyVideo";
 import type { VideoAsset } from "./media";
 
@@ -13,6 +14,10 @@ const WIDTH_BY_ORIENTATION: Record<VideoAsset["orientation"], string> = {
 };
 
 export function VideoCard({ asset, eager = false }: { asset: VideoAsset; eager?: boolean }) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) return null;
+
   return (
     <figure
       className={`group shrink-0 snap-start ${WIDTH_BY_ORIENTATION[asset.orientation]}`}
@@ -21,7 +26,13 @@ export function VideoCard({ asset, eager = false }: { asset: VideoAsset; eager?:
         className="glass-card relative overflow-hidden rounded-2xl transition duration-300 group-hover:-translate-y-0.5 group-hover:border-[#C9A44C] group-hover:shadow-[0_0_50px_rgba(201,164,76,0.16)]"
         style={{ aspectRatio: `${asset.width} / ${asset.height}` }}
       >
-        <LazyVideo src={asset.src} eager={eager} label={asset.label} className="h-full w-full object-cover" />
+        <LazyVideo
+          src={asset.src}
+          eager={eager}
+          label={asset.label}
+          className="h-full w-full object-cover"
+          onFailed={() => setFailed(true)}
+        />
       </div>
       <figcaption className="mt-2.5 flex items-center justify-between px-1">
         <span className="text-[13px] text-[#D8CFBE]">{asset.label}</span>

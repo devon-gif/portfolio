@@ -1,18 +1,25 @@
 "use client";
 
-import { useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { LIBRARY_VIDEOS } from "./media";
 import { LazyVideo } from "./LazyVideo";
 
 export function VideoCarousel() {
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const [failedSrcs, setFailedSrcs] = useState<Set<string>>(new Set());
 
   const scrollBy = (dir: number) => {
     const el = trackRef.current;
     if (!el) return;
     el.scrollBy({ left: dir * Math.min(el.clientWidth * 0.8, 640), behavior: "smooth" });
   };
+
+  const markFailed = useCallback((src: string) => {
+    setFailedSrcs((prev) => new Set(prev).add(src));
+  }, []);
+
+  const visible = LIBRARY_VIDEOS.filter((v) => !failedSrcs.has(v.src));
 
   return (
     <section className="px-6 py-24">
@@ -50,12 +57,17 @@ export function VideoCarousel() {
           ref={trackRef}
           className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {LIBRARY_VIDEOS.map((v) => (
+          {visible.map((v) => (
             <figure
               key={v.src}
               className="w-[78%] shrink-0 snap-start overflow-hidden rounded-2xl border border-[rgba(201,164,76,0.24)] bg-[#11100E] sm:w-[46%] lg:w-[31%]"
             >
-              <LazyVideo src={v.src} label={v.label} className="aspect-[9/12] w-full object-cover sm:aspect-video" />
+              <LazyVideo
+                src={v.src}
+                label={v.label}
+                className="aspect-[9/12] w-full object-cover sm:aspect-video"
+                onFailed={() => markFailed(v.src)}
+              />
               <figcaption className="px-4 py-3 text-[13px] text-[#A9A092]">{v.label}</figcaption>
             </figure>
           ))}

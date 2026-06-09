@@ -14,12 +14,14 @@ export function LazyVideo({
   poster,
   eager = false,
   label,
+  onFailed,
 }: {
   src: string;
   className?: string;
   poster?: string;
   eager?: boolean;
   label?: string;
+  onFailed?: () => void;
 }) {
   const ref = useRef<HTMLVideoElement | null>(null);
   const loaded = useRef(false);
@@ -33,6 +35,7 @@ export function LazyVideo({
       const tag = label ? `[${label}]` : "[LazyVideo]";
       console.error(`${tag} video failed to load — src: ${src}`, e);
       setFailed(true);
+      onFailed?.();
     }
 
     el.addEventListener("error", handleError);
@@ -67,7 +70,7 @@ export function LazyVideo({
       el.removeEventListener("error", handleError);
       io.disconnect();
     };
-  }, [src, eager, label]);
+  }, [src, eager, label, onFailed]);
 
   if (failed) {
     if (poster) {
@@ -80,14 +83,7 @@ export function LazyVideo({
         />
       );
     }
-    return (
-      <div
-        className={`flex items-center justify-center bg-[#0e0c0a] text-[12px] text-[#A9A092] ${className}`}
-        aria-label={label ? `${label} — preview unavailable` : "Video preview unavailable"}
-      >
-        <span className="px-4 text-center opacity-60">Video preview loading</span>
-      </div>
-    );
+    return null;
   }
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FEATURED_MOTION, MOTION_CAROUSEL } from "./media";
 import { LazyVideo } from "./LazyVideo";
@@ -14,6 +14,7 @@ import { VideoCard } from "./VideoCard";
  */
 export function FeaturedMotionShowcase() {
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const [featuredFailed, setFeaturedFailed] = useState(false);
 
   const scrollBy = (dir: number) => {
     const el = trackRef.current;
@@ -38,21 +39,29 @@ export function FeaturedMotionShowcase() {
           </p>
         </div>
 
-        {/* Large featured video - cinematic, real aspect ratio, eager-loaded */}
-        <figure className="mx-auto mb-8 w-full max-w-4xl">
-          <div
-            className="glass-card-strong overflow-hidden rounded-[1.25rem]"
-            style={{ aspectRatio: `${FEATURED_MOTION.width} / ${FEATURED_MOTION.height}` }}
-          >
-            <LazyVideo src={FEATURED_MOTION.src} eager label={FEATURED_MOTION.label} className="h-full w-full object-cover" />
-          </div>
-          <figcaption className="mt-3 flex items-center justify-between px-1">
-            <span className="text-sm text-[#D8CFBE]">{FEATURED_MOTION.label}</span>
-            <span className="text-[11px] uppercase tracking-[0.16em] text-[#C9A44C]">
-              {FEATURED_MOTION.category}
-            </span>
-          </figcaption>
-        </figure>
+        {/* Large featured video - hidden entirely if the file is missing from Supabase */}
+        {!featuredFailed && (
+          <figure className="mx-auto mb-8 w-full max-w-4xl">
+            <div
+              className="glass-card-strong overflow-hidden rounded-[1.25rem]"
+              style={{ aspectRatio: `${FEATURED_MOTION.width} / ${FEATURED_MOTION.height}` }}
+            >
+              <LazyVideo
+                src={FEATURED_MOTION.src}
+                eager
+                label={FEATURED_MOTION.label}
+                className="h-full w-full object-cover"
+                onFailed={() => setFeaturedFailed(true)}
+              />
+            </div>
+            <figcaption className="mt-3 flex items-center justify-between px-1">
+              <span className="text-sm text-[#D8CFBE]">{FEATURED_MOTION.label}</span>
+              <span className="text-[11px] uppercase tracking-[0.16em] text-[#C9A44C]">
+                {FEATURED_MOTION.category}
+              </span>
+            </figcaption>
+          </figure>
+        )}
       </div>
 
       {/* Full-bleed-ish horizontal carousel; cards keep natural orientation */}
