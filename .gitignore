@@ -39,3 +39,35 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# temp build dir from verification (sandbox FS could not remove)
+.next-verify/
+.next-verify2/
+.next-verify3/
+.next-verify4/
+.next-verify5/
+.next-verify6/
+.next-verify7/
+.next-verify8/
+.next-verify9/
+.next-verify10/
+.next-verify11/
+.next-verify12/
+.next-verify13/
+
+# Local env / secrets
+.env.local
+.env*.local
+
+# Next build artifacts
+.next/
+.next_stale_*/
+
+# Python/venv
+.venv/
+
+# Large local video assets - host externally later
+public/videos/
+
+# Large video assets - host externally
+public/videos/

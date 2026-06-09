@@ -1,0 +1,48 @@
+import { GOLD_GRADIENT } from "./media";
+
+const INCLUDES = [
+  "Free test",
+  "5 finished assets",
+  "Existing assets only",
+  "One light round of feedback",
+  "No paid ads or account management included",
+];
+
+export function TrialCTA() {
+  return (
+    <section id="trial" className="px-6 py-24">
+      <div
+        className="glass-card-strong mx-auto max-w-3xl rounded-3xl p-10 text-center md:p-14"
+      >
+        <span className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C]">
+          7-Day / 5-Asset Trial
+        </span>
+        <h2 className="mt-3 font-serif text-[clamp(28px,4vw,44px)] font-semibold leading-tight text-[#F6F1E7]">
+          Try 5 finished pieces before committing.
+        </h2>
+        <p className="mx-auto mt-4 max-w-xl text-[#A9A092]">
+          Send your existing property photos, menu items, event details, spa services, or seasonal
+          campaign notes. We&apos;ll create 5 polished sample assets so you can see how your current
+          assets could be turned into campaign-ready creative.
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-2.5">
+          {INCLUDES.map((i) => (
+            <span
+              key={i}
+              className="rounded-full border border-[rgba(201,164,76,0.24)] bg-[rgba(5,5,5,0.26)] px-3.5 py-1.5 text-[13px] text-[#E8D7A2] backdrop-blur-md"
+            >
+              {i}
+            </span>
+          ))}
+        </div>
+        <a
+          href="/contact"
+          className="mt-8 inline-block rounded-full px-8 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
+          style={{ background: GOLD_GRADIENT }}
+        >
+          Request a 7-Day Trial
+        </a>
+      </div>
+    </section>
+  );
+}

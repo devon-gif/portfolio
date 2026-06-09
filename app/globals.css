@@ -1,26 +1,259 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  color-scheme: dark;
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  --glass-bg: linear-gradient(145deg, rgba(23, 20, 15, 0.72), rgba(8, 8, 7, 0.52));
+  --glass-bg-strong: linear-gradient(145deg, rgba(17, 16, 14, 0.82), rgba(5, 5, 5, 0.68));
+  --glass-border: rgba(201, 164, 76, 0.22);
+  --glass-border-strong: rgba(232, 215, 162, 0.36);
+  --gold-rim: 0 24px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 40px rgba(201, 164, 76, 0.06);
+  --gold-rim-strong: 0 30px 96px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 0 56px rgba(201, 164, 76, 0.14);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans, ui-sans-serif, system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.glass-card,
+.glass-card-strong {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  box-shadow: var(--gold-rim);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  backdrop-filter: blur(18px) saturate(120%);
+}
+
+.archer-luxury .font-serif {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  letter-spacing: 0.01em;
+}
+
+.archer-luxury .wordmark-font {
+  font-family: var(--font-wordmark-script), "Snell Roundhand", "Brush Script MT", cursive;
+  letter-spacing: 0;
+  line-height: 1;
+  font-feature-settings: "liga" 1, "kern" 1;
+}
+
+.archer-luxury h1,
+.archer-luxury h2,
+.archer-luxury h3 {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+}
+
+.glass-card-strong {
+  border-color: var(--glass-border-strong);
+  background: var(--glass-bg-strong);
+  box-shadow: var(--gold-rim-strong);
+  -webkit-backdrop-filter: blur(22px) saturate(122%);
+  backdrop-filter: blur(22px) saturate(122%);
+}
+
+.glass-card::before,
+.glass-card-strong::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 28%);
+}
+
+.gold-orb {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(201, 164, 76, 0.28), rgba(201, 164, 76, 0.08) 35%, transparent 70%);
+  filter: blur(48px);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.gold-ring {
+  position: absolute;
+  border: 1px solid rgba(201, 164, 76, 0.18);
+  border-radius: 9999px;
+  box-shadow: inset 0 0 20px rgba(201, 164, 76, 0.05);
+  pointer-events: none;
+}
+
+.gold-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(201, 164, 76, 0.42), transparent);
+}
+
+.client-ticker {
+  position: relative;
+  margin-top: 0;
+  border-top: 1px solid rgba(201, 164, 76, 0.12);
+  border-bottom: 1px solid rgba(201, 164, 76, 0.12);
+  background: rgba(5, 5, 5, 0.35);
+  overflow: hidden;
+}
+
+.client-ticker-mask {
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.client-ticker-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 0;
+  padding: 12px 0;
+  animation: client-ticker-scroll 54s linear infinite;
+  will-change: transform;
+}
+
+.client-ticker:hover .client-ticker-track {
+  animation-play-state: paused;
+}
+
+.client-ticker-item {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 0 18px;
+  color: rgba(246, 241, 231, 0.72);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.client-ticker-item::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  background: #c9a44c;
+  transform: translateY(-50%);
+  opacity: 0.9;
+}
+
+/* Real client logos: sized by height (not width), never distorted. */
+.client-ticker-logo {
+  height: 28px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  opacity: 0.78;
+  filter: grayscale(1) brightness(1.5) contrast(0.95);
+  transition: opacity 0.25s ease, filter 0.25s ease;
+}
+.client-ticker-item:hover .client-ticker-logo {
+  opacity: 1;
+  filter: grayscale(0.15) brightness(1.15) saturate(1.05)
+    drop-shadow(0 0 10px rgba(201, 164, 76, 0.45));
+}
+
+/* Category chips (text). */
+.client-ticker-category {
+  color: rgba(246, 241, 231, 0.7);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Premium text fallback for a client without a logo asset (e.g. Vigilant). */
+.client-ticker-fallback {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #e8d7a2;
+  font-size: 15px;
+  letter-spacing: 0.03em;
+  text-transform: none;
+  transition: text-shadow 0.25s ease;
+}
+.client-ticker-item:hover .client-ticker-fallback {
+  text-shadow: 0 0 12px rgba(201, 164, 76, 0.4);
+}
+
+@keyframes client-ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-card,
+  .glass-card-strong {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(17, 16, 14, 0.9);
+  }
+}
+
+@media (max-width: 768px) {
+  .glass-card,
+  .glass-card-strong {
+    -webkit-backdrop-filter: blur(14px) saturate(115%);
+    backdrop-filter: blur(14px) saturate(115%);
+  }
+
+  .gold-orb {
+    filter: blur(36px);
+    opacity: 0.4;
+  }
+
+  .client-ticker-item {
+    padding: 0 14px;
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .client-ticker-mask {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .client-ticker-track {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: none;
+    padding: 10px 8px;
+    row-gap: 6px;
+  }
+
+  .client-ticker-item {
+    padding: 0 10px;
+  }
 }
