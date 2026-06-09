@@ -39,7 +39,7 @@ export function HeroVideoRotator({
           muted
           loop
           playsInline
-          preload={i === 0 ? "auto" : "metadata"}
+          preload="metadata"
           aria-hidden={i === active ? undefined : true}
           aria-label={i === active ? `Archer Design, ${vid.label}` : undefined}
         >

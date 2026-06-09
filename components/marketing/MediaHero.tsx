@@ -47,7 +47,7 @@ export function MediaHero() {
               muted
               loop
               playsInline
-              preload="auto"
+              preload="metadata"
               aria-label="Archer Design hospitality creative showreel"
             >
               <source src={HERO_VIDEO_CINEMATIC} type="video/mp4" />

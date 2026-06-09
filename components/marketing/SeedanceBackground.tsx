@@ -15,7 +15,7 @@ export function SeedanceBackground() {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
       >
         <source src={SEEDANCE_BG} type="video/mp4" />
       </video>

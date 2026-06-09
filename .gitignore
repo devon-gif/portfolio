@@ -66,8 +66,8 @@ next-env.d.ts
 # Python/venv
 .venv/
 
-# Large local video assets - host externally later
+# Large video assets - served from Supabase Storage in production
 public/videos/
 
-# Large video assets - host externally
+# Large video assets - hosted on Supabase Storage
 public/videos/

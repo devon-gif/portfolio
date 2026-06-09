@@ -1,11 +1,26 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // MediaAssetMap - single source of truth for Archer Design marketing media.
-// Filenames are stored raw and URL-encoded at use, so spaces/special chars in
-// /public/videos resolve safely. Real pixel dimensions (from ffprobe) drive each
-// card's aspect-ratio so videos are NEVER squeezed into the wrong shape.
+// Videos are served from Supabase Storage (portfolio-videos bucket).
+//
+// URL resolution order:
+//   1. NEXT_PUBLIC_SUPABASE_VIDEO_BASE_URL env var (set in Vercel + .env.local)
+//   2. Hard-coded Supabase public URL as defense-in-depth fallback
+//
+// encodeURI preserves path separators while safely encoding spaces and
+// special characters present in Seedance filenames.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const v = (file: string) => `/videos/${encodeURIComponent(file)}`;
+const VIDEO_BASE =
+  process.env.NEXT_PUBLIC_SUPABASE_VIDEO_BASE_URL ??
+  "https://wzqetwkldvrtgnohbbpi.supabase.co/storage/v1/object/public/portfolio-videos";
+
+/** Build a public Supabase Storage URL for a video filename. */
+export function videoUrl(filename: string): string {
+  return `${VIDEO_BASE}/${encodeURI(filename)}`;
+}
+
+// Internal shorthand keeps asset() calls terse.
+const v = videoUrl;
 const img = (file: string) => `/${encodeURIComponent(file)}`;
 
 export type Orientation = "landscape" | "portrait" | "square";

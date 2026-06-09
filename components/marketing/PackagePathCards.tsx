@@ -1,6 +1,7 @@
 "use client";
 
 import { LazyVideo } from "./LazyVideo";
+import { FEATURED_VIDEOS } from "./media";
 
 const stroke = {
   fill: "none",
@@ -15,7 +16,7 @@ const PATHS = [
     title: "Hotels",
     body: "Creative systems for hotel groups, boutique properties, meetings, F&B, and seasonal campaigns, built to support visibility and booking interest.",
     cta: "See hotel package",
-    video: "/videos/hotel%20entrance.mp4",
+    video: FEATURED_VIDEOS[0].src,
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
         <path d="M3 21h18" />
@@ -28,7 +29,7 @@ const PATHS = [
     title: "Spas",
     body: "Wellness, treatment, and local SEO content that helps guests understand what to book and why now.",
     cta: "See spa package",
-    video: "/videos/Poolside.mp4",
+    video: FEATURED_VIDEOS[1].src,
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
         <path d="M12 22c0-5 0-8 0-8" />
@@ -41,7 +42,7 @@ const PATHS = [
     title: "Restaurants",
     body: "Menu, event, and local campaign creative designed to keep offers visible and tables top of mind.",
     cta: "See restaurant package",
-    video: "/videos/Bartender.mp4",
+    video: FEATURED_VIDEOS[2].src,
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
         <path d="M6 3v8a2 2 0 0 0 4 0V3M8 11v10" />
