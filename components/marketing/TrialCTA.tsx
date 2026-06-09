@@ -1,7 +1,7 @@
 import { GOLD_GRADIENT } from "./media";
 
 const INCLUDES = [
-  "Free — no card, no contract",
+  "Free, no card, no contract",
   "5 finished assets in 7 days",
   "Built from your existing photos and details",
   "One round of feedback included",
@@ -21,7 +21,7 @@ export function TrialCTA() {
         <p className="mx-auto mt-4 max-w-xl text-[#A9A092]">
           Send your existing property photos, menu items, event details, or seasonal campaign notes.
           Within 7 days, you&apos;ll have 5 polished, campaign-ready assets built from your own
-          material — so you can judge the quality on your brand, not a portfolio.
+          material, so you can judge the quality on your brand, not a portfolio.
         </p>
 
         <div className="mt-6 flex flex-wrap justify-center gap-2.5">
@@ -47,7 +47,7 @@ export function TrialCTA() {
 
         <p className="mx-auto mt-5 max-w-md text-[13px] leading-relaxed text-[#A9A092]/70">
           If you&apos;re evaluating creative support for a multi-property group, mention it in your
-          request — we&apos;ll build the samples across more than one property.
+          request, we&apos;ll build the samples across more than one property.
         </p>
       </div>
     </section>

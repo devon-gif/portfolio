@@ -69,6 +69,7 @@ export function PackagePathCards() {
               {/* background video */}
               <LazyVideo
                 src={p.video}
+                label={p.title}
                 className="absolute inset-0 -z-10 h-full w-full object-cover transition duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(5,5,5,0.25),rgba(5,5,5,0.88))]" />

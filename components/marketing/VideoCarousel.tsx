@@ -55,7 +55,7 @@ export function VideoCarousel() {
               key={v.src}
               className="w-[78%] shrink-0 snap-start overflow-hidden rounded-2xl border border-[rgba(201,164,76,0.24)] bg-[#11100E] sm:w-[46%] lg:w-[31%]"
             >
-              <LazyVideo src={v.src} className="aspect-[9/12] w-full object-cover sm:aspect-video" />
+              <LazyVideo src={v.src} label={v.label} className="aspect-[9/12] w-full object-cover sm:aspect-video" />
               <figcaption className="px-4 py-3 text-[13px] text-[#A9A092]">{v.label}</figcaption>
             </figure>
           ))}

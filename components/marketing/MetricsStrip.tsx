@@ -74,7 +74,7 @@ export function MetricsStrip() {
         </p>
         {/* TODO(devon): Fill in your real start year below. */}
         <p className="mx-auto mt-2 max-w-3xl text-center text-[13px] text-[#A9A092]">
-          Across 5 hospitality brands since 2024 — hotels, restaurants, spas, and event venues in
+          Across 5 hospitality brands since 2024, hotels, restaurants, spas, and event venues in
           active markets.
         </p>
       </div>

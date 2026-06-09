@@ -15,7 +15,7 @@ export function ImageGallery() {
             The photos your properties already have, turned into finished campaigns.
           </h2>
           <p className="mt-3 text-[#A9A092]">
-            Most hotels are sitting on usable assets — room photography, menus, event spaces, spa
+            Most hotels are sitting on usable assets, room photography, menus, event spaces, spa
             interiors. We turn that raw material into consistent, on-brand creative that keeps
             rooms, restaurants, events, and services visible between major campaigns.
           </p>

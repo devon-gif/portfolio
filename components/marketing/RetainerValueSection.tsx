@@ -65,7 +65,7 @@ export function RetainerValueSection() {
               <span className="text-[#C9A44C]">Here&apos;s the leaner option.</span>
             </h2>
             <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-[#A9A092]">
-              Salary, insurance, payroll taxes, software, recruiting, management time — and the risk
+              Salary, insurance, payroll taxes, software, recruiting, management time, and the risk
               of starting over if they leave. Archer Design gives your properties consistent creative
               output for a fraction of one loaded salary, with no employee overhead and no long-term
               commitment.
@@ -195,7 +195,7 @@ export function RetainerValueSection() {
           </a>
           <p className="mx-auto mt-4 max-w-xl text-[13px] leading-relaxed text-[#A9A092]">
             Send existing photos, menus, or event details. You&apos;ll have 5 finished pieces in 7
-            days — free.
+            days, free.
           </p>
         </div>
       </div>

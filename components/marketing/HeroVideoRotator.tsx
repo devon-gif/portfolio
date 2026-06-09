@@ -42,6 +42,9 @@ export function HeroVideoRotator({
           preload="metadata"
           aria-hidden={i === active ? undefined : true}
           aria-label={i === active ? `Archer Design, ${vid.label}` : undefined}
+          onError={(e) =>
+            console.error(`[HeroVideoRotator][${vid.label}] failed — src: ${vid.src}`, e)
+          }
         >
           <source src={vid.src} type="video/mp4" />
         </video>

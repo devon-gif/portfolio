@@ -21,7 +21,7 @@ export function VideoCard({ asset, eager = false }: { asset: VideoAsset; eager?:
         className="glass-card relative overflow-hidden rounded-2xl transition duration-300 group-hover:-translate-y-0.5 group-hover:border-[#C9A44C] group-hover:shadow-[0_0_50px_rgba(201,164,76,0.16)]"
         style={{ aspectRatio: `${asset.width} / ${asset.height}` }}
       >
-        <LazyVideo src={asset.src} eager={eager} className="h-full w-full object-cover" />
+        <LazyVideo src={asset.src} eager={eager} label={asset.label} className="h-full w-full object-cover" />
       </div>
       <figcaption className="mt-2.5 flex items-center justify-between px-1">
         <span className="text-[13px] text-[#D8CFBE]">{asset.label}</span>

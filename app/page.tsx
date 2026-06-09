@@ -29,9 +29,9 @@ const allura = Allura({
 });
 
 export const metadata: Metadata = {
-  title: "Archer Design — Hospitality Creative for Hotel Groups",
+  title: "Archer Design, Hospitality Creative for Hotel Groups",
   description:
-    "Social content, short-form motion, and local SEO for hotel groups, management companies, and multi-property brands. 13.9M+ impressions delivered — using the assets your properties already have.",
+    "Social content, short-form motion, and local SEO for hotel groups, management companies, and multi-property brands. 13.9M+ impressions delivered, using the assets your properties already have.",
 };
 
 // TODO(devon): Fill in real terms for the commitment FAQ answer.
@@ -39,12 +39,12 @@ export const metadata: Metadata = {
 const FAQ = [
   {
     q: "Do we need to do a photo or video shoot?",
-    a: "No. Everything is built from the assets you already have — property photography, menus, event details, phone photos, past campaign material. If your photography is thin in one area, we'll tell you honestly and work with what performs.",
+    a: "No. Everything is built from the assets you already have, property photography, menus, event details, phone photos, past campaign material. If your photography is thin in one area, we'll tell you honestly and work with what performs.",
     open: true,
   },
   {
     q: "What do we get each month?",
-    a: "A monthly creative plan, then a steady delivery of finished assets: social graphics, short-form motion, event and F&B promos, and seasonal campaign visuals — with captions included. Ask about your specific asset count during the free trial.",
+    a: "A monthly creative plan, then a steady delivery of finished assets: social graphics, short-form motion, event and F&B promos, and seasonal campaign visuals, with captions included. Ask about your specific asset count during the free trial.",
     open: true,
   },
   {
@@ -54,18 +54,18 @@ const FAQ = [
   },
   {
     q: "Can you support a whole group or management company?",
-    a: "Yes — that's the core of what we do. We support multi-property portfolios with consistent group-level branding and property-level customization, on one plan and one invoice. Groups of 5+ properties get a custom-scoped partnership.",
+    a: "Yes, that's the core of what we do. We support multi-property portfolios with consistent group-level branding and property-level customization, on one plan and one invoice. Groups of 5+ properties get a custom-scoped partnership.",
     open: false,
   },
   {
     q: "Can you prove the creative drove bookings?",
-    a: "We track what creative can honestly claim: impressions, engagement, reach, profile actions, and direct response to promoted offers and events. Across our hospitality clients, that's 13.9M+ impressions and 543K+ direct engagements to date. Direct booking attribution depends on your property's tracking setup — and during onboarding we'll recommend simple ways (links, codes, GBP tracking) to connect creative to revenue.",
+    a: "We track what creative can honestly claim: impressions, engagement, reach, profile actions, and direct response to promoted offers and events. Across our hospitality clients, that's 13.9M+ impressions and 543K+ direct engagements to date. Direct booking attribution depends on your property's tracking setup, and during onboarding we'll recommend simple ways (links, codes, GBP tracking) to connect creative to revenue.",
     open: false,
   },
   {
     q: "What's the commitment?",
     // TODO(devon): Replace with your real terms: month-to-month or 3-month minimum.
-    a: "Start with the free 5-asset trial, then choose a monthly package. Scale up, down, or pause as your season demands. Ask us about commitment terms during your trial — we'll give you the straight answer.",
+    a: "Start with the free 5-asset trial, then choose a monthly package. Scale up, down, or pause as your season demands. Ask us about commitment terms during your trial, we'll give you the straight answer.",
     open: false,
   },
 ];

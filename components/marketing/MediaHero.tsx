@@ -15,7 +15,7 @@ export function MediaHero() {
         </span>
 
         <h1 className="mt-3 max-w-[880px] font-serif text-[clamp(34px,5.4vw,60px)] font-semibold leading-[0.96] tracking-[-0.01em] text-[#F6F1E7]">
-          Your hotel group&apos;s creative team —{" "}
+          Your hotel group&apos;s creative team,{" "}
           <span className="bg-clip-text text-transparent" style={{ backgroundImage: GOLD_GRADIENT }}>
             without the $90K hire.
           </span>
@@ -23,7 +23,7 @@ export function MediaHero() {
 
         <p className="mx-auto mt-4 max-w-[680px] text-[clamp(13px,1.3vw,16px)] leading-relaxed text-[#A9A092]">
           Social content, short-form motion, and local SEO for hotel groups, management companies,
-          and multi-property brands. 13.9M+ impressions delivered for hospitality clients — using
+          and multi-property brands. 13.9M+ impressions delivered for hospitality clients, using
           the photos and assets your properties already have.
         </p>
 
@@ -47,6 +47,9 @@ export function MediaHero() {
               playsInline
               preload="metadata"
               aria-label="Archer Design hospitality creative showreel"
+              onError={(e) =>
+                console.error(`[MediaHero] hero video failed — src: ${HERO_VIDEO_CINEMATIC}`, e)
+              }
             >
               <source src={HERO_VIDEO_CINEMATIC} type="video/mp4" />
             </video>

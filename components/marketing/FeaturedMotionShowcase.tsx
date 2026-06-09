@@ -44,7 +44,7 @@ export function FeaturedMotionShowcase() {
             className="glass-card-strong overflow-hidden rounded-[1.25rem]"
             style={{ aspectRatio: `${FEATURED_MOTION.width} / ${FEATURED_MOTION.height}` }}
           >
-            <LazyVideo src={FEATURED_MOTION.src} eager className="h-full w-full object-cover" />
+            <LazyVideo src={FEATURED_MOTION.src} eager label={FEATURED_MOTION.label} className="h-full w-full object-cover" />
           </div>
           <figcaption className="mt-3 flex items-center justify-between px-1">
             <span className="text-sm text-[#D8CFBE]">{FEATURED_MOTION.label}</span>

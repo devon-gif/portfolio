@@ -55,7 +55,7 @@ const TESTIMONIALS = [
   },
   {
     quote:
-      "We didn't have the budget for another in-house hire. Archer Design has saved us real time and money — social media and promotions used to be a headache, and now we have reliable creative support without adding payroll.",
+      "We didn't have the budget for another in-house hire. Archer Design has saved us real time and money, social media and promotions used to be a headache, and now we have reliable creative support without adding payroll.",
     // TODO(devon): Replace with: "Michelle R., [Title], [Property Name]"
     author: "Michelle R., Hotel Operations Client",
   },

@@ -36,7 +36,7 @@ export default function ContactPage() {
           </h1>
           <p className="mt-3 max-w-xl text-[#A9A092]">
             Send your existing property photos, menus, or event details and we&apos;ll build 5
-            polished, campaign-ready assets in 7 days — free, no card required. Or book a quick
+            polished, campaign-ready assets in 7 days, free, no card required. Or book a quick
             call if you&apos;d rather talk first.
           </p>
         </div>
@@ -92,7 +92,7 @@ export default function ContactPage() {
             <div className="w-full">
               <h2 className="font-serif text-xl text-[#F6F1E7]">Send a message</h2>
               <p className="mt-1.5 text-[14px] text-[#A9A092]">
-                Prefer to write? Send your details and I&apos;ll reply by email — usually within
+                Prefer to write? Send your details and I&apos;ll reply by email, usually within
                 one business day.
               </p>
             </div>

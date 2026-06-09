@@ -24,7 +24,7 @@ const STEPS = [
   {
     number: "02",
     title: "Get finished creative back.",
-    body: "Polished social graphics, short-form motion, and campaign assets — delivered on a monthly plan, with captions included.",
+    body: "Polished social graphics, short-form motion, and campaign assets, delivered on a monthly plan, with captions included.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
         <rect x="3" y="4" width="18" height="16" rx="2" />
@@ -36,7 +36,7 @@ const STEPS = [
   {
     number: "03",
     title: "Stay visible, every month.",
-    body: "Rooms, restaurants, events, and spa services stay in front of guests between your big campaigns — without adding headcount.",
+    body: "Rooms, restaurants, events, and spa services stay in front of guests between your big campaigns, without adding headcount.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
         <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />

@@ -22,7 +22,7 @@ export function FeaturedVideoGrid() {
               key={v.src}
               className="group overflow-hidden rounded-2xl border border-[rgba(201,164,76,0.24)] bg-[#11100E] transition hover:shadow-[0_14px_50px_rgba(0,0,0,0.5),0_0_0_1px_rgba(201,164,76,0.2)]"
             >
-              <LazyVideo src={v.src} className="aspect-video w-full object-cover" />
+              <LazyVideo src={v.src} label={v.label} className="aspect-video w-full object-cover" />
               <figcaption className="flex items-center justify-between px-5 py-4">
                 <span className="font-serif text-lg text-[#F6F1E7]">{v.label}</span>
                 <span className="text-[11px] uppercase tracking-[0.14em] text-[#C9A44C]">Motion</span>

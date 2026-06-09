@@ -82,7 +82,7 @@ export function PackageCards() {
           </h2>
           <p className="mt-4 text-[#A9A092]">
             Start with the properties you have. Scale as your portfolio grows. No paid ad
-            management, no account-management fees — just creative output, delivered monthly.
+            management, no account-management fees, just creative output, delivered monthly.
           </p>
         </div>
 
