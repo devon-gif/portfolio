@@ -86,6 +86,9 @@ export default function DailyCommandCenterPage() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<string>("");
   const [note, setNote] = useState<string | null>(null);
+  const [noteType, setNoteType] = useState<"info" | "warn" | "error">("info");
+  const [totalCompanies, setTotalCompanies] = useState<number>(0);
+  const [totalContacts, setTotalContacts] = useState<number>(0);
 
   const [settingsFlags, setSettingsFlags] = useState<AppFlags>({ test_mode: true, require_manual_approval: true });
   const [companiesToday, setCompaniesToday] = useState<CompanyToday[]>([]);
@@ -101,6 +104,7 @@ export default function DailyCommandCenterPage() {
   async function reloadAll() {
     setLoading(true);
     setNote(null);
+    setNoteType("info");
 
     if (!isSupabaseConfigured) {
       setLoading(false);
@@ -110,7 +114,7 @@ export default function DailyCommandCenterPage() {
 
     const todayIso = startOfTodayIso();
 
-    const [settingsRes, companiesRes, candidatesRes, messagesRes, contactsRes] = await Promise.all([
+    const [settingsRes, companiesRes, candidatesRes, messagesRes, contactsRes, totalCompaniesRes, totalContactsRes] = await Promise.all([
       supabase.from("app_settings").select("test_mode, require_manual_approval, daily_send_goal").limit(1).single(),
       supabase
         .from("companies")
@@ -135,6 +139,8 @@ export default function DailyCommandCenterPage() {
         .or("replied_at.not.is.null,email_opt_out.eq.true,bounced.eq.true,status.eq.unsubscribed")
         .order("created_at", { ascending: false })
         .limit(200),
+      supabase.from("companies").select("*", { count: "exact", head: true }),
+      supabase.from("contacts").select("*", { count: "exact", head: true }),
     ]);
 
     if (!settingsRes.error && settingsRes.data) {
@@ -150,6 +156,8 @@ export default function DailyCommandCenterPage() {
     setCandidates(((candidatesRes.data ?? []) as unknown as Candidate[]));
     setMessages(((messagesRes.data ?? []) as unknown as MessageRow[]));
     setContactIssues(((contactsRes.data ?? []) as unknown as ContactIssue[]));
+    setTotalCompanies(totalCompaniesRes.count ?? 0);
+    setTotalContacts(totalContactsRes.count ?? 0);
 
     setSelectedCandidates(new Set());
     setSelectedEmails(new Set());
@@ -264,18 +272,20 @@ export default function DailyCommandCenterPage() {
   }
 
   async function promoteSelectedCandidates() {
-    const ids = candidates.filter((c) => selectedCandidates.has(c.id)).map((c) => c.id);
-    if (ids.length === 0) return setNote("Select candidate(s) first.");
+    const selected = candidates.filter((c) => selectedCandidates.has(c.id));
+    if (selected.length === 0) return setNote("Select candidate(s) first.");
 
     setBusy("promote");
     let ok = 0;
     let fail = 0;
-    for (const id of ids) {
+    const noEmailNames: string[] = [];
+    for (const cand of selected) {
+      if (!cand.email) noEmailNames.push(cand.name ?? "(no name)");
       try {
         const res = await fetch("/api/research/promote", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ candidate_id: id }),
+          body: JSON.stringify({ candidate_id: cand.id }),
         });
         const body = await res.json();
         if (body.ok) ok++; else fail++;
@@ -283,8 +293,11 @@ export default function DailyCommandCenterPage() {
         fail++;
       }
     }
-    setBusy("");
-    setNote(`Promote completed: ${ok} success, ${fail} failed.`);
+    setNoteType(fail > 0 ? "warn" : "info");
+    const noEmailNote = noEmailNames.length > 0
+      ? ` Note: ${noEmailNames.join(", ")} ha${noEmailNames.length === 1 ? "s" : "ve"} no email — run Hunter lookup to find one before generating drafts.`
+      : "";
+    setNote(`Promoted ${ok} contact${ok !== 1 ? "s" : ""}${fail > 0 ? `, ${fail} failed` : ""}. Now click Generate Today's Queue to draft emails.${noEmailNote}`);
     await reloadAll();
   }
 
@@ -382,13 +395,19 @@ export default function DailyCommandCenterPage() {
     try {
       const r = await generateTodaysDrafts();
       if (r.noContacts) {
-        setNote("No real contacts yet. Add/research companies and promote candidates first.");
+        setNoteType("warn");
+        setNote(
+          "No promoted contacts yet — select candidate(s) in the section below and click ‘Promote selected candidates’, then generate drafts again."
+        );
       } else if (r.made > 0) {
+        setNoteType("info");
         setNote(`Generated ${r.made} draft${r.made !== 1 ? "s" : ""} into Today's Outreach Batch.`);
       } else {
+        setNoteType("warn");
         setNote(r.reason ?? "No new eligible contacts to draft.");
       }
     } catch (e) {
+      setNoteType("error");
       setNote(`Generate failed: ${e instanceof Error ? e.message : "unknown error"}`);
     } finally {
       setBusy("");
@@ -435,22 +454,27 @@ export default function DailyCommandCenterPage() {
       {/* Pipeline summary */}
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
         {[
-          { label: "Companies", count: companiesToday.length, href: "#sec-companies" },
-          { label: "Candidates", count: candidates.length, href: "#sec-candidates" },
-          { label: "Drafts", count: emailDraftsReady.length, href: "#sec-batch" },
-          { label: "Approved", count: approvedAwaitingSchedule.length, href: "#sec-scheduled" },
-          { label: "Scheduled", count: scheduledSends.length, href: "#sec-scheduled" },
-          { label: "Sent", count: sentToday.length, href: "#sec-scheduled" },
-          { label: "Failed", count: failures.length, href: "#sec-failures" },
+          { label: "Companies", count: totalCompanies, sub: `${companiesToday.length} researched today`, href: "/companies" },
+          { label: "Contacts", count: totalContacts, sub: `${candidates.length} candidate${candidates.length !== 1 ? "s" : ""} to review`, href: "/contacts" },
+          { label: "Drafts", count: emailDraftsReady.length, sub: null, href: "#sec-batch" },
+          { label: "Approved", count: approvedAwaitingSchedule.length, sub: null, href: "#sec-scheduled" },
+          { label: "Scheduled", count: scheduledSends.length, sub: null, href: "#sec-scheduled" },
+          { label: "Sent", count: sentToday.length, sub: null, href: "#sec-scheduled" },
+          { label: "Failed", count: failures.length, sub: null, href: "#sec-failures" },
         ].map((s) => (
           <a key={s.label} href={s.href} className="rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-3 text-center transition hover:border-zinc-600">
             <div className="text-xl font-semibold text-zinc-100">{s.count}</div>
             <div className="text-[11px] uppercase tracking-wide text-zinc-500">{s.label}</div>
+            {s.sub && <div className="text-[10px] text-zinc-600 mt-0.5 leading-tight">{s.sub}</div>}
           </a>
         ))}
       </div>
 
-      {note && <p className="text-xs text-zinc-400">{note}</p>}
+      {note && (
+        <p className={`rounded-lg px-3 py-2 text-xs ${noteType === "error" ? "bg-red-500/10 text-red-400" : noteType === "warn" ? "bg-amber-500/10 text-amber-400" : "bg-zinc-800 text-zinc-300"}`}>
+          {note}
+        </p>
+      )}
 
       {/* Today's Outreach Batch — the main section */}
       <section id="sec-batch" className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 scroll-mt-4">
@@ -494,8 +518,16 @@ export default function DailyCommandCenterPage() {
             );
           })}
           {emailDraftsReady.length === 0 && (
-            <div className="rounded-lg border border-dashed border-zinc-700 px-3 py-6 text-center text-xs text-zinc-500">
-              No drafts yet. Click <span className="text-emerald-400">Generate Today&apos;s Queue</span> above to draft emails for your promoted contacts.
+            <div className="rounded-lg border border-dashed border-zinc-700 px-4 py-5 text-xs text-zinc-500 space-y-2">
+              <p className="text-center">No drafts yet.</p>
+              <ol className="list-decimal list-inside space-y-1 text-zinc-600 text-[11px]">
+                <li>In <span className="text-zinc-400">Contact candidates</span> below, check a candidate and click <span className="text-emerald-400">Promote selected candidates</span> — this creates a real contact.</li>
+                <li>Then click <span className="text-emerald-400">Generate Today&apos;s Queue</span> above to draft emails for promoted contacts.</li>
+                <li>Approve and schedule the batch. Nothing sends until you approve.</li>
+              </ol>
+              {totalContacts > 0 && (
+                <p className="text-center text-zinc-600 pt-1">{totalContacts} contact{totalContacts !== 1 ? "s" : ""} in DB — click <span className="text-emerald-400">Generate Today&apos;s Queue</span> to draft for eligible contacts.</p>
+              )}
             </div>
           )}
         </div>
@@ -525,22 +557,29 @@ export default function DailyCommandCenterPage() {
 
         <section id="sec-candidates" className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 scroll-mt-4">
           <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2"><Users className="h-4 w-4" /> Contact candidates needing review ({candidates.length})</h2>
-          <p className="text-xs text-zinc-600 mt-1">Sorted with buyer decision-makers first.</p>
+          <p className="text-xs text-zinc-600 mt-1">
+            Sorted with buyer decision-makers first. <span className="text-amber-400">Promote</span> a candidate to create a contact — then generate drafts above.
+          </p>
           <div className="mt-3 space-y-2 max-h-64 overflow-auto">
             {candidatesSorted.map((c) => {
               const buyer = scoreBuyerTitle(c.title);
+              const hasEmail = !!c.email;
               return (
               <label key={c.id} className="block rounded-lg bg-zinc-800/50 px-3 py-2 text-xs text-zinc-400 cursor-pointer">
                 <div className="flex items-start gap-2">
                   <input type="checkbox" checked={selectedCandidates.has(c.id)} onChange={() => toggleCandidate(c.id)} className="mt-0.5" />
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="text-zinc-200 font-medium">{c.name ?? "(no name)"}</span>
                       <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] ring-1 ring-inset ${TIER_BADGE[buyer.tier]}`}>{TIER_LABEL[buyer.tier]}</span>
+                      {hasEmail
+                        ? <span className="rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/20 px-2 py-0.5 text-[10px]">has email</span>
+                        : <span className="rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/20 px-2 py-0.5 text-[10px]">no email — Hunter needed</span>
+                      }
                     </div>
                     <div>{c.title ? `${c.title} · ` : ""}{c.companies?.name ?? "Unknown"}</div>
                     <div>conf {c.confidence_score} · <span className="text-zinc-300">{actionLabel(c.recommended_action)}</span></div>
-                    {c.source_url && <div className="truncate">{c.source_url}</div>}
+                    {c.source_url && <div className="truncate text-zinc-600">{c.source_url}</div>}
                   </div>
                 </div>
               </label>
@@ -549,9 +588,20 @@ export default function DailyCommandCenterPage() {
             {candidates.length === 0 && <p className="text-xs text-zinc-600">No candidates yet → run Firecrawl research on a company to surface contacts.</p>}
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
-            <button onClick={promoteSelectedCandidates} disabled={busy !== ""} className="rounded-lg bg-emerald-600/20 hover:bg-emerald-600/40 px-3 py-1.5 text-xs text-emerald-400 disabled:opacity-40">Promote selected candidates</button>
-            <button onClick={skipSelectedCandidates} disabled={busy !== ""} className="rounded-lg bg-zinc-700 hover:bg-zinc-600 px-3 py-1.5 text-xs text-zinc-200 disabled:opacity-40">Skip selected candidates</button>
+            <button
+              onClick={promoteSelectedCandidates}
+              disabled={busy !== "" || selectedCandidates.size === 0}
+              className="rounded-lg bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-600/30 px-3 py-1.5 text-xs font-medium text-emerald-300 disabled:opacity-40"
+            >
+              {busy === "promote" ? <span className="flex items-center gap-1"><Loader2 className="h-3 w-3 animate-spin" />Promoting…</span> : `Promote selected → create contact${selectedCandidates.size > 1 ? "s" : ""}`}
+            </button>
+            <button onClick={skipSelectedCandidates} disabled={busy !== ""} className="rounded-lg bg-zinc-700 hover:bg-zinc-600 px-3 py-1.5 text-xs text-zinc-200 disabled:opacity-40">Skip selected</button>
           </div>
+          {selectedCandidates.size > 0 && (
+            <p className="mt-2 text-[11px] text-zinc-500">
+              {selectedCandidates.size} selected — promote to create contacts, then click <span className="text-emerald-400">Generate Today&apos;s Queue</span> to draft emails.
+            </p>
+          )}
         </section>
 
         <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-4">

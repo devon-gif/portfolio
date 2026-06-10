@@ -42,6 +42,14 @@ export interface GenerateResult {
   found: number; // eligible contacts with an email
   made: number; // drafts actually inserted
   reason?: string; // human-readable note when made === 0
+  // Breakdown of why contacts were skipped (populated when made === 0)
+  skipped?: {
+    noEmail: number;
+    alreadyDrafted: number;
+    suppressed: number;
+    optedOut: number;
+    blockedStatus: number;
+  };
 }
 
 export async function generateTodaysDrafts(): Promise<GenerateResult> {
@@ -110,29 +118,41 @@ export async function generateTodaysDrafts(): Promise<GenerateResult> {
     companies?: { name?: string } | null;
   };
 
+  // Track skip reasons for UI feedback
+  const skipped = { noEmail: 0, alreadyDrafted: 0, suppressed: 0, optedOut: 0, blockedStatus: 0 };
+
   const eligible = (contacts as unknown as Rec[]).filter((rec) => {
-    if (!rec.email && !rec.linkedin_url) return false;
-    if (rec.email_opt_out === true) return false;
-    if (rec.status && BLOCKED_STATUSES.has(rec.status)) return false;
-    if (alreadyHasMsg.has(rec.id)) return false;
+    if (!rec.email && !rec.linkedin_url) { skipped.noEmail++; return false; }
+    if (rec.email_opt_out === true) { skipped.optedOut++; return false; }
+    if (rec.status && BLOCKED_STATUSES.has(rec.status)) { skipped.blockedStatus++; return false; }
+    if (alreadyHasMsg.has(rec.id)) { skipped.alreadyDrafted++; return false; }
     const email = (rec.email ?? "").toLowerCase();
     const domain = email.includes("@") ? email.split("@")[1] : "";
     const coName = (rec.companies?.name ?? "").toLowerCase();
-    if (email && suppEmails.has(email)) return false;
-    if (domain && suppDomains.has(domain)) return false;
-    if (coName && suppCompanies.has(coName)) return false;
+    if ((email && suppEmails.has(email)) || (domain && suppDomains.has(domain)) || (coName && suppCompanies.has(coName))) {
+      skipped.suppressed++;
+      return false;
+    }
     return true;
   });
 
   // Email drafts need an email address. LinkedIn-only contacts are skipped here.
-  const withEmail = eligible.filter((c) => !!c.email).slice(0, 50);
+  const withEmail = eligible.filter((c) => {
+    if (!c.email) { skipped.noEmail++; return false; }
+    return true;
+  }).slice(0, 50);
+
   if (withEmail.length === 0) {
-    return {
-      noContacts: false,
-      found: 0,
-      made: 0,
-      reason: "No new eligible contacts to draft (all filtered, suppressed, or already drafted).",
-    };
+    const parts: string[] = [];
+    if (skipped.alreadyDrafted > 0) parts.push(`${skipped.alreadyDrafted} already drafted`);
+    if (skipped.noEmail > 0) parts.push(`${skipped.noEmail} have no email`);
+    if (skipped.suppressed > 0) parts.push(`${skipped.suppressed} suppressed`);
+    if (skipped.optedOut > 0) parts.push(`${skipped.optedOut} opted out`);
+    if (skipped.blockedStatus > 0) parts.push(`${skipped.blockedStatus} blocked status`);
+    const reason = parts.length > 0
+      ? `No eligible contacts: ${parts.join(", ")}.`
+      : "No new eligible contacts to draft.";
+    return { noContacts: false, found: 0, made: 0, reason, skipped };
   }
 
   let made = 0;

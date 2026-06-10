@@ -14,7 +14,9 @@ import { RetainerValueSection } from "@/components/marketing/RetainerValueSectio
 import { PackageCards } from "@/components/marketing/PackageCards";
 import { TrialCTA } from "@/components/marketing/TrialCTA";
 import { AdminLink } from "@/components/AdminLink";
-import { GOLD_GRADIENT } from "@/components/marketing/media";
+import { GOLD_GRADIENT, FEATURED_VIDEOS, GALLERY_IMAGES } from "@/components/marketing/media";
+import { JsonLd } from "@/components/marketing/JsonLd";
+import { absoluteUrl, faqJsonLd, serviceJsonLd, videoObjectJsonLd } from "@/lib/seo";
 
 const fraunces = Fraunces({
   variable: "--font-luxury-serif",
@@ -29,9 +31,18 @@ const allura = Allura({
 });
 
 export const metadata: Metadata = {
-  title: "Archer Design, Hospitality Creative for Hotel Groups",
+  title: {
+    absolute: "Archer Design | Hotel Social Media & Hospitality Creative Support",
+  },
   description:
-    "Social content, short-form motion, and local SEO for hotel groups, management companies, and multi-property brands. 13.9M+ impressions delivered, using the assets your properties already have.",
+    "Hospitality creative support for hotels, restaurants, spas, and event venues — social graphics, short-form video, captions, campaign copy, and approval-ready content without adding full-time creative headcount.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Archer Design | Hotel Social Media & Hospitality Creative Support",
+    description:
+      "Hospitality creative support for hotels, restaurants, spas, and event venues — social graphics, short-form video, captions, campaign copy, and approval-ready content without adding full-time creative headcount.",
+    url: "/",
+  },
 };
 
 // TODO(devon): Fill in real terms for the commitment FAQ answer.
@@ -75,6 +86,26 @@ export default function ArcherDesignHome() {
     <div
       className={`${fraunces.variable} ${allura.variable} archer-luxury relative min-h-screen text-[#F6F1E7] font-[family-name:var(--font-geist-sans)]`}
     >
+      <JsonLd
+        data={[
+          serviceJsonLd({
+            name: "Hotel Social Media & Hospitality Creative Support",
+            description:
+              "Social graphics, short-form video, captions, and approval-ready content for hotels, restaurants, spas, and event venues.",
+            path: "/",
+            serviceType: "Hospitality creative and social media content service",
+          }),
+          faqJsonLd(FAQ.map(({ q, a }) => ({ q, a }))),
+          ...videoObjectJsonLd(
+            FEATURED_VIDEOS.map((v, i) => ({
+              name: v.label,
+              description: `Archer Design short-form hospitality video example: ${v.label}.`,
+              contentUrl: v.src,
+              thumbnailUrl: absoluteUrl(GALLERY_IMAGES[i % GALLERY_IMAGES.length].src),
+            }))
+          ),
+        ]}
+      />
       <SeedanceBackground />
 
       {/* Slim header */}

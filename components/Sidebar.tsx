@@ -15,6 +15,7 @@ import {
   ShieldOff,
   FlaskConical,
   Briefcase,
+  TrendingUp,
   LogOut,
 } from "lucide-react";
 import clsx from "clsx";
@@ -23,6 +24,7 @@ import { supabase } from "@/lib/supabase";
 const NAV = [
   { href: "/dashboard",    label: "Dashboard",       icon: LayoutDashboard },
   { href: "/daily",        label: "Command Center",   icon: CalendarDays },
+  { href: "/growth",       label: "Growth",           icon: TrendingUp },
   { href: "/companies",    label: "Companies",        icon: Building2 },
   { href: "/contacts",     label: "Contacts",         icon: Users },
   { href: "/candidates",   label: "Candidates",       icon: FlaskConical },
