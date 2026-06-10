@@ -43,6 +43,21 @@ export async function POST(req: Request) {
       await admin.from("contact_candidates").update({ status: "rejected", notes: "Email on suppression list." }).eq("id", candidateId);
       return Response.json({ ok: false, error: "Email is on the suppression list. Candidate rejected." }, { status: 422 });
     }
+
+    // Duplicate guard: if a contact with this email already exists, link the
+    // candidate to it instead of creating a second contact.
+    const { data: existing } = await admin
+      .from("contacts")
+      .select("id")
+      .ilike("email", cand.email.trim())
+      .limit(1)
+      .maybeSingle();
+    if (existing?.id) {
+      await admin.from("contact_candidates")
+        .update({ status: "promoted", promoted_contact_id: existing.id })
+        .eq("id", candidateId);
+      return Response.json({ ok: true, contact_id: existing.id, deduped: true });
+    }
   }
 
   // Parse name

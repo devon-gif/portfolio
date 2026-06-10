@@ -37,19 +37,35 @@ const DEFAULT_TEMPLATE: RenderTemplate = {
   type: "email",
 };
 
+export interface SkippedBreakdown {
+  noEmail: number;
+  alreadyDrafted: number;
+  suppressed: number;
+  optedOut: number;
+  bounced: number;
+  blockedStatus: number;
+  missingCompany: number; // informational — does not block drafting
+}
+
 export interface GenerateResult {
   noContacts: boolean; // true when there are zero real contacts in Supabase
   found: number; // eligible contacts with an email
   made: number; // drafts actually inserted
   reason?: string; // human-readable note when made === 0
-  // Breakdown of why contacts were skipped (populated when made === 0)
-  skipped?: {
-    noEmail: number;
-    alreadyDrafted: number;
-    suppressed: number;
-    optedOut: number;
-    blockedStatus: number;
-  };
+  // Breakdown of why contacts were skipped (always populated)
+  skipped?: SkippedBreakdown;
+}
+
+/** Human-readable "x skipped: …" summary from a breakdown. */
+export function describeSkipped(s: SkippedBreakdown): string {
+  const parts: string[] = [];
+  if (s.alreadyDrafted > 0) parts.push(`${s.alreadyDrafted} already drafted/contacted`);
+  if (s.noEmail > 0) parts.push(`${s.noEmail} no email`);
+  if (s.suppressed > 0) parts.push(`${s.suppressed} suppressed`);
+  if (s.optedOut > 0) parts.push(`${s.optedOut} opted out`);
+  if (s.bounced > 0) parts.push(`${s.bounced} bounced`);
+  if (s.blockedStatus > 0) parts.push(`${s.blockedStatus} blocked status`);
+  return parts.join(", ");
 }
 
 export async function generateTodaysDrafts(): Promise<GenerateResult> {
@@ -71,7 +87,7 @@ export async function generateTodaysDrafts(): Promise<GenerateResult> {
 
   // 3. Contacts (full select; fall back to minimal if personalization columns absent).
   const FULL =
-    "id, company_id, first_name, last_name, title, email, linkedin_url, status, email_opt_out, personalization_angle, specific_use_cases, specific_client_type, companies(name, personalization_angle, specific_use_cases, specific_client_type)";
+    "id, company_id, first_name, last_name, title, email, linkedin_url, status, email_opt_out, bounced, personalization_angle, specific_use_cases, specific_client_type, companies(name, personalization_angle, specific_use_cases, specific_client_type)";
   const MINIMAL =
     "id, company_id, first_name, last_name, title, email, linkedin_url, status, email_opt_out, companies(name)";
 
@@ -115,15 +131,19 @@ export async function generateTodaysDrafts(): Promise<GenerateResult> {
     linkedin_url?: string | null;
     status?: string | null;
     email_opt_out?: boolean | null;
+    bounced?: boolean | null;
     companies?: { name?: string } | null;
   };
 
   // Track skip reasons for UI feedback
-  const skipped = { noEmail: 0, alreadyDrafted: 0, suppressed: 0, optedOut: 0, blockedStatus: 0 };
+  const skipped: SkippedBreakdown = {
+    noEmail: 0, alreadyDrafted: 0, suppressed: 0, optedOut: 0, bounced: 0, blockedStatus: 0, missingCompany: 0,
+  };
 
   const eligible = (contacts as unknown as Rec[]).filter((rec) => {
     if (!rec.email && !rec.linkedin_url) { skipped.noEmail++; return false; }
     if (rec.email_opt_out === true) { skipped.optedOut++; return false; }
+    if (rec.bounced === true) { skipped.bounced++; return false; }
     if (rec.status && BLOCKED_STATUSES.has(rec.status)) { skipped.blockedStatus++; return false; }
     if (alreadyHasMsg.has(rec.id)) { skipped.alreadyDrafted++; return false; }
     const email = (rec.email ?? "").toLowerCase();
@@ -133,6 +153,7 @@ export async function generateTodaysDrafts(): Promise<GenerateResult> {
       skipped.suppressed++;
       return false;
     }
+    if (!rec.company_id) skipped.missingCompany++; // informational only — generic company fallback is used
     return true;
   });
 
@@ -142,15 +163,15 @@ export async function generateTodaysDrafts(): Promise<GenerateResult> {
     return true;
   }).slice(0, 50);
 
+  // Dev-only eligibility diagnostics (no PII beyond counts, no secrets).
+  if (process.env.NODE_ENV === "development") {
+    console.info("[generate-drafts] contacts:", contacts.length, "eligible w/ email:", withEmail.length, "skipped:", skipped);
+  }
+
   if (withEmail.length === 0) {
-    const parts: string[] = [];
-    if (skipped.alreadyDrafted > 0) parts.push(`${skipped.alreadyDrafted} already drafted`);
-    if (skipped.noEmail > 0) parts.push(`${skipped.noEmail} have no email`);
-    if (skipped.suppressed > 0) parts.push(`${skipped.suppressed} suppressed`);
-    if (skipped.optedOut > 0) parts.push(`${skipped.optedOut} opted out`);
-    if (skipped.blockedStatus > 0) parts.push(`${skipped.blockedStatus} blocked status`);
-    const reason = parts.length > 0
-      ? `No eligible contacts: ${parts.join(", ")}.`
+    const summary = describeSkipped(skipped);
+    const reason = summary
+      ? `No eligible contacts: ${summary}.`
       : "No new eligible contacts to draft.";
     return { noContacts: false, found: 0, made: 0, reason, skipped };
   }
@@ -181,5 +202,5 @@ export async function generateTodaysDrafts(): Promise<GenerateResult> {
     throw new Error(`Saving drafts failed: ${firstInsertError}`);
   }
 
-  return { noContacts: false, found: withEmail.length, made };
+  return { noContacts: false, found: withEmail.length, made, skipped };
 }

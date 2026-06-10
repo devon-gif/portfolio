@@ -185,6 +185,7 @@ export default function CompaniesPage() {
   const [huntering, setHuntering] = useState<Record<string, boolean>>({});
   const [researchMsg, setResearchMsg] = useState<Record<string, string>>({});
   const [candidateCounts, setCandidateCounts] = useState<Record<string, number>>({});
+  const [contactCounts, setContactCounts] = useState<Record<string, number>>({});
   const [hunterConfigured, setHunterConfigured] = useState(false);
   function reload() { setTick(t => t + 1); }
 
@@ -215,6 +216,20 @@ export default function CompaniesPage() {
           if (row.company_id) counts[row.company_id] = (counts[row.company_id] ?? 0) + 1;
         }
         setCandidateCounts(counts);
+      });
+  }, [tick]);
+
+  // Promoted-contact counts per company
+  useEffect(() => {
+    supabase
+      .from("contacts")
+      .select("company_id")
+      .then(({ data }) => {
+        const counts: Record<string, number> = {};
+        for (const row of (data ?? [])) {
+          if (row.company_id) counts[row.company_id] = (counts[row.company_id] ?? 0) + 1;
+        }
+        setContactCounts(counts);
       });
   }, [tick]);
 
@@ -553,6 +568,11 @@ export default function CompaniesPage() {
                     {(candidateCounts[c.id] ?? 0) > 0 && (
                       <Link href="/candidates" className="text-xs text-emerald-400 hover:underline">
                         {candidateCounts[c.id]} candidate{candidateCounts[c.id] === 1 ? "" : "s"}
+                      </Link>
+                    )}
+                    {(contactCounts[c.id] ?? 0) > 0 && (
+                      <Link href="/contacts" className="text-xs text-sky-400 hover:underline">
+                        {contactCounts[c.id]} contact{contactCounts[c.id] === 1 ? "" : "s"}
                       </Link>
                     )}
                   </div>

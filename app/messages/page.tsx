@@ -21,7 +21,7 @@ type Msg = {
   contacts?: { first_name?: string; last_name?: string; email?: string; companies?: { name?: string } | null } | null;
 };
 
-const FILTERS = ["all", "draft", "approved", "scheduled", "sent", "send_failed"] as const;
+const FILTERS = ["all", "draft", "approved", "scheduled", "sent", "send_failed", "replied", "not_interested", "do_not_contact"] as const;
 type Filter = (typeof FILTERS)[number];
 
 const BADGE: Record<string, { label: string; cls: string }> = {
@@ -34,6 +34,11 @@ const BADGE: Record<string, { label: string; cls: string }> = {
   send_failed: { label: "Failed", cls: "bg-red-500/10 text-red-400 ring-red-500/20" },
   failed: { label: "Failed", cls: "bg-red-500/10 text-red-400 ring-red-500/20" },
   replied: { label: "Replied", cls: "bg-teal-500/10 text-teal-400 ring-teal-500/20" },
+  approved_for_today: { label: "Approved (today)", cls: "bg-indigo-500/10 text-indigo-400 ring-indigo-500/20" },
+  not_interested: { label: "Not Interested", cls: "bg-zinc-800 text-zinc-400 ring-zinc-700" },
+  do_not_contact: { label: "Do Not Contact", cls: "bg-red-500/10 text-red-400 ring-red-500/20" },
+  bounced: { label: "Bounced", cls: "bg-red-500/10 text-red-400 ring-red-500/20" },
+  skipped: { label: "Skipped", cls: "bg-zinc-800 text-zinc-500 ring-zinc-700" },
 };
 
 function Badge({ status }: { status: string }) {
@@ -78,7 +83,11 @@ export default function MessagesPage() {
   const counts = useMemo(() => {
     const c: Record<string, number> = {};
     for (const m of rows) {
-      const k = m.status === "needs_review" ? "draft" : m.status === "failed" ? "send_failed" : m.status === "sending" ? "scheduled" : m.status;
+      const k = m.status === "needs_review" ? "draft"
+        : m.status === "failed" || m.status === "bounced" ? "send_failed"
+        : m.status === "sending" ? "scheduled"
+        : m.status === "approved_for_today" ? "approved"
+        : m.status;
       c[k] = (c[k] ?? 0) + 1;
     }
     return c;
@@ -88,8 +97,9 @@ export default function MessagesPage() {
     if (filter === "all") return rows;
     return rows.filter((m) =>
       filter === "draft" ? (m.status === "draft" || m.status === "needs_review")
+      : filter === "approved" ? (m.status === "approved" || m.status === "approved_for_today")
       : filter === "scheduled" ? (m.status === "scheduled" || m.status === "sending")
-      : filter === "send_failed" ? (m.status === "send_failed" || m.status === "failed")
+      : filter === "send_failed" ? (m.status === "send_failed" || m.status === "failed" || m.status === "bounced")
       : m.status === filter
     );
   }, [rows, filter]);

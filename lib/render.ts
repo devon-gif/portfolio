@@ -74,6 +74,15 @@ function str(v: unknown): string {
   return typeof v === "string" ? v.trim() : "";
 }
 
+/** Placeholder names that must never appear in an email greeting.
+ * (Candidate promotion uses "Unknown" when no person name was found.) */
+const PLACEHOLDER_NAMES = new Set(["unknown", "n/a", "na", "none", "info", "team", "-", "—"]);
+
+function realName(v: unknown): string {
+  const s = str(v);
+  return PLACEHOLDER_NAMES.has(s.toLowerCase()) ? "" : s;
+}
+
 /** First non-empty string among the candidates, else fallback. */
 function pick(fallback: string, ...candidates: unknown[]): string {
   for (const c of candidates) {
@@ -91,7 +100,8 @@ export function buildVariables(
 ): Record<string, string> {
   const co = company ?? {};
 
-  const first_name = pick(FALLBACKS.first_name, contact.first_name);
+  // Placeholder names ("Unknown" etc.) fall through to the safe generic greeting.
+  const first_name = pick(FALLBACKS.first_name, realName(contact.first_name));
   const company_name = pick(
     FALLBACKS.company_name,
     contact.company_name,

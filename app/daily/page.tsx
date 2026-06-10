@@ -18,7 +18,7 @@ import {
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { PageHeader } from "@/components/PageHeader";
 import { scoreBuyerTitle, actionLabel, TIER_BADGE, TIER_LABEL } from "@/lib/buyer-titles";
-import { generateTodaysDrafts } from "@/lib/generate-drafts";
+import { generateTodaysDrafts, describeSkipped } from "@/lib/generate-drafts";
 
 type CompanyToday = {
   id: string;
@@ -43,6 +43,7 @@ type Candidate = {
   confidence_score: number;
   status: string;
   source_url: string | null;
+  source_type: string | null;
   source_excerpt: string | null;
   companies?: { name?: string | null; website?: string | null } | null;
 };
@@ -124,7 +125,7 @@ export default function DailyCommandCenterPage() {
         .limit(100),
       supabase
         .from("contact_candidates")
-        .select("id, company_id, name, title, email, email_status, email_confidence, linkedin_url, recommended_action, recommended_channel, confidence_score, status, source_url, source_excerpt, companies(name, website)")
+        .select("id, company_id, name, title, email, email_status, email_confidence, linkedin_url, recommended_action, recommended_channel, confidence_score, status, source_url, source_type, source_excerpt, companies(name, website)")
         .eq("status", "needs_review")
         .order("confidence_score", { ascending: false })
         .limit(300),
@@ -401,7 +402,8 @@ export default function DailyCommandCenterPage() {
         );
       } else if (r.made > 0) {
         setNoteType("info");
-        setNote(`Generated ${r.made} draft${r.made !== 1 ? "s" : ""} into Today's Outreach Batch.`);
+        const skippedNote = r.skipped && describeSkipped(r.skipped) ? ` Skipped: ${describeSkipped(r.skipped)}.` : "";
+        setNote(`Generated ${r.made} draft${r.made !== 1 ? "s" : ""} into Today's Outreach Batch.${skippedNote}`);
       } else {
         setNoteType("warn");
         setNote(r.reason ?? "No new eligible contacts to draft.");
@@ -452,10 +454,11 @@ export default function DailyCommandCenterPage() {
       </div>
 
       {/* Pipeline summary */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
         {[
           { label: "Companies", count: totalCompanies, sub: `${companiesToday.length} researched today`, href: "/companies" },
-          { label: "Contacts", count: totalContacts, sub: `${candidates.length} candidate${candidates.length !== 1 ? "s" : ""} to review`, href: "/contacts" },
+          { label: "To review", count: candidates.length, sub: "contact candidates", href: "#sec-candidates" },
+          { label: "Contacts", count: totalContacts, sub: "promoted + manual", href: "/contacts" },
           { label: "Drafts", count: emailDraftsReady.length, sub: null, href: "#sec-batch" },
           { label: "Approved", count: approvedAwaitingSchedule.length, sub: null, href: "#sec-scheduled" },
           { label: "Scheduled", count: scheduledSends.length, sub: null, href: "#sec-scheduled" },
@@ -474,6 +477,19 @@ export default function DailyCommandCenterPage() {
         <p className={`rounded-lg px-3 py-2 text-xs ${noteType === "error" ? "bg-red-500/10 text-red-400" : noteType === "warn" ? "bg-amber-500/10 text-amber-400" : "bg-zinc-800 text-zinc-300"}`}>
           {note}
         </p>
+      )}
+
+      {/* Promote-first workflow banner: candidates exist but nothing promoted yet */}
+      {!loading && candidates.length > 0 && totalContacts === 0 && (
+        <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-xs text-amber-300">
+          <p className="font-semibold mb-1.5">You have {candidates.length} candidate{candidates.length !== 1 ? "s" : ""} but no promoted contacts yet — drafts only generate for promoted contacts.</p>
+          <ol className="list-decimal list-inside space-y-0.5 text-amber-300/90">
+            <li>Review candidates below (<a href="#sec-candidates" className="underline">jump to candidates</a>)</li>
+            <li>Check the good ones and click <span className="font-medium">Promote selected → create contacts</span></li>
+            <li>Click <span className="font-medium">Generate Today&apos;s Queue</span> (top right)</li>
+            <li>Approve and schedule the drafts — nothing sends without your approval</li>
+          </ol>
+        </div>
       )}
 
       {/* Today's Outreach Batch — the main section */}
@@ -573,9 +589,12 @@ export default function DailyCommandCenterPage() {
                       <span className="text-zinc-200 font-medium">{c.name ?? "(no name)"}</span>
                       <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] ring-1 ring-inset ${TIER_BADGE[buyer.tier]}`}>{TIER_LABEL[buyer.tier]}</span>
                       {hasEmail
-                        ? <span className="rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/20 px-2 py-0.5 text-[10px]">has email</span>
+                        ? (!c.name || (c.email_status ?? "").includes("generic") || c.recommended_channel === "generic_email")
+                          ? <span className="rounded-full bg-sky-500/10 text-sky-400 ring-1 ring-inset ring-sky-500/20 px-2 py-0.5 text-[10px]">generic email</span>
+                          : <span className="rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/20 px-2 py-0.5 text-[10px]">has email</span>
                         : <span className="rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/20 px-2 py-0.5 text-[10px]">no email — Hunter needed</span>
                       }
+                      {c.source_type && <span className="rounded-full bg-zinc-700/40 px-2 py-0.5 text-[10px] text-zinc-400">{c.source_type}</span>}
                     </div>
                     <div>{c.title ? `${c.title} · ` : ""}{c.companies?.name ?? "Unknown"}</div>
                     <div>conf {c.confidence_score} · <span className="text-zinc-300">{actionLabel(c.recommended_action)}</span></div>

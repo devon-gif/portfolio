@@ -23,7 +23,40 @@ type ContactForm = {
   specific_client_type: string | null;
 };
 
-type ContactRow = ContactForm & { id: string; created_at: string; city: string | null; type: string; companies?: { name?: string | null } | null };
+type ContactRow = ContactForm & {
+  id: string;
+  created_at: string;
+  city: string | null;
+  type: string;
+  // Columns that exist on the live table beyond the edit form:
+  last_contacted_at?: string | null;
+  source?: string | null;
+  email_opt_out?: boolean | null;
+  bounced?: boolean | null;
+  companies?: { name?: string | null } | null;
+};
+
+const QUICK_FILTERS = [
+  { key: "all", label: "All" },
+  { key: "eligible", label: "Eligible for outreach" },
+  { key: "missing_email", label: "Missing email" },
+  { key: "new", label: "New / needs review" },
+  { key: "contacted", label: "Contacted" },
+  { key: "replied", label: "Replied" },
+  { key: "dnc", label: "Do not contact" },
+] as const;
+type QuickFilter = (typeof QUICK_FILTERS)[number]["key"];
+
+const BLOCKED = new Set(["sent", "replied", "not_interested", "do_not_contact", "unsubscribed", "opted_out", "lost", "not_fit"]);
+
+function isDnc(c: ContactRow): boolean {
+  return c.email_opt_out === true || c.bounced === true ||
+    ["unsubscribed", "opted_out", "not_interested", "do_not_contact"].includes(c.status ?? "");
+}
+
+function isEligible(c: ContactRow): boolean {
+  return !!c.email && !isDnc(c) && !BLOCKED.has(c.status ?? "");
+}
 
 const BLANK: ContactForm = {
   first_name: "", last_name: "", title: null, email: null, linkedin_url: null,
@@ -69,8 +102,22 @@ export default function ContactsPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [quickFilter, setQuickFilter] = useState<QuickFilter>("all");
+  const [rowNote, setRowNote] = useState<string | null>(null);
   const [tick, setTick] = useState(0);
   function reload() { setTick((t) => t + 1); }
+
+  // Safety action: never deletes data; flags the contact so drafts + sends skip it.
+  async function markDoNotContact(c: ContactRow) {
+    const { error } = await supabase
+      .from("contacts")
+      .update({ email_opt_out: true, status: "opted_out" })
+      .eq("id", c.id);
+    setRowNote(error
+      ? `Failed to mark do-not-contact: ${error.message}`
+      : `${c.first_name} ${c.last_name} marked do-not-contact — drafts and sends will skip them.`);
+    reload();
+  }
 
   useEffect(() => {
     supabase
@@ -121,11 +168,22 @@ export default function ContactsPage() {
     reload();
   }
 
-  const filtered = rows.filter((r) =>
-    `${r.first_name} ${r.last_name}`.toLowerCase().includes(search.toLowerCase()) ||
-    (r.companies?.name ?? "").toLowerCase().includes(search.toLowerCase()) ||
-    (r.email ?? "").toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = rows.filter((r) => {
+    const matchesSearch =
+      `${r.first_name} ${r.last_name}`.toLowerCase().includes(search.toLowerCase()) ||
+      (r.companies?.name ?? "").toLowerCase().includes(search.toLowerCase()) ||
+      (r.email ?? "").toLowerCase().includes(search.toLowerCase());
+    if (!matchesSearch) return false;
+    switch (quickFilter) {
+      case "eligible": return isEligible(r);
+      case "missing_email": return !r.email;
+      case "new": return (r.status ?? "new") === "new";
+      case "contacted": return r.status === "contacted" || r.status === "queued" || r.status === "sent" || !!r.last_contacted_at;
+      case "replied": return r.status === "replied";
+      case "dnc": return isDnc(r);
+      default: return true;
+    }
+  });
 
   const TEXT_FIELDS: [string, keyof ContactForm, string][] = [
     ["First Name *", "first_name", "text"],
@@ -154,31 +212,65 @@ export default function ContactsPage() {
         </button>
       </div>
 
-      <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search contacts…" className="mb-5 w-72 rounded-lg bg-zinc-800/60 border border-zinc-700 px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-600/50" />
+      <div className="mb-3 flex flex-wrap items-center gap-3">
+        <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search contacts…" className="w-72 rounded-lg bg-zinc-800/60 border border-zinc-700 px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-600/50" />
+      </div>
+      <div className="mb-5 flex flex-wrap gap-1.5">
+        {QUICK_FILTERS.map((f) => (
+          <button
+            key={f.key}
+            onClick={() => setQuickFilter(f.key)}
+            className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${quickFilter === f.key ? "bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/30" : "bg-zinc-800/60 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800"}`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      {rowNote && (
+        <p className="mb-4 rounded-lg bg-zinc-800 px-3 py-2 text-xs text-zinc-300">{rowNote}</p>
+      )}
 
       <div className="rounded-xl border border-zinc-800 overflow-hidden">
         <table className="min-w-full">
           <thead>
             <tr className="border-b border-zinc-800 bg-zinc-900/50">
-              {["Name", "Company", "Title", "Email", "Status", ""].map((h) => (
+              {["Name", "Company", "Title", "Email", "Status", "Last Contacted", "Source", ""].map((h) => (
                 <th key={h} className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-zinc-600">{h}</th>
               ))}
             </tr>
           </thead>
           <tbody className="divide-y divide-zinc-800/60 bg-zinc-900">
             {loading ? (
-              <tr><td colSpan={6} className="px-4 py-10 text-center text-sm text-zinc-600">Loading…</td></tr>
+              <tr><td colSpan={8} className="px-4 py-10 text-center text-sm text-zinc-600">Loading…</td></tr>
             ) : filtered.length === 0 ? (
-              <tr><td colSpan={6} className="px-4 py-10 text-center text-sm text-zinc-600">No contacts found.</td></tr>
+              <tr><td colSpan={8} className="px-4 py-10 text-center text-sm text-zinc-600">No contacts match this filter.</td></tr>
             ) : filtered.map((c) => (
               <tr key={c.id} className="group hover:bg-zinc-800/30 transition-colors">
                 <td className="px-4 py-3 text-sm font-medium text-zinc-200">{c.first_name} {c.last_name}</td>
                 <td className="px-4 py-3 text-sm text-zinc-400">{c.companies?.name ?? "—"}</td>
                 <td className="px-4 py-3 text-sm text-zinc-400">{c.title ?? "—"}</td>
-                <td className="px-4 py-3 text-sm text-zinc-400">{c.email ?? "—"}</td>
+                <td className="px-4 py-3 text-sm text-zinc-400">
+                  {c.email ?? <span className="text-amber-400/80 text-xs">email needed</span>}
+                  {isDnc(c) && <span className="ml-2 rounded-full bg-red-500/10 text-red-400 ring-1 ring-inset ring-red-500/20 px-1.5 py-0.5 text-[10px]">DNC</span>}
+                </td>
                 <td className="px-4 py-3"><StatusBadge status={c.status} /></td>
+                <td className="px-4 py-3 text-xs text-zinc-500 tabular-nums">{c.last_contacted_at ? new Date(c.last_contacted_at).toLocaleDateString() : "—"}</td>
+                <td className="px-4 py-3 text-xs text-zinc-500">{c.source ?? "—"}</td>
                 <td className="px-4 py-3 text-right">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity flex justify-end gap-1">
+                    {!isDnc(c) && (
+                      <button
+                        onClick={() => markDoNotContact(c)}
+                        title="Mark do not contact (skipped by drafts and sends)"
+                        className="rounded-lg px-2 py-1.5 text-[11px] text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                      >
+                        DNC
+                      </button>
+                    )}
+                    {c.company_id && (
+                      <a href="/companies" title="View companies" className="rounded-lg px-2 py-1.5 text-[11px] text-zinc-500 hover:text-zinc-200 hover:bg-zinc-700 transition-colors">Company</a>
+                    )}
                     <button onClick={() => openEdit(c)} className="rounded-lg p-1.5 text-zinc-600 hover:text-zinc-200 hover:bg-zinc-700 transition-colors"><Pencil className="h-3.5 w-3.5" /></button>
                     <button onClick={() => setDeleteId(c.id)} className="rounded-lg p-1.5 text-zinc-600 hover:text-red-400 hover:bg-red-500/10 transition-colors"><Trash2 className="h-3.5 w-3.5" /></button>
                   </div>
