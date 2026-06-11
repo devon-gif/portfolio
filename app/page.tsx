@@ -35,28 +35,32 @@ export const metadata: Metadata = {
     absolute: "Archer Design | Hotel Social Media & Hospitality Creative Support",
   },
   description:
-    "Hospitality creative support for hotels, restaurants, spas, and event venues — social graphics, short-form video, captions, campaign copy, and approval-ready content without adding full-time creative headcount.",
+    "Hospitality creative support for hotels, restaurants, spas, and event venues, social graphics, short-form video, captions, campaign copy, and approval-ready content without adding full-time creative headcount.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "Archer Design | Hotel Social Media & Hospitality Creative Support",
     description:
-      "Hospitality creative support for hotels, restaurants, spas, and event venues — social graphics, short-form video, captions, campaign copy, and approval-ready content without adding full-time creative headcount.",
+      "Hospitality creative support for hotels, restaurants, spas, and event venues, social graphics, short-form video, captions, campaign copy, and approval-ready content without adding full-time creative headcount.",
     url: "/",
   },
 };
 
 // TODO(devon): Fill in real terms for the commitment FAQ answer.
-// TODO(devon): Confirm 2024 as the real start year in MetricsStrip.tsx.
 const FAQ = [
   {
-    q: "Do we need to do a photo or video shoot?",
-    a: "No. Everything is built from the assets you already have, property photography, menus, event details, phone photos, past campaign material. If your photography is thin in one area, we'll tell you honestly and work with what performs.",
+    q: "Do you only work from existing photos?",
+    a: "No. Existing property assets are often the fastest starting point, but we also create new branded graphics, campaign concepts, polished visuals, motion assets, and photo and video direction as needed. If new photo or video support is needed, we can scope that into the project.",
     open: true,
   },
   {
     q: "What do we get each month?",
-    a: "A monthly creative plan, then a steady delivery of finished assets: social graphics, short-form motion, event and F&B promos, and seasonal campaign visuals, with captions included. Ask about your specific asset count during the free trial.",
+    a: "A monthly creative plan, then a steady delivery of finished assets: social graphics, short-form motion, event and F&B promos, and seasonal campaign visuals, with captions included. Ask about your specific asset count during onboarding.",
     open: true,
+  },
+  {
+    q: "Do you manage social accounts?",
+    a: "The core service is creative production and campaign support. We create the assets, captions, and creative direction your team can publish. Full account management can be discussed separately for the right long-term partnership.",
+    open: false,
   },
   {
     q: "How is this lower-overhead than hiring?",
@@ -64,8 +68,8 @@ const FAQ = [
     open: false,
   },
   {
-    q: "Can you support a whole group or management company?",
-    a: "Yes, that's the core of what we do. We support multi-property portfolios with consistent group-level branding and property-level customization, on one plan and one invoice. Groups of 5+ properties get a custom-scoped partnership.",
+    q: "How do you start with a hotel group?",
+    a: "We usually recommend a 3–5 property pilot first. That lets us build the creative workflow, approval process, brand rules, motion style, campaign cadence, and reporting structure before expanding across the portfolio. Groups of 5+ properties get a custom-scoped partnership.",
     open: false,
   },
   {
@@ -76,7 +80,7 @@ const FAQ = [
   {
     q: "What's the commitment?",
     // TODO(devon): Replace with your real terms: month-to-month or 3-month minimum.
-    a: "Start with the free 5-asset trial, then choose a monthly package. Scale up, down, or pause as your season demands. Ask us about commitment terms during your trial, we'll give you the straight answer.",
+    a: "Most partnerships start monthly and can scale based on seasonality, property count, and campaign volume. Ask us about commitment terms during your pilot, we'll give you the straight answer.",
     open: false,
   },
 ];
@@ -136,7 +140,7 @@ export default function ArcherDesignHome() {
               className="rounded-xl px-4 py-2 text-[13px] font-semibold text-[#1a1407]"
               style={{ background: GOLD_GRADIENT }}
             >
-              Get 5 Free Sample Assets
+              Request a Pilot →
             </a>
           </nav>
         </div>
@@ -145,10 +149,63 @@ export default function ArcherDesignHome() {
       <main>
         <MediaHero />
 
-        {/* Trust bar — client logos only, no keyword tags */}
+        {/* Trust bar, client logos only, no keyword tags */}
         <ClientLogoStrip />
 
-        {/* How it works — 3-step process */}
+        {/* Pilot section, group pitch */}
+        <section className="px-6 py-16">
+          <div className="mx-auto max-w-5xl">
+            <div className="glass-card rounded-3xl p-8 md:p-12">
+              <div className="grid gap-8 md:grid-cols-2 md:items-start">
+                <div>
+                  <span className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C]">
+                    Group partnerships
+                  </span>
+                  <h2 className="mt-3 font-serif text-[clamp(26px,3.5vw,42px)] font-semibold leading-tight text-[#F6F1E7]">
+                    Start with a focused 3–5 property pilot.
+                  </h2>
+                  <p className="mt-4 text-[15px] leading-relaxed text-[#A9A092]">
+                    For hotel groups, we don&apos;t recommend rolling creative support across the
+                    entire portfolio on day one. The cleanest path is a focused pilot across 3–5
+                    properties.
+                  </p>
+                  <p className="mt-3 text-[15px] leading-relaxed text-[#A9A092]">
+                    That gives us time to build the creative workflow, approval process, brand rules,
+                    motion style, campaign cadence, and reporting structure before expanding.
+                  </p>
+                  <div className="mt-6">
+                    <a
+                      href="/contact"
+                      className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
+                      style={{ background: GOLD_GRADIENT }}
+                    >
+                      Request a 3–5 Property Pilot <span aria-hidden>→</span>
+                    </a>
+                    <p className="mt-3 text-[13px] text-[#A9A092]">Starting at $7,500/month for a 5-property pilot.</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[#A9A092]">
+                    Best fit
+                  </p>
+                  {[
+                    "Hotel groups with multiple properties",
+                    "Properties with active F&B, events, meetings, weddings, or spa offerings",
+                    "Teams that need more creative output without adding another hire",
+                    "Groups that want better portfolio consistency",
+                  ].map((item) => (
+                    <div key={item} className="flex items-start gap-3 text-[14.5px] text-[#A9A092]">
+                      <span className="mt-[6px] shrink-0 text-[9px] text-[#C9A44C]">◆</span>
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* How it works, 3-step process */}
         <HowItWorks />
 
         {/* Featured short-form motion */}
@@ -176,7 +233,7 @@ export default function ArcherDesignHome() {
         {/* Package navigation cards (Hotels / Spas / Restaurants) */}
         <PackagePathCards />
 
-        {/* Full package listing — group leads */}
+        {/* Full package listing, group leads */}
         <PackageCards />
 
         <TrialCTA />
@@ -238,12 +295,12 @@ export default function ArcherDesignHome() {
             className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
             style={{ background: GOLD_GRADIENT }}
           >
-            Get 5 Free Sample Assets <span aria-hidden>→</span>
+            Request a 3–5 Property Pilot <span aria-hidden>→</span>
           </a>
-          <p className="mt-3 text-[13px] text-[#A9A092]">No call. No card. 5 finished pieces in 7 days.</p>
+          <p className="mt-3 text-[13px] text-[#A9A092]">Or request 5 sample assets, no card, 7 days, approval-ready.</p>
         </div>
 
-        {/* SEO keyword row — moved from trust bar */}
+        {/* SEO keyword row, moved from trust bar */}
         <p className="mt-8 text-[11px] text-[#A9A092]/50">
           Boutique Spas &middot; Hotel Restaurants &middot; Event Venues &middot; Multi-Property Groups &middot; F&amp;B Campaigns &middot; Local SEO
         </p>

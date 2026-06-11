@@ -10,7 +10,7 @@ import { GOLD_GRADIENT } from "@/components/marketing/media";
 import { LOGO_PATH } from "@/lib/seo";
 
 const DESCRIPTION =
-  "Monthly creative packages for hotels, restaurants, spas, and event venues — social graphics, short-form video, and captions at a fixed fee. Compare tiers and run the cost math against an in-house hire.";
+  "Monthly creative packages for hotels, restaurants, spas, and event venues, social graphics, short-form video, and captions at a fixed fee. Compare tiers and run the cost math against an in-house hire.";
 
 export const metadata: Metadata = {
   title: "Packages & Pricing Paths",
@@ -59,7 +59,7 @@ export default function PackagesPage() {
               className="rounded-xl px-4 py-2 text-[13px] font-semibold text-[#1a1407]"
               style={{ background: GOLD_GRADIENT }}
             >
-              Get 5 Free Sample Assets
+              Request 5 Sample Assets
             </Link>
           </nav>
         </div>
@@ -74,9 +74,10 @@ export default function PackagesPage() {
             Fixed monthly packages. No employment overhead.
           </h1>
           <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-[#A9A092]">
-            Every tier delivers finished, approval-ready creative — social graphics, short-form
-            video, and captions — built from the assets your properties already have. Start with
-            the free 5-asset trial, then pick the path that matches your property type and volume.
+            Every tier delivers finished, approval-ready creative: social graphics, short-form
+            video, and captions, built from the assets your properties already have. Request 5
+            sample assets to evaluate the quality, then choose the tier that fits your property type
+            and volume.
           </p>
         </section>
 
@@ -97,7 +98,7 @@ export default function PackagesPage() {
             <Link href="/contact" className="text-[#E8D7A2] underline underline-offset-4 hover:text-[#F6F1E7]">
               Send a message or book a 30-minute call
             </Link>{" "}
-            — or see how the work plays out in our{" "}
+            or see how the work plays out in our{" "}
             <Link href="/case-studies" className="text-[#E8D7A2] underline underline-offset-4 hover:text-[#F6F1E7]">
               client case studies
             </Link>

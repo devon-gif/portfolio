@@ -171,7 +171,7 @@ export function SeoLandingPage({
               <figure
                 key={v.src}
                 className="overflow-hidden rounded-2xl border border-[rgba(201,164,76,0.16)] bg-[#0b0a08]"
-                aria-label={`${v.label} — ${v.category} short-form video example`}
+                aria-label={`${v.label}, ${v.category} short-form video example`}
               >
                 <div className="aspect-video w-full overflow-hidden bg-black">
                   <LazyVideo
@@ -247,7 +247,7 @@ export function SeoLandingPage({
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-[15px] text-[#A9A092]">
             Send your existing photos, menus, or event details and get 5 finished, approval-ready
-            assets back within 7 days — free. Or book a 30-minute call and we&apos;ll talk through
+            assets back within 7 days, free. Or book a 30-minute call and we&apos;ll talk through
             your properties first.
           </p>
           <div className="mt-7 flex justify-center">
@@ -289,7 +289,7 @@ export function SeoLandingPage({
       {/* Footer */}
       <footer className="border-t border-[rgba(201,164,76,0.1)] px-6 py-12 text-center text-[13px] text-[#A9A092]">
         <p>
-          Archer Design — hospitality creative support for hotels, restaurants, spas, and event
+          Archer Design, hospitality creative support for hotels, restaurants, spas, and event
           venues.
         </p>
         <p className="mt-3 space-x-4">

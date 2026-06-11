@@ -3,7 +3,7 @@ import { SeoLandingPage } from "@/components/marketing/SeoLandingPage";
 import { FEATURED_MOTION, HERO_ROTATION, MOTION_CAROUSEL } from "@/components/marketing/media";
 
 const DESCRIPTION =
-  "Hotel video marketing built from the footage and photos you already have: short-form Reels, room and amenity videos, F&B and event promos — delivered monthly, no shoots required.";
+  "Hotel video marketing built from the footage and photos you already have: short-form Reels, room and amenity videos, F&B and event promos, delivered monthly, no shoots required.";
 
 export const metadata: Metadata = {
   title: "Hotel Video Marketing & Short-Form Video for Hotels",
@@ -35,12 +35,12 @@ export default function HotelVideoMarketingPage() {
       eyebrow="Hotel Video Marketing"
       h1="Short-form video for hotels, made from the footage you already have."
       intro={[
-        "Video is what social platforms reward right now — Reels and short vertical cuts consistently out-reach static posts for hotels. The catch is that most properties think video means hiring a videographer or booking a production day. It usually doesn't.",
-        "Archer Design builds hotel marketing video from the material you already own: property photography, B-roll from past shoots, drone clips, even strong phone footage from your events team. We cut, color, caption, and format it into platform-ready short-form video, delivered monthly alongside your graphics — and where photography is all you have, we can produce cinematic motion from stills.",
+        "Video is what social platforms reward right now, Reels and short vertical cuts consistently out-reach static posts for hotels. The catch is that most properties think video means hiring a videographer or booking a production day. It usually doesn't.",
+        "Archer Design builds hotel marketing video from the material you already own: property photography, B-roll from past shoots, drone clips, even strong phone footage from your events team. We cut, color, caption, and format it into platform-ready short-form video, delivered monthly alongside your graphics, and where photography is all you have, we can produce cinematic motion from stills.",
         "The result is a feed that moves: room and amenity videos, F&B promos, event recaps, and seasonal campaign spots, without a single production day on your calendar.",
       ]}
       videoHeading="Examples from the portfolio"
-      videoBlurb="Short-form hospitality video built without new shoots — room timelapses, F&B motion, poolside campaign cuts, and seasonal transitions, all from existing assets."
+      videoBlurb="Short-form hospitality video built without new shoots, room timelapses, F&B motion, poolside campaign cuts, and seasonal transitions, all from existing assets."
       videos={VIDEOS}
       sections={[
         {
@@ -62,21 +62,21 @@ export default function HotelVideoMarketingPage() {
           heading: "No shoot? Not a problem.",
           paragraphs: [
             "The biggest myth in hotel video is that you need fresh footage to start. Most properties are sitting on years of photography that has never been used as motion. We animate stills into cinematic timelapses, build transitions between seasons, and combine photo sets into moving sequences that read as video on a phone screen.",
-            "When you do have real footage — a past brand shoot, drone passes, event clips — we cut it into multiple short-form pieces rather than letting it sit in a folder. One good 3-minute property video can become eight Reels.",
+            "When you do have real footage (a past brand shoot, drone passes, or event clips), we cut it into multiple short-form pieces rather than letting it sit in a folder. One good 3-minute property video can become eight Reels.",
           ],
         },
         {
           heading: "Built for how hotels actually approve content",
           paragraphs: [
-            "Every video arrives finished and labeled, with caption copy attached, sized for the platform it's going to. Flag properties get brand-standard-aware editing — logo treatment, typography, and tone that won't bounce off a brand review. You review, approve, and schedule; we handle revisions quickly because we're working from your brand files.",
-            "If you already work with us on social media management, video slots into the same monthly plan and the same approval flow — one partner, one invoice.",
+            "Every video arrives finished and labeled, with caption copy attached, sized for the platform it's going to. Flag properties get brand-standard-aware editing, logo treatment, typography, and tone that won't bounce off a brand review. You review, approve, and schedule; we handle revisions quickly because we're working from your brand files.",
+            "If you already work with us on social media management, video slots into the same monthly plan and the same approval flow: one partner, one invoice.",
           ],
         },
         {
           heading: "The cost case",
           paragraphs: [
             "A freelance videographer day runs real money before editing even starts, and an in-house content hire who can shoot and edit is a $90K+ commitment with benefits and management overhead on top. For a single property posting 3–5 videos a month, neither math works.",
-            "Because we build from existing assets, you pay a fixed monthly fee for finished video as part of your creative package — see the cost savings breakdown or compare packages for current tiers.",
+            "Because we build from existing assets, you pay a fixed monthly fee for finished video as part of your creative package. See the cost savings breakdown or compare packages for current tiers.",
           ],
         },
         {
@@ -89,7 +89,7 @@ export default function HotelVideoMarketingPage() {
       faqs={[
         {
           q: "Can you really make video from photos alone?",
-          a: "Yes. We produce cinematic motion from stills — timelapses, seasonal transitions, parallax movement, and image-to-image sequences. On a phone screen, well-built motion from photography reads as video and performs like it.",
+          a: "Yes. We produce cinematic motion from stills, timelapses, seasonal transitions, parallax movement, and image-to-image sequences. On a phone screen, well-built motion from photography reads as video and performs like it.",
         },
         {
           q: "What formats do you deliver?",
@@ -97,15 +97,15 @@ export default function HotelVideoMarketingPage() {
         },
         {
           q: "Do you write the captions and hooks?",
-          a: "Yes — every video ships with caption copy and on-screen text written for your property's voice. You can edit anything before it posts; most clients post as delivered.",
+          a: "Yes, every video ships with caption copy and on-screen text written for your property's voice. You can edit anything before it posts; most clients post as delivered.",
         },
         {
           q: "How many videos do we get per month?",
-          a: "It depends on your package and your calendar — months with a big event or seasonal push usually weight heavier toward video. Ask about specific counts during the free trial and we'll scope it to your properties.",
+          a: "It depends on your package and your calendar, months with a big event or seasonal push usually weight heavier toward video. Ask about specific counts during the free trial and we'll scope it to your properties.",
         },
         {
           q: "Who owns the finished videos?",
-          a: "You do. Everything we deliver is yours to use across social, your website, OTA listings, screens on property — anywhere.",
+          a: "You do. Everything we deliver is yours to use across social, your website, OTA listings, screens on property, anywhere.",
         },
       ]}
       related={[

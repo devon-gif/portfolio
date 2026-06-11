@@ -8,7 +8,7 @@ import { GOLD_GRADIENT, MOTION_CAROUSEL, HERO_ROTATION } from "@/components/mark
 import { CALENDLY_URL, LOGO_PATH, organizationJsonLd } from "@/lib/seo";
 
 const DESCRIPTION =
-  "How Archer Design supports real hospitality clients — Hampton Inn Greensburg, Hotel Indigo Pittsburgh & Eliza, and Elements Salon & Wellness — with social graphics, short-form video, and approval-ready content.";
+  "How Archer Design supports real hospitality clients, Hampton Inn Greensburg, Hotel Indigo Pittsburgh & Eliza, and Elements Salon & Wellness, with social graphics, short-form video, and approval-ready content.";
 
 export const metadata: Metadata = {
   title: "Hospitality Client Case Studies",
@@ -40,8 +40,8 @@ const CASE_STUDIES = [
     logoAlt: "Hampton Inn by Hilton brand logo",
     category: "Select-service flag hotel",
     challenge:
-      "A select-service Hilton flag with no creative person on property. Social posting was inconsistent, fell to whoever had a spare hour, and everything had to respect Hampton brand standards — which made one-off freelance help risky.",
-    work: "Ongoing monthly creative built from the property's existing photography: feed graphics, local-market content, seasonal pushes, and short-form video — all produced brand-standard-aware so it clears review the first time. Captions included, delivered approval-ready for the property's scheduler.",
+      "A select-service Hilton flag with no creative person on property. Social posting was inconsistent, fell to whoever had a spare hour, and everything had to respect Hampton brand standards, which made one-off freelance help risky.",
+    work: "Ongoing monthly creative built from the property's existing photography: feed graphics, local-market content, seasonal pushes, and short-form video, all produced brand-standard-aware so it clears review the first time. Captions included, delivered approval-ready for the property's scheduler.",
     outcome:
       "A feed that stays active through every season without adding anyone to payroll, and a GM team that reviews and approves instead of designing. The same model now extends to a second Hampton property in Johnstown.",
     video: HERO_ROTATION[1], // Hotel entrance
@@ -52,10 +52,10 @@ const CASE_STUDIES = [
     logoAlt: "Hotel Indigo Pittsburgh logo",
     category: "Boutique flag hotel + restaurant",
     challenge:
-      "A boutique IHG property with a strong identity and an on-site restaurant, Eliza Hot Metal Bistro, that each needed their own voice — rooms-and-neighborhood storytelling for the hotel, menu and specials promotion for the restaurant — with one stretched team behind both.",
-    work: "Two coordinated content streams on one plan: boutique-styled hotel creative on one side, F&B promos for Eliza on the other — menu features, bar program content, and event pushes timed to the restaurant's calendar. Short-form video built from existing assets keeps both feeds moving.",
+      "A boutique IHG property with a strong identity and an on-site restaurant, Eliza Hot Metal Bistro, that each needed their own voice, rooms-and-neighborhood storytelling for the hotel, menu and specials promotion for the restaurant, with one stretched team behind both.",
+    work: "Two coordinated content streams on one plan: boutique-styled hotel creative on one side, F&B promos for Eliza on the other, menu features, bar program content, and event pushes timed to the restaurant's calendar. Short-form video built from existing assets keeps both feeds moving.",
     outcome:
-      "Hotel and restaurant each get a consistent, distinct presence without competing for the same internal bandwidth — and promos for Eliza ship while the special is still on the menu.",
+      "Hotel and restaurant each get a consistent, distinct presence without competing for the same internal bandwidth, and promos for Eliza ship while the special is still on the menu.",
     video: MOTION_CAROUSEL[0], // Bar & cocktails
   },
   {
@@ -64,10 +64,10 @@ const CASE_STUDIES = [
     logoAlt: "Elements Salon & Wellness logo",
     category: "Salon, spa & wellness",
     challenge:
-      "A wellness business whose brand depends on a calm, premium feel — exactly the aesthetic that's hardest to produce in spare moments between clients. Content needed to look serene and intentional, not rushed.",
+      "A wellness business whose brand depends on a calm, premium feel, exactly the aesthetic that's hardest to produce in spare moments between clients. Content needed to look serene and intentional, not rushed.",
     work: "A steady monthly stream of polished wellness creative: service features, seasonal promotions, and soft-motion content built from the studio's own imagery, with captions written in the brand's quieter voice.",
     outcome:
-      "A presence that finally matches the in-person experience, produced without pulling the team off the floor — and a template for how Archer Design supports spa and wellness operators inside and outside hotels.",
+      "A presence that finally matches the in-person experience, produced without pulling the team off the floor, and a template for how Archer Design supports spa and wellness operators inside and outside hotels.",
     video: HERO_ROTATION[5], // Luxury room timelapse (calm motion)
   },
 ];
@@ -114,7 +114,7 @@ export default function CaseStudiesPage() {
           </h1>
           <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-[#A9A092]">
             Across our hospitality clients, Archer Design creative has delivered 13.9M+ impressions,
-            543K+ engagements, and 3.6M+ reach — all built from assets the properties already had.
+            543K+ engagements, and 3.6M+ reach, all built from assets the properties already had.
             Here&apos;s what the work looks like client by client.
           </p>
         </section>
@@ -130,7 +130,7 @@ export default function CaseStudiesPage() {
                 <div className="aspect-video w-full overflow-hidden bg-black lg:aspect-auto lg:min-h-[320px]">
                   <LazyVideo
                     src={cs.video.src}
-                    label={`${cs.name} — example creative`}
+                    label={`${cs.name} example creative`}
                     className="h-full w-full object-cover"
                   />
                 </div>
@@ -181,7 +181,7 @@ export default function CaseStudiesPage() {
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-[15px] text-[#A9A092]">
             Start the same way every client above did: send your existing photos and details, get 5
-            finished assets back in 7 days, free — then decide.
+            finished assets back in 7 days, free, then decide.
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Link

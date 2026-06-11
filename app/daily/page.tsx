@@ -1,24 +1,29 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import NextLink from "next/link";
 import {
+  AlertTriangle,
   CalendarDays,
-  Users,
-  Search,
-  Mail,
-  Link,
-  ClipboardList,
-  Send,
-  MessageSquareWarning,
-  Loader2,
   CheckCircle2,
-  XCircle,
+  ClipboardList,
+  Link as LinkIcon,
+  Loader2,
+  Mail,
+  MessageSquareWarning,
   RefreshCw,
+  Search,
+  Send,
+  Sparkles,
+  Users,
+  XCircle,
 } from "lucide-react";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { PageHeader } from "@/components/PageHeader";
 import { scoreBuyerTitle, actionLabel, TIER_BADGE, TIER_LABEL } from "@/lib/buyer-titles";
 import { generateTodaysDrafts, describeSkipped } from "@/lib/generate-drafts";
+
+// ── Types ──────────────────────────────────────────────────────────────────────
 
 type CompanyToday = {
   id: string;
@@ -57,7 +62,14 @@ type MessageRow = {
   created_at: string;
   scheduled_send_at: string | null;
   sent_at: string | null;
-  contacts?: { first_name?: string | null; last_name?: string | null; title?: string | null; email?: string | null; source?: string | null; companies?: { name?: string | null } | null } | null;
+  contacts?: {
+    first_name?: string | null;
+    last_name?: string | null;
+    title?: string | null;
+    email?: string | null;
+    source?: string | null;
+    companies?: { name?: string | null } | null;
+  } | null;
 };
 
 type ContactIssue = {
@@ -72,16 +84,15 @@ type ContactIssue = {
   companies?: { name?: string | null } | null;
 };
 
-type AppFlags = {
-  test_mode: boolean;
-  require_manual_approval: boolean;
-};
+type AppFlags = { test_mode: boolean; require_manual_approval: boolean };
 
 function startOfTodayIso(): string {
   const d = new Date();
   d.setHours(0, 0, 0, 0);
   return d.toISOString();
 }
+
+// ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function DailyCommandCenterPage() {
   const [loading, setLoading] = useState(true);
@@ -102,6 +113,8 @@ export default function DailyCommandCenterPage() {
   const [dailyGoal, setDailyGoal] = useState<number>(10);
   const [expandedMsgId, setExpandedMsgId] = useState<string | null>(null);
 
+  // ── Data loading ─────────────────────────────────────────────────────────────
+
   async function reloadAll() {
     setLoading(true);
     setNote(null);
@@ -115,7 +128,15 @@ export default function DailyCommandCenterPage() {
 
     const todayIso = startOfTodayIso();
 
-    const [settingsRes, companiesRes, candidatesRes, messagesRes, contactsRes, totalCompaniesRes, totalContactsRes] = await Promise.all([
+    const [
+      settingsRes,
+      companiesRes,
+      candidatesRes,
+      messagesRes,
+      contactsRes,
+      totalCompaniesRes,
+      totalContactsRes,
+    ] = await Promise.all([
       supabase.from("app_settings").select("test_mode, require_manual_approval, daily_send_goal").limit(1).single(),
       supabase
         .from("companies")
@@ -125,13 +146,17 @@ export default function DailyCommandCenterPage() {
         .limit(100),
       supabase
         .from("contact_candidates")
-        .select("id, company_id, name, title, email, email_status, email_confidence, linkedin_url, recommended_action, recommended_channel, confidence_score, status, source_url, source_type, source_excerpt, companies(name, website)")
+        .select(
+          "id, company_id, name, title, email, email_status, email_confidence, linkedin_url, recommended_action, recommended_channel, confidence_score, status, source_url, source_type, source_excerpt, companies(name, website)"
+        )
         .eq("status", "needs_review")
         .order("confidence_score", { ascending: false })
         .limit(300),
       supabase
         .from("messages")
-        .select("id, channel, status, subject, body, created_at, scheduled_send_at, sent_at, contacts(first_name,last_name,title,email,source,companies(name))")
+        .select(
+          "id, channel, status, subject, body, created_at, scheduled_send_at, sent_at, contacts(first_name,last_name,title,email,source,companies(name))"
+        )
         .order("created_at", { ascending: false })
         .limit(500),
       supabase
@@ -153,13 +178,12 @@ export default function DailyCommandCenterPage() {
       if (typeof g === "number" && g > 0) setDailyGoal(g);
     }
 
-    setCompaniesToday(((companiesRes.data ?? []) as unknown as CompanyToday[]));
-    setCandidates(((candidatesRes.data ?? []) as unknown as Candidate[]));
-    setMessages(((messagesRes.data ?? []) as unknown as MessageRow[]));
-    setContactIssues(((contactsRes.data ?? []) as unknown as ContactIssue[]));
+    setCompaniesToday((companiesRes.data ?? []) as unknown as CompanyToday[]);
+    setCandidates((candidatesRes.data ?? []) as unknown as Candidate[]);
+    setMessages((messagesRes.data ?? []) as unknown as MessageRow[]);
+    setContactIssues((contactsRes.data ?? []) as unknown as ContactIssue[]);
     setTotalCompanies(totalCompaniesRes.count ?? 0);
     setTotalContacts(totalContactsRes.count ?? 0);
-
     setSelectedCandidates(new Set());
     setSelectedEmails(new Set());
     setLoading(false);
@@ -167,10 +191,20 @@ export default function DailyCommandCenterPage() {
 
   useEffect(() => {
     reloadAll();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // ── Derived state ─────────────────────────────────────────────────────────────
+
   const hunterQueue = useMemo(
-    () => candidates.filter((c) => c.recommended_action === "verify_with_hunter" || c.email_status === "needs_email" || c.email_status === "unverified" || c.email_status === "risky"),
+    () =>
+      candidates.filter(
+        (c) =>
+          c.recommended_action === "verify_with_hunter" ||
+          c.email_status === "needs_email" ||
+          c.email_status === "unverified" ||
+          c.email_status === "risky"
+      ),
     [candidates]
   );
 
@@ -194,14 +228,20 @@ export default function DailyCommandCenterPage() {
     [messages]
   );
 
-  // Approved for today but not yet scheduled — shown so they're never invisible.
   const approvedAwaitingSchedule = useMemo(
     () => messages.filter((m) => m.channel === "email" && (m.status === "approved_for_today" || m.status === "approved")),
     [messages]
   );
 
   const failures = useMemo(
-    () => messages.filter((m) => m.status === "failed" || m.status === "send_failed" || m.status === "bounced" || m.status === "replied"),
+    () =>
+      messages.filter(
+        (m) =>
+          m.status === "failed" ||
+          m.status === "send_failed" ||
+          m.status === "bounced" ||
+          m.status === "replied"
+      ),
     [messages]
   );
 
@@ -210,10 +250,42 @@ export default function DailyCommandCenterPage() {
     return messages.filter((m) => m.status === "sent" && m.sent_at && m.sent_at >= todayIso);
   }, [messages]);
 
+  const candidatesSorted = useMemo(
+    () =>
+      [...candidates].sort(
+        (a, b) =>
+          scoreBuyerTitle(b.title).score - scoreBuyerTitle(a.title).score ||
+          b.confidence_score - a.confidence_score
+      ),
+    [candidates]
+  );
+
+  // Which step needs action right now?
+  const nextAction = useMemo(() => {
+    if (totalCompanies === 0)
+      return { step: 1 as const, msg: "Add companies first — go to Companies and research at least one." };
+    if (candidates.length > 0 && totalContacts === 0)
+      return { step: 1 as const, msg: `Promote ${candidates.length} candidate${candidates.length !== 1 ? "s" : ""} below to create contacts, then generate drafts.` };
+    if (candidates.length > 0)
+      return { step: 1 as const, msg: `${candidates.length} candidate${candidates.length !== 1 ? "s" : ""} still need review — promote the good ones.` };
+    if (totalContacts > 0 && emailDraftsReady.length === 0)
+      return { step: 2 as const, msg: `Generate drafts for ${totalContacts} contact${totalContacts !== 1 ? "s" : ""}.` };
+    if (emailDraftsReady.length > 0 && approvedAwaitingSchedule.length === 0 && scheduledSends.length === 0)
+      return { step: 3 as const, msg: `Approve ${emailDraftsReady.length} draft${emailDraftsReady.length !== 1 ? "s" : ""} — select below, then approve and schedule.` };
+    if (approvedAwaitingSchedule.length > 0)
+      return { step: 3 as const, msg: `${approvedAwaitingSchedule.length} approved — click Approve & Schedule Today.` };
+    if (scheduledSends.length > 0)
+      return { step: 4 as const, msg: `${scheduledSends.length} scheduled — click Send Due Now when ready.` };
+    return { step: 2 as const, msg: "Pipeline looks good — research more companies or check Growth." };
+  }, [totalCompanies, candidates.length, totalContacts, emailDraftsReady.length, approvedAwaitingSchedule.length, scheduledSends.length]);
+
+  // ── Selection toggles ─────────────────────────────────────────────────────────
+
   function toggleCandidate(id: string) {
     setSelectedCandidates((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id); else next.add(id);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       return next;
     });
   }
@@ -221,9 +293,125 @@ export default function DailyCommandCenterPage() {
   function toggleEmail(id: string) {
     setSelectedEmails((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id); else next.add(id);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       return next;
     });
+  }
+
+  // ── Actions ───────────────────────────────────────────────────────────────────
+
+  // PART A FIX: 20s timeout, try/catch/finally (busy always resets), console diagnostics, actual error text.
+  async function promoteSelectedCandidates() {
+    const selected = candidates.filter((c) => selectedCandidates.has(c.id));
+    if (selected.length === 0) {
+      setNoteType("warn");
+      setNote("Select at least one candidate in the 'Contact candidates' section below first.");
+      return;
+    }
+
+    setBusy("promote");
+    setNote(null);
+    let ok = 0;
+    let fail = 0;
+    const errors: string[] = [];
+    const noEmailNames: string[] = [];
+
+    if (process.env.NODE_ENV === "development") {
+      console.log("[promote] starting:", selected.map((c) => ({ id: c.id, name: c.name, hasEmail: !!c.email })));
+    }
+
+    try {
+      for (const cand of selected) {
+        if (!cand.email) noEmailNames.push(cand.name ?? "(no name)");
+
+        const controller = new AbortController();
+        const tid = setTimeout(() => controller.abort(), 20_000);
+
+        try {
+          const res = await fetch("/api/research/promote", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ candidate_id: cand.id }),
+            signal: controller.signal,
+          });
+          clearTimeout(tid);
+
+          if (process.env.NODE_ENV === "development") {
+            console.log("[promote] HTTP", res.status, "for candidate", cand.id);
+          }
+
+          let body: { ok?: boolean; error?: string; already_promoted?: boolean; deduped?: boolean } = {};
+          try {
+            body = await res.json();
+          } catch {
+            body = { ok: false, error: `HTTP ${res.status} — response was not JSON` };
+          }
+
+          if (process.env.NODE_ENV === "development") {
+            console.log("[promote] response body:", body, "for", cand.id);
+          }
+
+          if (body.ok) {
+            ok++;
+          } else {
+            fail++;
+            if (body.error) errors.push(body.error);
+          }
+        } catch (err) {
+          clearTimeout(tid);
+          fail++;
+          const isAbort = err instanceof Error && err.name === "AbortError";
+          const msg = isAbort
+            ? `Timed out after 20s for "${cand.name ?? cand.id}" — check SUPABASE_SERVICE_ROLE_KEY in .env.local`
+            : err instanceof Error
+            ? err.message
+            : String(err);
+          errors.push(msg);
+          if (process.env.NODE_ENV === "development") {
+            console.error("[promote] error for", cand.id, ":", err);
+          }
+        }
+      }
+
+      setNoteType(fail > 0 ? "warn" : "info");
+      const parts: string[] = [
+        `Promoted ${ok} contact${ok !== 1 ? "s" : ""}${fail > 0 ? `, ${fail} failed` : ""}.`,
+      ];
+      if (ok > 0) parts.push("Now click Generate Today's Queue to draft emails.");
+      if (noEmailNames.length > 0)
+        parts.push(`No email: ${noEmailNames.join(", ")} — run Hunter lookup first.`);
+      if (errors.length > 0)
+        parts.push(`Error${errors.length > 1 ? "s" : ""}: ${errors.slice(0, 2).join("; ")}.`);
+      setNote(parts.join(" "));
+    } finally {
+      setBusy("");
+      try {
+        await reloadAll();
+      } catch {
+        // reloadAll doesn't throw but belt-and-suspenders
+      }
+    }
+  }
+
+  async function skipSelectedCandidates() {
+    const ids = candidates.filter((c) => selectedCandidates.has(c.id)).map((c) => c.id);
+    if (ids.length === 0) return setNote("Select candidate(s) first.");
+
+    setBusy("skip");
+    try {
+      for (const id of ids) {
+        await fetch("/api/research/candidate-action", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ candidate_id: id, action: "skip" }),
+        });
+      }
+      setNote(`Skipped ${ids.length} candidate(s).`);
+    } finally {
+      setBusy("");
+      await reloadAll();
+    }
   }
 
   async function approveSelectedHunterLookups() {
@@ -235,74 +423,62 @@ export default function DailyCommandCenterPage() {
     let ok = 0;
     let fail = 0;
 
-    for (const cand of selected) {
-      try {
-        const endpoint = cand.email && cand.email_status !== "verified" ? "/api/hunter/verify-email" : "/api/hunter/find-email";
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ candidate_id: cand.id }),
-        });
-        const body = await res.json();
-        if (body.ok) ok++; else fail++;
-      } catch {
-        fail++;
+    try {
+      for (const cand of selected) {
+        try {
+          const endpoint =
+            cand.email && cand.email_status !== "verified"
+              ? "/api/hunter/verify-email"
+              : "/api/hunter/find-email";
+          const res = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ candidate_id: cand.id }),
+          });
+          const body = await res.json();
+          if (body.ok) ok++;
+          else fail++;
+        } catch {
+          fail++;
+        }
       }
+      setNote(`Hunter lookups: ${ok} success, ${fail} failed.`);
+    } finally {
+      setBusy("");
+      await reloadAll();
     }
-
-    setBusy("");
-    setNote(`Hunter lookups completed: ${ok} success, ${fail} failed.`);
-    await reloadAll();
   }
 
-  async function skipSelectedCandidates() {
-    const ids = candidates.filter((c) => selectedCandidates.has(c.id)).map((c) => c.id);
-    if (ids.length === 0) return setNote("Select candidate(s) first.");
-
-    setBusy("skip");
-    for (const id of ids) {
-      await fetch("/api/research/candidate-action", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ candidate_id: id, action: "skip" }),
-      });
-    }
-    setBusy("");
-    setNote(`Skipped ${ids.length} candidate(s).`);
-    await reloadAll();
-  }
-
-  async function promoteSelectedCandidates() {
-    const selected = candidates.filter((c) => selectedCandidates.has(c.id));
-    if (selected.length === 0) return setNote("Select candidate(s) first.");
-
-    setBusy("promote");
-    let ok = 0;
-    let fail = 0;
-    const noEmailNames: string[] = [];
-    for (const cand of selected) {
-      if (!cand.email) noEmailNames.push(cand.name ?? "(no name)");
-      try {
-        const res = await fetch("/api/research/promote", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ candidate_id: cand.id }),
-        });
-        const body = await res.json();
-        if (body.ok) ok++; else fail++;
-      } catch {
-        fail++;
+  async function generateTodaysQueue() {
+    setBusy("generate");
+    setNote(null);
+    try {
+      const r = await generateTodaysDrafts();
+      if (r.noContacts) {
+        setNoteType("warn");
+        setNote(
+          "No promoted contacts — select candidate(s) in the section below and click 'Promote selected', then generate drafts again."
+        );
+      } else if (r.made > 0) {
+        setNoteType("info");
+        const skippedNote =
+          r.skipped && describeSkipped(r.skipped) ? ` Skipped: ${describeSkipped(r.skipped)}.` : "";
+        setNote(
+          `Generated ${r.made} draft${r.made !== 1 ? "s" : ""} into Today's Outreach Batch.${skippedNote}`
+        );
+      } else {
+        setNoteType("warn");
+        setNote(r.reason ?? "No new eligible contacts to draft.");
       }
+    } catch (e) {
+      setNoteType("error");
+      setNote(`Generate failed: ${e instanceof Error ? e.message : "unknown error"}`);
+    } finally {
+      setBusy("");
+      await reloadAll();
     }
-    setNoteType(fail > 0 ? "warn" : "info");
-    const noEmailNote = noEmailNames.length > 0
-      ? ` Note: ${noEmailNames.join(", ")} ha${noEmailNames.length === 1 ? "s" : "ve"} no email — run Hunter lookup to find one before generating drafts.`
-      : "";
-    setNote(`Promoted ${ok} contact${ok !== 1 ? "s" : ""}${fail > 0 ? `, ${fail} failed` : ""}. Now click Generate Today's Queue to draft emails.${noEmailNote}`);
-    await reloadAll();
   }
 
-  // Mark draft/needs_review emails as approved_for_today. Returns false on error.
   async function markApprovedForToday(ids: string[]): Promise<boolean> {
     if (ids.length === 0) return true;
     const { error } = await supabase
@@ -319,37 +495,37 @@ export default function DailyCommandCenterPage() {
 
   async function approveSelectedEmailsForToday() {
     const ids = emailDraftsReady.filter((m) => selectedEmails.has(m.id)).map((m) => m.id);
-    if (ids.length === 0) return setNote("Select email draft(s) first.");
-
+    if (ids.length === 0) return setNote("Select email draft(s) below first.");
     setBusy("approveEmails");
-    const ok = await markApprovedForToday(ids);
-    setBusy("");
-    if (ok) setNote(`Approved ${ids.length} email(s) for today. Click “Approve & Schedule Today” to schedule them.`);
-    await reloadAll();
+    try {
+      const ok = await markApprovedForToday(ids);
+      if (ok) setNote(`Approved ${ids.length} email(s). Click "Approve & Schedule Today" to schedule.`);
+    } finally {
+      setBusy("");
+      await reloadAll();
+    }
   }
 
-  // Approve any selected drafts for today, then schedule ALL approved-for-today
-  // emails across the send window. One click — no per-send approval.
   async function approveAndScheduleToday() {
     setBusy("schedule");
     setNote(null);
-    const selectedIds = emailDraftsReady.filter((m) => selectedEmails.has(m.id)).map((m) => m.id);
-    const ok = await markApprovedForToday(selectedIds);
-    if (!ok) {
-      setBusy("");
-      await reloadAll();
-      return;
-    }
     try {
+      const selectedIds = emailDraftsReady.filter((m) => selectedEmails.has(m.id)).map((m) => m.id);
+      const ok = await markApprovedForToday(selectedIds);
+      if (!ok) return;
       const res = await fetch("/api/schedule-approved-today", { method: "POST" });
       const body = await res.json();
-      setNote(body.ok ? `Scheduled ${body.scheduled} email(s) across today’s window.` : `Schedule failed: ${body.error}`);
+      setNote(
+        body.ok
+          ? `Scheduled ${body.scheduled} email(s) across today's send window.`
+          : `Schedule failed: ${body.error}`
+      );
     } catch (e) {
       setNote(`Schedule failed: ${e instanceof Error ? e.message : "unknown error"}`);
     } finally {
       setBusy("");
+      await reloadAll();
     }
-    await reloadAll();
   }
 
   async function sendDueNow() {
@@ -357,145 +533,402 @@ export default function DailyCommandCenterPage() {
     try {
       const res = await fetch("/api/send-due", { method: "POST" });
       const body = await res.json();
-      setNote(body.ok ? `Sent ${body.sent ?? 0}, failed ${body.failed ?? 0}.` : `Send failed: ${body.error}`);
+      setNote(
+        body.ok
+          ? `Sent ${body.sent ?? 0}, failed ${body.failed ?? 0}.`
+          : `Send failed: ${body.error}`
+      );
     } catch (e) {
       setNote(`Send failed: ${e instanceof Error ? e.message : "unknown error"}`);
     } finally {
       setBusy("");
+      await reloadAll();
     }
-    await reloadAll();
   }
 
   async function skipSelectedEmails() {
     const ids = emailDraftsReady.filter((m) => selectedEmails.has(m.id)).map((m) => m.id);
     if (ids.length === 0) return setNote("Select email draft(s) first.");
     setBusy("skipEmails");
-    const { error } = await supabase
-      .from("messages")
-      .update({ status: "skipped" })
-      .in("id", ids)
-      .in("status", ["draft", "needs_review"]);
-    setBusy("");
-    setNote(error ? `Skip failed: ${error.message}` : `Skipped ${ids.length} draft(s).`);
-    await reloadAll();
+    try {
+      const { error } = await supabase
+        .from("messages")
+        .update({ status: "skipped" })
+        .in("id", ids)
+        .in("status", ["draft", "needs_review"]);
+      setNote(error ? `Skip failed: ${error.message}` : `Skipped ${ids.length} draft(s).`);
+    } finally {
+      setBusy("");
+      await reloadAll();
+    }
   }
 
   async function markEmailsNeedsReview() {
     const ids = emailDraftsReady.filter((m) => selectedEmails.has(m.id)).map((m) => m.id);
     if (ids.length === 0) return setNote("Select email draft(s) first.");
     setBusy("needsReview");
-    const { error } = await supabase.from("messages").update({ status: "needs_review" }).in("id", ids);
-    setBusy("");
-    setNote(error ? `Update failed: ${error.message}` : `Marked ${ids.length} draft(s) as needs review.`);
-    await reloadAll();
-  }
-
-  async function generateTodaysQueue() {
-    setBusy("generate");
-    setNote(null);
     try {
-      const r = await generateTodaysDrafts();
-      if (r.noContacts) {
-        setNoteType("warn");
-        setNote(
-          "No promoted contacts yet — select candidate(s) in the section below and click ‘Promote selected candidates’, then generate drafts again."
-        );
-      } else if (r.made > 0) {
-        setNoteType("info");
-        const skippedNote = r.skipped && describeSkipped(r.skipped) ? ` Skipped: ${describeSkipped(r.skipped)}.` : "";
-        setNote(`Generated ${r.made} draft${r.made !== 1 ? "s" : ""} into Today's Outreach Batch.${skippedNote}`);
-      } else {
-        setNoteType("warn");
-        setNote(r.reason ?? "No new eligible contacts to draft.");
-      }
-    } catch (e) {
-      setNoteType("error");
-      setNote(`Generate failed: ${e instanceof Error ? e.message : "unknown error"}`);
+      const { error } = await supabase.from("messages").update({ status: "needs_review" }).in("id", ids);
+      setNote(error ? `Update failed: ${error.message}` : `Marked ${ids.length} draft(s) as needs review.`);
     } finally {
       setBusy("");
+      await reloadAll();
     }
-    await reloadAll();
   }
 
-  // Best decision-maker contacts first.
-  const candidatesSorted = [...candidates].sort(
-    (a, b) =>
-      scoreBuyerTitle(b.title).score - scoreBuyerTitle(a.title).score ||
-      b.confidence_score - a.confidence_score
-  );
+  // ── Render ────────────────────────────────────────────────────────────────────
+
+  const isBusy = busy !== "";
+
+  // Candidates with no email among selected
+  const selectedNoEmail = candidates
+    .filter((c) => selectedCandidates.has(c.id) && !c.email)
+    .map((c) => c.name ?? "(no name)");
 
   return (
-    <div className="px-6 py-6 max-w-7xl space-y-6">
-      <PageHeader title="Command Center" description="Find, review, approve, and schedule hotel outreach." />
+    <div className="px-6 py-6 max-w-7xl space-y-5">
+      <PageHeader title="Command Center" description="Daily outreach workflow — find, promote, draft, approve, send." />
 
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-3 text-xs">
-          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 ring-1 ring-inset ${settingsFlags.test_mode ? "bg-emerald-500/10 text-emerald-400 ring-emerald-500/20" : "bg-red-500/10 text-red-400 ring-red-500/20"}`}>
-            {settingsFlags.test_mode ? <CheckCircle2 className="h-3 w-3" /> : <XCircle className="h-3 w-3" />} Test mode {settingsFlags.test_mode ? "ON" : "OFF"}
-          </span>
-          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 ring-1 ring-inset ${settingsFlags.require_manual_approval ? "bg-emerald-500/10 text-emerald-400 ring-emerald-500/20" : "bg-red-500/10 text-red-400 ring-red-500/20"}`}>
-            {settingsFlags.require_manual_approval ? <CheckCircle2 className="h-3 w-3" /> : <XCircle className="h-3 w-3" />} Manual approval {settingsFlags.require_manual_approval ? "REQUIRED" : "OFF"}
-          </span>
-          <span className="inline-flex items-center gap-1 rounded-full bg-zinc-800 px-2.5 py-0.5 text-zinc-300">
-            Today&apos;s target: <span className="font-semibold text-zinc-100">{dailyGoal}</span> approved emails
-          </span>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <button onClick={generateTodaysQueue} disabled={busy !== ""} className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/40 px-3 py-1.5 text-xs text-emerald-400 disabled:opacity-40">
-            {busy === "generate" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Mail className="h-3.5 w-3.5" />} Generate Today&apos;s Queue
-          </button>
-          <button onClick={sendDueNow} disabled={busy !== ""} className="inline-flex items-center gap-1.5 rounded-lg bg-amber-600/20 hover:bg-amber-600/40 px-3 py-1.5 text-xs text-amber-400 disabled:opacity-40">
-            <Send className="h-3.5 w-3.5" /> Send Due Now
-          </button>
-          <button onClick={reloadAll} disabled={loading} className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 hover:border-zinc-500 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 disabled:opacity-40">
-            {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />} Refresh
-          </button>
-        </div>
+      {/* Safety badges + target */}
+      <div className="flex flex-wrap items-center gap-2 text-xs">
+        <span
+          className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 ring-1 ring-inset font-medium ${
+            settingsFlags.test_mode
+              ? "bg-emerald-500/10 text-emerald-400 ring-emerald-500/20"
+              : "bg-red-500/10 text-red-400 ring-red-500/20"
+          }`}
+        >
+          {settingsFlags.test_mode ? <CheckCircle2 className="h-3 w-3" /> : <XCircle className="h-3 w-3" />}
+          Test mode {settingsFlags.test_mode ? "ON" : "OFF"}
+        </span>
+        <span
+          className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 ring-1 ring-inset font-medium ${
+            settingsFlags.require_manual_approval
+              ? "bg-emerald-500/10 text-emerald-400 ring-emerald-500/20"
+              : "bg-red-500/10 text-red-400 ring-red-500/20"
+          }`}
+        >
+          {settingsFlags.require_manual_approval ? (
+            <CheckCircle2 className="h-3 w-3" />
+          ) : (
+            <XCircle className="h-3 w-3" />
+          )}
+          Manual approval {settingsFlags.require_manual_approval ? "REQUIRED" : "OFF"}
+        </span>
+        <span className="inline-flex items-center gap-1 rounded-full bg-zinc-800 px-2.5 py-1 text-zinc-300">
+          Daily target: <span className="font-semibold text-zinc-100 ml-0.5">{dailyGoal}</span>
+        </span>
+        <button
+          onClick={reloadAll}
+          disabled={loading}
+          className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 hover:border-zinc-500 px-2.5 py-1 text-zinc-400 hover:text-zinc-200 disabled:opacity-40"
+        >
+          {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <RefreshCw className="h-3 w-3" />}
+          Refresh
+        </button>
       </div>
 
-      {/* Pipeline summary */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
+      {/* Stats row */}
+      <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
         {[
-          { label: "Companies", count: totalCompanies, sub: `${companiesToday.length} researched today`, href: "/companies" },
-          { label: "To review", count: candidates.length, sub: "contact candidates", href: "#sec-candidates" },
-          { label: "Contacts", count: totalContacts, sub: "promoted + manual", href: "/contacts" },
+          {
+            label: "Companies",
+            count: totalCompanies,
+            sub: `${companiesToday.length} today`,
+            href: "/companies",
+          },
+          { label: "To review", count: candidates.length, sub: "candidates", href: "#sec-candidates" },
+          { label: "Contacts", count: totalContacts, sub: "promoted", href: "/contacts" },
           { label: "Drafts", count: emailDraftsReady.length, sub: null, href: "#sec-batch" },
           { label: "Approved", count: approvedAwaitingSchedule.length, sub: null, href: "#sec-scheduled" },
           { label: "Scheduled", count: scheduledSends.length, sub: null, href: "#sec-scheduled" },
-          { label: "Sent", count: sentToday.length, sub: null, href: "#sec-scheduled" },
+          { label: "Sent", count: sentToday.length, sub: "today", href: "#sec-scheduled" },
           { label: "Failed", count: failures.length, sub: null, href: "#sec-failures" },
         ].map((s) => (
-          <a key={s.label} href={s.href} className="rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-3 text-center transition hover:border-zinc-600">
-            <div className="text-xl font-semibold text-zinc-100">{s.count}</div>
-            <div className="text-[11px] uppercase tracking-wide text-zinc-500">{s.label}</div>
-            {s.sub && <div className="text-[10px] text-zinc-600 mt-0.5 leading-tight">{s.sub}</div>}
+          <a
+            key={s.label}
+            href={s.href}
+            className="rounded-xl border border-zinc-800 bg-zinc-900 px-2 py-2.5 text-center transition hover:border-zinc-600"
+          >
+            <div className="text-lg font-semibold text-zinc-100">{s.count}</div>
+            <div className="text-[10px] uppercase tracking-wide text-zinc-500">{s.label}</div>
+            {s.sub && <div className="text-[9px] text-zinc-600 mt-0.5">{s.sub}</div>}
           </a>
         ))}
       </div>
 
-      {note && (
-        <p className={`rounded-lg px-3 py-2 text-xs ${noteType === "error" ? "bg-red-500/10 text-red-400" : noteType === "warn" ? "bg-amber-500/10 text-amber-400" : "bg-zinc-800 text-zinc-300"}`}>
-          {note}
-        </p>
-      )}
-
-      {/* Promote-first workflow banner: candidates exist but nothing promoted yet */}
-      {!loading && candidates.length > 0 && totalContacts === 0 && (
-        <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-xs text-amber-300">
-          <p className="font-semibold mb-1.5">You have {candidates.length} candidate{candidates.length !== 1 ? "s" : ""} but no promoted contacts yet — drafts only generate for promoted contacts.</p>
-          <ol className="list-decimal list-inside space-y-0.5 text-amber-300/90">
-            <li>Review candidates below (<a href="#sec-candidates" className="underline">jump to candidates</a>)</li>
-            <li>Check the good ones and click <span className="font-medium">Promote selected → create contacts</span></li>
-            <li>Click <span className="font-medium">Generate Today&apos;s Queue</span> (top right)</li>
-            <li>Approve and schedule the drafts — nothing sends without your approval</li>
-          </ol>
+      {/* ── NEXT BEST ACTION ─────────────────────────────────────────────────── */}
+      {!loading && (
+        <div className="rounded-lg border border-zinc-700 bg-zinc-900/60 px-4 py-2.5 flex items-center gap-2">
+          <Sparkles className="h-3.5 w-3.5 shrink-0 text-emerald-400" />
+          <span className="text-xs text-zinc-300">
+            <span className="font-semibold text-zinc-100">Next: </span>
+            {nextAction.msg}
+          </span>
+          <span className="ml-auto text-[10px] text-zinc-600 shrink-0">Step {nextAction.step} of 4</span>
         </div>
       )}
 
-      {/* Today's Outreach Batch — the main section */}
+      {/* ── 4-STEP WORKFLOW ──────────────────────────────────────────────────── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+
+        {/* Step 1: Review & Promote */}
+        <div
+          className={`rounded-xl border p-4 flex flex-col gap-3 ${
+            nextAction.step === 1
+              ? "border-emerald-500/40 bg-emerald-500/5"
+              : "border-zinc-800 bg-zinc-900"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Step 1</span>
+            {nextAction.step === 1 && (
+              <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-400 font-medium">
+                Action needed
+              </span>
+            )}
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-zinc-100 flex items-center gap-2">
+              <Users className="h-4 w-4 text-zinc-400" /> Review &amp; Promote
+            </h3>
+            <p className="mt-1 text-xs text-zinc-500">
+              {candidates.length > 0
+                ? `${candidates.length} candidate${candidates.length !== 1 ? "s" : ""} waiting`
+                : totalContacts > 0
+                ? `${totalContacts} contact${totalContacts !== 1 ? "s" : ""} ready`
+                : "No candidates yet — research a company"}
+            </p>
+          </div>
+
+          {selectedCandidates.size > 0 && (
+            <div className="rounded-lg bg-zinc-800/60 px-2.5 py-2 text-[11px] text-zinc-300">
+              <span className="font-medium text-zinc-100">{selectedCandidates.size} selected</span>
+              {selectedNoEmail.length > 0 && (
+                <span className="ml-1 text-amber-400">· {selectedNoEmail.length} no email</span>
+              )}
+            </div>
+          )}
+
+          <div className="flex flex-col gap-1.5 mt-auto">
+            <button
+              onClick={promoteSelectedCandidates}
+              disabled={isBusy || selectedCandidates.size === 0}
+              className="w-full rounded-lg bg-emerald-600/25 hover:bg-emerald-600/40 border border-emerald-600/30 px-3 py-2 text-xs font-medium text-emerald-300 disabled:opacity-40 flex items-center justify-center gap-1.5"
+            >
+              {busy === "promote" ? (
+                <>
+                  <Loader2 className="h-3 w-3 animate-spin" /> Promoting…
+                </>
+              ) : selectedCandidates.size > 0 ? (
+                `Promote ${selectedCandidates.size} selected →`
+              ) : (
+                "Select candidates below ↓"
+              )}
+            </button>
+            {candidates.length > 0 && selectedCandidates.size === 0 && (
+              <a href="#sec-candidates" className="text-center text-[11px] text-zinc-500 hover:text-emerald-400">
+                View {candidates.length} candidate{candidates.length !== 1 ? "s" : ""} ↓
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Step 2: Generate Drafts */}
+        <div
+          className={`rounded-xl border p-4 flex flex-col gap-3 ${
+            nextAction.step === 2
+              ? "border-emerald-500/40 bg-emerald-500/5"
+              : "border-zinc-800 bg-zinc-900"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Step 2</span>
+            {nextAction.step === 2 && (
+              <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-400 font-medium">
+                Action needed
+              </span>
+            )}
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-zinc-100 flex items-center gap-2">
+              <Mail className="h-4 w-4 text-zinc-400" /> Generate Drafts
+            </h3>
+            <p className="mt-1 text-xs text-zinc-500">
+              {totalContacts === 0
+                ? "No contacts — promote candidates first"
+                : emailDraftsReady.length > 0
+                ? `${emailDraftsReady.length} draft${emailDraftsReady.length !== 1 ? "s" : ""} already generated`
+                : `${totalContacts} contact${totalContacts !== 1 ? "s" : ""} ready to draft`}
+            </p>
+            {totalContacts === 0 && (
+              <p className="mt-1 text-[11px] text-amber-400 flex items-center gap-1">
+                <AlertTriangle className="h-3 w-3" /> Complete Step 1 first
+              </p>
+            )}
+          </div>
+
+          <div className="mt-auto">
+            <button
+              onClick={generateTodaysQueue}
+              disabled={isBusy || totalContacts === 0}
+              className="w-full rounded-lg bg-emerald-600/25 hover:bg-emerald-600/40 border border-emerald-600/30 px-3 py-2 text-xs font-medium text-emerald-300 disabled:opacity-40 flex items-center justify-center gap-1.5"
+            >
+              {busy === "generate" ? (
+                <>
+                  <Loader2 className="h-3 w-3 animate-spin" /> Generating…
+                </>
+              ) : (
+                <>
+                  <Mail className="h-3 w-3" /> Generate Today&apos;s Queue
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Step 3: Approve Drafts */}
+        <div
+          className={`rounded-xl border p-4 flex flex-col gap-3 ${
+            nextAction.step === 3
+              ? "border-violet-500/40 bg-violet-500/5"
+              : "border-zinc-800 bg-zinc-900"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Step 3</span>
+            {nextAction.step === 3 && (
+              <span className="rounded-full bg-violet-500/20 px-2 py-0.5 text-[10px] text-violet-400 font-medium">
+                Action needed
+              </span>
+            )}
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-zinc-100 flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-zinc-400" /> Approve Drafts
+            </h3>
+            <p className="mt-1 text-xs text-zinc-500">
+              {emailDraftsReady.length === 0
+                ? "No drafts yet — generate first"
+                : `${emailDraftsReady.length} draft${emailDraftsReady.length !== 1 ? "s" : ""} ready to review`}
+            </p>
+            {selectedEmails.size > 0 && (
+              <p className="mt-1 text-[11px] text-zinc-300">
+                <span className="font-medium text-zinc-100">{selectedEmails.size} selected</span> — approve or schedule
+              </p>
+            )}
+            {emailDraftsReady.length > 0 && selectedEmails.size === 0 && (
+              <p className="mt-1 text-[11px] text-zinc-500">Select drafts below ↓</p>
+            )}
+            <p className="mt-1.5 text-[10px] text-zinc-600">Nothing sends without your approval.</p>
+          </div>
+
+          <div className="flex flex-col gap-1.5 mt-auto">
+            <button
+              onClick={approveSelectedEmailsForToday}
+              disabled={isBusy || selectedEmails.size === 0}
+              className="w-full rounded-lg bg-violet-600/25 hover:bg-violet-600/40 border border-violet-600/30 px-3 py-2 text-xs font-medium text-violet-300 disabled:opacity-40"
+            >
+              {busy === "approveEmails" ? "Approving…" : "Approve selected for today"}
+            </button>
+            <button
+              onClick={approveAndScheduleToday}
+              disabled={isBusy}
+              className="w-full rounded-lg bg-violet-600/15 hover:bg-violet-600/30 border border-violet-600/20 px-3 py-2 text-xs font-medium text-violet-400 disabled:opacity-40"
+            >
+              {busy === "schedule" ? "Scheduling…" : "Approve & Schedule Today"}
+            </button>
+            {emailDraftsReady.length > 0 && selectedEmails.size === 0 && (
+              <a href="#sec-batch" className="text-center text-[11px] text-zinc-500 hover:text-violet-400">
+                View {emailDraftsReady.length} draft{emailDraftsReady.length !== 1 ? "s" : ""} ↓
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Step 4: Send */}
+        <div
+          className={`rounded-xl border p-4 flex flex-col gap-3 ${
+            nextAction.step === 4
+              ? "border-amber-500/40 bg-amber-500/5"
+              : "border-zinc-800 bg-zinc-900"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Step 4</span>
+            {nextAction.step === 4 && (
+              <span className="rounded-full bg-amber-500/20 px-2 py-0.5 text-[10px] text-amber-400 font-medium">
+                Action needed
+              </span>
+            )}
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-zinc-100 flex items-center gap-2">
+              <Send className="h-4 w-4 text-zinc-400" /> Send
+            </h3>
+            <p className="mt-1 text-xs text-zinc-500">
+              {scheduledSends.length > 0
+                ? `${scheduledSends.length} scheduled · ${sentToday.length} sent today`
+                : approvedAwaitingSchedule.length > 0
+                ? `${approvedAwaitingSchedule.length} approved, awaiting schedule`
+                : "No sends scheduled yet"}
+            </p>
+            {settingsFlags.test_mode && (
+              <p className="mt-1 text-[11px] text-emerald-400 flex items-center gap-1">
+                <CheckCircle2 className="h-3 w-3" /> Test mode — sends only to test inbox
+              </p>
+            )}
+          </div>
+
+          <div className="mt-auto">
+            <button
+              onClick={sendDueNow}
+              disabled={isBusy}
+              className="w-full rounded-lg bg-amber-600/20 hover:bg-amber-600/35 border border-amber-600/25 px-3 py-2 text-xs font-medium text-amber-300 disabled:opacity-40 flex items-center justify-center gap-1.5"
+            >
+              {busy === "sendDue" ? (
+                <>
+                  <Loader2 className="h-3 w-3 animate-spin" /> Sending…
+                </>
+              ) : (
+                <>
+                  <Send className="h-3 w-3" /> Send Due Now
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Note */}
+      {note && (
+        <div
+          className={`rounded-lg px-3 py-2 text-xs ${
+            noteType === "error"
+              ? "bg-red-500/10 text-red-400"
+              : noteType === "warn"
+              ? "bg-amber-500/10 text-amber-400"
+              : "bg-zinc-800 text-zinc-300"
+          }`}
+        >
+          {note}
+        </div>
+      )}
+
+      {/* ── DETAIL SECTIONS ──────────────────────────────────────────────────── */}
+      <p className="pt-1 text-[11px] font-semibold uppercase tracking-wide text-zinc-600">
+        Detailed queues — select items here, then use the step buttons above
+      </p>
+
+      {/* Today's Outreach Batch */}
       <section id="sec-batch" className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 scroll-mt-4">
-        <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2"><Mail className="h-4 w-4" /> Today&apos;s Outreach Batch ({emailDraftsReady.length})</h2>
-        <p className="text-xs text-zinc-600 mt-1">Approve one batch in the morning. Nothing sends until you approve and schedule.</p>
+        <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2">
+          <Mail className="h-4 w-4" /> Today&apos;s Outreach Batch ({emailDraftsReady.length})
+        </h2>
+        <p className="text-xs text-zinc-600 mt-0.5">
+          Select drafts, then use Step 3 buttons above to approve. Nothing sends without approval.
+        </p>
+
         <div className="mt-3 space-y-2 max-h-[30rem] overflow-auto">
           {emailDraftsReady.map((m) => {
             const ct = m.contacts;
@@ -505,23 +938,38 @@ export default function DailyCommandCenterPage() {
             return (
               <div key={m.id} className="rounded-lg bg-zinc-800/50 px-3 py-2 text-xs text-zinc-400">
                 <div className="flex items-start gap-2">
-                  <input type="checkbox" checked={selectedEmails.has(m.id)} onChange={() => toggleEmail(m.id)} className="mt-0.5" />
+                  <input
+                    type="checkbox"
+                    checked={selectedEmails.has(m.id)}
+                    onChange={() => toggleEmail(m.id)}
+                    className="mt-0.5"
+                  />
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="text-zinc-200 font-medium">{fullName}</span>
-                      <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] ring-1 ring-inset ${TIER_BADGE[buyer.tier]}`}>{TIER_LABEL[buyer.tier]}</span>
-                      <span className="rounded-full bg-zinc-700/50 px-2 py-0.5 text-[10px] text-zinc-300">{m.status}</span>
+                      <span
+                        className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] ring-1 ring-inset ${TIER_BADGE[buyer.tier]}`}
+                      >
+                        {TIER_LABEL[buyer.tier]}
+                      </span>
+                      <span className="rounded-full bg-zinc-700/50 px-2 py-0.5 text-[10px] text-zinc-300">
+                        {m.status}
+                      </span>
                     </div>
-                    <div>{ct?.title ? `${ct.title} · ` : ""}{ct?.companies?.name ?? "Unknown"}</div>
-                    <div className="truncate">{ct?.email ?? "no email"} · source: {ct?.source ?? "—"}</div>
-                    <div className="text-zinc-500">Reason selected: {buyer.label} ({TIER_LABEL[buyer.tier]})</div>
+                    <div>
+                      {ct?.title ? `${ct.title} · ` : ""}
+                      {ct?.companies?.name ?? "Unknown"}
+                    </div>
+                    <div className="truncate">
+                      {ct?.email ?? "no email"} · source: {ct?.source ?? "—"}
+                    </div>
                     <div className="mt-1 text-zinc-300">Angle: {m.subject ?? "(no subject)"}</div>
                     <button
                       type="button"
                       onClick={() => setExpandedMsgId(expanded ? null : m.id)}
                       className="mt-1 text-[11px] text-emerald-400 hover:text-emerald-300"
                     >
-                      {expanded ? "Hide draft preview" : "Show draft preview"}
+                      {expanded ? "Hide draft" : "Show draft"}
                     </button>
                     {expanded && (
                       <pre className="mt-2 max-h-72 overflow-auto whitespace-pre-wrap rounded-lg bg-zinc-950/70 p-3 text-[11px] leading-relaxed text-zinc-300">
@@ -534,200 +982,295 @@ export default function DailyCommandCenterPage() {
             );
           })}
           {emailDraftsReady.length === 0 && (
-            <div className="rounded-lg border border-dashed border-zinc-700 px-4 py-5 text-xs text-zinc-500 space-y-2">
-              <p className="text-center">No drafts yet.</p>
-              <ol className="list-decimal list-inside space-y-1 text-zinc-600 text-[11px]">
-                <li>In <span className="text-zinc-400">Contact candidates</span> below, check a candidate and click <span className="text-emerald-400">Promote selected candidates</span> — this creates a real contact.</li>
-                <li>Then click <span className="text-emerald-400">Generate Today&apos;s Queue</span> above to draft emails for promoted contacts.</li>
-                <li>Approve and schedule the batch. Nothing sends until you approve.</li>
-              </ol>
-              {totalContacts > 0 && (
-                <p className="text-center text-zinc-600 pt-1">{totalContacts} contact{totalContacts !== 1 ? "s" : ""} in DB — click <span className="text-emerald-400">Generate Today&apos;s Queue</span> to draft for eligible contacts.</p>
-              )}
+            <div className="rounded-lg border border-dashed border-zinc-700 px-4 py-5 text-center text-xs text-zinc-600">
+              {totalContacts > 0
+                ? `${totalContacts} contact${totalContacts !== 1 ? "s" : ""} ready — click Generate Today's Queue (Step 2 above).`
+                : "No drafts yet — complete Step 1 (promote) then Step 2 (generate)."}
             </div>
           )}
         </div>
+
         <div className="mt-3 flex flex-wrap gap-2">
-          <button onClick={approveSelectedEmailsForToday} disabled={busy !== ""} className="rounded-lg bg-emerald-600/20 hover:bg-emerald-600/40 px-3 py-1.5 text-xs text-emerald-400 disabled:opacity-40">Approve selected for today</button>
-          <button onClick={approveAndScheduleToday} disabled={busy !== ""} className="rounded-lg bg-violet-600/20 hover:bg-violet-600/40 px-3 py-1.5 text-xs text-violet-400 disabled:opacity-40">Approve &amp; Schedule Today</button>
-          <button onClick={markEmailsNeedsReview} disabled={busy !== ""} className="rounded-lg bg-zinc-700 hover:bg-zinc-600 px-3 py-1.5 text-xs text-zinc-200 disabled:opacity-40">Mark needs review</button>
-          <button onClick={skipSelectedEmails} disabled={busy !== ""} className="rounded-lg bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 text-xs text-zinc-400 disabled:opacity-40">Skip selected</button>
+          <button
+            onClick={markEmailsNeedsReview}
+            disabled={isBusy}
+            className="rounded-lg bg-zinc-700 hover:bg-zinc-600 px-3 py-1.5 text-xs text-zinc-200 disabled:opacity-40"
+          >
+            Mark needs review
+          </button>
+          <button
+            onClick={skipSelectedEmails}
+            disabled={isBusy}
+            className="rounded-lg bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 text-xs text-zinc-400 disabled:opacity-40"
+          >
+            Skip selected
+          </button>
         </div>
       </section>
 
-      <h2 className="pt-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">Research &amp; candidates</h2>
-
+      {/* Research & Candidates */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+        {/* Companies researched today */}
         <section id="sec-companies" className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 scroll-mt-4">
-          <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2"><CalendarDays className="h-4 w-4" /> Companies researched today ({companiesToday.length})</h2>
-          <div className="mt-3 space-y-2 max-h-64 overflow-auto">
+          <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2">
+            <CalendarDays className="h-4 w-4" /> Companies researched today ({companiesToday.length})
+          </h2>
+          <div className="mt-3 space-y-2 max-h-48 overflow-auto">
             {companiesToday.map((c) => (
               <div key={c.id} className="rounded-lg bg-zinc-800/50 px-3 py-2 text-xs text-zinc-400">
                 <div className="text-zinc-200 font-medium">{c.name}</div>
-                <div>{c.market ?? "—"} · score {c.company_score ?? "—"}</div>
+                <div>
+                  {c.market ?? "—"} · score {c.company_score ?? "—"}
+                </div>
               </div>
             ))}
-            {companiesToday.length === 0 && <p className="text-xs text-zinc-600">No companies yet → research a company in <span className="text-zinc-400">Companies</span> to start.</p>}
+            {companiesToday.length === 0 && (
+              <p className="text-xs text-zinc-600">
+                None today —{" "}
+                <NextLink href="/companies" className="text-zinc-400 hover:text-emerald-400">
+                  research a company
+                </NextLink>{" "}
+                to surface contact candidates.
+              </p>
+            )}
           </div>
         </section>
 
+        {/* Contact candidates */}
         <section id="sec-candidates" className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 scroll-mt-4">
-          <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2"><Users className="h-4 w-4" /> Contact candidates needing review ({candidates.length})</h2>
-          <p className="text-xs text-zinc-600 mt-1">
-            Sorted with buyer decision-makers first. <span className="text-amber-400">Promote</span> a candidate to create a contact — then generate drafts above.
+          <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2">
+            <Users className="h-4 w-4" /> Contact candidates needing review ({candidates.length})
+          </h2>
+          <p className="text-xs text-zinc-600 mt-0.5">
+            Check candidates, then click Step 1 button above to promote them into real contacts.
           </p>
           <div className="mt-3 space-y-2 max-h-64 overflow-auto">
             {candidatesSorted.map((c) => {
               const buyer = scoreBuyerTitle(c.title);
               const hasEmail = !!c.email;
               return (
-              <label key={c.id} className="block rounded-lg bg-zinc-800/50 px-3 py-2 text-xs text-zinc-400 cursor-pointer">
-                <div className="flex items-start gap-2">
-                  <input type="checkbox" checked={selectedCandidates.has(c.id)} onChange={() => toggleCandidate(c.id)} className="mt-0.5" />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-zinc-200 font-medium">{c.name ?? "(no name)"}</span>
-                      <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] ring-1 ring-inset ${TIER_BADGE[buyer.tier]}`}>{TIER_LABEL[buyer.tier]}</span>
-                      {hasEmail
-                        ? (!c.name || (c.email_status ?? "").includes("generic") || c.recommended_channel === "generic_email")
-                          ? <span className="rounded-full bg-sky-500/10 text-sky-400 ring-1 ring-inset ring-sky-500/20 px-2 py-0.5 text-[10px]">generic email</span>
-                          : <span className="rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/20 px-2 py-0.5 text-[10px]">has email</span>
-                        : <span className="rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/20 px-2 py-0.5 text-[10px]">no email — Hunter needed</span>
-                      }
-                      {c.source_type && <span className="rounded-full bg-zinc-700/40 px-2 py-0.5 text-[10px] text-zinc-400">{c.source_type}</span>}
+                <label
+                  key={c.id}
+                  className="block rounded-lg bg-zinc-800/50 px-3 py-2 text-xs text-zinc-400 cursor-pointer"
+                >
+                  <div className="flex items-start gap-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedCandidates.has(c.id)}
+                      onChange={() => toggleCandidate(c.id)}
+                      className="mt-0.5"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-zinc-200 font-medium">{c.name ?? "(no name)"}</span>
+                        <span
+                          className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] ring-1 ring-inset ${TIER_BADGE[buyer.tier]}`}
+                        >
+                          {TIER_LABEL[buyer.tier]}
+                        </span>
+                        {hasEmail ? (
+                          <span className="rounded-full bg-emerald-500/10 text-emerald-400 ring-1 ring-inset ring-emerald-500/20 px-2 py-0.5 text-[10px]">
+                            has email
+                          </span>
+                        ) : (
+                          <span className="rounded-full bg-amber-500/10 text-amber-400 ring-1 ring-inset ring-amber-500/20 px-2 py-0.5 text-[10px]">
+                            no email — Hunter needed
+                          </span>
+                        )}
+                        {c.source_type && (
+                          <span className="rounded-full bg-zinc-700/40 px-2 py-0.5 text-[10px] text-zinc-400">
+                            {c.source_type}
+                          </span>
+                        )}
+                      </div>
+                      <div>
+                        {c.title ? `${c.title} · ` : ""}
+                        {c.companies?.name ?? "Unknown"}
+                      </div>
+                      <div>
+                        conf {c.confidence_score} ·{" "}
+                        <span className="text-zinc-300">{actionLabel(c.recommended_action)}</span>
+                      </div>
                     </div>
-                    <div>{c.title ? `${c.title} · ` : ""}{c.companies?.name ?? "Unknown"}</div>
-                    <div>conf {c.confidence_score} · <span className="text-zinc-300">{actionLabel(c.recommended_action)}</span></div>
-                    {c.source_url && <div className="truncate text-zinc-600">{c.source_url}</div>}
                   </div>
-                </div>
-              </label>
+                </label>
               );
             })}
-            {candidates.length === 0 && <p className="text-xs text-zinc-600">No candidates yet → run Firecrawl research on a company to surface contacts.</p>}
+            {candidates.length === 0 && (
+              <p className="text-xs text-zinc-600">
+                No candidates — run research on a company to surface contacts.
+              </p>
+            )}
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
             <button
-              onClick={promoteSelectedCandidates}
-              disabled={busy !== "" || selectedCandidates.size === 0}
-              className="rounded-lg bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-600/30 px-3 py-1.5 text-xs font-medium text-emerald-300 disabled:opacity-40"
+              onClick={skipSelectedCandidates}
+              disabled={isBusy}
+              className="rounded-lg bg-zinc-700 hover:bg-zinc-600 px-3 py-1.5 text-xs text-zinc-200 disabled:opacity-40"
             >
-              {busy === "promote" ? <span className="flex items-center gap-1"><Loader2 className="h-3 w-3 animate-spin" />Promoting…</span> : `Promote selected → create contact${selectedCandidates.size > 1 ? "s" : ""}`}
+              Skip selected
             </button>
-            <button onClick={skipSelectedCandidates} disabled={busy !== ""} className="rounded-lg bg-zinc-700 hover:bg-zinc-600 px-3 py-1.5 text-xs text-zinc-200 disabled:opacity-40">Skip selected</button>
           </div>
-          {selectedCandidates.size > 0 && (
-            <p className="mt-2 text-[11px] text-zinc-500">
-              {selectedCandidates.size} selected — promote to create contacts, then click <span className="text-emerald-400">Generate Today&apos;s Queue</span> to draft emails.
-            </p>
-          )}
         </section>
 
+        {/* Hunter queue */}
         <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-4">
-          <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2"><Search className="h-4 w-4" /> Hunter lookup queue ({hunterQueue.length})</h2>
-          <p className="text-xs text-zinc-600 mt-1">Manual only. Hunter never runs unless you approve.</p>
-          <div className="mt-3 space-y-2 max-h-64 overflow-auto">
+          <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2">
+            <Search className="h-4 w-4" /> Hunter lookup queue ({hunterQueue.length})
+          </h2>
+          <p className="text-xs text-zinc-600 mt-0.5">Manual only — Hunter never runs unless you approve.</p>
+          <div className="mt-3 space-y-2 max-h-48 overflow-auto">
             {hunterQueue.map((c) => (
               <div key={c.id} className="rounded-lg bg-zinc-800/50 px-3 py-2 text-xs text-zinc-400">
-                <div className="text-zinc-200 font-medium">{c.name ?? "(no name)"} {c.email ? `· ${c.email}` : ""}</div>
-                <div>{c.companies?.name ?? "Unknown"} · status {c.email_status ?? "—"} · action {c.recommended_action ?? "—"}</div>
+                <div className="text-zinc-200 font-medium">
+                  {c.name ?? "(no name)"} {c.email ? `· ${c.email}` : ""}
+                </div>
+                <div>
+                  {c.companies?.name ?? "Unknown"} · {c.email_status ?? "—"}
+                </div>
               </div>
             ))}
-            {hunterQueue.length === 0 && <p className="text-xs text-zinc-600">No hunter lookups queued.</p>}
+            {hunterQueue.length === 0 && (
+              <p className="text-xs text-zinc-600">No Hunter lookups queued.</p>
+            )}
           </div>
           <div className="mt-3">
-            <button onClick={approveSelectedHunterLookups} disabled={busy !== ""} className="rounded-lg bg-sky-600/20 hover:bg-sky-600/40 px-3 py-1.5 text-xs text-sky-400 disabled:opacity-40">Approve selected Hunter lookups</button>
+            <button
+              onClick={approveSelectedHunterLookups}
+              disabled={isBusy}
+              className="rounded-lg bg-sky-600/20 hover:bg-sky-600/40 px-3 py-1.5 text-xs text-sky-400 disabled:opacity-40"
+            >
+              {busy === "hunter" ? "Running…" : "Approve selected Hunter lookups"}
+            </button>
           </div>
         </section>
 
+        {/* LinkedIn drafts */}
         <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-4">
-          <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2"><Link className="h-4 w-4" /> LinkedIn drafts ready ({linkedInDraftsReady.length})</h2>
-          <div className="mt-3 space-y-2 max-h-56 overflow-auto">
+          <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2">
+            <LinkIcon className="h-4 w-4" /> LinkedIn drafts ready ({linkedInDraftsReady.length})
+          </h2>
+          <div className="mt-3 space-y-2 max-h-48 overflow-auto">
             {linkedInDraftsReady.map((c) => (
               <div key={c.id} className="rounded-lg bg-zinc-800/50 px-3 py-2 text-xs text-zinc-400">
                 <div className="text-zinc-200 font-medium">{c.name ?? "(no name)"}</div>
-                <div>{c.title ?? "—"} · {c.companies?.name ?? "Unknown"}</div>
+                <div>
+                  {c.title ?? "—"} · {c.companies?.name ?? "Unknown"}
+                </div>
               </div>
             ))}
-            {linkedInDraftsReady.length === 0 && <p className="text-xs text-zinc-600">No LinkedIn drafts queued.</p>}
+            {linkedInDraftsReady.length === 0 && (
+              <p className="text-xs text-zinc-600">No LinkedIn drafts queued.</p>
+            )}
           </div>
         </section>
 
+        {/* Contact form tasks */}
         <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-4">
-          <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2"><ClipboardList className="h-4 w-4" /> Contact form tasks ready ({contactFormTasksReady.length})</h2>
-          <div className="mt-3 space-y-2 max-h-56 overflow-auto">
+          <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2">
+            <ClipboardList className="h-4 w-4" /> Contact form tasks ({contactFormTasksReady.length})
+          </h2>
+          <div className="mt-3 space-y-2 max-h-48 overflow-auto">
             {contactFormTasksReady.map((c) => (
               <div key={c.id} className="rounded-lg bg-zinc-800/50 px-3 py-2 text-xs text-zinc-400">
                 <div className="text-zinc-200 font-medium">{c.companies?.name ?? "Unknown"}</div>
                 <div className="truncate">{c.source_url ?? c.source_excerpt ?? "No URL"}</div>
               </div>
             ))}
-            {contactFormTasksReady.length === 0 && <p className="text-xs text-zinc-600">No contact form tasks queued.</p>}
+            {contactFormTasksReady.length === 0 && (
+              <p className="text-xs text-zinc-600">No contact form tasks queued.</p>
+            )}
           </div>
         </section>
 
+        {/* Scheduled / sent */}
         <section id="sec-scheduled" className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 scroll-mt-4">
-          <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2"><Send className="h-4 w-4" /> Scheduled &amp; sent today ({scheduledSends.length} scheduled · {sentToday.length} sent)</h2>
+          <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2">
+            <Send className="h-4 w-4" /> Scheduled &amp; sent ({scheduledSends.length} scheduled ·{" "}
+            {sentToday.length} sent)
+          </h2>
           {approvedAwaitingSchedule.length > 0 && (
-            <p className="mt-1 text-xs text-violet-400">{approvedAwaitingSchedule.length} approved, awaiting schedule — click “Approve &amp; Schedule Today”.</p>
+            <p className="mt-1 text-xs text-violet-400">
+              {approvedAwaitingSchedule.length} approved, awaiting schedule — use Step 3 above.
+            </p>
           )}
-          <div className="mt-3 space-y-2 max-h-56 overflow-auto">
+          <div className="mt-3 space-y-2 max-h-48 overflow-auto">
             {scheduledSends.map((m) => (
               <div key={m.id} className="rounded-lg bg-zinc-800/50 px-3 py-2 text-xs text-zinc-400">
                 <div className="text-zinc-200 font-medium">{m.subject ?? "(no subject)"}</div>
-                <div>{m.scheduled_send_at ? new Date(m.scheduled_send_at).toLocaleString() : "pending schedule"}</div>
+                <div>
+                  {m.scheduled_send_at
+                    ? new Date(m.scheduled_send_at).toLocaleString()
+                    : "pending schedule"}
+                </div>
               </div>
             ))}
             {sentToday.map((m) => (
               <div key={m.id} className="rounded-lg bg-emerald-500/5 px-3 py-2 text-xs text-zinc-400">
-                <div className="text-zinc-200 font-medium">{m.subject ?? "(no subject)"} <span className="text-emerald-400">· sent</span></div>
+                <div className="text-zinc-200 font-medium">
+                  {m.subject ?? "(no subject)"}{" "}
+                  <span className="text-emerald-400">· sent</span>
+                </div>
                 <div>{m.sent_at ? new Date(m.sent_at).toLocaleString() : ""}</div>
               </div>
             ))}
             {scheduledSends.length === 0 && sentToday.length === 0 && (
-              <p className="text-xs text-zinc-600">No scheduled sends → approve and schedule today&apos;s batch above.</p>
+              <p className="text-xs text-zinc-600">No sends today — approve and schedule above.</p>
             )}
-          </div>
-          <div className="mt-3">
-            <button onClick={sendDueNow} disabled={busy !== ""} className="rounded-lg bg-amber-600/20 hover:bg-amber-600/40 px-3 py-1.5 text-xs text-amber-400 disabled:opacity-40">Send Due Now</button>
           </div>
         </section>
 
+        {/* Failures / opt-outs */}
         <section id="sec-failures" className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 scroll-mt-4 xl:col-span-2">
-          <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2"><MessageSquareWarning className="h-4 w-4" /> Replies / opt-outs / failures ({contactIssues.length + failures.length})</h2>
+          <h2 className="text-sm font-semibold text-zinc-200 flex items-center gap-2">
+            <MessageSquareWarning className="h-4 w-4" /> Replies / opt-outs / failures (
+            {contactIssues.length + failures.length})
+          </h2>
           <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
               <p className="text-xs text-zinc-500 mb-2">Contact-level</p>
-              <div className="space-y-2 max-h-64 overflow-auto">
+              <div className="space-y-2 max-h-48 overflow-auto">
                 {contactIssues.map((c) => (
                   <div key={c.id} className="rounded-lg bg-zinc-800/50 px-3 py-2 text-xs text-zinc-400">
-                    <div className="text-zinc-200 font-medium">{c.first_name} {c.last_name} · {c.companies?.name ?? "Unknown"}</div>
-                    <div>{c.email ?? "no email"} · {c.status ?? "—"} {c.replied_at ? "· replied" : ""} {c.email_opt_out ? "· opted out" : ""} {c.bounced ? "· bounced" : ""}</div>
+                    <div className="text-zinc-200 font-medium">
+                      {c.first_name} {c.last_name} · {c.companies?.name ?? "Unknown"}
+                    </div>
+                    <div>
+                      {c.email ?? "no email"} · {c.status ?? "—"}
+                      {c.replied_at ? " · replied" : ""}
+                      {c.email_opt_out ? " · opted out" : ""}
+                      {c.bounced ? " · bounced" : ""}
+                    </div>
                   </div>
                 ))}
-                {contactIssues.length === 0 && <p className="text-xs text-zinc-600">No contact issues.</p>}
+                {contactIssues.length === 0 && (
+                  <p className="text-xs text-zinc-600">No contact issues.</p>
+                )}
               </div>
             </div>
             <div>
               <p className="text-xs text-zinc-500 mb-2">Message-level</p>
-              <div className="space-y-2 max-h-64 overflow-auto">
+              <div className="space-y-2 max-h-48 overflow-auto">
                 {failures.map((m) => (
                   <div key={m.id} className="rounded-lg bg-zinc-800/50 px-3 py-2 text-xs text-zinc-400">
                     <div className="text-zinc-200 font-medium">{m.subject ?? "(no subject)"}</div>
                     <div>status: {m.status}</div>
                   </div>
                 ))}
-                {failures.length === 0 && <p className="text-xs text-zinc-600">No message failures/replies recorded.</p>}
+                {failures.length === 0 && (
+                  <p className="text-xs text-zinc-600">No failures recorded.</p>
+                )}
               </div>
             </div>
           </div>
         </section>
       </div>
 
+      {/* Loading overlay */}
       {loading && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-zinc-300 inline-flex items-center gap-2">
-            <Loader2 className="h-4 w-4 animate-spin" /> Loading daily queues…
+            <Loader2 className="h-4 w-4 animate-spin" /> Loading…
           </div>
         </div>
       )}

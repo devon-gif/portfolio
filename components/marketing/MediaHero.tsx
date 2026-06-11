@@ -4,7 +4,7 @@ import { GOLD_GRADIENT, HERO_VIDEO_CINEMATIC } from "./media";
 
 /**
  * Above-the-fold hero: eyebrow + headline, subhead, cinematic video, dual CTAs.
- * Primary CTA: "Get 5 Free Sample Assets" — used everywhere, never changed.
+ * Primary CTA: "Get 5 Free Sample Assets", used everywhere, never changed.
  */
 export function MediaHero() {
   return (
@@ -17,14 +17,15 @@ export function MediaHero() {
         <h1 className="mt-3 max-w-[880px] font-serif text-[clamp(34px,5.4vw,60px)] font-semibold leading-[0.96] tracking-[-0.01em] text-[#F6F1E7]">
           Your hotel group&apos;s creative team,{" "}
           <span className="bg-clip-text text-transparent" style={{ backgroundImage: GOLD_GRADIENT }}>
-            without the $90K hire.
+            without adding headcount.
           </span>
         </h1>
 
         <p className="mx-auto mt-4 max-w-[680px] text-[clamp(13px,1.3vw,16px)] leading-relaxed text-[#A9A092]">
-          Social content, short-form motion, and local SEO for hotel groups, management companies,
-          and multi-property brands. 13.9M+ impressions delivered for hospitality clients, using
-          the photos and assets your properties already have.
+          Archer Design gives hotels, restaurants, spas, resorts, and hospitality groups ongoing
+          creative support: social graphics, short-form motion, campaign visuals, F&amp;B and event
+          promotions, photo polishing, and optional local SEO, without another full-time creative
+          hire or a large agency retainer.
         </p>
 
         {/* Large cinematic hero video with a soft golden glow + thin gold border */}
@@ -48,7 +49,7 @@ export function MediaHero() {
               preload="metadata"
               aria-label="Archer Design hospitality creative showreel"
               onError={(e) =>
-                console.error(`[MediaHero] hero video failed — src: ${HERO_VIDEO_CINEMATIC}`, e)
+                console.error(`[MediaHero] hero video failed, src: ${HERO_VIDEO_CINEMATIC}`, e)
               }
             >
               <source src={HERO_VIDEO_CINEMATIC} type="video/mp4" />
@@ -63,18 +64,18 @@ export function MediaHero() {
             className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
             style={{ background: GOLD_GRADIENT }}
           >
-            Get 5 Free Sample Assets <span aria-hidden>→</span>
+            Request a 3–5 Property Pilot <span aria-hidden>→</span>
           </a>
           <a
-            href="#work"
+            href="#packages"
             className="rounded-xl border border-[rgba(201,164,76,0.24)] bg-[rgba(5,5,5,0.28)] px-6 py-3.5 text-sm font-semibold text-[#E8D7A2] transition hover:-translate-y-0.5 hover:border-[#C9A44C] hover:bg-[rgba(201,164,76,0.06)]"
           >
-            See the work →
+            View Proof &amp; Packages →
           </a>
         </div>
 
         <p className="mt-3 text-[13px] text-[#A9A092]">
-          No call required. No card. Send your existing photos and get 5 finished pieces in 7 days.
+          13.9M+ impressions &middot; 543K+ engagements &middot; 3.6M+ reach &middot; 2.4K+ assets delivered
         </p>
 
         <p className="mt-4 flex items-center gap-2 text-[13px] text-[#A9A092]">

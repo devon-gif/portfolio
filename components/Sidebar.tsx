@@ -4,36 +4,21 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
-  CalendarDays,
-  Building2,
-  Users,
-  Users2,
-  FileText,
   Bell,
   Settings,
   MessageSquare,
-  ShieldOff,
-  FlaskConical,
-  Briefcase,
-  TrendingUp,
+  Target,
   LogOut,
 } from "lucide-react";
 import clsx from "clsx";
 import { supabase } from "@/lib/supabase";
 
+// Simplified nav — full route list still exists, just hidden from sidebar.
 const NAV = [
-  { href: "/dashboard",    label: "Dashboard",       icon: LayoutDashboard },
-  { href: "/daily",        label: "Command Center",   icon: CalendarDays },
-  { href: "/growth",       label: "Growth",           icon: TrendingUp },
-  { href: "/companies",    label: "Companies",        icon: Building2 },
-  { href: "/contacts",     label: "Contacts",         icon: Users },
-  { href: "/candidates",   label: "Candidates",       icon: FlaskConical },
-  { href: "/hiring-signals", label: "Hiring Signals", icon: Briefcase },
-  { href: "/messages",     label: "Messages",         icon: MessageSquare },
-  { href: "/partners",     label: "Partners",         icon: Users2 },
-  { href: "/templates",    label: "Templates",        icon: FileText },
-  { href: "/followups",    label: "Follow-ups",       icon: Bell },
-  { href: "/suppression",  label: "Suppression",      icon: ShieldOff },
+  { href: "/dashboard",  label: "Dashboard",   icon: LayoutDashboard },
+  { href: "/prospects",  label: "Prospects",   icon: Target },
+  { href: "/messages",   label: "Messages",    icon: MessageSquare },
+  { href: "/followups",  label: "Follow-ups",  icon: Bell },
 ];
 
 export function Sidebar() {

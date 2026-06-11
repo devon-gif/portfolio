@@ -12,13 +12,13 @@ type Pkg = {
   ctaHref: string;
 };
 
-// Group offer leads. Spa + restaurant starters get a compact footer row.
+// Group offer leads. Spa + restaurant get a compact footer row.
 const PACKAGES: Pkg[] = [
   {
     id: "group",
     name: "Hospitality Group Partnership",
-    price: "Custom quote",
-    note: "5+ properties",
+    price: "Starting at $10,000/mo",
+    note: "Multi-property groups & management companies",
     badge: "Built for hotel groups & management companies",
     featured: true,
     features: [
@@ -26,33 +26,34 @@ const PACKAGES: Pkg[] = [
       "Portfolio-wide brand consistency with property-level customization",
       "Group-level monthly creative plan and reporting",
       "Priority turnaround across all properties",
+      "Optional quarterly campaign planning sessions",
       "One partner, one invoice, every property covered",
     ],
-    ctaLabel: "Book a 20-Minute Portfolio Call →",
+    ctaLabel: "Book a Portfolio Strategy Call →",
     // TODO(devon): Replace with your real Calendly or booking link.
     ctaHref: "/contact",
   },
   {
     id: "hotel-seo",
-    name: "Hotel Creative + SEO Bundle",
-    price: "Starting at $3,999/mo",
-    note: "Up to 3 properties",
+    name: "Creative + Local SEO System",
+    price: "Starting at $7,500/mo",
+    note: "Monthly creative plus local search visibility",
     features: [
-      "Everything in the Hotel Creative System",
+      "Everything in the 3-Property Creative System",
       "Google Business Profile content support",
       "Local landing page copy recommendations",
       "Monthly SEO content",
       "Metadata, title & description recommendations",
       "FAQ and review-response support",
     ],
-    ctaLabel: "Get 5 Free Sample Assets →",
+    ctaLabel: "Request 5 Sample Assets →",
     ctaHref: "/contact",
   },
   {
     id: "hotel-creative",
-    name: "Hotel Creative System",
-    price: "Starting at $1,999/mo",
-    note: "Up to 3 properties",
+    name: "3-Property Creative System",
+    price: "Starting at $4,500/mo",
+    note: "Small hotel groups & management companies",
     features: [
       "Social graphics",
       "Short-form motion pieces",
@@ -61,9 +62,24 @@ const PACKAGES: Pkg[] = [
       "Meeting, wedding & event graphics",
       "Captions included with every asset",
       "Monthly creative plan",
-      "Built entirely from your existing assets",
     ],
-    ctaLabel: "Get 5 Free Sample Assets →",
+    ctaLabel: "Request 5 Sample Assets →",
+    ctaHref: "/contact",
+  },
+  {
+    id: "single",
+    name: "Single Property Creative System",
+    price: "$2,500/mo",
+    note: "One hotel, restaurant, spa, resort, or event property",
+    features: [
+      "Social graphics",
+      "Short-form motion pieces",
+      "F&B and event promos",
+      "Seasonal campaign visuals",
+      "Captions included with every asset",
+      "Monthly creative plan",
+    ],
+    ctaLabel: "Request 5 Sample Assets →",
     ctaHref: "/contact",
   },
 ];
@@ -78,16 +94,17 @@ export function PackageCards() {
             Packages
           </span>
           <h2 className="mt-3 font-serif text-[clamp(28px,4vw,46px)] font-semibold leading-tight text-[#F6F1E7]">
-            Clear monthly packages, built from your existing assets.
+            Clear monthly packages for hospitality properties.
           </h2>
           <p className="mt-4 text-[#A9A092]">
-            Start with the properties you have. Scale as your portfolio grows. No paid ad
-            management, no account-management fees, just creative output, delivered monthly.
+            Fixed monthly creative support across social, motion, F&amp;B, and events. Most
+            partnerships start monthly and can scale based on seasonality, property count, and
+            campaign volume.
           </p>
         </div>
 
-        {/* Main cards: group, hotel+seo, hotel creative */}
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+        {/* Main cards */}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {PACKAGES.map((p) => (
             <div
               key={p.id}
@@ -138,23 +155,23 @@ export function PackageCards() {
         {/* Compact spa + restaurant row */}
         <div className="mt-6 glass-card rounded-2xl p-6">
           <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[#A9A092]">
-            Also supporting independent spas and restaurants
+            Focused monthly creative support for independent spas and restaurants
           </p>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-8">
             <div className="text-[15px] text-[#D8CFBE]">
-              <span className="font-semibold text-[#F6F1E7]">Spa &amp; wellness creative</span> from{" "}
-              <span className="text-[#C9A44C] font-semibold">$499/mo</span>
+              <span className="font-semibold text-[#F6F1E7]">Spa &amp; wellness creative</span>{" "}
+              <span className="text-[#C9A44C] font-semibold">$1,250/mo</span>
               <span className="mx-2 text-[#A9A092]">→</span>
               <a href="/contact" className="text-[#C9A44C] underline-offset-2 hover:underline">
-                See spa packages
+                Inquire
               </a>
             </div>
             <div className="text-[15px] text-[#D8CFBE]">
               <span className="font-semibold text-[#F6F1E7]">Restaurant &amp; F&amp;B creative</span>{" "}
-              from <span className="text-[#C9A44C] font-semibold">$399/mo</span>
+              <span className="text-[#C9A44C] font-semibold">$1,500/mo</span>
               <span className="mx-2 text-[#A9A092]">→</span>
               <a href="/contact" className="text-[#C9A44C] underline-offset-2 hover:underline">
-                See restaurant packages
+                Inquire
               </a>
             </div>
           </div>
