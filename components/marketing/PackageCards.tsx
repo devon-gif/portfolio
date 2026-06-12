@@ -168,29 +168,58 @@ export function PackageCards() {
           ))}
         </div>
 
-        {/* Compact spa + restaurant row */}
-        <div className="mt-6 glass-card rounded-2xl p-6">
+        {/* Small-property tiers: spa + restaurant cards */}
+        <div className="mt-6">
           <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-[#A9A092]">
             Focused monthly creative support for independent spas and restaurants
           </p>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-8">
-            <div className="text-[15px] text-[#D8CFBE]">
-              <span className="font-semibold text-[#F6F1E7]">Spa &amp; wellness creative</span>{" "}
-              <span className="text-[#C9A44C] font-semibold">$1,250/mo</span>
-              <span className="mx-2 text-[#A9A092]">→</span>
-              <a href="/contact" className="text-[#C9A44C] underline-offset-2 hover:underline">
-                Inquire
-              </a>
-            </div>
-            <div className="text-[15px] text-[#D8CFBE]">
-              <span className="font-semibold text-[#F6F1E7]">Restaurant &amp; F&amp;B creative</span>{" "}
-              <span className="text-[#C9A44C] font-semibold">$1,500/mo</span>
-              <span className="mx-2 text-[#A9A092]">→</span>
-              <a href="/contact" className="text-[#C9A44C] underline-offset-2 hover:underline">
-                Inquire
-              </a>
-            </div>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {[
+              {
+                name: "Spa & wellness creative",
+                price: "$1,250/mo",
+                note: "Calm, premium creative for spas and wellness brands",
+                features: ["Service & treatment promos", "Seasonal wellness campaigns", "Soft-motion content", "Captions included"],
+              },
+              {
+                name: "Restaurant & F&B creative",
+                price: "$1,500/mo",
+                note: "Menu, specials, and event creative that fills covers",
+                features: ["Menu features & specials", "Bar program & event promos", "Short-form food motion", "Captions included"],
+              },
+            ].map((p) => (
+              <div
+                key={p.name}
+                className="glass-card flex h-full flex-col rounded-2xl p-6 transition duration-300 hover:-translate-y-0.5 hover:border-[#C9A44C] hover:shadow-[0_0_44px_rgba(201,164,76,0.10)]"
+              >
+                <div className="mb-3 h-px w-full bg-[linear-gradient(90deg,rgba(201,164,76,0.55),transparent)]" />
+                <h3 className="font-serif text-lg text-[#F6F1E7]">{p.name}</h3>
+                <div className="mt-1.5 font-serif text-xl text-[#C9A44C]">{p.price}</div>
+                <div className="mt-1 text-[13px] text-[#A9A092]">{p.note}</div>
+                <ul className="mt-4 flex-1 space-y-1.5 text-[14px] text-[#A9A092]">
+                  {p.features.map((f) => (
+                    <li key={f} className="relative pl-5">
+                      <span className="absolute left-0 top-[7px] text-[9px] text-[#C9A44C]">◆</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href="/contact"
+                  className="mt-5 rounded-full border border-[rgba(201,164,76,0.24)] bg-[rgba(5,5,5,0.26)] px-5 py-2.5 text-center text-sm font-semibold text-[#E8D7A2] transition hover:-translate-y-0.5 hover:border-[#C9A44C] hover:bg-[rgba(201,164,76,0.08)]"
+                >
+                  Inquire →
+                </a>
+              </div>
+            ))}
           </div>
+          <p className="mt-4 text-center text-[13px] text-[#A9A092]">
+            Independent property?{" "}
+            <a href="/#sprint" className="text-[#E8D7A2] underline underline-offset-4 hover:text-[#F6F1E7]">
+              Start with a $950 Sprint
+            </a>{" "}
+            and credit it toward your first month.
+          </p>
         </div>
       </div>
     </section>

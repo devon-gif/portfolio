@@ -13,6 +13,7 @@ import { PackagePathCards } from "@/components/marketing/PackagePathCards";
 import { RetainerValueSection } from "@/components/marketing/RetainerValueSection";
 import { PackageCards } from "@/components/marketing/PackageCards";
 import { TrialCTA } from "@/components/marketing/TrialCTA";
+import { StarterSprintSection } from "@/components/marketing/StarterSprintSection";
 import { BeforeAfterSection } from "@/components/marketing/BeforeAfterSection";
 import { FitSection } from "@/components/marketing/FitSection";
 import { AdminLink } from "@/components/AdminLink";
@@ -80,6 +81,11 @@ const FAQ = [
     open: false,
   },
   {
+    q: "What's the difference between the free samples and the Starter Sprint?",
+    a: "The 5 free sample assets are a small taste — enough to judge quality on your brand. The Starter Sprint is a full working engagement: 15 finished assets, a real campaign's worth of creative, delivered in 7 days. It's the fastest way to experience what a monthly partnership feels like, and the full $950 is credited toward your first month if you continue.",
+    open: false,
+  },
+  {
     q: "Can you prove the creative drove bookings?",
     a: "We track what creative can honestly claim: impressions, engagement, reach, profile actions, and direct response to promoted offers and events. Across our hospitality clients, that's 13.9M+ impressions and 543K+ direct engagements to date. Direct booking attribution depends on your property's tracking setup, and during onboarding we'll recommend simple ways (links, codes, GBP tracking) to connect creative to revenue.",
     open: false,
@@ -141,6 +147,7 @@ export default function ArcherDesignHome() {
           <nav className="flex items-center gap-7 text-sm text-[#A9A092]">
             <a href="#work" className="hidden hover:text-[#F6F1E7] sm:inline">Work</a>
             <a href="#packages" className="hidden hover:text-[#F6F1E7] sm:inline">Packages</a>
+            <a href="#sprint" className="hidden hover:text-[#F6F1E7] sm:inline">Sprint</a>
             <a href="#trial" className="hidden hover:text-[#F6F1E7] sm:inline">Samples</a>
             <a
               href="/contact"
@@ -247,6 +254,12 @@ export default function ArcherDesignHome() {
           <div className="gold-divider opacity-25" />
         </div>
 
+        {/* Sample assets (free) — first rung of the ladder */}
+        <TrialCTA />
+
+        {/* Starter Sprint (paid pilot) — second rung */}
+        <StarterSprintSection />
+
         {/* Package navigation cards (Hotels / Spas / Restaurants) */}
         <PackagePathCards />
 
@@ -255,8 +268,6 @@ export default function ArcherDesignHome() {
 
         {/* Qualification: best fit / not a fit */}
         <FitSection />
-
-        <TrialCTA />
 
         {/* FAQ */}
         <section className="px-6 py-20">
@@ -300,12 +311,12 @@ export default function ArcherDesignHome() {
         </div>
 
         <p className="mt-4 font-serif text-[clamp(18px,2.4vw,26px)] text-[#F6F1E7]">
-          Your properties deserve creative as strong as the experience.{" "}
+          Your properties already have the raw material.{" "}
           <span
             className="bg-clip-text text-transparent"
             style={{ backgroundImage: GOLD_GRADIENT }}
           >
-            Let&apos;s build it.
+            Let&apos;s show you what it can do.
           </span>
         </p>
 

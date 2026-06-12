@@ -531,7 +531,7 @@ export default function DailyCommandCenterPage() {
   async function sendDueNow() {
     setBusy("sendDue");
     try {
-      const res = await fetch("/api/send-due", { method: "POST" });
+      const res = await fetch(`/api/send-due?key=${process.env.NEXT_PUBLIC_CRON_KEY ?? ""}`, { method: "POST" });
       const body = await res.json();
       setNote(
         body.ok
