@@ -1,4 +1,5 @@
 import { getAdminClient, isAdminConfigured } from "@/lib/supabase-admin";
+import { getEffectiveDailyLimit } from "@/lib/ramp";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,7 +36,8 @@ export async function POST() {
   const admin = getAdminClient();
 
   const { data: settings } = await admin.from("app_settings").select("*").limit(1).single();
-  const dailyLimit = clampLimit(settings?.daily_send_limit, 20);
+  const limitInfo = await getEffectiveDailyLimit(admin, settings ?? null);
+  const dailyLimit = limitInfo.effectiveDailyLimit;
   const startHour = intOr(settings?.send_window_start_hour, 9);
   const endHour = intOr(settings?.send_window_end_hour, 17);
   const batchMin = Math.max(1, intOr(settings?.batch_size_min, 3));
@@ -59,7 +61,7 @@ export async function POST() {
 
   const remaining = Math.max(0, dailyLimit - (pending ?? 0) - (sentToday ?? 0));
   if (remaining === 0) {
-    return Response.json({ ok: true, scheduled: 0, message: "Daily limit already reached.", daily_limit: dailyLimit });
+    return Response.json({ ok: true, scheduled: 0, message: "Daily limit already reached.", daily_limit: dailyLimit, ramp: limitInfo });
   }
 
   // Approved emails awaiting scheduling, oldest first, capped to the remaining budget.
@@ -73,7 +75,7 @@ export async function POST() {
 
   if (error) return Response.json({ ok: false, error: error.message }, { status: 500 });
   if (!approved?.length) {
-    return Response.json({ ok: true, scheduled: 0, message: "No approved-for-today emails to schedule.", daily_limit: dailyLimit });
+    return Response.json({ ok: true, scheduled: 0, message: "No approved-for-today emails to schedule.", daily_limit: dailyLimit, ramp: limitInfo });
   }
 
   // Walk today's window assigning scheduled_send_at in randomized batches.
@@ -117,6 +119,7 @@ export async function POST() {
     ok: true,
     scheduled,
     daily_limit: dailyLimit,
+    ramp: limitInfo,
     window: { start_hour: startHour, end_hour: endHour },
   });
 }

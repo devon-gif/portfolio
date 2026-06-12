@@ -3,6 +3,7 @@
 // records the result. Server-only.
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { checkContactEligibility, isSuppressed, sendEmail } from "./sending";
+import { nextSendAt, TOTAL_DRIP_STEPS } from "./sequence";
 import {
   finalizeEmailBody,
   generateUnsubscribeToken,
@@ -172,7 +173,44 @@ export async function sendMessageById(
     })
     .eq("id", messageId);
 
-  await admin.from("contacts").update({ last_contacted_at: now, status: "sent" }).eq("id", message.contact_id);
+  const rawSequenceStep = message.sequence_step;
+  const sequenceStep =
+    typeof rawSequenceStep === "number"
+      ? rawSequenceStep
+      : Number.isFinite(Number(rawSequenceStep))
+        ? Number(rawSequenceStep)
+        : 0;
+
+  if (sequenceStep > 0) {
+    const nextDue = nextSendAt(sequenceStep, new Date(now));
+
+    if (sequenceStep >= TOTAL_DRIP_STEPS || !nextDue) {
+      await admin
+        .from("contacts")
+        .update({
+          last_contacted_at: now,
+          status: "sent",
+          sequence_step: sequenceStep,
+          sequence_status: "completed",
+          sequence_completed_at: now,
+          next_step_due_at: null,
+        })
+        .eq("id", message.contact_id);
+    } else {
+      await admin
+        .from("contacts")
+        .update({
+          last_contacted_at: now,
+          status: "sent",
+          sequence_step: sequenceStep,
+          sequence_status: "active",
+          next_step_due_at: nextDue.toISOString(),
+        })
+        .eq("id", message.contact_id);
+    }
+  } else {
+    await admin.from("contacts").update({ last_contacted_at: now, status: "sent" }).eq("id", message.contact_id);
+  }
 
   return { ok: true, message_id: messageId, resend_email_id: resendId };
 }

@@ -1,5 +1,6 @@
 import { getAdminClient, isAdminConfigured } from "@/lib/supabase-admin";
 import { sendMessageById, countSentToday } from "@/lib/send-core";
+import { getEffectiveDailyLimit } from "@/lib/ramp";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -40,7 +41,8 @@ async function runSendDue() {
   const admin = getAdminClient();
 
   const { data: settings } = await admin.from("app_settings").select("*").limit(1).single();
-  const dailyLimit = clampLimit(settings?.daily_send_limit, 20);
+  const limitInfo = await getEffectiveDailyLimit(admin, settings ?? null);
+  const dailyLimit = limitInfo.effectiveDailyLimit;
   const perRunCap = Math.max(1, intOr(settings?.batch_size_max, 8));
 
   const sentToday = await countSentToday(admin);
@@ -52,6 +54,7 @@ async function runSendDue() {
       failed: 0,
       message: "Daily limit reached.",
       daily_limit: dailyLimit,
+      ramp: limitInfo,
     });
   }
 
@@ -85,7 +88,7 @@ async function runSendDue() {
     else failed++;
   }
 
-  return Response.json({ ok: true, sent, failed, daily_limit: dailyLimit, results });
+  return Response.json({ ok: true, sent, failed, daily_limit: dailyLimit, ramp: limitInfo, results });
 }
 
 // GET — used by cron services (Vercel Cron and most external schedulers call GET).
