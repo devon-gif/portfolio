@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Archer Design — Luxury Hospitality Creative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070706; --bg2:#0B0B0A; --card:#11100E; --card2:#17140F;
+    --gold:#C9A44C; --soft-gold:#E8D7A2; --ivory:#F6F1E7; --muted:#A9A092;
+    --border:rgba(201,164,76,0.24);
+    --grad:linear-gradient(135deg,#E8D7A2,#C9A44C,#8B6A21);
+    --serif:'Cormorant Garamond',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ivory);font-family:var(--sans);line-height:1.6;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  .eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.1;color:var(--ivory)}
+  h1{font-size:clamp(38px,6vw,72px)}
+  h2{font-size:clamp(28px,4vw,46px)}
+  h3{font-size:22px}
+  p.lead{color:var(--muted);font-size:clamp(16px,1.6vw,19px);max-width:60ch}
+  .btn{display:inline-block;padding:14px 26px;border-radius:999px;font-weight:600;font-size:15px;
+    transition:.25s;cursor:pointer;border:1px solid transparent}
+  .btn-primary{background:var(--grad);color:#1a1407;box-shadow:0 6px 30px rgba(201,164,76,.22)}
+  .btn-primary:hover{box-shadow:0 8px 40px rgba(201,164,76,.4);transform:translateY(-1px)}
+  .btn-ghost{border-color:var(--border);color:var(--soft-gold);background:transparent}
+  .btn-ghost:hover{border-color:var(--gold);background:rgba(201,164,76,.06)}
+  section{padding:96px 0;border-top:1px solid rgba(201,164,76,.08)}
+  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+
+  /* header */
+  header{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
+    background:rgba(7,7,6,.72);border-bottom:1px solid rgba(201,164,76,.1)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:1160px;margin:0 auto}
+  .logo{font-family:var(--serif);font-size:24px;letter-spacing:.04em}
+  .logo b{color:var(--gold);font-weight:700}
+  .nav-links{display:flex;gap:28px;align-items:center;font-size:14px;color:var(--muted)}
+  .nav-links a:hover{color:var(--ivory)}
+  .nav .btn{padding:10px 18px}
+  @media(max-width:760px){.nav-links a:not(.btn){display:none}}
+
+  /* hero */
+  .hero{position:relative;text-align:center;padding:120px 0 100px;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-260px;left:50%;transform:translateX(-50%);
+    width:900px;height:900px;background:radial-gradient(circle,rgba(201,164,76,.16),transparent 60%);pointer-events:none}
+  .hero h1{margin:18px auto 22px;max-width:18ch}
+  .hero p.lead{margin:0 auto 34px;text-align:center}
+  .hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .availability{margin-top:22px;font-size:13px;color:var(--muted)}
+  .availability .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold);
+    margin-right:8px;box-shadow:0 0 10px var(--gold)}
+
+  /* proof strip */
+  .proof{background:var(--bg2)}
+  .metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;text-align:center}
+  .metric .num{font-family:var(--serif);font-size:clamp(28px,3.4vw,42px);color:var(--gold)}
+  .metric .lbl{font-size:12.5px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+  .proof .cap{text-align:center;color:var(--muted);font-size:14px;margin-top:34px}
+  @media(max-width:760px){.metrics{grid-template-columns:repeat(2,1fr);gap:28px}}
+
+  /* generic grid cards */
+  .grid{display:grid;gap:20px}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:880px){.g3,.g2{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px;transition:.25s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 14px 50px rgba(0,0,0,.5),0 0 0 1px rgba(201,164,76,.2)}
+  .sec-head{margin-bottom:40px}
+  .sec-head h2{margin:12px 0 14px}
+
+  /* portfolio */
+  .work{aspect-ratio:4/3;border-radius:16px;border:1px solid var(--border);
+    background:linear-gradient(160deg,#1a1611,#0d0c0a);display:flex;align-items:flex-end;padding:20px;
+    position:relative;overflow:hidden}
+  .work::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 20%,rgba(201,164,76,.16),transparent 55%)}
+  .work span{position:relative;font-family:var(--serif);font-size:20px}
+  .chip{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft-gold);
+    border:1px solid var(--border);border-radius:999px;padding:5px 11px;margin:4px 6px 0 0}
+
+  /* cost compare */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:8px}
+  @media(max-width:760px){.compare{grid-template-columns:1fr}}
+  .compare .hire{background:var(--card2);border:1px solid rgba(169,160,146,.18)}
+  .compare .system{background:linear-gradient(160deg,#1b1610,#100e0a);border:1px solid var(--gold);
+    box-shadow:0 0 50px rgba(201,164,76,.12)}
+  .compare h3{margin-bottom:14px}
+  .compare ul{list-style:none;color:var(--muted);font-size:15px}
+  .compare li{padding:6px 0 6px 20px;position:relative}
+  .compare li::before{content:"—";position:absolute;left:0;color:var(--gold)}
+  .compare .price{font-family:var(--serif);font-size:26px;color:var(--gold);margin-top:14px}
+  .compare-close{text-align:center;font-family:var(--serif);font-size:clamp(22px,3vw,34px);margin-top:40px;color:var(--ivory)}
+
+  /* packages */
+  .pkg-group-title{font-family:var(--serif);font-size:22px;color:var(--soft-gold);margin:34px 0 16px}
+  .pkg{display:flex;flex-direction:column;height:100%}
+  .pkg .price{font-family:var(--serif);font-size:30px;color:var(--gold);margin:6px 0 2px}
+  .pkg .for{font-size:13px;color:var(--muted);margin-bottom:14px}
+  .pkg ul{list-style:none;font-size:14.5px;color:var(--muted);flex:1}
+  .pkg li{padding:5px 0 5px 20px;position:relative}
+  .pkg li::before{content:"◆";position:absolute;left:0;color:var(--gold);font-size:9px;top:9px}
+  .pkg .btn{margin-top:20px;text-align:center}
+  .pkg.featured{border-color:transparent;background:
+    linear-gradient(var(--card),var(--card)) padding-box,var(--grad) border-box;border:1.5px solid transparent;
+    box-shadow:0 0 50px rgba(201,164,76,.15)}
+  .pkg .tag{align-self:flex-start;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:#1a1407;background:var(--grad);border-radius:999px;padding:4px 12px;margin-bottom:12px;font-weight:700}
+
+  /* what we create / who for */
+  .feat{display:flex;gap:14px}
+  .feat .ico{flex:0 0 38px;height:38px;border-radius:10px;border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;color:var(--gold)}
+  .feat h3{font-size:18px;margin-bottom:4px}
+  .feat p{font-size:14px;color:var(--muted)}
+  .who{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:760px){.who{grid-template-columns:1fr 1fr}}
+  .who div{border:1px solid var(--border);border-radius:12px;padding:16px 18px;font-size:15px;background:var(--card)}
+  .who div::before{content:"◆ ";color:var(--gold);font-size:10px}
+
+  /* trial */
+  .trial{background:var(--bg2)}
+  .trial-box{max-width:760px;margin:0 auto;text-align:center;background:linear-gradient(160deg,#161109,#0d0c0a);
+    border:1px solid var(--gold);border-radius:22px;padding:48px 36px;box-shadow:0 0 60px rgba(201,164,76,.13)}
+  .trial-box h2{margin-bottom:16px}
+  .trial-list{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:24px 0 30px}
+  .trial-list span{font-size:13px;color:var(--soft-gold);border:1px solid var(--border);
+    border-radius:999px;padding:7px 14px}
+
+  /* process */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:step}
+  @media(max-width:760px){.steps{grid-template-columns:1fr}}
+  .step{counter-increment:step}
+  .step .n{font-family:var(--serif);font-size:34px;color:var(--gold)}
+  .step .n::before{content:"0" counter(step)}
+  .step h3{font-size:18px;margin:8px 0 6px}
+  .step p{font-size:14px;color:var(--muted)}
+
+  /* faq */
+  .faq details{border-bottom:1px solid var(--border);padding:18px 0}
+  .faq summary{cursor:pointer;font-family:var(--serif);font-size:20px;color:var(--ivory);list-style:none;
+    display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";color:var(--gold);font-size:24px}
+  .faq details[open] summary::after{content:"–"}
+  .faq p{color:var(--muted);font-size:15px;margin-top:12px;max-width:75ch}
+
+  /* final cta */
+  .final{text-align:center;position:relative;overflow:hidden}
+  .final-box{position:relative;border-radius:24px;padding:64px 32px;
+    background:linear-gradient(160deg,#1a140b,#0c0b09);
+    border:1.5px solid transparent;background-clip:padding-box;
+    box-shadow:0 0 0 1.5px rgba(201,164,76,.4),0 0 70px rgba(201,164,76,.14)}
+  .final h2{margin-bottom:16px}
+  .final .studio{margin-top:40px;font-size:13.5px;color:var(--muted);max-width:60ch;margin-left:auto;margin-right:auto}
+  footer{padding:40px 0;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid rgba(201,164,76,.1)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">Archer<b>Design</b></div>
+    <nav class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#packages">Packages</a>
+      <a href="#trial">7-Day Trial</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn-primary" href="#trial">Request a 7-Day Trial</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Hospitality Creative Studio</div>
+    <h1>Luxury hospitality creative, without adding headcount.</h1>
+    <p class="lead">Archer Design helps hotels, spas, restaurants, and hospitality groups turn existing property photos, menus, events, and seasonal campaigns into polished social graphics, short-form motion, SEO content, and branded marketing assets — for a fraction of the cost of building an in-house creative team.</p>
+    <div class="ctas">
+      <a class="btn btn-primary" href="#trial">Request a 7-Day Trial</a>
+      <a class="btn btn-ghost" href="#packages">View Packages</a>
+    </div>
+    <div class="availability"><span class="dot"></span>Available for monthly hospitality creative support.</div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="proof">
+  <div class="wrap">
+    <div class="metrics">
+      <div class="metric"><div class="num">13.9M+</div><div class="lbl">Impressions</div></div>
+      <div class="metric"><div class="num">543K+</div><div class="lbl">Direct engagements</div></div>
+      <div class="metric"><div class="num">3.6M+</div><div class="lbl">Unique reach</div></div>
+      <div class="metric"><div class="num">11K+</div><div class="lbl">Organic shares</div></div>
+      <div class="metric"><div class="num">2.4K+</div><div class="lbl">Assets deployed</div></div>
+    </div>
+    <p class="cap">Created for hospitality brands including Hotel Indigo Pittsburgh, Hampton Inn properties, Eliza Hot Metal Bistro, and spa &amp; wellness clients.</p>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Recent work</div>
+      <h2>Built from assets clients already have.</h2>
+      <p class="lead">Property and lifestyle graphics, F&amp;B and event promos, short-form motion, and seasonal campaigns — refined into ready-to-post creative.</p>
+    </div>
+    <div class="grid g3">
+      <div class="work"><span>Hotel Indigo Pittsburgh</span></div>
+      <div class="work"><span>Hampton Inn properties</span></div>
+      <div class="work"><span>Eliza Hot Metal Bistro</span></div>
+    </div>
+    <div style="margin-top:18px">
+      <span class="chip">Social graphics</span><span class="chip">Short-form motion</span>
+      <span class="chip">F&amp;B &amp; events</span><span class="chip">Spa &amp; wellness</span><span class="chip">Seasonal campaigns</span>
+    </div>
+  </div>
+</section>
+
+<!-- COST COMPARE -->
+<section>
+  <div class="wrap">
+    <div class="sec-head" style="text-align:center">
+      <div class="eyebrow">The math</div>
+      <h2>One hire can cost more than an entire creative system.</h2>
+      <p class="lead" style="margin:0 auto">A single in-house designer, social manager, or videographer carries salary, benefits, software, recruiting, and management — often six figures a year before a single post goes live. Archer Design gives you that output as a monthly system, with none of the overhead.</p>
+    </div>
+    <div class="compare">
+      <div class="card hire">
+        <h3>One in-house creative hire</h3>
+        <ul>
+          <li>Salary + benefits + payroll tax</li>
+          <li>Software &amp; tooling</li>
+          <li>Recruiting &amp; onboarding</li>
+          <li>Management &amp; ramp-up time</li>
+        </ul>
+        <div class="price">$70K–$110K+/yr</div>
+        <div class="for" style="margin-top:6px">Loaded cost, one role.</div>
+      </div>
+      <div class="card system">
+        <h3>Archer Design creative system</h3>
+        <ul>
+          <li>Full creative cadence across your properties</li>
+          <li>From existing assets — no shoots</li>
+          <li>No payroll, benefits, or software to carry</li>
+          <li>You keep the strategy in-house</li>
+        </ul>
+        <div class="price">$399–$3,999/mo</div>
+        <div class="for" style="margin-top:6px">Monthly, scalable, cancel-friendly.</div>
+      </div>
+    </div>
+    <p class="compare-close">Lower overhead, more consistent output — and you keep the strategy in-house.</p>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages">
+  <div class="wrap">
+    <div class="sec-head" style="text-align:center">
+      <div class="eyebrow">Packages</div>
+      <h2>Clear monthly packages, built from your assets.</h2>
+      <p class="lead" style="margin:0 auto">Start small, scale by property. Custom quotes for groups. All packages use your existing assets — no paid ad management or account management included.</p>
+    </div>
+
+    <div class="pkg-group-title">Hotels</div>
+    <div class="grid g3">
+      <div class="card pkg">
+        <h3>Hotel Creative System</h3>
+        <div class="price">$1,999<span style="font-size:15px;color:var(--muted)">/mo</span></div>
+        <div class="for">For up to 3 properties</div>
+        <ul>
+          <li>Social graphics</li><li>Short-form motion pieces</li><li>F&amp;B / event promos</li>
+          <li>Seasonal campaign visuals</li><li>Meeting / wedding / event graphics</li>
+          <li>Light caption support</li><li>Monthly creative plan</li><li>Existing assets only</li>
+        </ul>
+        <a class="btn btn-ghost" href="#trial">Request a 7-Day Trial</a>
+      </div>
+      <div class="card pkg">
+        <h3>Hotel SEO Add-On</h3>
+        <div class="price">+$1,499<span style="font-size:15px;color:var(--muted)">/mo</span></div>
+        <div class="for">For up to 3 properties · pairs with the Creative System</div>
+        <ul>
+          <li>Google Business Profile content support</li><li>Local landing / page copy recommendations</li>
+          <li>Monthly SEO content</li><li>Metadata / title / description recommendations</li>
+          <li>FAQ / review-response support</li>
+        </ul>
+        <a class="btn btn-ghost" href="#trial">Add SEO</a>
+      </div>
+      <div class="card pkg featured">
+        <div class="tag">Best for groups</div>
+        <h3>Hotel Creative + SEO Bundle</h3>
+        <div class="price">$3,999<span style="font-size:15px;color:var(--muted)">/mo</span></div>
+        <div class="for">For up to 3 properties</div>
+        <ul>
+          <li>Everything in the Creative System</li><li>Everything in the SEO Add-On</li>
+          <li>One coordinated monthly plan</li><li>Consistent social + local search support</li>
+        </ul>
+        <a class="btn btn-primary" href="#trial">Request a 7-Day Trial</a>
+      </div>
+    </div>
+
+    <div class="pkg-group-title">Spa &amp; Wellness</div>
+    <div class="grid g3">
+      <div class="card pkg">
+        <h3>Spa Social Starter</h3>
+        <div class="price">$499<span style="font-size:15px;color:var(--muted)">/mo</span></div>
+        <div class="for">Spa &amp; wellness</div>
+        <ul><li>Service promos</li><li>Treatment / wellness visuals</li><li>Social graphics</li><li>Light motion pieces</li><li>Seasonal campaigns</li></ul>
+        <a class="btn btn-ghost" href="#trial">Request a 7-Day Trial</a>
+      </div>
+      <div class="card pkg">
+        <h3>Spa Social + SEO</h3>
+        <div class="price">$999<span style="font-size:15px;color:var(--muted)">/mo</span></div>
+        <div class="for">Spa &amp; wellness</div>
+        <ul><li>Everything in Spa Social Starter</li><li>Google Business Profile support</li><li>Local SEO / service page recommendations</li><li>Monthly local content</li></ul>
+        <a class="btn btn-ghost" href="#trial">Request a 7-Day Trial</a>
+      </div>
+      <div class="card pkg">
+        <h3>Custom Hospitality Group</h3>
+        <div class="price">Quote</div>
+        <div class="for">For 5+ properties</div>
+        <ul><li>Multi-property creative across the portfolio</li><li>Optional SEO across locations</li><li>One point of contact, one plan</li><li>Groups, management cos, resort &amp; restaurant groups</li></ul>
+        <a class="btn btn-ghost" href="#trial">Request a Quote</a>
+      </div>
+    </div>
+
+    <div class="pkg-group-title">Restaurants</div>
+    <div class="grid g2">
+      <div class="card pkg">
+        <h3>Restaurant Social Starter</h3>
+        <div class="price">$399<span style="font-size:15px;color:var(--muted)">/mo</span></div>
+        <div class="for">Restaurants &amp; F&amp;B</div>
+        <ul><li>Menu features</li><li>Specials</li><li>Event promos</li><li>Short-form motion</li><li>Social graphics</li></ul>
+        <a class="btn btn-ghost" href="#trial">Request a 7-Day Trial</a>
+      </div>
+      <div class="card pkg">
+        <h3>Restaurant Social + Local SEO</h3>
+        <div class="price">$699<span style="font-size:15px;color:var(--muted)">/mo</span></div>
+        <div class="for">Restaurants &amp; F&amp;B</div>
+        <ul><li>Everything in Restaurant Social Starter</li><li>Google Business Profile support</li><li>Menu / local search improvements</li><li>One monthly content piece</li></ul>
+        <a class="btn btn-ghost" href="#trial">Request a 7-Day Trial</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE CREATE -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><div class="eyebrow">What we create</div><h2>One studio for the creative you actually need each month.</h2></div>
+    <div class="grid g3">
+      <div class="card feat"><div class="ico">◇</div><div><h3>Social graphics</h3><p>Property, room, lifestyle, and brand posts that stay on-brand.</p></div></div>
+      <div class="card feat"><div class="ico">▶</div><div><h3>Short-form motion</h3><p>Reels and vertical video built from existing photos and clips.</p></div></div>
+      <div class="card feat"><div class="ico">✦</div><div><h3>F&amp;B &amp; event promos</h3><p>Menu features, specials, private dining, weddings, meetings.</p></div></div>
+      <div class="card feat"><div class="ico">❉</div><div><h3>Spa &amp; wellness</h3><p>Treatment and seasonal campaigns with a calm, premium feel.</p></div></div>
+      <div class="card feat"><div class="ico">◷</div><div><h3>Seasonal campaigns</h3><p>Coordinated pushes for each season and local moment.</p></div></div>
+      <div class="card feat"><div class="ico">⌖</div><div><h3>SEO content</h3><p>Google Business Profile support, local page copy, metadata, FAQs.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO FOR -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><div class="eyebrow">Who it's for</div><h2>Great spaces and assets — not enough creative bandwidth.</h2></div>
+    <div class="who">
+      <div>Hotels &amp; boutique properties</div>
+      <div>Hotel management companies &amp; groups</div>
+      <div>Spas &amp; wellness centers</div>
+      <div>Restaurants &amp; F&amp;B groups</div>
+      <div>Wedding &amp; event venues</div>
+      <div>Resorts with seasonal campaigns</div>
+    </div>
+    <p class="lead" style="margin-top:24px">If your photos and spaces are strong but your feed runs hot and cold, that's the gap we fill.</p>
+  </div>
+</section>
+
+<!-- TRIAL -->
+<section id="trial" class="trial">
+  <div class="wrap">
+    <div class="trial-box">
+      <div class="eyebrow">7-Day / 5-Asset Trial</div>
+      <h2>Try 5 finished pieces before committing.</h2>
+      <p class="lead" style="margin:0 auto">Send us your existing property photos, menu items, event details, spa services, seasonal campaign, or brand assets. Within 7 days, we'll create 5 polished sample assets so you can see the quality before deciding on a monthly package.</p>
+      <div class="trial-list">
+        <span>Free test</span><span>5 finished assets</span><span>Delivered in 7 days</span>
+        <span>Existing assets only</span><span>No paid ads or account management</span><span>One light round of feedback</span>
+      </div>
+      <a class="btn btn-primary" href="#">Request a 7-Day Trial</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><div class="eyebrow">How it works</div><h2>Simple, monthly, and off your plate.</h2></div>
+    <div class="steps">
+      <div class="step"><div class="n"></div><h3>Share your assets</h3><p>Existing photos, menus, event details, brand files. No shoots required.</p></div>
+      <div class="step"><div class="n"></div><h3>We build a plan</h3><p>A simple creative cadence mapped to your seasons and properties.</p></div>
+      <div class="step"><div class="n"></div><h3>You review</h3><p>One light round of feedback per cycle.</p></div>
+      <div class="step"><div class="n"></div><h3>Post consistently</h3><p>Finished, on-brand assets delivered on schedule.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap" style="max-width:860px">
+    <div class="sec-head"><div class="eyebrow">FAQ</div><h2>Good questions.</h2></div>
+    <div class="faq">
+      <details open><summary>Do you need us to do a photo or video shoot?</summary><p>No. We work from the assets you already have — property photos, menus, event content, brand files. That's what keeps it efficient and affordable.</p></details>
+      <details><summary>What exactly do we get each month?</summary><p>A consistent set of finished, on-brand assets — social graphics, short-form motion, F&amp;B/event promos, and seasonal campaigns — plus a simple monthly plan. SEO packages add local search content. Exact volume depends on the package.</p></details>
+      <details><summary>How is this cheaper than hiring someone?</summary><p>One in-house creative hire carries salary, benefits, software, recruiting, and management — usually six figures a year, loaded. A monthly package gives you the output without any of that overhead.</p></details>
+      <details><summary>Do you manage our social accounts or run ads?</summary><p>No. We create the content; you (or your team) post it. Paid ad management and full account management aren't included.</p></details>
+      <details><summary>How does the 7-day trial work?</summary><p>Send your existing assets and we'll create 5 finished sample pieces within 7 days — free, with one light round of feedback — so you can judge the quality before committing.</p></details>
+      <details><summary>Can you support multiple properties or a whole group?</summary><p>Yes. The hotel packages cover up to 3 properties; for 5+ we build a custom group package with one plan and one point of contact.</p></details>
+      <details><summary>Who actually does the work?</summary><p>Led by Devon Archer, Archer Design operates as a lean hospitality creative studio — strategy, design, motion, and SEO support without agency bloat.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="wrap">
+    <div class="final-box">
+      <div class="eyebrow">Let's begin</div>
+      <h2>Ready to see what your existing assets could become?</h2>
+      <p class="lead" style="margin:0 auto">Send us what you already have. We'll turn it into 5 finished pieces in 7 days — no commitment.</p>
+      <div style="margin-top:28px"><a class="btn btn-primary" href="#">Request a 7-Day Trial</a></div>
+      <p class="studio">Led by Devon Archer, Archer Design operates as a lean hospitality creative studio — strategy, design, motion, and SEO support without agency bloat.</p>
+    </div>
+  </div>
+</section>
+
+<footer>© Archer Design — Luxury hospitality creative, without adding headcount.</footer>
+
+</body>
+</html>

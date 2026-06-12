@@ -213,6 +213,21 @@ export const SPRINT_TEMPLATES: SprintTemplate[] = [
     body: "Absolutely. The short version: Archer Design gives hospitality groups a fixed monthly creative system — social graphics, short-form motion, campaign visuals, F&B/event promos, photo polishing, branded creative, and optional local SEO — without adding another full-time hire. The best starting point is usually a 3–5 property pilot. I'll send a few examples and the pilot breakdown.",
   },
   {
+    key: "warm_intro_perspective",
+    label: "Warm intro — perspective ask",
+    body: "Quick question since you're closer to hotel owners/operators than I am — do you see many hotel groups struggling with creative bandwidth at the property level?",
+  },
+  {
+    key: "warm_intro_referral",
+    label: "Warm intro — referral ask",
+    body: "If someone comes to mind, I'd be happy to make it a paid referral if it turns into a monthly client.",
+  },
+  {
+    key: "warm_intro_routing",
+    label: "Warm intro — routing ask",
+    body: "Would this usually sit with corporate marketing, commercial strategy, digital, or someone else?",
+  },
+  {
     key: "have_team",
     label: "“We already have a team” response",
     body: "Totally makes sense. Most groups I'd be a fit for already have someone internally. The gap is usually overflow — campaign visuals, F&B/event creative, short-form motion, seasonal pushes, and property-level assets the internal team does not have time to produce. I'm not trying to replace the team. I'm usually more useful as an outside creative extension.",

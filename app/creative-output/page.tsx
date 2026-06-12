@@ -75,10 +75,16 @@ type Metrics = {
   comments_made: number;
   connections_sent: number;
   accepted_connections: number;
-  first_dms_sent: number;
+  first_dms_sent: number; // direct buyer DMs
+  buyer_positive_replies: number;
   followups_sent: number;
   partner_dms_sent: number;
-  positive_replies: number;
+  partner_positive_replies: number;
+  hiring_dms_sent: number;
+  hiring_positive_replies: number;
+  warm_intro_requests_sent: number;
+  warm_intros_received: number;
+  positive_replies: number; // overall (kept for back-compat)
   sample_requests: number;
   sample_packs_sent: number;
   calls_booked: number;
@@ -89,9 +95,36 @@ type Metrics = {
 
 const BLANK_METRICS: Metrics = {
   comments_made: 0, connections_sent: 0, accepted_connections: 0, first_dms_sent: 0,
-  followups_sent: 0, partner_dms_sent: 0, positive_replies: 0, sample_requests: 0,
-  sample_packs_sent: 0, calls_booked: 0, pilots_sent: 0, revenue_pipeline: 0, notes: "",
+  buyer_positive_replies: 0, followups_sent: 0, partner_dms_sent: 0, partner_positive_replies: 0,
+  hiring_dms_sent: 0, hiring_positive_replies: 0, warm_intro_requests_sent: 0, warm_intros_received: 0,
+  positive_replies: 0, sample_requests: 0, sample_packs_sent: 0, calls_booked: 0,
+  pilots_sent: 0, revenue_pipeline: 0, notes: "",
 };
+
+type WinningMessage = {
+  id: string;
+  created_at: string;
+  message_type: string | null;
+  audience: string | null;
+  message_body: string;
+  result: string | null;
+};
+
+type IntroSourceLite = {
+  id: string;
+  name: string;
+  company: string | null;
+  category: string | null;
+  relationship_strength: string;
+  intro_quality: string;
+  next_touch: string | null;
+  intro_requested: boolean;
+  intro_made: boolean;
+};
+
+function rate(n: number, d: number): string {
+  return d > 0 ? `${Math.round((n / d) * 100)}%` : "—";
+}
 
 const GOLD = "text-[#C9A44C]";
 const CARD = "rounded-xl border border-zinc-800 bg-zinc-900 p-4";
@@ -152,6 +185,10 @@ export default function CreativeOutputPage() {
   const [dueFollowups, setDueFollowups] = useState<number | null>(null);
   const [postedUrlDraft, setPostedUrlDraft] = useState("");
   const [assetLinkDraft, setAssetLinkDraft] = useState("");
+  const [winners, setWinners] = useState<WinningMessage[]>([]);
+  const [winnerDraft, setWinnerDraft] = useState({ message_body: "", message_type: "dm1", audience: "direct buyer", result: "reply" });
+  const [introSources, setIntroSources] = useState<IntroSourceLite[]>([]);
+  const [introTablesReady, setIntroTablesReady] = useState(true);
 
   const plan = planForDay(dayNumber);
   const segment = SEGMENTS[plan.segmentKey];
@@ -248,6 +285,47 @@ export default function CreativeOutputPage() {
       .lte("due_date", toISODate(new Date()))
       .then(({ count, error }) => setDueFollowups(error ? null : (count ?? 0)));
   }, []);
+
+  // Winning messages + intro sources (graceful when migration not yet run)
+  const loadWinners = useCallback(async () => {
+    const { data, error } = await supabase
+      .from("winning_messages")
+      .select("id, created_at, message_type, audience, message_body, result")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false })
+      .limit(5);
+    if (!error) setWinners((data ?? []) as WinningMessage[]);
+  }, []);
+
+  useEffect(() => {
+    void loadWinners();
+    void supabase
+      .from("intro_sources")
+      .select("id, name, company, category, relationship_strength, intro_quality, next_touch, intro_requested, intro_made")
+      .order("next_touch", { ascending: true, nullsFirst: false })
+      .limit(50)
+      .then(({ data, error }) => {
+        if (error) setIntroTablesReady(false);
+        else setIntroSources((data ?? []) as IntroSourceLite[]);
+      });
+  }, [loadWinners]);
+
+  async function saveWinner() {
+    if (!winnerDraft.message_body.trim()) { setNote("Paste the winning message first."); return; }
+    setBusy("winner");
+    const { error } = await supabase.from("winning_messages").insert({
+      ...winnerDraft,
+      source: "linkedin",
+      sprint_day_id: day?.id ?? null,
+    });
+    setBusy("");
+    if (error) setNote(`Save winner failed: ${error.message}`);
+    else {
+      setWinnerDraft((w) => ({ ...w, message_body: "" }));
+      setNote("Saved to winning messages — the learning loop is fed.");
+      await loadWinners();
+    }
+  }
 
   // ── Seeding ───────────────────────────────────────────────────────────────
   async function createSprint() {
@@ -349,9 +427,9 @@ export default function CreativeOutputPage() {
     return {
       connectionsSent: sum("connections_sent"),
       accepted: sum("accepted_connections"),
-      dmsSent: sum("first_dms_sent") + sum("partner_dms_sent"),
-      buyerReplies: sum("positive_replies"),
-      partnerReplies: 0, // logged jointly; partner-vs-buyer split lives in notes for now
+      dmsSent: sum("first_dms_sent") + sum("partner_dms_sent") + sum("hiring_dms_sent"),
+      buyerReplies: sum("buyer_positive_replies") || sum("positive_replies"),
+      partnerReplies: sum("partner_positive_replies"),
       sampleInterest: sum("sample_requests"),
       callsBooked: sum("calls_booked"),
     };
@@ -651,6 +729,9 @@ export default function CreativeOutputPage() {
               { href: "/companies", label: "+ Add Company" },
               { href: "/contacts", label: "+ Add Contact" },
               { href: "/partners", label: "+ Add Partner" },
+              { href: "/intro-sources", label: "Intro Sources" },
+              { href: "/sales-assets", label: "Sales Assets" },
+              { href: "/account-pitch-planner", label: "Pitch Planner" },
               { href: "/templates", label: "Templates" },
               { href: "/outreach", label: "Outreach" },
               { href: "/growth", label: "Growth" },
@@ -687,14 +768,19 @@ export default function CreativeOutputPage() {
               ["comments_made", "Comments"],
               ["connections_sent", "Connects sent"],
               ["accepted_connections", "Accepted"],
-              ["first_dms_sent", "First DMs"],
-              ["followups_sent", "Follow-ups"],
+              ["first_dms_sent", "Buyer DMs"],
+              ["buyer_positive_replies", "Buyer replies"],
               ["partner_dms_sent", "Partner DMs"],
-              ["positive_replies", "Positive replies"],
+              ["partner_positive_replies", "Partner replies"],
+              ["hiring_dms_sent", "Hiring-signal DMs"],
+              ["hiring_positive_replies", "Hiring replies"],
+              ["warm_intro_requests_sent", "Intro requests"],
+              ["warm_intros_received", "Intros received"],
+              ["followups_sent", "Follow-ups"],
               ["sample_requests", "Sample requests"],
               ["sample_packs_sent", "Samples sent"],
               ["calls_booked", "Calls booked"],
-              ["pilots_sent", "Pilots/proposals"],
+              ["pilots_sent", "Pilots proposed"],
               ["revenue_pipeline", "Pipeline $"],
             ] as [keyof Metrics, string][]).map(([key, label]) => (
               <label key={key} className="block">
@@ -724,6 +810,124 @@ export default function CreativeOutputPage() {
             {busy === "metrics" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <CheckCircle2 className="h-3.5 w-3.5" />}
             {metricsSaved ? "Update metrics" : "Save metrics"}
           </button>
+          {/* Calculated rates */}
+          <div className="mt-3 grid grid-cols-2 gap-2 border-t border-zinc-800 pt-3 sm:grid-cols-5">
+            {[
+              { label: "Buyer reply rate", v: rate(metrics.buyer_positive_replies, metrics.first_dms_sent) },
+              { label: "Partner reply rate", v: rate(metrics.partner_positive_replies, metrics.partner_dms_sent) },
+              { label: "Hiring reply rate", v: rate(metrics.hiring_positive_replies, metrics.hiring_dms_sent) },
+              { label: "Intro conversion", v: rate(metrics.warm_intros_received, metrics.warm_intro_requests_sent) },
+              {
+                label: "Overall reply rate",
+                v: rate(
+                  metrics.buyer_positive_replies + metrics.partner_positive_replies + metrics.hiring_positive_replies,
+                  metrics.first_dms_sent + metrics.partner_dms_sent + metrics.hiring_dms_sent
+                ),
+              },
+            ].map((s) => (
+              <div key={s.label} className="rounded-lg bg-zinc-800/40 px-2 py-2 text-center">
+                <div className="text-sm font-semibold text-zinc-100">{s.v}</div>
+                <div className="text-[9px] uppercase tracking-wide text-zinc-500">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Warm Intro Daily card ── */}
+        <section className={CARD}>
+          <SectionTitle icon={Rocket}>Warm intro engine — today</SectionTitle>
+          {!introTablesReady ? (
+            <p className="mt-3 text-xs text-amber-400">
+              Run supabase/migrations/20260611_warm_intro_engine.sql, then add sources at /intro-sources.
+            </p>
+          ) : introSources.length === 0 ? (
+            <p className="mt-3 text-xs text-zinc-500">
+              No intro sources yet — add consultants, recruiters, task-force pros, and vendors you already know at{" "}
+              <Link href="/intro-sources" className="text-emerald-400 hover:underline">/intro-sources</Link>.
+            </p>
+          ) : (
+            <div className="mt-3 space-y-3 text-xs">
+              <div>
+                <p className="mb-1 font-semibold text-zinc-300">Message these 3 (touch due or oldest):</p>
+                {introSources.slice(0, 3).map((s) => (
+                  <p key={s.id} className="text-zinc-400">• {s.name}{s.company ? ` (${s.company})` : ""} — {s.category ?? "—"} · {s.relationship_strength}</p>
+                ))}
+              </div>
+              <div>
+                <p className="mb-1 font-semibold text-zinc-300">Comment on posts from 3 (warm them first):</p>
+                {introSources.filter((s) => s.relationship_strength === "cold" || s.relationship_strength === "warming").slice(0, 3).map((s) => (
+                  <p key={s.id} className="text-zinc-400">• {s.name} — {s.category ?? "—"}</p>
+                ))}
+              </div>
+              {(() => {
+                const ask = introSources.find((s) => !s.intro_requested && (s.relationship_strength === "warm" || s.relationship_strength === "strong") && s.intro_quality !== "low");
+                const fup = introSources.find((s) => s.intro_requested && !s.intro_made);
+                return (
+                  <>
+                    <p><span className="font-semibold text-[#E8D7A2]">Ask for 1 specific intro:</span>{" "}
+                      <span className="text-zinc-400">{ask ? `${ask.name} — name the exact company/person you want to meet.` : "no warm source ready — keep warming."}</span>
+                    </p>
+                    <p><span className="font-semibold text-zinc-300">Send 1 follow-up:</span>{" "}
+                      <span className="text-zinc-400">{fup ? `${fup.name} — intro requested, not yet made.` : "none pending."}</span>
+                    </p>
+                  </>
+                );
+              })()}
+              <p className="border-t border-zinc-800 pt-2 text-[11px] text-zinc-600">
+                Suggested copy: use the three “Warm intro” templates in the templates card — perspective ask first, referral ask only after a reply.{" "}
+                <Link href="/intro-sources" className="text-emerald-400 hover:underline">Manage sources →</Link>
+              </p>
+            </div>
+          )}
+        </section>
+
+        {/* ── Winning messages ── */}
+        <section className={CARD}>
+          <SectionTitle icon={Award}>Winning messages — the learning loop</SectionTitle>
+          <div className="mt-3 space-y-2">
+            {winners.length === 0 && (
+              <p className="text-xs text-zinc-500">Nothing saved yet. The first reply you get goes here — that's how the system gets smarter.</p>
+            )}
+            {winners.map((w) => (
+              <details key={w.id} className="group rounded-lg bg-zinc-800/40">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3 py-2 [&::-webkit-details-marker]:hidden">
+                  <span className="min-w-0 truncate text-[11px] text-zinc-300">
+                    <span className="text-emerald-400">{w.result ?? "win"}</span> · {w.audience ?? "—"} · {w.message_type ?? "—"} · {new Date(w.created_at).toLocaleDateString()}
+                  </span>
+                  <CopyButton text={w.message_body} label="Copy winner" />
+                </summary>
+                <p className="whitespace-pre-wrap border-t border-zinc-800 px-3 py-2 text-[11px] leading-relaxed text-zinc-400">{w.message_body}</p>
+              </details>
+            ))}
+          </div>
+          <div className="mt-3 border-t border-zinc-800 pt-3">
+            <p className="mb-1.5 text-[11px] font-semibold text-zinc-300">Save a winner</p>
+            <textarea
+              rows={2}
+              value={winnerDraft.message_body}
+              onChange={(e) => setWinnerDraft((w) => ({ ...w, message_body: e.target.value }))}
+              placeholder="Paste the exact message that worked…"
+              className="w-full resize-y rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-300 placeholder:text-zinc-600 focus:border-emerald-500/50 focus:outline-none"
+            />
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              <select value={winnerDraft.message_type} onChange={(e) => setWinnerDraft((w) => ({ ...w, message_type: e.target.value }))} className="rounded-lg border border-zinc-700 bg-zinc-950 px-2 py-1.5 text-[11px] text-zinc-300">
+                {["connection", "dm1", "followup", "partner", "hiring_signal", "warm_intro", "post"].map((v) => <option key={v} value={v}>{v}</option>)}
+              </select>
+              <select value={winnerDraft.audience} onChange={(e) => setWinnerDraft((w) => ({ ...w, audience: e.target.value }))} className="rounded-lg border border-zinc-700 bg-zinc-950 px-2 py-1.5 text-[11px] text-zinc-300">
+                {["direct buyer", "partner", "hiring signal", "intro source"].map((v) => <option key={v} value={v}>{v}</option>)}
+              </select>
+              <select value={winnerDraft.result} onChange={(e) => setWinnerDraft((w) => ({ ...w, result: e.target.value }))} className="rounded-lg border border-zinc-700 bg-zinc-950 px-2 py-1.5 text-[11px] text-zinc-300">
+                {["reply", "call_booked", "sample_requested", "pilot_proposed", "won"].map((v) => <option key={v} value={v}>{v}</option>)}
+              </select>
+              <button
+                onClick={saveWinner}
+                disabled={busy !== ""}
+                className="rounded-lg bg-emerald-600/20 px-3 py-1.5 text-[11px] font-medium text-emerald-400 hover:bg-emerald-600/40 disabled:opacity-50"
+              >
+                Save as winner
+              </button>
+            </div>
+          </div>
         </section>
       </div>
 

@@ -13,6 +13,8 @@ import { PackagePathCards } from "@/components/marketing/PackagePathCards";
 import { RetainerValueSection } from "@/components/marketing/RetainerValueSection";
 import { PackageCards } from "@/components/marketing/PackageCards";
 import { TrialCTA } from "@/components/marketing/TrialCTA";
+import { BeforeAfterSection } from "@/components/marketing/BeforeAfterSection";
+import { FitSection } from "@/components/marketing/FitSection";
 import { AdminLink } from "@/components/AdminLink";
 import { GOLD_GRADIENT, FEATURED_VIDEOS, GALLERY_IMAGES } from "@/components/marketing/media";
 import { JsonLd } from "@/components/marketing/JsonLd";
@@ -58,6 +60,11 @@ const FAQ = [
     open: true,
   },
   {
+    q: "Do you replace our internal team?",
+    a: "No. Most groups we work with already have internal marketing support. Archer Design is usually the outside creative extension that helps with overflow, property-level consistency, F&B/event campaigns, short-form motion, and local content.",
+    open: false,
+  },
+  {
     q: "Do you manage social accounts?",
     a: "The core service is creative production and campaign support. We create the assets, captions, and creative direction your team can publish. Full account management can be discussed separately for the right long-term partnership.",
     open: false,
@@ -68,8 +75,8 @@ const FAQ = [
     open: false,
   },
   {
-    q: "How do you start with a hotel group?",
-    a: "We usually recommend a 3–5 property pilot first. That lets us build the creative workflow, approval process, brand rules, motion style, campaign cadence, and reporting structure before expanding across the portfolio. Groups of 5+ properties get a custom-scoped partnership.",
+    q: "Why start with 3–5 properties?",
+    a: "It gives both sides a low-risk way to prove workflow, approvals, creative quality, and monthly cadence before expanding across more of the portfolio. We build the creative workflow, brand rules, motion style, and reporting structure on a manageable footprint first. Larger groups then expand on evidence, not promises.",
     open: false,
   },
   {
@@ -134,7 +141,7 @@ export default function ArcherDesignHome() {
           <nav className="flex items-center gap-7 text-sm text-[#A9A092]">
             <a href="#work" className="hidden hover:text-[#F6F1E7] sm:inline">Work</a>
             <a href="#packages" className="hidden hover:text-[#F6F1E7] sm:inline">Packages</a>
-            <a href="#trial" className="hidden hover:text-[#F6F1E7] sm:inline">Free Trial</a>
+            <a href="#trial" className="hidden hover:text-[#F6F1E7] sm:inline">Samples</a>
             <a
               href="/contact"
               className="rounded-xl px-4 py-2 text-[13px] font-semibold text-[#1a1407]"
@@ -173,6 +180,11 @@ export default function ArcherDesignHome() {
                     That gives us time to build the creative workflow, approval process, brand rules,
                     motion style, campaign cadence, and reporting structure before expanding.
                   </p>
+                  <p className="mt-3 text-[15px] leading-relaxed text-[#A9A092]">
+                    It lowers risk for both sides: you judge real output on real properties for one
+                    monthly fee, and expansion across the portfolio happens on evidence, property by
+                    property, when the cadence is proven.
+                  </p>
                   <div className="mt-6">
                     <a
                       href="/contact"
@@ -181,7 +193,9 @@ export default function ArcherDesignHome() {
                     >
                       Request a 3–5 Property Pilot <span aria-hidden>→</span>
                     </a>
-                    <p className="mt-3 text-[13px] text-[#A9A092]">Starting at $7,500/month for a 5-property pilot.</p>
+                    <p className="mt-3 text-[13px] text-[#A9A092]">
+                      3-property pilots start at $4,500/month; 5-property portfolio pilots start at $10,000/month.
+                    </p>
                   </div>
                 </div>
                 <div className="space-y-3">
@@ -211,6 +225,9 @@ export default function ArcherDesignHome() {
         {/* Featured short-form motion */}
         <FeaturedMotionShowcase />
 
+        {/* Before/after positioning: everyday moments → premium campaign assets */}
+        <BeforeAfterSection />
+
         <MetricsStrip />
 
         {/* ROI calculator + overhead comparison */}
@@ -235,6 +252,9 @@ export default function ArcherDesignHome() {
 
         {/* Full package listing, group leads */}
         <PackageCards />
+
+        {/* Qualification: best fit / not a fit */}
+        <FitSection />
 
         <TrialCTA />
 
@@ -280,12 +300,12 @@ export default function ArcherDesignHome() {
         </div>
 
         <p className="mt-4 font-serif text-[clamp(18px,2.4vw,26px)] text-[#F6F1E7]">
-          Your properties already have the raw material.{" "}
+          Your properties deserve creative as strong as the experience.{" "}
           <span
             className="bg-clip-text text-transparent"
             style={{ backgroundImage: GOLD_GRADIENT }}
           >
-            Let&apos;s show you what it can do.
+            Let&apos;s build it.
           </span>
         </p>
 

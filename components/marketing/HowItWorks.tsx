@@ -54,7 +54,7 @@ export function HowItWorks() {
             How it works
           </span>
           <h2 className="mt-3 font-serif text-[clamp(28px,4.4vw,48px)] font-semibold leading-[1.05] text-[#F6F1E7]">
-            From the photos you already have to a live campaign in days.
+            From a brief or a folder of photos to a live campaign in days.
           </h2>
         </div>
 
@@ -89,9 +89,9 @@ export function HowItWorks() {
             className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
             style={{ background: GOLD_GRADIENT }}
           >
-            Get 5 Free Sample Assets <span aria-hidden>→</span>
+            Request 5 Sample Assets <span aria-hidden>→</span>
           </a>
-          <p className="mt-3 text-[13px] text-[#A9A092]">No call required. No card. 5 finished pieces in 7 days.</p>
+          <p className="mt-3 text-[13px] text-[#A9A092]">No card required. 5 finished, approval-ready pieces in 7 days.</p>
         </div>
       </div>
     </section>

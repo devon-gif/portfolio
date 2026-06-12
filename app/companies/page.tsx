@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { Plus, Pencil, Trash2, ExternalLink, FlaskConical, Loader2, Users, Search, Briefcase, ChevronDown, ChevronRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { TargetScorePanel } from "@/components/TargetScorePanel";
 import type { Company } from "@/lib/types";
 import Link from "next/link";
 
@@ -531,8 +532,13 @@ export default function CompaniesPage() {
                 <td className="px-4 py-3 text-sm text-zinc-400">{c.market ?? "—"}</td>
                 <td className="px-4 py-3">
                   {c.fit_score != null ? (
-                    <span className={`text-xs font-bold px-2 py-0.5 rounded-full ring-1 ring-inset ${c.fit_score >= 7 ? "bg-emerald-500/10 text-emerald-400 ring-emerald-500/20" : c.fit_score >= 4 ? "bg-amber-500/10 text-amber-400 ring-amber-500/20" : "bg-zinc-800 text-zinc-500 ring-zinc-700"}`}>
-                      {c.fit_score}
+                    <span className="inline-flex items-center gap-1">
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ring-1 ring-inset ${c.fit_score >= 7 ? "bg-emerald-500/10 text-emerald-400 ring-emerald-500/20" : c.fit_score >= 4 ? "bg-amber-500/10 text-amber-400 ring-amber-500/20" : "bg-zinc-800 text-zinc-500 ring-zinc-700"}`}>
+                        {c.fit_score}
+                      </span>
+                      {c.fit_score >= 8 && (
+                        <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-emerald-300 ring-1 ring-inset ring-emerald-500/30">Priority 8+</span>
+                      )}
                     </span>
                   ) : <span className="text-zinc-600">—</span>}
                 </td>
@@ -606,6 +612,7 @@ export default function CompaniesPage() {
                     ) : (
                       <p className="text-xs text-zinc-600">No opportunity signal recorded for this company yet.</p>
                     )}
+                    <TargetScorePanel company={c} onSaved={reload} />
                   </td>
                 </tr>
               )}

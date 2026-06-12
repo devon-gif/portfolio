@@ -17,12 +17,12 @@ const PACKAGES: Pkg[] = [
   {
     id: "group",
     name: "Hospitality Group Partnership",
-    price: "Starting at $10,000/mo",
+    price: "Custom, starting at $15,000/mo",
     note: "Multi-property groups & management companies",
     badge: "Built for hotel groups & management companies",
     featured: true,
     features: [
-      "Everything in the Hotel Creative + SEO Bundle, scaled per property",
+      "Everything in the Creative + Local SEO System, scaled per property",
       "Portfolio-wide brand consistency with property-level customization",
       "Group-level monthly creative plan and reporting",
       "Priority turnaround across all properties",
@@ -31,6 +31,22 @@ const PACKAGES: Pkg[] = [
     ],
     ctaLabel: "Book a Portfolio Strategy Call →",
     // TODO(devon): Replace with your real Calendly or booking link.
+    ctaHref: "/contact",
+  },
+  {
+    id: "portfolio-pilot",
+    name: "5-Property Portfolio Pilot",
+    price: "Starting at $10,000/mo",
+    note: "The proving ground before a portfolio rollout",
+    features: [
+      "Five properties on one coordinated creative system",
+      "Social graphics, short-form motion, and campaign visuals per property",
+      "F&B, event, wedding, and seasonal promos",
+      "Photo polishing and new branded creative",
+      "One approval workflow, one monthly plan, one invoice",
+      "Expansion roadmap after the pilot month",
+    ],
+    ctaLabel: "Request a 3–5 Property Pilot →",
     ctaHref: "/contact",
   },
   {

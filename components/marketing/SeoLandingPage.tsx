@@ -63,7 +63,7 @@ function CtaButtons() {
         className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-[#1a1407] shadow-[0_4px_20px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_6px_32px_rgba(201,164,76,0.4)]"
         style={{ background: GOLD_GRADIENT }}
       >
-        Request a free trial <span aria-hidden>→</span>
+        Request 5 Sample Assets <span aria-hidden>→</span>
       </Link>
       <a
         href={CALENDLY_URL}
@@ -133,7 +133,7 @@ export function SeoLandingPage({
               className="rounded-xl px-4 py-2 text-[13px] font-semibold text-[#1a1407]"
               style={{ background: GOLD_GRADIENT }}
             >
-              Get 5 Free Sample Assets
+              Request 5 Sample Assets
             </Link>
           </nav>
         </div>

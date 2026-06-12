@@ -4,7 +4,7 @@ import { GOLD_GRADIENT, HERO_VIDEO_CINEMATIC } from "./media";
 
 /**
  * Above-the-fold hero: eyebrow + headline, subhead, cinematic video, dual CTAs.
- * Primary CTA: "Get 5 Free Sample Assets", used everywhere, never changed.
+ * Primary CTA: "Request a 3–5 Property Pilot" (premium positioning).
  */
 export function MediaHero() {
   return (
@@ -15,17 +15,17 @@ export function MediaHero() {
         </span>
 
         <h1 className="mt-3 max-w-[880px] font-serif text-[clamp(34px,5.4vw,60px)] font-semibold leading-[0.96] tracking-[-0.01em] text-[#F6F1E7]">
-          Your hotel group&apos;s creative team,{" "}
+          Make every property look{" "}
           <span className="bg-clip-text text-transparent" style={{ backgroundImage: GOLD_GRADIENT }}>
-            without adding headcount.
+            as strong online as it does in person.
           </span>
         </h1>
 
-        <p className="mx-auto mt-4 max-w-[680px] text-[clamp(13px,1.3vw,16px)] leading-relaxed text-[#A9A092]">
-          Archer Design gives hotels, restaurants, spas, resorts, and hospitality groups ongoing
-          creative support: social graphics, short-form motion, campaign visuals, F&amp;B and event
-          promotions, photo polishing, and optional local SEO, without another full-time creative
-          hire or a large agency retainer.
+        <p className="mx-auto mt-4 max-w-[700px] text-[clamp(13px,1.3vw,16px)] leading-relaxed text-[#A9A092]">
+          Archer Design gives hotel groups, restaurants, spas, resorts, and hospitality teams
+          ongoing creative support: social graphics, short-form motion, campaign visuals, F&amp;B
+          and event promotions, photo polishing, new branded creative, and optional local SEO,
+          without adding another full-time creative hire or carrying a large agency retainer.
         </p>
 
         {/* Large cinematic hero video with a soft golden glow + thin gold border */}

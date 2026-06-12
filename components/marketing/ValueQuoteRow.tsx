@@ -23,8 +23,8 @@ const VALUES = [
     ),
   },
   {
-    title: "No photo shoot needed",
-    body: "We work from the assets your team already has.",
+    title: "No photo shoot needed to start",
+    body: "We start from your existing assets and create new branded graphics, motion, and polished visuals as needed.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-7 w-7" {...stroke}>
         <rect x="3" y="4" width="18" height="16" rx="2" />

@@ -928,6 +928,21 @@ export default function DailyCommandCenterPage() {
         <p className="text-xs text-zinc-600 mt-0.5">
           Select drafts, then use Step 3 buttons above to approve. Nothing sends without approval.
         </p>
+        {(() => {
+          const byCompany = new Map<string, number>();
+          for (const m of emailDraftsReady) {
+            const co = m.contacts?.companies?.name;
+            if (co) byCompany.set(co, (byCompany.get(co) ?? 0) + 1);
+          }
+          const multi = [...byCompany.entries()].filter(([, n]) => n > 1).map(([co, n]) => `${co} (${n})`);
+          return multi.length > 0 ? (
+            <p className="mt-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-300">
+              ⚠ Multiple drafts at the same company: {multi.join(", ")}. Do not message several executives at
+              once. Start with the best-fit person, wait 3 business days, then route through a second person
+              if needed. Skip the extras for now.
+            </p>
+          ) : null;
+        })()}
 
         <div className="mt-3 space-y-2 max-h-[30rem] overflow-auto">
           {emailDraftsReady.map((m) => {
