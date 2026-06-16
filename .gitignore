@@ -99,3 +99,10 @@ build-error.txt
 dev.log
 build-error.txt
 vercel-deploy.log
+
+# Local debug/build artifacts
+.next-build/
+.next-build2/
+dev.log
+build-error.txt
+vercel-deploy.log
