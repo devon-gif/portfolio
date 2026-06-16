@@ -109,8 +109,8 @@ export function generateProposal(i: ProposalInputs): { title: string; sections: 
   const why =
     `Archer Design is a dedicated outside creative system built for hospitality — brand-standard-aware for flagged ` +
     `properties, custom for independents. Current and past work includes Hotel Indigo Pittsburgh, Hampton Inn ` +
-    `properties, Eliza Hot Metal Bistro, and spa/wellness brands. The numbers across that work: 13.9M+ impressions, ` +
-    `543K+ direct engagements, 3.6M+ reach, and 2.4K+ creative assets delivered.`;
+    `properties, Eliza Hot Metal Bistro, and spa/wellness brands. The numbers across that work: 14.8M+ impressions, ` +
+    `565K+ direct engagements, 4.3M+ reach, and 670K+ reported post clicks across tracked hospitality campaigns.`;
 
   const recommended =
     `We recommend starting with ${pilotN} propert${pilotN === "1" ? "y" : "ies"} rather than a full rollout. ` +

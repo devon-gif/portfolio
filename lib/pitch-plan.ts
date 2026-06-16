@@ -203,7 +203,7 @@ export function generatePitchPlan(i: PitchPlanInputs): { score: number; sections
         "Hotel Indigo Pittsburgh (boutique flag) · Hampton Inn properties (select-service, brand standards)",
         i.hasFnb ? "Eliza Hot Metal Bistro (hotel F&B promos)" : "",
         i.hasSpa ? "Elements (spa/wellness creative)" : "",
-        "Stats if asked: 13.9M+ impressions · 543K+ engagements · 3.6M+ reach · 2.4K+ assets delivered.",
+        "Stats if asked: 14.8M+ impressions · 565K+ engagements · 4.3M+ reach · 670K+ reported post clicks. (Across tracked hotel, restaurant, event, and wellness campaigns.)",
       ].filter(Boolean).join("\n"),
     },
     {

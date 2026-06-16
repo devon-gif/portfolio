@@ -94,7 +94,7 @@ export function generateAccountPlan(c: CompanyLike): string {
     `PROOF EXAMPLES TO SHOW (match their category)`,
     `- Hotel Indigo Pittsburgh (boutique flag) · Hampton Inn properties (select-service, brand standards)`,
     `- Eliza Hot Metal Bistro (hotel F&B) · spa/wellness creative (Elements)`,
-    `- Stats if asked: 13.9M+ impressions, 543K+ engagements, 3.6M+ reach, 2.4K+ assets delivered.`,
+    `- Stats if asked: 14.8M+ impressions, 565K+ engagements, 4.3M+ reach, 670K+ reported post clicks delivered.`,
     ``,
     `RISKS / LIKELY OBJECTIONS`,
     `- "We already have a team" → overflow/extension framing, never replacement.`,

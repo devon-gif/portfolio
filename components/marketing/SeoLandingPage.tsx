@@ -4,6 +4,7 @@ import { Allura, Fraunces } from "next/font/google";
 import { LazyVideo } from "./LazyVideo";
 import { JsonLd } from "./JsonLd";
 import { GOLD_GRADIENT, type VideoAsset } from "./media";
+import { siteConfig } from "@/lib/site-config";
 import {
   CALENDLY_URL,
   LOGO_PATH,
@@ -59,11 +60,17 @@ function CtaButtons() {
   return (
     <div className="flex flex-wrap items-center gap-3">
       <Link
-        href="/contact"
+        href={siteConfig.scorecardUrl}
         className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-[#1a1407] shadow-[0_4px_20px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_6px_32px_rgba(201,164,76,0.4)]"
         style={{ background: GOLD_GRADIENT }}
       >
-        Request 5 Sample Assets <span aria-hidden>→</span>
+        Take the Scorecard <span aria-hidden>→</span>
+      </Link>
+      <Link
+        href="/contact"
+        className="inline-flex items-center gap-2 rounded-xl border border-[rgba(201,164,76,0.32)] bg-[rgba(201,164,76,0.06)] px-6 py-3 text-sm font-semibold text-[#E8D7A2] transition hover:-translate-y-0.5 hover:border-[rgba(201,164,76,0.55)]"
+      >
+        Request 5 Sample Assets
       </Link>
       <a
         href={CALENDLY_URL}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Allura, Fraunces } from "next/font/google";
+import { siteConfig } from "@/lib/site-config";
 import { SeedanceBackground } from "@/components/marketing/SeedanceBackground";
 import { ClientLogoStrip } from "@/components/marketing/ClientLogoStrip";
 import { HowItWorks } from "@/components/marketing/HowItWorks";
@@ -16,6 +17,9 @@ import { TrialCTA } from "@/components/marketing/TrialCTA";
 import { StarterSprintSection } from "@/components/marketing/StarterSprintSection";
 import { BeforeAfterSection } from "@/components/marketing/BeforeAfterSection";
 import { FitSection } from "@/components/marketing/FitSection";
+import { CampaignResults } from "@/components/marketing/CampaignResults";
+import { TopCampaignMoments } from "@/components/marketing/TopCampaignMoments";
+import { WhatWeTrack } from "@/components/marketing/WhatWeTrack";
 import { AdminLink } from "@/components/AdminLink";
 import { GOLD_GRADIENT, FEATURED_VIDEOS, GALLERY_IMAGES } from "@/components/marketing/media";
 import { JsonLd } from "@/components/marketing/JsonLd";
@@ -72,7 +76,7 @@ const FAQ = [
   },
   {
     q: "How is this lower-overhead than hiring?",
-    a: "A single in-house creative, social, or digital hire typically costs $90K–$180K a year once you include salary, insurance, payroll taxes, software, recruiting, and management time. Archer Design delivers the output of that role for a fixed monthly fee, with no employment overhead and no replacement risk. Use the calculator above with your own numbers.",
+    a: "A single in-house creative, social, or digital hire typically costs $90K–$180K a year once you include salary, insurance, payroll taxes, software, recruiting, and management time. The usual workaround, juggling several freelancers, often leads to inconsistent monthly output and last-minute graphics right before a key event or season. Archer Design delivers the output of that role on a steady monthly cadence for a fixed fee, with no employment overhead and no replacement risk. Use the calculator above with your own numbers.",
     open: false,
   },
   {
@@ -82,12 +86,27 @@ const FAQ = [
   },
   {
     q: "What's the difference between the free samples and the Starter Sprint?",
-    a: "The 5 free sample assets are a small taste — enough to judge quality on your brand. The Starter Sprint is a full working engagement: 15 finished assets, a real campaign's worth of creative, delivered in 7 days. It's the fastest way to experience what a monthly partnership feels like, and the full $950 is credited toward your first month if you continue.",
+    a: "The 5 free sample assets are a small taste, enough to judge quality on your brand. The Starter Sprint is a full working engagement: 15 finished assets, a real campaign's worth of creative, delivered in 7 days. It's the fastest way to experience what a monthly partnership feels like, and the full $950 is credited toward your first month if you continue.",
     open: false,
   },
   {
     q: "Can you prove the creative drove bookings?",
-    a: "We track what creative can honestly claim: impressions, engagement, reach, profile actions, and direct response to promoted offers and events. Across our hospitality clients, that's 13.9M+ impressions and 543K+ direct engagements to date. Direct booking attribution depends on your property's tracking setup, and during onboarding we'll recommend simple ways (links, codes, GBP tracking) to connect creative to revenue.",
+    a: "We track what creative can honestly claim: impressions, reach, engagement, reactions, shares, comments, reported post clicks, and direct response to promoted offers and events. Across tracked hospitality profiles, that's 14.8M+ impressions, 565K+ direct engagements, 4.3M+ reach, and 670K+ reported post clicks to date. Direct booking attribution depends on your property's tracking setup. During onboarding we'll set up UTM links, campaign links, Google Business Profile tracking, and inquiry/booking-support signals where access is available.",
+    open: false,
+  },
+  {
+    q: "Do these numbers prove bookings?",
+    a: "Not by themselves. The report shows strong impressions, engagement, shares, comments, and 670K+ reported post clicks across tracked campaigns. These are meaningful signals that show the creative is creating attention and action. Direct booking attribution depends on the property's own tracking setup. During a pilot, Archer Design can add UTM links, campaign links, landing page tracking, Google Business Profile reporting, and inquiry/booking-support signals where access is available.",
+    open: false,
+  },
+  {
+    q: "What do you measure during a pilot?",
+    a: "We measure creative output, impressions, reach, direct engagements, reactions, comments, shares, reported post clicks, link clicks where available, website traffic where access is available, Google Business Profile actions, Search Console visibility, and any inquiry or booking data the property is able to share. Weekly performance pulse checks and a monthly performance recap are included for pilots and ongoing retainers.",
+    open: false,
+  },
+  {
+    q: "Is this only social media?",
+    a: "No. Social is one distribution channel. Archer Design supports the creative system behind property-level hospitality marketing: F&B and event promos, meeting and wedding assets, seasonal campaigns, spa and wellness campaigns, short-form motion, photo polishing, new branded creative, local SEO support, Google Business Profile support, and performance reporting. The assets live on social because that's where most hospitality audiences are, but the creative scope is broader.",
     open: false,
   },
   {
@@ -144,13 +163,14 @@ export default function ArcherDesignHome() {
               <span className="text-[#C9A44C]">Design</span>
             </div>
           </div>
-          <nav className="flex items-center gap-7 text-sm text-[#A9A092]">
-            <a href="#work" className="hidden hover:text-[#F6F1E7] sm:inline">Work</a>
+          <nav className="flex items-center gap-5 text-sm text-[#A9A092]">
+            <a href="/" className="hidden text-[#F6F1E7] sm:inline">Hotels</a>
+            <a href="/restaurant-creative-support" className="hidden hover:text-[#F6F1E7] sm:inline">Restaurants</a>
+            <a href="/spa-salon-creative-support" className="hidden hover:text-[#F6F1E7] sm:inline">Spas</a>
+            <a href="/case-studies" className="hidden hover:text-[#F6F1E7] sm:inline">Proof</a>
             <a href="#packages" className="hidden hover:text-[#F6F1E7] sm:inline">Packages</a>
-            <a href="#sprint" className="hidden hover:text-[#F6F1E7] sm:inline">Sprint</a>
-            <a href="#trial" className="hidden hover:text-[#F6F1E7] sm:inline">Samples</a>
             <a
-              href="/contact"
+              href={siteConfig.creativeGapReviewUrl}
               className="rounded-xl px-4 py-2 text-[13px] font-semibold text-[#1a1407]"
               style={{ background: GOLD_GRADIENT }}
             >
@@ -165,6 +185,55 @@ export default function ArcherDesignHome() {
 
         {/* Trust bar, client logos only, no keyword tags */}
         <ClientLogoStrip />
+
+        {/* Creative support tied to real revenue moments */}
+        <section className="px-6 py-16">
+          <div className="mx-auto max-w-5xl">
+            <div className="glass-card rounded-3xl p-8 md:p-12">
+              <span className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C]">
+                Why this works
+              </span>
+              <h2 className="mt-3 font-serif text-[clamp(26px,3.5vw,42px)] font-semibold leading-tight text-[#F6F1E7]">
+                Creative support tied to real revenue moments.
+              </h2>
+              <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-[#A9A092]">
+                Most hospitality businesses already have things worth promoting. The challenge is
+                keeping those offers visible, polished, and consistent every month.
+              </p>
+              <p className="mt-3 text-[15px] leading-relaxed text-[#A9A092]">
+                We help turn those revenue moments into stronger creative:
+              </p>
+              <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
+                {[
+                  "Hotel packages",
+                  "Restaurant offers",
+                  "Private dining",
+                  "F&B events",
+                  "Spa services",
+                  "Gift cards",
+                  "Wedding and meeting inquiries",
+                  "Seasonal campaigns",
+                  "Local events",
+                  "Google Business updates",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="rounded-xl border border-[rgba(201,164,76,0.16)] bg-[rgba(201,164,76,0.04)] px-4 py-3 text-center text-[13px] text-[#D8CFBE]"
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
+              <p className="mt-7 text-[15px] leading-relaxed text-[#A9A092]">
+                The goal is not more random content.
+              </p>
+              <p className="mt-2 font-serif text-[18px] text-[#F6F1E7]">
+                The goal is cleaner creative output that helps people notice, click, inquire, book,
+                or come back.
+              </p>
+            </div>
+          </div>
+        </section>
 
         {/* Pilot section, group pitch */}
         <section className="px-6 py-16">
@@ -194,7 +263,7 @@ export default function ArcherDesignHome() {
                   </p>
                   <div className="mt-6">
                     <a
-                      href="/contact"
+                      href={siteConfig.creativeGapReviewUrl}
                       className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
                       style={{ background: GOLD_GRADIENT }}
                     >
@@ -236,6 +305,15 @@ export default function ArcherDesignHome() {
         <BeforeAfterSection />
 
         <MetricsStrip />
+
+        {/* Campaign results — 4 property cards with SHAIPE proof data */}
+        <CampaignResults />
+
+        {/* Top campaign moments — individual campaign highlights */}
+        <TopCampaignMoments />
+
+        {/* What we track + honest booking attribution + pilot framing */}
+        <WhatWeTrack />
 
         {/* ROI calculator + overhead comparison */}
         <RetainerValueSection />
@@ -322,7 +400,7 @@ export default function ArcherDesignHome() {
 
         <div className="mt-5">
           <a
-            href="/contact"
+            href={siteConfig.creativeGapReviewUrl}
             className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
             style={{ background: GOLD_GRADIENT }}
           >

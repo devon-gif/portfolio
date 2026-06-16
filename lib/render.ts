@@ -32,24 +32,27 @@ export interface RenderSettings {
 }
 
 // ─── Performance proof points (the email's emphasis) ─────────────────────────
+// Source: SHAIPE grouped report, Dec 2020–Jun 2026, across all tracked
+// hospitality profiles (Eliza PGH, Hotel Indigo Pittsburgh, Hampton Inn
+// Greensburg, Hampton Inn Johnstown, Elements Salon & Wellness, others).
+// Safe language: "across tracked hotel, restaurant, event, and wellness campaigns."
+// Do NOT claim these are from a single property.
+import { PROOF, STATS_BLOCK as _STATS_BLOCK } from "@/lib/proof-stats";
+
 export const PERFORMANCE_STATS = {
-  impressions: "13.9M+",
-  engagements: "543K+",
-  reach: "3.6M+",
-  shares: "11K+",
-  assets: "2.4K+",
-  engagement_growth: "700%",
+  impressions: PROOF.impressions,
+  engagements: PROOF.engagements,
+  reach: PROOF.reach,
+  post_clicks: PROOF.post_clicks,
+  shares: PROOF.shares,
+  comments: PROOF.comments,
+  reactions: PROOF.reactions,
+  posts_tracked: PROOF.posts_tracked,
+  engagement_rate: PROOF.engagement_rate,
 } as const;
 
 /** A ready-to-drop proof block templates can reference via {{stats_block}}. */
-export const STATS_BLOCK = [
-  `• ${PERFORMANCE_STATS.impressions} impressions generated`,
-  `• ${PERFORMANCE_STATS.engagements} direct engagements`,
-  `• ${PERFORMANCE_STATS.reach} unique reach`,
-  `• ${PERFORMANCE_STATS.shares} organic shares`,
-  `• ${PERFORMANCE_STATS.assets} creative assets deployed`,
-  `• ${PERFORMANCE_STATS.engagement_growth} engagement growth`,
-].join("\n");
+export const STATS_BLOCK = _STATS_BLOCK;
 
 /** Positioning line (no price mentioned). Frames Archer as a lean hospitality
  * social-content partner that handles the full workflow, not just graphics. */
@@ -178,8 +181,8 @@ export function buildVariables(
     engagements: PERFORMANCE_STATS.engagements,
     reach: PERFORMANCE_STATS.reach,
     shares: PERFORMANCE_STATS.shares,
-    assets: PERFORMANCE_STATS.assets,
-    engagement_growth: PERFORMANCE_STATS.engagement_growth,
+    posts_tracked: PERFORMANCE_STATS.posts_tracked,
+    engagement_rate: PERFORMANCE_STATS.engagement_rate,
     stats_block: STATS_BLOCK,
     value_prop: VALUE_PROP,
 

@@ -73,7 +73,7 @@ export default function HospitalityCreativeSupportPage() {
           heading: "Why not an agency or a freelancer?",
           paragraphs: [
             "Agencies are built for brands with budgets to match, strategy decks, account managers, and retainers that start where most single properties' entire marketing budget ends. Freelancers are affordable but fragile: quality varies, availability changes, and every new person re-learns your brand from zero.",
-            "A dedicated outside partner sits in between: senior-level consistency and hospitality-specific instincts, at a fixed monthly cost a single property can justify. We've delivered 13.9M+ impressions and 543K+ engagements across our hospitality clients, see the case studies for what that looks like per property.",
+            "A dedicated outside partner sits in between: senior-level consistency and hospitality-specific instincts, at a fixed monthly cost a single property can justify. Across tracked hotel, restaurant, event, and wellness campaigns, Archer Design creative has helped generate 14.8M+ impressions, 565K+ direct engagements, 4.3M+ reach, and 670K+ reported post clicks. See the case studies for what that looks like property by property.",
           ],
         },
         {

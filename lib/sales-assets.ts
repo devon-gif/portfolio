@@ -113,17 +113,17 @@ export const SALES_ASSETS: SalesAsset[] = [
 
   // ── 6. Proof blocks ─────────────────────────────────────────────────────────
   A("proof", "pr-short", "Short proof line", "Signatures, bios, quick credibility.",
-    "13.9M+ impressions · 543K+ direct engagements · 3.6M+ reach · 2.4K+ creative assets delivered."),
+    "14.8M+ impressions · 565K+ direct engagements · 4.3M+ reach · 670K+ reported post clicks."),
   A("proof", "pr-medium", "Medium proof paragraph", "Emails, DMs when asked.",
-    "Across hospitality clients — Hotel Indigo Pittsburgh, Hampton Inn properties, Eliza Hot Metal Bistro, spa and wellness brands — Archer Design creative has delivered 13.9M+ impressions, 543K+ direct engagements, 3.6M+ reach, and 2.4K+ finished assets, most of it built without a single new photo shoot."),
+    "Across hospitality clients — Hotel Indigo Pittsburgh, Hampton Inn properties, Eliza Hot Metal Bistro, spa and wellness brands — Archer Design creative has delivered 14.8M+ impressions, 565K+ direct engagements, 4.3M+ reach, and 670K+ reported post clicks, most of it built without a single new photo shoot."),
   A("proof", "pr-full", "Full proof section", "Proposals, decks, long-form pages.",
-    "Archer Design is built for hospitality and measured in the open. Current and past work includes Hotel Indigo Pittsburgh (boutique flag), Hampton Inn properties (select-service, brand-standard-aware), Eliza Hot Metal Bistro (hotel F&B), and spa/wellness brands. The numbers across that work: 13.9M+ impressions, 543K+ direct engagements, 3.6M+ unique reach, and 2.4K+ creative assets delivered — graphics, short-form motion, campaign visuals, and event promos, delivered approval-ready month after month. What creative can honestly claim is visibility and engagement; we'll also recommend simple tracking (links, codes, GBP) to connect creative to revenue."),
+    "Archer Design is built for hospitality and measured in the open. Current and past work includes Hotel Indigo Pittsburgh (boutique flag), Hampton Inn properties (select-service, brand-standard-aware), Eliza Hot Metal Bistro (hotel F&B), and spa/wellness brands. The numbers across that work: 14.8M+ impressions, 565K+ direct engagements, 4.3M+ reach, and 670K+ reported post clicks — graphics, short-form motion, campaign visuals, and event promos, delivered approval-ready month after month. What creative can honestly claim is visibility and engagement; we'll also recommend simple tracking (links, codes, GBP) to connect creative to revenue."),
   A("proof", "pr-linkedin", "LinkedIn proof post version", "Proof post — lessons first, numbers second.",
-    "13.9M+ impressions later, here's what I've learned about hospitality creative: consistency beats virality. F&B out-engages rooms. Motion beats stills. And the properties that win treat creative as a system, not a task. (The rest of the numbers: 543K+ engagements, 3.6M+ reach, 2.4K+ assets — all built from what the properties already had.)"),
+    "14.8M+ impressions later, here's what I've learned about hospitality creative: consistency beats virality. F&B out-engages rooms. Motion beats stills. And the properties that win treat creative as a system, not a task. (The rest of the numbers: 565K+ engagements, 4.3M+ reach, 670K+ reported post clicks — all built from what the properties already had.)"),
   A("proof", "pr-website", "Website proof version", "Marketing site sections.",
-    "Real properties, real workload taken off real teams: 13.9M+ impressions, 543K+ engagements, 3.6M+ reach, and 2.4K+ assets delivered across hotels, restaurants, spas, and event-driven brands."),
+    "Real properties, real workload taken off real teams: 14.8M+ impressions, 565K+ engagements, 4.3M+ reach, and 670K+ reported post clicks across hotels, restaurants, spas, and event-driven brands."),
   A("proof", "pr-deck", "Pitch deck proof version", "Slide 4. Don't read it aloud.",
-    "Built for hospitality, measured in the open. 13.9M+ impressions · 543K+ direct engagements · 3.6M+ reach · 2.4K+ assets delivered. Hotel Indigo Pittsburgh · Hampton Inn properties · Eliza Hot Metal Bistro · spa & wellness brands."),
+    "Built for hospitality, measured in the open. 14.8M+ impressions · 565K+ direct engagements · 4.3M+ reach · 670K+ reported post clicks. Tracked across hotel, restaurant, event, and wellness campaigns. Hotel Indigo Pittsburgh · Hampton Inn properties · Eliza Hot Metal Bistro · spa & wellness brands."),
 
   // ── 7. Objections ───────────────────────────────────────────────────────────
   A("objections", "ob-team", "“We already have a team”", "Most common. Extension, not replacement.",
@@ -153,7 +153,7 @@ export const SALES_ASSETS: SalesAsset[] = [
   A("proposal", "pp-opportunity", "Opportunity", "Tie creative to value, not aesthetics.",
     "The properties have more to promote than the current system can produce: rooms, F&B, weddings, meetings, spa, seasonal pushes, local events. Consistent premium creative at the property level supports perceived value, rate integrity, direct-booking interest, and local F&B/event revenue — without adding headcount."),
   A("proposal", "pp-why", "Why Archer Design", "Proof + positioning.",
-    "A dedicated outside creative system built for hospitality: brand-standard-aware for flags, custom for independents. Current and past work includes Hotel Indigo Pittsburgh, Hampton Inn properties, Eliza Hot Metal Bistro, and spa/wellness brands. Track record: 13.9M+ impressions, 543K+ direct engagements, 3.6M+ reach, 2.4K+ assets delivered."),
+    "A dedicated outside creative system built for hospitality: brand-standard-aware for flags, custom for independents. Current and past work includes Hotel Indigo Pittsburgh, Hampton Inn properties, Eliza Hot Metal Bistro, and spa/wellness brands. Track record: 14.8M+ impressions, 565K+ direct engagements, 4.3M+ reach, 670K+ reported post clicks across tracked hospitality campaigns."),
   A("proposal", "pp-scope", "Pilot scope", "Name the properties.",
     "One month across [3–5] properties: [names]. Goal: prove the workflow, the approval process, the creative quality, and the monthly cadence — so expansion is a decision based on output."),
   A("proposal", "pp-deliverables", "Deliverables", "Per property per month.",

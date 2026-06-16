@@ -22,7 +22,7 @@ One creative system across the set: group-level brand rules, property-level camp
 Monthly creative plan · social graphics · short-form motion · F&B/event promos · meeting/wedding assets · spa/wellness creative · photo polishing · new branded creative · captions · optional local SEO + GBP support. (Trim to the services this page's audience cares about.)
 
 ## Proof
-13.9M+ impressions · 543K+ direct engagements · 3.6M+ reach · 2.4K+ creative assets delivered.
+14.8M+ impressions · 565K+ direct engagements · 4.3M+ reach · 670K+ reported post clicks.
 Work includes Hotel Indigo Pittsburgh (boutique flag), Hampton Inn properties (select-service, brand-standard-aware), Eliza Hot Metal Bistro (hotel F&B), and spa/wellness brands.
 
 ## Recommended pilot / package

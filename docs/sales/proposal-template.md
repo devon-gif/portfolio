@@ -16,7 +16,7 @@ Prepared for [Name, Title] · [Date] · Archer Design
 The properties have more to promote than the current system can produce: rooms, F&B, weddings, meetings, spa, seasonal pushes, local events. Consistent premium creative at the property level supports perceived value, rate integrity, direct-booking interest, and local F&B/event revenue — without adding headcount.
 
 ## 3. Why Archer Design
-A dedicated outside creative system built for hospitality: brand-standard-aware for flags, custom for independents. Current and past work includes Hotel Indigo Pittsburgh, Hampton Inn properties, Eliza Hot Metal Bistro, and spa/wellness brands. Track record: 13.9M+ impressions, 543K+ direct engagements, 3.6M+ reach, 2.4K+ assets delivered.
+A dedicated outside creative system built for hospitality: brand-standard-aware for flags, custom for independents. Current and past work includes Hotel Indigo Pittsburgh, Hampton Inn properties, Eliza Hot Metal Bistro, and spa/wellness brands. Track record: 14.8M+ impressions, 565K+ direct engagements, 4.3M+ reach, 670K+ reported post clicks across tracked hospitality campaigns.
 
 ## 4. Pilot scope
 One month across **[3–5] properties: [names]**. Goal: prove the workflow, the approval process, the creative quality, and the monthly cadence — so expansion is a decision based on output.

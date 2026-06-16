@@ -1,5 +1,8 @@
-// Glass proof card - 4 metrics with gold line-icons + vertical dividers,
-// sits directly under the hero (matches the mockup).
+// Glass proof card — 5 key metrics, sourced from SHAIPE grouped report
+// Dec 31 2020 – Jun 14 2026 across all tracked hospitality profiles.
+// Safe attribution: no direct booking claims.
+
+import { PROOF } from "@/lib/proof-stats";
 
 type Metric = { num: string; label: string; icon: React.ReactNode };
 
@@ -13,7 +16,7 @@ const stroke = {
 
 const METRICS: Metric[] = [
   {
-    num: "13.9M+",
+    num: PROOF.impressions,
     label: "Impressions",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
@@ -23,7 +26,7 @@ const METRICS: Metric[] = [
     ),
   },
   {
-    num: "543K+",
+    num: PROOF.engagements,
     label: "Direct Engagements",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
@@ -32,7 +35,7 @@ const METRICS: Metric[] = [
     ),
   },
   {
-    num: "3.6M+",
+    num: PROOF.reach,
     label: "Reach",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
@@ -44,11 +47,23 @@ const METRICS: Metric[] = [
     ),
   },
   {
-    num: "2.4K+",
-    label: "Assets Delivered",
+    num: PROOF.post_clicks,
+    label: "Reported Post Clicks",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
-        <path d="M12 3l2.6 5.6 6 .7-4.4 4 1.2 6L12 16.9 6.6 19.3l1.2-6L3.4 9.3l6-.7L12 3Z" />
+        <path d="M15 3h6v6" />
+        <path d="M10 14L21 3" />
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      </svg>
+    ),
+  },
+  {
+    num: PROOF.engagement_rate,
+    label: "Engagement Rate",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6" {...stroke}>
+        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+        <polyline points="16 7 22 7 22 13" />
       </svg>
     ),
   },
@@ -58,23 +73,19 @@ export function MetricsStrip() {
   return (
     <section className="px-6 pb-6">
       <div className="mx-auto max-w-6xl">
-        <div className="glass-card-strong grid grid-cols-2 divide-y divide-[rgba(201,164,76,0.16)] rounded-2xl md:grid-cols-4 md:divide-y-0 md:divide-x">
+        <div className="glass-card-strong grid grid-cols-2 divide-y divide-[rgba(201,164,76,0.16)] rounded-2xl sm:grid-cols-3 md:grid-cols-5 md:divide-y-0 md:divide-x">
           {METRICS.map((m) => (
             <div key={m.label} className="flex flex-col items-center gap-2 px-4 py-7 text-center">
               <span className="text-[#C9A44C]">{m.icon}</span>
-              <span className="font-serif text-[clamp(26px,3vw,38px)] leading-none text-[#F6F1E7]">
+              <span className="font-serif text-[clamp(22px,2.6vw,34px)] leading-none text-[#F6F1E7]">
                 {m.num}
               </span>
               <span className="text-[11px] uppercase tracking-[0.18em] text-[#A9A092]">{m.label}</span>
             </div>
           ))}
         </div>
-        <p className="mx-auto mt-6 max-w-3xl text-center text-[14px] text-[#E8D7A2]">
-          13.9M+ impressions &middot; 543K+ direct engagements &middot; 3.6M+ reach &middot; 2,400+ assets delivered
-        </p>
-        {/* TODO(devon): Fill in your real start year below. */}
-        <p className="mx-auto mt-2 max-w-3xl text-center text-[13px] text-[#A9A092]">
-          Created across hospitality, hotel, restaurant, event, and spa/wellness campaigns.
+        <p className="mx-auto mt-4 max-w-3xl text-center text-[13px] text-[#A9A092]">
+          Tracked across hotel, restaurant, event, and wellness campaigns. Impressions, reach, engagement, and reported post clicks sourced from SHAIPE-tracked hospitality profiles. Direct booking attribution depends on property-level tracking setup.
         </p>
       </div>
     </section>

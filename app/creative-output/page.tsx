@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import clsx from "clsx";
 import { PageHeader } from "@/components/PageHeader";
+import { ScorecardFunnelCard } from "@/components/ScorecardFunnelCard";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import {
   REVIEW_DAYS,
@@ -522,6 +523,9 @@ export default function CreativeOutputPage() {
       />
 
       {note && <p className="rounded-lg bg-zinc-800 px-3 py-2 text-xs text-zinc-300">{note}</p>}
+
+      {/* ── Scorecard funnel snapshot ── */}
+      <ScorecardFunnelCard />
 
       {/* ── Top card ── */}
       <section className="rounded-xl border border-[rgba(201,164,76,0.25)] bg-gradient-to-br from-zinc-900 to-zinc-950 p-5">

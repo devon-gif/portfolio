@@ -8,6 +8,9 @@ import {
   Settings,
   MessageSquare,
   Target,
+  ClipboardList,
+  FileSearch,
+  Share2,
   LogOut,
 } from "lucide-react";
 import clsx from "clsx";
@@ -19,6 +22,9 @@ const NAV = [
   { href: "/prospects",  label: "Prospects",   icon: Target },
   { href: "/messages",   label: "Messages",    icon: MessageSquare },
   { href: "/followups",  label: "Follow-ups",  icon: Bell },
+  { href: "/scorecard-submissions", label: "Scorecard", icon: ClipboardList },
+  { href: "/creative-gap-reviews", label: "Gap Reviews", icon: FileSearch },
+  { href: "/linkedin-scorecard-launch", label: "LinkedIn Launch", icon: Share2 },
 ];
 
 export function Sidebar() {

@@ -23,7 +23,7 @@
 | Hotel local SEO support | NEW | /hotel-local-seo-support |
 | Hotel group creative system | NEW (or fold into group page) | /hotel-group-creative-system |
 
-All pages: Service + FAQPage JSON-LD via the existing template; proof block (13.9M+ impressions, 543K+ engagements, 3.6M+ reach, 2.4K+ assets); CTAs "Request a 3–5 Property Pilot" + "Request 5 Sample Assets"; internal links to /packages, /case-studies, /contact and 3–4 sibling pages.
+All pages: Service + FAQPage JSON-LD via the existing template; proof block (14.8M+ impressions, 565K+ engagements, 4.3M+ reach, 670K+ reported post clicks); CTAs "Request a 3–5 Property Pilot" + "Request 5 Sample Assets"; internal links to /packages, /case-studies, /contact and 3–4 sibling pages.
 
 ---
 

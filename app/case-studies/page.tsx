@@ -33,6 +33,8 @@ const allura = Allura({
   weight: ["400"],
 });
 
+// Safe attribution: "helped generate", "supported", "created measurable attention around."
+// No direct booking or revenue claims. Booking attribution notes added where relevant.
 const CASE_STUDIES = [
   {
     name: "Hampton Inn Greensburg",
@@ -41,21 +43,33 @@ const CASE_STUDIES = [
     category: "Select-service flag hotel",
     challenge:
       "A select-service Hilton flag with no creative person on property. Social posting was inconsistent, fell to whoever had a spare hour, and everything had to respect Hampton brand standards, which made one-off freelance help risky.",
-    work: "Ongoing monthly creative built from the property's existing photography: feed graphics, local-market content, seasonal pushes, and short-form video, all produced brand-standard-aware so it clears review the first time. Captions included, delivered approval-ready for the property's scheduler.",
+    work: "Ongoing monthly creative built from the property's existing assets: feed graphics, local-market content, seasonal pushes, and short-form video, all produced brand-standard-aware so it clears review the first time. Captions included, delivered approval-ready for the property's scheduler.",
     outcome:
-      "A feed that stays active through every season without adding anyone to payroll, and a GM team that reviews and approves instead of designing. The same model now extends to a second Hampton property in Johnstown.",
+      "338 posts tracked across the Hampton Greensburg profile. Creative helped generate 3.24M impressions, 78.3K direct engagements, and 734K reach. The same monthly workflow now extends to a second Hampton property in Johnstown. The GM team reviews and approves instead of designing.",
     video: HERO_ROTATION[1], // Hotel entrance
   },
   {
-    name: "Hotel Indigo Pittsburgh & Eliza Hot Metal Bistro",
+    name: "Hotel Indigo Pittsburgh",
     logo: "/PITTSBURGH%20UNI-OAK_RGB_canvas_white_on_indigo_blue.png",
     logoAlt: "Hotel Indigo Pittsburgh logo",
     category: "Boutique flag hotel + restaurant",
     challenge:
-      "A boutique IHG property with a strong identity and an on-site restaurant, Eliza Hot Metal Bistro, that each needed their own voice, rooms-and-neighborhood storytelling for the hotel, menu and specials promotion for the restaurant, with one stretched team behind both.",
+      "A boutique IHG property with a strong identity and an on-site restaurant, Eliza Hot Metal Bistro, that each needed their own voice: rooms-and-neighborhood storytelling for the hotel, menu and specials promotion for the restaurant, with one stretched team behind both.",
     work: "Two coordinated content streams on one plan: boutique-styled hotel creative on one side, F&B promos for Eliza on the other, menu features, bar program content, and event pushes timed to the restaurant's calendar. Short-form video built from existing assets keeps both feeds moving.",
     outcome:
-      "Hotel and restaurant each get a consistent, distinct presence without competing for the same internal bandwidth, and promos for Eliza ship while the special is still on the menu.",
+      "408 posts tracked across the Hotel Indigo Pittsburgh profile. Creative supported 1.91M impressions, 54.7K direct engagements, and 210K reach. Hotel and restaurant each maintain a consistent, distinct presence without competing for the same internal bandwidth.",
+    video: MOTION_CAROUSEL[0], // Bar & cocktails
+  },
+  {
+    name: "Eliza PGH / Eliza Hot Metal Bistro",
+    logo: "/PITTSBURGH%20UNI-OAK_RGB_canvas_white_on_indigo_blue.png",
+    logoAlt: "Eliza Hot Metal Bistro logo",
+    category: "Restaurant, F&B & event creative",
+    challenge:
+      "An on-site restaurant with a strong local identity, active events calendar, and seasonal specials that needed consistent creative output without adding another person to the team or waiting on hotel-side marketing cycles.",
+    work: "F&B promos, seasonal campaigns, event creative, bar program content, and community-focused posts built from the restaurant's own imagery and calendar. Campaign highlights included a Halloween campaign, Snowflake campaign, and family experience events like Breakfast with Stitch.",
+    outcome:
+      "444 posts tracked across the Eliza PGH profile. Creative helped generate 5.88M impressions, 323K direct engagements, and 1.15M reach. The Halloween campaign alone drove 22.7K engagements and 193.7K reach. The Snowflake campaign drove 19.8K engagements and 56.8K reach.",
     video: MOTION_CAROUSEL[0], // Bar & cocktails
   },
   {
@@ -64,10 +78,10 @@ const CASE_STUDIES = [
     logoAlt: "Elements Salon & Wellness logo",
     category: "Salon, spa & wellness",
     challenge:
-      "A wellness business whose brand depends on a calm, premium feel, exactly the aesthetic that's hardest to produce in spare moments between clients. Content needed to look serene and intentional, not rushed.",
-    work: "A steady monthly stream of polished wellness creative: service features, seasonal promotions, and soft-motion content built from the studio's own imagery, with captions written in the brand's quieter voice.",
+      "A wellness business whose brand depends on a calm, premium feel, exactly the aesthetic that's hardest to produce in spare moments between clients. The opening campaign and ongoing creative needed to look serene and intentional, not rushed.",
+    work: "A steady monthly stream of polished wellness creative: service features, seasonal promotions, and soft-motion content built from the studio's own imagery, with captions written in the brand's quieter voice. Opening campaign creative helped introduce the brand to local audiences.",
     outcome:
-      "A presence that finally matches the in-person experience, produced without pulling the team off the floor, and a template for how Archer Design supports spa and wellness operators inside and outside hotels.",
+      "165 posts tracked across the Elements Salon & Wellness profile. Creative helped generate 3.26M impressions, 87.9K direct engagements, and 2.17M reach. The opening campaign alone drove 14K engagements and 50.9K reach, supporting strong local awareness for the new location.",
     video: HERO_ROTATION[5], // Luxury room timelapse (calm motion)
   },
 ];
@@ -113,9 +127,9 @@ export default function CaseStudiesPage() {
             Real properties, real workload taken off real teams.
           </h1>
           <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-[#A9A092]">
-            Across our hospitality clients, Archer Design creative has delivered 13.9M+ impressions,
-            543K+ engagements, and 3.6M+ reach, all built from assets the properties already had.
-            Here&apos;s what the work looks like client by client.
+            Across tracked hotel, restaurant, event, and wellness profiles, Archer Design creative has
+            helped generate 14.8M+ impressions, 565K+ direct engagements, and 4.3M+ reach to date.
+            Here&apos;s what the work looks like property by property.
           </p>
         </section>
 
@@ -163,11 +177,14 @@ export default function CaseStudiesPage() {
                     </div>
                     <div>
                       <dt className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[#E8D7A2]">
-                        Where it landed
+                        Results
                       </dt>
                       <dd className="mt-1">{cs.outcome}</dd>
                     </div>
                   </dl>
+                  <p className="mt-4 text-[11px] text-[#A9A092]/50">
+                    Metrics sourced from SHAIPE-tracked profile data. These reflect impressions, reach, and engagement. Direct booking attribution depends on property-level tracking setup and is not claimed above.
+                  </p>
                 </div>
               </div>
             </article>
@@ -180,8 +197,7 @@ export default function CaseStudiesPage() {
             Your property could be the next one here.
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-[15px] text-[#A9A092]">
-            Start the same way every client above did: send your existing photos and details, get 5
-            finished assets back in 7 days, free, then decide.
+            Start with a focused 3–5 property pilot. Send your existing assets, campaign details, or event notes, and we&apos;ll show you what the work looks like before a longer commitment.
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Link
@@ -189,7 +205,7 @@ export default function CaseStudiesPage() {
               className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-[#1a1407]"
               style={{ background: GOLD_GRADIENT }}
             >
-              Request a free trial <span aria-hidden>→</span>
+              Request a 3–5 Property Pilot <span aria-hidden>→</span>
             </Link>
             <a
               href={CALENDLY_URL}

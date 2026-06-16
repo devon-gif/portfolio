@@ -22,7 +22,7 @@
 
 ### Slide 4 — Proof
 **Title:** Built for hospitality, measured in the open.
-**Copy:** "13.9M+ impressions · 543K+ direct engagements · 3.6M+ reach · 2.4K+ creative assets delivered. Current and past work: Hotel Indigo Pittsburgh, Hampton Inn properties (brand-standard-aware), Eliza Hot Metal Bistro (hotel F&B), spa/wellness and event campaigns."
+**Copy:** "14.8M+ impressions · 565K+ direct engagements · 4.3M+ reach · 670K+ reported post clicks. Current and past work: Hotel Indigo Pittsburgh, Hampton Inn properties (brand-standard-aware), Eliza Hot Metal Bistro (hotel F&B), spa/wellness and event campaigns."
 *(2–3 before/after pairs matched to their category — see proof library.)*
 
 ### Slide 5 — What the pilot includes

@@ -71,3 +71,24 @@ public/videos/
 
 # Large video assets - hosted on Supabase Storage
 public/videos/
+tsconfig.verify.json
+.next-v2
+tsconfig.v2.json
+.next-verify
+.next-v3
+tsconfig.v3.json
+.next-v6
+tsconfig.v6.json
+.next-v4
+.next-v5
+.next-v7
+.next-v8
+tsconfig.v8.json
+.next-v9
+tsconfig.v9.json
+
+# Local build/test artifacts
+.next-build/
+.next-build2/
+dev.log
+build-error.txt
