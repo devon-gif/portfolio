@@ -18,6 +18,9 @@ const PUBLIC_ROUTES = [
   "/hotel-creative-scorecard",
   "/hospitality-resource-vault",
   "/creative-gap-review",
+  "/restaurant-creative-support",
+  "/spa-salon-creative-support",
+  "/hotel-creative-without-adding-headcount",
 ];
 // Auth routes: full-bleed, no sidebar, no guard (these ARE the login flow).
 const AUTH_ROUTES = ["/login", "/auth/callback"];

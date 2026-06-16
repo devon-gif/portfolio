@@ -22,10 +22,10 @@ export function MediaHero() {
         </h1>
 
         <p className="mx-auto mt-4 max-w-[700px] text-[clamp(13px,1.3vw,16px)] leading-relaxed text-[#A9A092]">
-          Archer Design helps hotels, restaurants, spas, resorts, and hospitality teams turn
-          services, events, offers, gift cards, F&amp;B promos, and local campaigns into polished
-          monthly creative that supports bookings, inquiries, and repeat visits without adding
-          another full-time creative hire.
+          Archer Design helps hospitality teams turn services, events, F&amp;B promos, gift
+          cards, local campaigns, and property-level offers into polished monthly creative that
+          supports bookings, inquiries, and repeat visits without adding another full-time
+          creative hire.
         </p>
 
         {/* Large cinematic hero video with a soft golden glow + thin gold border */}
@@ -76,6 +76,10 @@ export function MediaHero() {
 
         <p className="mt-3 text-[13px] text-[#A9A092]">
           14.8M+ impressions &middot; 565K+ engagements &middot; 4.3M+ reach &middot; 670K+ reported post clicks
+        </p>
+
+        <p className="mt-1.5 text-[12px] text-[#A9A092]/80">
+          2,500+ creative pieces and posts tracked across active client accounts.
         </p>
 
         <p className="mt-4 flex items-center gap-2 text-[13px] text-[#A9A092]">
