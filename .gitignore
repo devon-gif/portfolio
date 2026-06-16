@@ -92,3 +92,10 @@ tsconfig.v9.json
 .next-build2/
 dev.log
 build-error.txt
+
+# Local deploy/debug artifacts
+.next-build/
+.next-build2/
+dev.log
+build-error.txt
+vercel-deploy.log
