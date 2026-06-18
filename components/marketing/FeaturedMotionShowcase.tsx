@@ -30,12 +30,12 @@ export function FeaturedMotionShowcase() {
             Motion library
           </span>
           <h2 className="mt-3 font-serif text-[clamp(28px,4.4vw,48px)] font-semibold leading-[1.05] text-[#F6F1E7]">
-            Short-form motion that makes guests stop, look, and book.
+            Short-form motion for the moments guests can act on.
           </h2>
           <p className="mt-3 text-[#A9A092]">
-            Your properties already have the raw material. We turn hotel photos, restaurant visuals,
-            spa content, and event details into scroll-stopping motion built for social, local
-            visibility, and direct booking interest.
+            Your properties already have the raw material. We turn rooms, restaurants, bars,
+            rooftops, meeting spaces, weddings, spa services, seasonal packages, and local
+            experiences into scroll-stopping motion built for social and local visibility.
           </p>
         </div>
 

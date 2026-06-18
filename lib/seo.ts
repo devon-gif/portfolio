@@ -38,6 +38,7 @@ export const PUBLIC_PAGES: { path: string; priority: number; changeFrequency: "w
   { path: "/hospitality-creative-support", priority: 0.8, changeFrequency: "monthly" },
   { path: "/hotel-restaurant-event-promos", priority: 0.8, changeFrequency: "monthly" },
   { path: "/hotel-marketing-cost-savings", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/promo-rescue", priority: 0.8, changeFrequency: "monthly" },
 ];
 
 export function absoluteUrl(path: string): string {

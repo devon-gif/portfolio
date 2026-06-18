@@ -21,6 +21,7 @@ const PUBLIC_ROUTES = [
   "/restaurant-creative-support",
   "/spa-salon-creative-support",
   "/hotel-creative-without-adding-headcount",
+  "/promo-rescue",
 ];
 // Auth routes: full-bleed, no sidebar, no guard (these ARE the login flow).
 const AUTH_ROUTES = ["/login", "/auth/callback"];

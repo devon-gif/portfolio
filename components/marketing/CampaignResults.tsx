@@ -72,9 +72,9 @@ const CARDS: {
 ];
 
 const CARD_NAMES: Record<string, string> = {
-  eliza:   "Eliza PGH / Eliza Hot Metal Bistro",
+  eliza:   "Eliza Hot Metal Bistro",
   indigo:  "Hotel Indigo Pittsburgh",
-  hampton: "Hampton Inn Greensburg",
+  hampton: "Hampton Inn Greensburg / Johnstown",
   elements:"Elements Salon & Wellness",
 };
 

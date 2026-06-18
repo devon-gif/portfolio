@@ -55,9 +55,24 @@ export const metadata: Metadata = {
 // TODO(devon): Fill in real terms for the commitment FAQ answer.
 const FAQ = [
   {
-    q: "Do you only work from existing photos?",
-    a: "No. Existing property assets are often the fastest starting point, but we also create new branded graphics, campaign concepts, polished visuals, motion assets, and photo and video direction as needed. If new photo or video support is needed, we can scope that into the project.",
+    q: "What is a Creative Gap Review?",
+    a: "A short review of how your property, restaurant, spa, or event offer shows up online. We look at your website, social, Google Business content, and visible campaigns, then send 3-5 practical ideas to improve how your offers are packaged.",
     open: true,
+  },
+  {
+    q: "Do we need a photo/video shoot?",
+    a: "No. The starting point is the assets you already have: property photos, menus, event details, spa services, phone photos, and past campaign material. If new photo or video support is needed later, we can scope that in separately.",
+    open: true,
+  },
+  {
+    q: "Is this for one property or a group?",
+    a: "Both. Single-property support is available, but the strongest fit is hotel groups, management companies, or hospitality teams that need consistent creative across multiple properties or revenue centers.",
+    open: false,
+  },
+  {
+    q: "Are you a full-service marketing agency?",
+    a: "No. Archer Design focuses on the creative execution layer: social graphics, short-form motion, campaign visuals, Google Business content support, captions, and offer packaging. We can support marketing teams, agencies, or operators who already have strategy but need better creative output.",
+    open: false,
   },
   {
     q: "What do we get each month?",
@@ -90,13 +105,8 @@ const FAQ = [
     open: false,
   },
   {
-    q: "Can you prove the creative drove bookings?",
-    a: "We track what creative can honestly claim: impressions, reach, engagement, reactions, shares, comments, reported post clicks, and direct response to promoted offers and events. Across tracked hospitality profiles, that's 14.8M+ impressions, 565K+ direct engagements, 4.3M+ reach, and 670K+ reported post clicks to date. Direct booking attribution depends on your property's tracking setup. During onboarding we'll set up UTM links, campaign links, Google Business Profile tracking, and inquiry/booking-support signals where access is available.",
-    open: false,
-  },
-  {
-    q: "Do these numbers prove bookings?",
-    a: "Not by themselves. The report shows strong impressions, engagement, shares, comments, and 670K+ reported post clicks across tracked campaigns. These are meaningful signals that show the creative is creating attention and action. Direct booking attribution depends on the property's own tracking setup. During a pilot, Archer Design can add UTM links, campaign links, landing page tracking, Google Business Profile reporting, and inquiry/booking-support signals where access is available.",
+    q: "Can you prove this drove bookings?",
+    a: "We track what creative can honestly claim: impressions, reach, engagement, post clicks, profile actions, campaign response, and inquiry/booking-support signals where tracking is available. Direct booking attribution depends on your property's setup, and we can recommend simple tracking links, UTMs, Google Business tracking, and campaign codes during onboarding.",
     open: false,
   },
   {
@@ -174,7 +184,7 @@ export default function ArcherDesignHome() {
               className="rounded-xl px-4 py-2 text-[13px] font-semibold text-[#1a1407]"
               style={{ background: GOLD_GRADIENT }}
             >
-              Request a Pilot →
+              Request a Creative Gap Review →
             </a>
           </nav>
         </div>
@@ -185,6 +195,87 @@ export default function ArcherDesignHome() {
 
         {/* Trust bar, client logos only, no keyword tags */}
         <ClientLogoStrip />
+
+        {/* What we help promote */}
+        <section className="px-6 py-16">
+          <div className="mx-auto max-w-6xl">
+            <div className="max-w-2xl">
+              <span className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C]">
+                What we help promote
+              </span>
+              <h2 className="mt-3 font-serif text-[clamp(26px,3.5vw,42px)] font-semibold leading-tight text-[#F6F1E7]">
+                Built around the revenue moments hospitality teams already need to promote.
+              </h2>
+            </div>
+
+            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                {
+                  title: "Hotels",
+                  body: "Rooms, amenities, packages, local campaigns, guest experience, seasonal offers.",
+                },
+                {
+                  title: "Restaurants & F&B",
+                  body: "Menus, cocktails, brunch, rooftops, private dining, chef/event nights, seasonal offers.",
+                },
+                {
+                  title: "Events, Meetings & Weddings",
+                  body: "Meeting rooms, wedding spaces, corporate events, private dining, holiday parties, group sales moments.",
+                },
+                {
+                  title: "Spas & Wellness",
+                  body: "Treatments, gift cards, seasonal services, local awareness, openings, wellness experiences.",
+                },
+              ].map((c) => (
+                <div
+                  key={c.title}
+                  className="glass-card flex flex-col gap-2 rounded-2xl border border-[rgba(201,164,76,0.16)] p-6"
+                >
+                  <h3 className="font-serif text-[17px] font-semibold text-[#F6F1E7]">{c.title}</h3>
+                  <p className="text-[13.5px] leading-relaxed text-[#A9A092]">{c.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Where hospitality creative breaks down */}
+        <section className="px-6 py-16">
+          <div className="mx-auto max-w-5xl">
+            <div className="glass-card rounded-3xl p-8 md:p-12">
+              <span className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C]">
+                The real problem
+              </span>
+              <h2 className="mt-3 font-serif text-[clamp(26px,3.5vw,42px)] font-semibold leading-tight text-[#F6F1E7]">
+                Where hospitality creative breaks down.
+              </h2>
+              <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-[#A9A092]">
+                Most hospitality teams are not short on things to promote. They are short on time,
+                design support, motion assets, and a repeatable system for turning all those offers
+                into polished creative.
+              </p>
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                {[
+                  "Restaurant promos get rushed",
+                  "Events are posted late",
+                  "Meeting spaces are underused visually",
+                  "Google Business updates fall behind",
+                  "Seasonal offers do not get packaged clearly",
+                  "Property teams rely on mismatched one-off graphics",
+                  "Corporate marketing is stretched across too many properties",
+                ].map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-3 rounded-xl border border-[rgba(201,164,76,0.12)] bg-[rgba(5,5,5,0.28)] p-4 text-[14px] text-[#D8CFBE]"
+                  >
+                    <span className="mt-[5px] shrink-0 text-[9px] text-[#C9A44C]">◆</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
 
         {/* Creative support tied to real revenue moments */}
         <section className="px-6 py-16">
@@ -267,10 +358,10 @@ export default function ArcherDesignHome() {
                       className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
                       style={{ background: GOLD_GRADIENT }}
                     >
-                      Request a 3–5 Property Pilot <span aria-hidden>→</span>
+                      Request a Creative Gap Review <span aria-hidden>→</span>
                     </a>
                     <p className="mt-3 text-[13px] text-[#A9A092]">
-                      3-property pilots start at $4,500/month; 5-property portfolio pilots start at $10,000/month.
+                      3-property pilots run $4,500–$5,500/month; 5-property pilots run $7,500–$8,500/month.
                     </p>
                   </div>
                 </div>
@@ -404,7 +495,7 @@ export default function ArcherDesignHome() {
             className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
             style={{ background: GOLD_GRADIENT }}
           >
-            Request a 3–5 Property Pilot <span aria-hidden>→</span>
+            Request a Creative Gap Review <span aria-hidden>→</span>
           </a>
           <p className="mt-3 text-[13px] text-[#A9A092]">Or request 5 sample assets, no card, 7 days, approval-ready.</p>
         </div>

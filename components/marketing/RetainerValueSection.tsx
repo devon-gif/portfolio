@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { siteConfig } from "@/lib/site-config";
 import { GOLD_GRADIENT } from "./media";
 
 type PackageOption = {
@@ -9,10 +10,9 @@ type PackageOption = {
 };
 
 const PACKAGE_OPTIONS: PackageOption[] = [
-  { label: "Single Property Creative System, $2,500/month", monthly: 2500 },
-  { label: "3-Property Creative System, $4,500/month", monthly: 4500 },
-  { label: "Creative + Local SEO System, $7,500/month", monthly: 7500 },
-  { label: "Hospitality Group Partnership, $10,000/month", monthly: 10000 },
+  { label: "Single Property Creative Support, $1,799/month", monthly: 1799 },
+  { label: "3-Property Hospitality Pilot, $5,000/month", monthly: 5000 },
+  { label: "5-Property Creative Pilot, $8,000/month", monthly: 8000 },
   { label: "Spa & Wellness Creative, $1,250/month", monthly: 1250 },
   { label: "Restaurant & F&B Creative, $1,500/month", monthly: 1500 },
 ];
@@ -61,15 +61,14 @@ export function RetainerValueSection() {
               Retainer value
             </span>
             <h2 className="mt-4 max-w-2xl font-serif text-[clamp(28px,4.4vw,50px)] font-semibold leading-[1.0] text-[#F6F1E7]">
-              One full-time creative hire can cost six figures,{" "}
-              <span className="text-[#C9A44C]">fully loaded.</span>
+              One in-house creative hire can cost{" "}
+              <span className="text-[#C9A44C]">$90K–$180K+, fully loaded.</span>
             </h2>
             <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-[#A9A092]">
               Once salary, benefits, software, payroll taxes, recruiting, and management are
-              included, the number climbs fast. Archer Design gives hospitality teams a fixed monthly
-              creative system: strategy, design, motion, campaign visuals, F&amp;B and event
-              creative, photo polishing, and local SEO support, without adding another full-time
-              role.
+              included, an in-house creative, social, or video role gets expensive fast. Archer
+              Design gives hospitality teams flexible creative output across properties, offers, and
+              campaigns, for a fraction of that overhead.
             </p>
           </div>
 
@@ -188,15 +187,15 @@ export function RetainerValueSection() {
             Evaluate the quality before committing to a monthly partnership.
           </h3>
           <a
-            href="/contact"
+            href={siteConfig.creativeGapReviewUrl}
             className="mt-5 inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
             style={{ background: GOLD_GRADIENT }}
           >
-            Request 5 Sample Assets <span aria-hidden>→</span>
+            Request a Creative Gap Review <span aria-hidden>→</span>
           </a>
           <p className="mx-auto mt-4 max-w-xl text-[13px] leading-relaxed text-[#A9A092]">
-            Send your property photos, campaign details, or event notes. We&apos;ll return 5
-            finished, approval-ready pieces in 7 days.
+            Send your property photos, campaign details, or event notes. We&apos;ll send back 3-5
+            practical creative fixes.
           </p>
         </div>
       </div>

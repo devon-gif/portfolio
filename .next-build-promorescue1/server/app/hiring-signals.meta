@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/hiring-signals/layout,_N_T_/hiring-signals/page,_N_T_/hiring-signals"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/hiring-signals/__PAGE__",
+    "/hiring-signals",
+    "/_index",
+    "/_head"
+  ]
+}

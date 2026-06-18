@@ -1,10 +1,11 @@
 "use client";
 
 import { GOLD_GRADIENT, HERO_VIDEO_CINEMATIC } from "./media";
+import { siteConfig } from "@/lib/site-config";
 
 /**
  * Above-the-fold hero: eyebrow + headline, subhead, cinematic video, dual CTAs.
- * Primary CTA: "Request a 3–5 Property Pilot" (premium positioning).
+ * Primary CTA: "Request a Creative Gap Review" (low-friction entry point).
  */
 export function MediaHero() {
   return (
@@ -15,17 +16,16 @@ export function MediaHero() {
         </span>
 
         <h1 className="mt-3 max-w-[880px] font-serif text-[clamp(34px,5.4vw,60px)] font-semibold leading-[0.96] tracking-[-0.01em] text-[#F6F1E7]">
-          Make every property look{" "}
+          Property-level creative support for{" "}
           <span className="bg-clip-text text-transparent" style={{ backgroundImage: GOLD_GRADIENT }}>
-            as strong online as it does in person.
+            hotels, restaurants, spas, and event-heavy hospitality teams.
           </span>
         </h1>
 
         <p className="mx-auto mt-4 max-w-[700px] text-[clamp(13px,1.3vw,16px)] leading-relaxed text-[#A9A092]">
-          Archer Design helps hospitality teams turn services, events, F&amp;B promos, gift
-          cards, local campaigns, and property-level offers into polished monthly creative that
-          supports bookings, inquiries, and repeat visits without adding another full-time
-          creative hire.
+          We turn existing photos, F&amp;B and event content, meeting spaces, seasonal offers,
+          and local campaigns into polished social graphics, short-form motion, Google Business
+          content, and campaign visuals, without adding more workload to your internal team.
         </p>
 
         {/* Large cinematic hero video with a soft golden glow + thin gold border */}
@@ -60,26 +60,27 @@ export function MediaHero() {
         {/* CTAs */}
         <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
           <a
-            href="/contact"
+            href={siteConfig.creativeGapReviewUrl}
             className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
             style={{ background: GOLD_GRADIENT }}
           >
-            Request a 3–5 Property Pilot <span aria-hidden>→</span>
+            Request a Creative Gap Review <span aria-hidden>→</span>
           </a>
           <a
-            href="#packages"
+            href="#work"
             className="rounded-xl border border-[rgba(201,164,76,0.24)] bg-[rgba(5,5,5,0.28)] px-6 py-3.5 text-sm font-semibold text-[#E8D7A2] transition hover:-translate-y-0.5 hover:border-[#C9A44C] hover:bg-[rgba(201,164,76,0.06)]"
           >
-            View Proof &amp; Packages →
+            See the Work →
           </a>
         </div>
 
         <p className="mt-3 text-[13px] text-[#A9A092]">
-          14.8M+ impressions &middot; 565K+ engagements &middot; 4.3M+ reach &middot; 670K+ reported post clicks
+          Across tracked hospitality campaigns: 14.8M+ impressions &middot; 565K+ engagements &middot; 4.3M+ reach &middot; 670K+ reported post clicks &middot; 2.5K+ creative pieces tracked
         </p>
 
-        <p className="mt-1.5 text-[12px] text-[#A9A092]/80">
-          2,500+ creative pieces and posts tracked across active client accounts.
+        <p className="mt-3 text-[13px] text-[#A9A092]">
+          No pressure. No long brief. Send a property, restaurant, event, spa, or campaign link and
+          get a practical creative review.
         </p>
 
         <p className="mt-4 flex items-center gap-2 text-[13px] text-[#A9A092]">

@@ -3,6 +3,7 @@
 // Safe language throughout — no direct booking claims.
 
 import { TRACKING_SCOPE } from "@/lib/proof-stats";
+import { siteConfig } from "@/lib/site-config";
 
 const SERVICE_GROUPS = [
   {
@@ -211,10 +212,10 @@ export function WhatWeTrack() {
                 </div>
 
                 <a
-                  href="/contact"
+                  href={siteConfig.creativeGapReviewUrl}
                   className="inline-flex items-center gap-2 rounded-xl border border-[rgba(201,164,76,0.32)] bg-[rgba(201,164,76,0.06)] px-5 py-3 text-sm font-semibold text-[#E8D7A2] transition hover:-translate-y-0.5 hover:border-[#C9A44C]"
                 >
-                  Request a Creative Pilot <span aria-hidden>→</span>
+                  Request a Creative Gap Review <span aria-hidden>→</span>
                 </a>
               </div>
 
