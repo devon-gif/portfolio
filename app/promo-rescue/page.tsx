@@ -2,7 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Allura, Fraunces } from "next/font/google";
 import { SeedanceBackground } from "@/components/marketing/SeedanceBackground";
-import { GOLD_GRADIENT, GALLERY_IMAGES, HERO_VIDEO } from "@/components/marketing/media";
+import {
+  GOLD_GRADIENT,
+  PROMO_RESCUE_HERO_IMAGE,
+  PROMO_RESCUE_EXAMPLES,
+  PROMO_RESCUE_MOTION_EXAMPLES,
+  BRAND_PROOF_LOGOS,
+} from "@/components/marketing/media";
 
 const fraunces = Fraunces({
   variable: "--font-luxury-serif",
@@ -112,23 +118,28 @@ const EXAMPLES = [
 const HOW_IT_WORKS = [
   {
     step: "1",
-    title: "Send your details",
-    body: "Tell me what you need promoted — the offer, event, service, or announcement — plus any logo or photo you have.",
+    title: "Choose your package",
+    body: "Pick the package that fits — from the $59.99 Promo Rescue up to the Local Campaign Kit.",
   },
   {
     step: "2",
-    title: "Pay the limited offer price",
-    body: "Pay upfront at $59.99 to lock in your slot. Payment is required before work starts.",
+    title: "Pay upfront",
+    body: "Payment is required before work starts. This locks in your slot and turnaround window.",
   },
   {
     step: "3",
-    title: "Get your first draft",
-    body: "I'll send back a polished feed graphic, story version, caption, and Google Business/Facebook version within 24 hours.",
+    title: "Send your promo details",
+    body: "Tell me what you need promoted — the offer, event, service, or announcement — plus any logo or photo you have.",
   },
   {
     step: "4",
+    title: "Get your first draft",
+    body: "I'll send back your polished promo graphics, story versions, captions, and Google Business/Facebook versions.",
+  },
+  {
+    step: "5",
     title: "Post it",
-    body: "Request your one small revision if needed, then post it wherever your business shows up online.",
+    body: "Request your included revision if needed, then post it wherever your business shows up online.",
   },
 ];
 
@@ -142,13 +153,8 @@ const WHAT_TO_SEND = [
   "Where you plan to post it",
 ];
 
-const NOT_INCLUDED = [
-  "Full branding or logo design",
-  "Complex video editing or animation",
-  "Ad management or ad spend",
-  "Printing or physical materials",
-  "Unlimited revisions",
-];
+const NOT_INCLUDED_STATEMENT =
+  "Complex video editing, filming, ad management, full branding, logo design, printing, and unlimited revisions are not included.";
 
 type Package = {
   name: string;
@@ -159,6 +165,7 @@ type Package = {
   note?: string;
   buttonLabel: string;
   link: string;
+  image: string;
 };
 
 const PACKAGES: Package[] = [
@@ -177,6 +184,7 @@ const PACKAGES: Package[] = [
     ],
     buttonLabel: "Claim Promo Rescue",
     link: PROMO_RESCUE_LINK,
+    image: PROMO_RESCUE_EXAMPLES[2].src,
   },
   {
     name: "Social Promo Pack",
@@ -194,6 +202,7 @@ const PACKAGES: Package[] = [
     ],
     buttonLabel: "Get Social Promo Pack",
     link: SOCIAL_PROMO_PACK_LINK,
+    image: PROMO_RESCUE_HERO_IMAGE.src,
   },
   {
     name: "Motion Boost Pack",
@@ -212,6 +221,7 @@ const PACKAGES: Package[] = [
     note: "Simple motion only. No filming or complex video editing included.",
     buttonLabel: "Get Motion Boost Pack",
     link: MOTION_BOOST_PACK_LINK,
+    image: PROMO_RESCUE_EXAMPLES[4].src,
   },
   {
     name: "Local Campaign Kit",
@@ -230,6 +240,7 @@ const PACKAGES: Package[] = [
     ],
     buttonLabel: "Get Local Campaign Kit",
     link: LOCAL_CAMPAIGN_KIT_LINK,
+    image: PROMO_RESCUE_EXAMPLES[1].src,
   },
 ];
 
@@ -252,34 +263,11 @@ const FAQS = [
   },
   {
     q: "Can you do video or animation?",
-    a: "Not as part of this offer. This is focused on a fast, polished static promo graphic, story version, caption, and Google Business/Facebook version. Video and motion work fall outside this scope.",
+    a: "Simple motion is available in the Motion Boost Pack and Local Campaign Kit. The $59.99 Promo Rescue package is focused on a static promo graphic, story version, caption, and Google Business/Facebook version. Complex video editing, filming, and full commercial production are not included.",
   },
   {
     q: "Is this only for Pennsylvania?",
     a: "This limited offer is currently focused on Pennsylvania small businesses first, but the service can work for any small business.",
-  },
-];
-
-const PREVIEW_IMAGES = GALLERY_IMAGES.slice(0, 4);
-
-// Real promo graphics produced for past clients — shown as live examples
-// of the kind of polished, ready-to-post creative this offer delivers.
-const PROMO_EXAMPLE_IMAGES = [
-  {
-    src: `/${encodeURIComponent("Screenshot 2026-06-18 at 12.12.35 PM.png")}`,
-    alt: "Hotel Indigo Pittsburgh University-Oakland \"Comfy Yet?\" room and lobby promo collage",
-  },
-  {
-    src: `/${encodeURIComponent("Screenshot 2026-06-18 at 12.12.10 PM.png")}`,
-    alt: "Eliza Hot Metal Bistro burgers promo graphic, 15% off all burgers",
-  },
-  {
-    src: `/${encodeURIComponent("Screenshot 2026-06-18 at 12.11.37 PM.png")}`,
-    alt: "Eliza Hot Metal Bistro Take Out Wednesday promo graphic",
-  },
-  {
-    src: `/${encodeURIComponent("Screenshot 2026-06-18 at 12.11.11 PM.png")}`,
-    alt: "Eliza Hot Metal Bistro live music November promo flyer",
   },
 ];
 
@@ -327,81 +315,197 @@ export default function PromoRescuePage() {
       </header>
 
       <main>
-        {/* 1. Hero */}
-        <section className="relative overflow-hidden px-6 pb-12 pt-20 text-center">
-          <div className="absolute inset-0 -z-[5] overflow-hidden" aria-hidden="true">
-            <video
-              className="h-full w-full object-cover opacity-[0.55] brightness-[0.85] saturate-[1.1]"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-            >
-              <source src={HERO_VIDEO} type="video/mp4" />
-            </video>
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(5,5,5,0.55), rgba(5,5,5,0.82) 70%, rgba(5,5,5,0.95))",
-              }}
-            />
-          </div>
-          <div className="relative mx-auto max-w-3xl">
-            <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.35em] text-[#C9A44C]">
-              Limited offer for small businesses
-            </span>
-            <h1 className="mt-4 font-serif text-[clamp(32px,5.5vw,62px)] font-semibold leading-tight text-[#F6F1E7]">
-              Get one promo cleaned up in 24 hours.
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-[16px] leading-relaxed text-[#A9A092]">
-              Send one flyer, event, menu item, service special, sale, or announcement.
-              I&apos;ll turn it into a polished social-ready promo graphic, story version,
-              caption, and Google Business/Facebook post version.
-            </p>
-
-            <div className="mx-auto mt-8 max-w-sm">
-              <div className="glass-card-strong rounded-2xl p-6 ring-1 ring-[rgba(201,164,76,0.3)]">
-                <p className="text-[13px] text-[#A9A092]">Normally</p>
-                <p className="text-[20px] text-[#A9A092] line-through">$99.99</p>
-                <p
-                  className="mt-1 font-serif text-[clamp(28px,4vw,40px)] font-semibold bg-clip-text text-transparent"
-                  style={{ backgroundImage: GOLD_GRADIENT }}
-                >
-                  $59.99 Limited Offer
+        {/* 1. Hero — split layout: copy left, video card right */}
+        <section className="relative overflow-hidden px-6 pb-14 pt-16 lg:pt-20">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+              {/* Left: copy */}
+              <div className="text-center lg:text-left">
+                <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.35em] text-[#C9A44C]">
+                  Limited offer for small businesses
+                </span>
+                <h1 className="mt-4 font-serif text-[clamp(32px,5vw,56px)] font-semibold leading-tight text-[#F6F1E7]">
+                  Get one promo cleaned up in 24 hours.
+                </h1>
+                <p className="mx-auto mt-6 max-w-xl text-[16px] leading-relaxed text-[#A9A092] lg:mx-0">
+                  Send one flyer, event, menu item, service special, sale, or announcement.
+                  I&apos;ll turn it into a polished social-ready promo graphic, story version,
+                  caption, and Google Business/Facebook post version.
                 </p>
-                <p className="mt-3 text-[12px] text-[#A9A092]">
-                  Limited discounted slots available. One promo per order.
+
+                <div className="mx-auto mt-8 max-w-sm lg:mx-0">
+                  <div className="glass-card-strong rounded-2xl p-6 ring-1 ring-[rgba(201,164,76,0.3)]">
+                    <p className="text-[13px] text-[#A9A092]">Normally</p>
+                    <p className="text-[20px] text-[#A9A092] line-through">$99.99</p>
+                    <p
+                      className="mt-1 font-serif text-[clamp(28px,4vw,40px)] font-semibold bg-clip-text text-transparent"
+                      style={{ backgroundImage: GOLD_GRADIENT }}
+                    >
+                      $59.99 Limited Offer
+                    </p>
+                    <p className="mt-3 text-[12px] text-[#A9A092]">
+                      Limited discounted slots available. One promo per order.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
+                  <a
+                    href={STRIPE_PAYMENT_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
+                    style={{ background: GOLD_GRADIENT }}
+                  >
+                    Claim My $59.99 Promo Rescue <span aria-hidden>→</span>
+                  </a>
+                  <a
+                    href="#examples"
+                    className="inline-flex items-center gap-2 rounded-xl border border-[rgba(201,164,76,0.32)] bg-[rgba(201,164,76,0.06)] px-6 py-3.5 text-sm font-semibold text-[#E8D7A2] transition hover:-translate-y-0.5 hover:border-[#C9A44C]"
+                  >
+                    See real examples
+                  </a>
+                </div>
+                <p className="mt-4 text-[12px] text-[#A9A092]">
+                  Secure checkout through Stripe. After payment, send your promo details and
+                  I&apos;ll begin your 24-hour cleanup.
                 </p>
               </div>
-            </div>
 
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <a
-                href={STRIPE_PAYMENT_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
-                style={{ background: GOLD_GRADIENT }}
-              >
-                Claim My $59.99 Promo Rescue <span aria-hidden>→</span>
-              </a>
-              <a
-                href="#included"
-                className="inline-flex items-center gap-2 rounded-xl border border-[rgba(201,164,76,0.32)] bg-[rgba(201,164,76,0.06)] px-6 py-3.5 text-sm font-semibold text-[#E8D7A2] transition hover:-translate-y-0.5 hover:border-[#C9A44C]"
-              >
-                See what&apos;s included
-              </a>
+              {/* Right: strong static promo image card */}
+              <div>
+                <p className="mb-3 text-center text-[11px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C] lg:text-left">
+                  Promo samples built for fast local marketing
+                </p>
+                <div className="glass-card-strong overflow-hidden rounded-3xl p-2 ring-1 ring-[rgba(201,164,76,0.3)] sm:p-3">
+                  <div className="relative aspect-video overflow-hidden rounded-2xl bg-black">
+                    <Image
+                      src={PROMO_RESCUE_HERO_IMAGE.src}
+                      alt={PROMO_RESCUE_HERO_IMAGE.alt}
+                      fill
+                      sizes="(max-width: 1024px) 90vw, 45vw"
+                      priority
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-            <p className="mt-4 text-[12px] text-[#A9A092]">
-              Secure checkout through Stripe. After payment, send your promo details and
-              I&apos;ll begin your 24-hour cleanup.
-            </p>
           </div>
         </section>
 
-        {/* Pricing / packages */}
+        {/* Real examples — visual proof: featured video + galleries + brand logos */}
+        <section id="examples" className="px-6 py-16">
+          <div className="mx-auto max-w-6xl">
+            <div className="text-center">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C]">
+                Real examples
+              </span>
+              <h2 className="mt-3 font-serif text-[clamp(24px,3.5vw,40px)] font-semibold leading-tight text-[#F6F1E7]">
+                See the kind of promo work your business can get.
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-[#A9A092]">
+                Restaurant specials, hotel promos, event flyers, service offers, and local
+                campaigns — cleaned up and ready to post.
+              </p>
+            </div>
+
+            {/* Single curated grid of unique promo examples */}
+            <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {PROMO_RESCUE_EXAMPLES.map((image) => (
+                <div
+                  key={image.src}
+                  className="group relative aspect-square overflow-hidden rounded-2xl border border-[rgba(201,164,76,0.16)] bg-black/20 shadow-[0_4px_20px_rgba(0,0,0,0.25)]"
+                >
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    loading="lazy"
+                    className="object-cover transition duration-300 lg:group-hover:scale-105"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Motion examples */}
+            <div className="mt-10">
+              <p className="text-center text-[12px] font-semibold uppercase tracking-[0.25em] text-[#C9A44C]">
+                Motion examples
+              </p>
+              <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+                {PROMO_RESCUE_MOTION_EXAMPLES.map((clip) => (
+                  <div
+                    key={clip.src}
+                    className="glass-card-strong overflow-hidden rounded-2xl border border-[rgba(201,164,76,0.16)] p-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.25)]"
+                  >
+                    <div className="relative aspect-video overflow-hidden rounded-xl bg-black">
+                      <video
+                        src={clip.src}
+                        aria-label={clip.alt}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Brand proof logo strip */}
+            <div className="mt-14">
+              <p className="text-center text-[12px] font-semibold uppercase tracking-[0.25em] text-[#C9A44C]">
+                Brand proof
+              </p>
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-6 sm:gap-10">
+                {BRAND_PROOF_LOGOS.map((logo) => (
+                  <div
+                    key={logo.src}
+                    className="relative h-14 w-32 shrink-0 opacity-80 transition hover:opacity-100 sm:h-16 sm:w-40"
+                  >
+                    <Image
+                      src={logo.src}
+                      alt={logo.alt}
+                      fill
+                      sizes="160px"
+                      loading="lazy"
+                      className="object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Mid-page CTA, after visual proof */}
+        <section className="px-6 py-12">
+          <div className="mx-auto max-w-2xl text-center">
+            <div className="glass-card-strong rounded-3xl p-8 ring-1 ring-[rgba(201,164,76,0.3)] md:p-10">
+              <h2 className="font-serif text-[clamp(22px,3.2vw,34px)] font-semibold leading-tight text-[#F6F1E7]">
+                Have one promo that needs to look this polished?
+              </h2>
+              <div className="mt-7">
+                <a
+                  href={STRIPE_PAYMENT_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl px-7 py-4 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
+                  style={{ background: GOLD_GRADIENT }}
+                >
+                  Claim My $59.99 Promo Rescue <span aria-hidden>→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Pricing / packages — moved below visual proof */}
         <section className="px-6 py-14">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
@@ -417,7 +521,7 @@ export default function PromoRescuePage() {
               {PACKAGES.map((pkg) => (
                 <div
                   key={pkg.name}
-                  className={`relative flex flex-col rounded-2xl border p-6 ${
+                  className={`relative flex flex-col overflow-hidden rounded-2xl border ${
                     pkg.badge
                       ? "border-[#C9A44C] bg-[rgba(201,164,76,0.08)] shadow-[0_8px_40px_rgba(201,164,76,0.18)] lg:-translate-y-2"
                       : "glass-card border-[rgba(201,164,76,0.16)]"
@@ -425,57 +529,76 @@ export default function PromoRescuePage() {
                 >
                   {pkg.badge && (
                     <span
-                      className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#1a1407]"
+                      className="absolute top-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#1a1407]"
                       style={{ background: GOLD_GRADIENT }}
                     >
                       {pkg.badge}
                     </span>
                   )}
 
-                  <h3 className="font-serif text-[18px] font-semibold text-[#F6F1E7]">
-                    {pkg.name}
-                  </h3>
-                  <p
-                    className="mt-1.5 font-serif text-[22px] font-semibold bg-clip-text text-transparent"
-                    style={{ backgroundImage: GOLD_GRADIENT }}
-                  >
-                    {pkg.price}
-                  </p>
-                  <p className="mt-3 text-[13px] leading-relaxed text-[#A9A092]">
-                    {pkg.bestFor}
-                  </p>
-
-                  <div className="mt-4 flex-1 space-y-2">
-                    {pkg.includes.map((item) => (
-                      <div
-                        key={item}
-                        className="flex items-start gap-2.5 text-[13px] leading-relaxed text-[#D8CFBE]"
-                      >
-                        <span className="mt-[3px] shrink-0 text-[9px] text-[#C9A44C]">◆</span>
-                        {item}
-                      </div>
-                    ))}
+                  <div className="relative h-32 w-full">
+                    <Image
+                      src={pkg.image}
+                      alt={`${pkg.name} sample preview`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 25vw"
+                      loading="lazy"
+                      className="object-cover"
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background: "linear-gradient(180deg, rgba(5,5,5,0) 50%, rgba(5,5,5,0.55) 100%)",
+                      }}
+                    />
                   </div>
 
-                  {pkg.note && (
-                    <p className="mt-4 text-[11.5px] italic leading-snug text-[#A9A092]">
-                      {pkg.note}
+                  <div className="flex flex-1 flex-col p-6">
+                    <h3 className="font-serif text-[18px] font-semibold text-[#F6F1E7]">
+                      {pkg.name}
+                    </h3>
+                    <p
+                      className="mt-1.5 font-serif text-[22px] font-semibold bg-clip-text text-transparent"
+                      style={{ backgroundImage: GOLD_GRADIENT }}
+                    >
+                      {pkg.price}
                     </p>
-                  )}
+                    <p className="mt-3 text-[13px] leading-relaxed text-[#A9A092]">
+                      {pkg.bestFor}
+                    </p>
 
-                  <a
-                    href={pkg.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`mt-6 inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-[13.5px] font-semibold transition hover:-translate-y-0.5 ${
-                      pkg.badge
-                        ? "text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
-                        : "border border-[rgba(201,164,76,0.32)] bg-[rgba(201,164,76,0.06)] text-[#E8D7A2] hover:border-[#C9A44C]"
-                    }`}
-                    style={pkg.badge ? { background: GOLD_GRADIENT } : undefined}
-                  >
-                    {pkg.buttonLabel} <span aria-hidden>→</span>
-                  </a>
+                    <div className="mt-4 flex-1 space-y-2">
+                      {pkg.includes.map((item) => (
+                        <div
+                          key={item}
+                          className="flex items-start gap-2.5 text-[13px] leading-relaxed text-[#D8CFBE]"
+                        >
+                          <span className="mt-[3px] shrink-0 text-[9px] text-[#C9A44C]">◆</span>
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+
+                    {pkg.note && (
+                      <p className="mt-4 text-[11.5px] italic leading-snug text-[#A9A092]">
+                        {pkg.note}
+                      </p>
+                    )}
+
+                    <a
+                      href={pkg.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`mt-6 inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-[13.5px] font-semibold transition hover:-translate-y-0.5 ${
+                        pkg.badge
+                          ? "text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
+                          : "border border-[rgba(201,164,76,0.32)] bg-[rgba(201,164,76,0.06)] text-[#E8D7A2] hover:border-[#C9A44C]"
+                      }`}
+                      style={pkg.badge ? { background: GOLD_GRADIENT } : undefined}
+                    >
+                      {pkg.buttonLabel} <span aria-hidden>→</span>
+                    </a>
+                  </div>
                 </div>
               ))}
             </div>
@@ -484,8 +607,7 @@ export default function PromoRescuePage() {
               All packages are paid upfront. Work begins after payment and details are received.
             </p>
             <p className="mx-auto mt-2 max-w-2xl text-center text-[12px] leading-relaxed text-[#A9A092]">
-              These packages do not include full branding, logo design, ad management, printing,
-              complex video editing, or unlimited revisions.
+              {NOT_INCLUDED_STATEMENT}
             </p>
           </div>
         </section>
@@ -564,42 +686,10 @@ export default function PromoRescuePage() {
               ))}
             </div>
 
-            <p className="mt-10 text-[12px] font-semibold uppercase tracking-[0.25em] text-[#C9A44C]">
-              Real promo work
+            <p className="mt-8 text-center text-[13px] text-[#A9A092]">
+              Want to see more? Scroll back up to the real examples section for a full look at
+              the promo work behind this offer.
             </p>
-            <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
-              {PROMO_EXAMPLE_IMAGES.map((image) => (
-                <div
-                  key={image.src}
-                  className="relative aspect-square overflow-hidden rounded-2xl border border-[rgba(201,164,76,0.16)]"
-                >
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    sizes="(max-width: 640px) 50vw, 25vw"
-                    className="object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-              {PREVIEW_IMAGES.map((img) => (
-                <div
-                  key={img.src}
-                  className="relative aspect-square overflow-hidden rounded-2xl border border-[rgba(201,164,76,0.16)]"
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    sizes="(max-width: 640px) 50vw, 25vw"
-                    className="object-cover"
-                  />
-                </div>
-              ))}
-            </div>
           </div>
         </section>
 
@@ -612,7 +702,7 @@ export default function PromoRescuePage() {
             <h2 className="mt-3 font-serif text-[clamp(24px,3.5vw,38px)] font-semibold leading-tight text-[#F6F1E7]">
               How it works
             </h2>
-            <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
               {HOW_IT_WORKS.map((item) => (
                 <div
                   key={item.step}
@@ -742,18 +832,9 @@ export default function PromoRescuePage() {
                 Simple scope, fast turnaround
               </h2>
               <p className="mt-4 text-[15px] leading-relaxed text-[#A9A092]">
-                The $59.99 limited offer price covers one simple promo, cleaned up and made
-                ready to post. To keep the turnaround fast and the price low, it does not
-                include:
+                Every package, from the $59.99 Promo Rescue up to the Local Campaign Kit,
+                keeps a clear, fast scope. {NOT_INCLUDED_STATEMENT}
               </p>
-              <div className="mt-4 space-y-2.5">
-                {NOT_INCLUDED.map((item) => (
-                  <div key={item} className="flex items-start gap-3 text-[14.5px] text-[#A9A092]">
-                    <span className="mt-[5px] shrink-0 text-[9px] text-[#C9A44C]">◆</span>
-                    {item}
-                  </div>
-                ))}
-              </div>
               <p className="mt-5 text-[13.5px] leading-relaxed text-[#A9A092]">
                 Have a few promos coming up? Ask about a small 3-promo mini pack instead of
                 ordering one at a time.
@@ -826,6 +907,16 @@ export default function PromoRescuePage() {
                 Secure checkout through Stripe. After payment, send your promo details and
                 I&apos;ll begin your 24-hour cleanup.
               </p>
+              <div className="mt-5 border-t border-[rgba(201,164,76,0.18)] pt-5">
+                <a
+                  href={STRIPE_PAYMENT_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl border border-[rgba(201,164,76,0.32)] bg-[rgba(201,164,76,0.06)] px-6 py-3.5 text-sm font-semibold text-[#E8D7A2] transition hover:-translate-y-0.5 hover:border-[#C9A44C]"
+                >
+                  Start with the $59.99 Promo Rescue <span aria-hidden>→</span>
+                </a>
+              </div>
             </div>
           </div>
         </section>

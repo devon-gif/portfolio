@@ -120,5 +120,65 @@ export const GALLERY_IMAGES = [
   { src: img("Image 7.png"), alt: "Hospitality creative, restaurant & F&B", category: "Restaurant" },
 ] as const;
 
+// ── Promo Rescue hero image — curated, manually picked (no auto-dumping) ─────
+// The hero card uses a strong static promo image rather than promo-video.mp4:
+// that file turned out to be a generic personal demo reel (intro bumper +
+// an unrelated past project), not Archer Design hospitality work, so it is
+// not used anywhere on this page.
+export const PROMO_RESCUE_HERO_IMAGE = {
+  src: img("Image 2.png"),
+  alt: 'Hotel Indigo Pittsburgh University-Oakland "Comfy Yet?" room and lobby promo collage',
+};
+
+// ── Real examples ─ curated, deduplicated promo creative (Promo Rescue) ─────
+// Manually selected. Every entry below has been verified by hand to be real
+// hospitality/restaurant/event promo work, with no headshots, no unrelated
+// product photos, and no repeats. Do not auto-add files from /public here.
+export const PROMO_RESCUE_EXAMPLES = [
+  {
+    src: img("Image 3.png"),
+    alt: "Eliza Hot Metal Bistro wine and holiday season billboard promo",
+  },
+  {
+    src: img("Image 4.png"),
+    alt: "Hampton Inn flood festival promo flyer",
+  },
+  {
+    src: img("Image 5.png"),
+    alt: "Eliza Hot Metal Bistro burgers promo graphic, 15% off all burgers",
+  },
+  {
+    src: img("Image 6.png"),
+    alt: "Eliza Hot Metal Bistro live music November promo flyer",
+  },
+  {
+    src: img("Image 7.png"),
+    alt: "Eliza Hot Metal Bistro Take Out Wednesday promo graphic",
+  },
+  {
+    src: img("Screenshot 2026-06-18 at 1.52.10 PM.png"),
+    alt: "Hotel Indigo Pittsburgh University-Oakland Pitt football ticket giveaway promo",
+  },
+] as const;
+
+// ── Motion examples (Promo Rescue) — only real, verified-playable clips ─────
+// Each clip below was opened and confirmed to show real hospitality/F&B
+// footage (not template intros or unrelated projects) before being added.
+export const PROMO_RESCUE_MOTION_EXAMPLES = [
+  { src: "/Poolside.mp4", alt: "Rooftop resort poolside loungers promo clip" },
+  { src: "/pancakes.mp4", alt: "Restaurant pancakes plating promo clip" },
+  { src: "/timelapse.mp4", alt: "Resort poolside cabins seasonal promo clip" },
+] as const;
+
+// ── Brand proof logo strip (clients/partners, shown smaller than gallery) ────
+export const BRAND_PROOF_LOGOS = [
+  { src: img("Hampton-Brand-Logo_TM_CMYK_Full-Color.png"), alt: "Hampton by Hilton brand logo" },
+  {
+    src: img("PITTSBURGH UNI-OAK_RGB_canvas_white_on_indigo_blue.png"),
+    alt: "Hotel Indigo Pittsburgh University-Oakland logo",
+  },
+  { src: img("Elements Full logo- NO BACK GROUND.png"), alt: "Elements brand logo" },
+] as const;
+
 // ── Brand ────────────────────────────────────────────────────────────────────
 export const GOLD_GRADIENT = "linear-gradient(135deg, #E8D7A2, #C9A44C, #8B6A21)";
