@@ -2,12 +2,20 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Allura, Fraunces } from "next/font/google";
 import { SeedanceBackground } from "@/components/marketing/SeedanceBackground";
+import { PromoHeroVideo } from "@/components/marketing/PromoHeroVideo";
+import { PromoExampleCarousel } from "@/components/marketing/PromoExampleCarousel";
+import { PromoMotionCard } from "@/components/marketing/PromoMotionCard";
 import {
   GOLD_GRADIENT,
   PROMO_RESCUE_HERO_IMAGE,
+  PROMO_RESCUE_HERO_VIDEO,
   PROMO_RESCUE_EXAMPLES,
   PROMO_RESCUE_MOTION_EXAMPLES,
   BRAND_PROOF_LOGOS,
+  ELIZA_BURGER_PROMO,
+  HOTEL_INDIGO_COLLAGE,
+  ELIZA_TAKEOUT_PROMO,
+  HAMPTON_FLOOD_FESTIVAL,
 } from "@/components/marketing/media";
 
 const fraunces = Fraunces({
@@ -184,7 +192,7 @@ const PACKAGES: Package[] = [
     ],
     buttonLabel: "Claim Promo Rescue",
     link: PROMO_RESCUE_LINK,
-    image: PROMO_RESCUE_EXAMPLES[2].src,
+    image: ELIZA_BURGER_PROMO.src,
   },
   {
     name: "Social Promo Pack",
@@ -202,7 +210,7 @@ const PACKAGES: Package[] = [
     ],
     buttonLabel: "Get Social Promo Pack",
     link: SOCIAL_PROMO_PACK_LINK,
-    image: PROMO_RESCUE_HERO_IMAGE.src,
+    image: HOTEL_INDIGO_COLLAGE.src,
   },
   {
     name: "Motion Boost Pack",
@@ -221,7 +229,7 @@ const PACKAGES: Package[] = [
     note: "Simple motion only. No filming or complex video editing included.",
     buttonLabel: "Get Motion Boost Pack",
     link: MOTION_BOOST_PACK_LINK,
-    image: PROMO_RESCUE_EXAMPLES[4].src,
+    image: ELIZA_TAKEOUT_PROMO.src,
   },
   {
     name: "Local Campaign Kit",
@@ -240,7 +248,7 @@ const PACKAGES: Package[] = [
     ],
     buttonLabel: "Get Local Campaign Kit",
     link: LOCAL_CAMPAIGN_KIT_LINK,
-    image: PROMO_RESCUE_EXAMPLES[1].src,
+    image: HAMPTON_FLOOD_FESTIVAL.src,
   },
 ];
 
@@ -270,8 +278,6 @@ const FAQS = [
     a: "This limited offer is currently focused on Pennsylvania small businesses first, but the service can work for any small business.",
   },
 ];
-
-const CAMERA_IMAGE = `/${encodeURIComponent("IlxxIqSOTi16zhHGta5TzGVwudE.png")}`;
 
 export default function PromoRescuePage() {
   return (
@@ -379,13 +385,10 @@ export default function PromoRescuePage() {
                 </p>
                 <div className="glass-card-strong overflow-hidden rounded-3xl p-2 ring-1 ring-[rgba(201,164,76,0.3)] sm:p-3">
                   <div className="relative aspect-video overflow-hidden rounded-2xl bg-black">
-                    <Image
-                      src={PROMO_RESCUE_HERO_IMAGE.src}
-                      alt={PROMO_RESCUE_HERO_IMAGE.alt}
-                      fill
-                      sizes="(max-width: 1024px) 90vw, 45vw"
-                      priority
-                      className="object-cover"
+                    <PromoHeroVideo
+                      src={PROMO_RESCUE_HERO_VIDEO}
+                      poster={PROMO_RESCUE_HERO_IMAGE.src}
+                      posterAlt={PROMO_RESCUE_HERO_IMAGE.alt}
                     />
                   </div>
                 </div>
@@ -410,49 +413,25 @@ export default function PromoRescuePage() {
               </p>
             </div>
 
-            {/* Single curated grid of unique promo examples */}
-            <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {PROMO_RESCUE_EXAMPLES.map((image) => (
-                <div
-                  key={image.src}
-                  className="group relative aspect-square overflow-hidden rounded-2xl border border-[rgba(201,164,76,0.16)] bg-black/20 shadow-[0_4px_20px_rgba(0,0,0,0.25)]"
-                >
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    loading="lazy"
-                    className="object-cover transition duration-300 lg:group-hover:scale-105"
-                  />
-                </div>
-              ))}
+            {/* Curated carousel of unique promo examples */}
+            <div className="mt-10">
+              <PromoExampleCarousel items={PROMO_RESCUE_EXAMPLES} />
             </div>
 
             {/* Motion examples */}
-            <div className="mt-10">
+            <div className="mt-14">
               <p className="text-center text-[12px] font-semibold uppercase tracking-[0.25em] text-[#C9A44C]">
                 Motion examples
               </p>
               <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
                 {PROMO_RESCUE_MOTION_EXAMPLES.map((clip) => (
-                  <div
+                  <PromoMotionCard
                     key={clip.src}
-                    className="glass-card-strong overflow-hidden rounded-2xl border border-[rgba(201,164,76,0.16)] p-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.25)]"
-                  >
-                    <div className="relative aspect-video overflow-hidden rounded-xl bg-black">
-                      <video
-                        src={clip.src}
-                        aria-label={clip.alt}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                  </div>
+                    src={clip.src}
+                    poster={clip.poster}
+                    alt={clip.alt}
+                    label={clip.label}
+                  />
                 ))}
               </div>
             </div>
@@ -778,18 +757,9 @@ export default function PromoRescuePage() {
                   View portfolio <span aria-hidden>→</span>
                 </a>
                 <div className="mt-6 flex items-center gap-3 rounded-xl border border-[rgba(201,164,76,0.16)] bg-[rgba(201,164,76,0.04)] p-3">
-                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-[rgba(201,164,76,0.2)]">
-                    <Image
-                      src={CAMERA_IMAGE}
-                      alt="Camera used for original creative and product photography"
-                      fill
-                      sizes="56px"
-                      className="object-cover"
-                    />
-                  </div>
                   <p className="text-[12.5px] leading-snug text-[#A9A092]">
-                    Shot and built with the same gear used for client photography —
-                    polish that carries through every promo.
+                    Selected hospitality and local business work includes hotel, restaurant,
+                    event, and wellness brands — every promo gets the same level of polish.
                   </p>
                 </div>
               </div>
