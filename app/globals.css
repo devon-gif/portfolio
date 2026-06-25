@@ -257,3 +257,159 @@ body {
     padding: 0 10px;
   }
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Archer Studio — light, airy luxury hospitality theme.
+   Scoped under .archer-studio so it never affects the dark CRM / service
+   pages. Warm ivory backgrounds, soft taupe tones, muted gold, refined serif
+   display paired with a clean sans body. Reusable across future marketing
+   pages (Hotels, Restaurants, Work, etc.).
+   ─────────────────────────────────────────────────────────────────────────── */
+.archer-studio {
+  color-scheme: light;
+  /* Surfaces */
+  --st-ivory: #fbf8f2;
+  --st-cream: #f6f1e8;
+  --st-sand: #efe7d9;
+  --st-white: #ffffff;
+  /* Ink */
+  --st-ink: #2a2520;
+  --st-ink-soft: #5b5248;
+  --st-ink-muted: #8a8073;
+  /* Accents */
+  --st-gold: #a98a4c;
+  --st-gold-soft: #c2a86f;
+  --st-taupe: #b8a98f;
+  /* Lines */
+  --st-line: rgba(42, 37, 32, 0.1);
+  --st-line-soft: rgba(42, 37, 32, 0.06);
+  /* Shadows */
+  --st-shadow: 0 22px 60px -28px rgba(63, 53, 38, 0.32);
+  --st-shadow-soft: 0 12px 36px -22px rgba(63, 53, 38, 0.26);
+
+  background: var(--st-ivory);
+  color: var(--st-ink);
+  font-family: var(--font-geist-sans, ui-sans-serif, system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.archer-studio .font-serif,
+.archer-studio h1,
+.archer-studio h2,
+.archer-studio h3 {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, Cambria,
+    "Times New Roman", serif;
+  letter-spacing: -0.012em;
+  font-weight: 400;
+}
+
+.archer-studio .wordmark-font {
+  font-family: var(--font-wordmark-script), "Snell Roundhand",
+    "Brush Script MT", cursive;
+  letter-spacing: 0;
+  line-height: 1;
+  font-feature-settings: "liga" 1, "kern" 1;
+}
+
+/* Eyebrow / kicker label */
+.archer-studio .st-kicker {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--st-gold);
+}
+
+/* Soft elevated card on warm backgrounds */
+.archer-studio .st-card {
+  background: var(--st-white);
+  border: 1px solid var(--st-line);
+  border-radius: 22px;
+  box-shadow: var(--st-shadow-soft);
+}
+
+/* Thin-bordered, flatter panel */
+.archer-studio .st-panel {
+  background: var(--st-cream);
+  border: 1px solid var(--st-line);
+  border-radius: 22px;
+}
+
+/* Primary (gold) button */
+.archer-studio .st-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.85rem 1.6rem;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  background: var(--st-ink);
+  color: var(--st-ivory);
+  border: 1px solid var(--st-ink);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.archer-studio .st-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--st-shadow);
+}
+
+/* Secondary (outline) button */
+.archer-studio .st-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.85rem 1.5rem;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  background: transparent;
+  color: var(--st-ink);
+  border: 1px solid var(--st-line);
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.archer-studio .st-btn-ghost:hover {
+  transform: translateY(-1px);
+  border-color: var(--st-gold);
+  background: rgba(169, 138, 76, 0.06);
+}
+
+.archer-studio .st-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(169, 138, 76, 0.4),
+    transparent
+  );
+}
+
+/* Media frame for hero / gallery video + image cards */
+.archer-studio .st-media-frame {
+  background: var(--st-white);
+  border: 1px solid var(--st-line);
+  border-radius: 26px;
+  padding: 10px;
+  box-shadow: var(--st-shadow);
+}
+.archer-studio .st-media-inner {
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--st-sand);
+}
+
+/* Soft scrollbar within the studio theme */
+.archer-studio ::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.archer-studio ::-webkit-scrollbar-thumb {
+  background: var(--st-taupe);
+  border-radius: 10px;
+}
