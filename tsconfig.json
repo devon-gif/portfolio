@@ -54,7 +54,9 @@
     ".next-build-verify1/types/**/*.ts",
     ".next-build-verify1/dev/types/**/*.ts",
     ".next-build-promorescue1/types/**/*.ts",
-    ".next-build-promorescue1/dev/types/**/*.ts"
+    ".next-build-promorescue1/dev/types/**/*.ts",
+    ".next-build-studio/types/**/*.ts",
+    ".next-build-studio/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

@@ -5,7 +5,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://archerdesign.shop";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.archerdesign.shop";
 
 export const SITE_NAME = "Archer Design";
 
@@ -30,6 +30,7 @@ export const OG_IMAGE = {
 /** Public marketing routes that belong in the sitemap. */
 export const PUBLIC_PAGES: { path: string; priority: number; changeFrequency: "weekly" | "monthly" }[] = [
   { path: "/", priority: 1, changeFrequency: "weekly" },
+  { path: "/hotel-groups", priority: 0.9, changeFrequency: "monthly" },
   { path: "/contact", priority: 0.9, changeFrequency: "monthly" },
   { path: "/packages", priority: 0.9, changeFrequency: "monthly" },
   { path: "/case-studies", priority: 0.8, changeFrequency: "monthly" },
