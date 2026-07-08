@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
       // cannot override the prerendered homepage.)
       beforeFiles: [
         {
+          source: "/dovetail",
+          destination: "/dovetail/index.html",
+        },
+        {
           source: "/",
           destination: "/archer-preview/index.html",
         },
