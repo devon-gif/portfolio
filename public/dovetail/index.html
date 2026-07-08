@@ -194,10 +194,10 @@ a{ color:inherit; }
   isolation:isolate;
 }
 .media-frame video, .media-frame .fallback-img{
-  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1;
 }
 .media-frame::before{
-  content:""; position:absolute; inset:0; z-index:1;
+  content:""; position:absolute; inset:0; z-index:0;
 }
 .media-frame.tone-bermuda::before{ background:
   radial-gradient(120% 90% at 20% 100%, rgba(28,44,42,0.85), transparent 60%),
@@ -571,7 +571,7 @@ footer{ background:var(--ink); border-top:1px solid var(--line-on-ink); padding:
   <div class="media-frame tone-bermuda reveal-scale">
     <video autoplay muted loop playsinline preload="none"
       poster="/dovetail/media/01-hero-bermuda/poster.jpg">
-      <source src="/dovetail/media/01-hero-bermuda/hero.mp4" type="video/mp4">
+      <source src="/dovetail/media/01-hero-bermuda/hero-bermuda.mp4" type="video/mp4">
     </video>
     <div class="grain"></div>
     <div class="scene-tag">Reel 01 — Bermuda</div>
