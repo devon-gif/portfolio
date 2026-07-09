@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
           destination: "/dovetail/index.html",
         },
         {
+          source: "/lark",
+          destination: "/lark/index.html",
+        },
+        {
           source: "/",
           destination: "/archer-preview/index.html",
         },
