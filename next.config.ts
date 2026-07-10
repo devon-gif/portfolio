@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
           destination: "/lark/index.html",
         },
         {
+          source: "/valencia",
+          destination: "/valencia/index.html",
+        },
+        {
           source: "/",
           destination: "/archer-preview/index.html",
         },
