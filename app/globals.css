@@ -413,3 +413,268 @@ body {
   background: var(--st-taupe);
   border-radius: 10px;
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Revstudio × Archer Design — /revstudio partnership page theme.
+   Scoped under .revstudio-theme so it never affects the light Archer
+   Studio pages or the dark CRM. Midnight navy, warm ivory text, muted
+   champagne gold + restrained electric blue, very subtle cyan accents —
+   distinct from both the cream Archer theme and the HSC × Archer Design
+   prospect page (public/revenue-activation), per design direction: related
+   to Archer, but its own identity reflecting revenue/distribution/ops.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme {
+  color-scheme: dark;
+  /* Surfaces */
+  --rv-bg: #060b16;
+  --rv-bg-2: #0a1220;
+  --rv-navy: #0d1830;
+  --rv-panel: rgba(13, 24, 48, 0.62);
+  --rv-panel-strong: rgba(10, 18, 36, 0.82);
+  /* Ink */
+  --rv-ink: #f1eee5;
+  --rv-ink-soft: rgba(241, 238, 229, 0.74);
+  --rv-ink-muted: rgba(241, 238, 229, 0.5);
+  /* Accents */
+  --rv-slate: #8fa3c4;
+  --rv-gold: #c7a76b;
+  --rv-gold-soft: rgba(199, 167, 107, 0.16);
+  --rv-blue: #3d6cff;
+  --rv-blue-bright: #5c86ff;
+  --rv-cyan: rgba(120, 214, 214, 0.55);
+  /* Lines */
+  --rv-line: rgba(150, 170, 210, 0.14);
+  --rv-line-strong: rgba(150, 170, 210, 0.26);
+  /* Shadows */
+  --rv-shadow: 0 26px 70px -30px rgba(0, 4, 16, 0.65);
+
+  background: var(--rv-bg);
+  color: var(--rv-ink);
+  font-family: var(--font-geist-sans, ui-sans-serif, system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.revstudio-theme .font-serif,
+.revstudio-theme h1,
+.revstudio-theme h2,
+.revstudio-theme h3 {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+}
+
+.revstudio-theme .rv-kicker {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--rv-gold);
+}
+
+.revstudio-theme .rv-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--rv-line);
+  border-radius: 9999px;
+  padding: 0.4rem 0.85rem;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rv-slate);
+  background: rgba(141, 163, 210, 0.06);
+}
+
+.revstudio-theme .rv-card {
+  background: var(--rv-panel);
+  border: 1px solid var(--rv-line);
+  border-radius: 18px;
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  box-shadow: var(--rv-shadow);
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.revstudio-theme .rv-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--rv-line-strong);
+}
+
+.revstudio-theme .rv-panel {
+  background: var(--rv-panel-strong);
+  border: 1px solid var(--rv-line);
+  border-radius: 18px;
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+.revstudio-theme .rv-panel:hover {
+  transform: translateY(-2px);
+  border-color: var(--rv-line-strong);
+}
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-card,
+  .revstudio-theme .rv-panel { transition: none !important; }
+  .revstudio-theme .rv-card:hover,
+  .revstudio-theme .rv-panel:hover { transform: none !important; }
+}
+
+.revstudio-theme .rv-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 8px;
+  padding: 0.85rem 1.6rem;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: linear-gradient(180deg, var(--rv-blue-bright), var(--rv-blue));
+  color: #f4f7ff;
+  border: 1px solid rgba(140, 170, 255, 0.45);
+  box-shadow: 0 14px 30px -12px rgba(61, 108, 255, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.revstudio-theme .rv-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 36px -12px rgba(61, 108, 255, 0.55);
+}
+
+.revstudio-theme .rv-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 8px;
+  padding: 0.85rem 1.5rem;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: transparent;
+  color: var(--rv-ink);
+  border: 1px solid var(--rv-line-strong);
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+.revstudio-theme .rv-btn-ghost:hover {
+  transform: translateY(-1px);
+  border-color: var(--rv-gold);
+  background: rgba(199, 167, 107, 0.06);
+}
+
+.revstudio-theme .rv-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, var(--rv-line-strong), transparent);
+}
+
+/* Fine animated connector line used in the process/model sections. */
+.revstudio-theme .rv-connector {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rv-cyan), transparent);
+  overflow: hidden;
+}
+.revstudio-theme .rv-connector::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(199, 167, 107, 0.9), transparent);
+  animation: rv-connector-sweep 5.5s ease-in-out infinite;
+}
+@keyframes rv-connector-sweep {
+  0% { transform: translateX(-120%); }
+  50% { transform: translateX(220%); }
+  100% { transform: translateX(220%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-connector::after { animation: none; display: none; }
+}
+
+.revstudio-theme ::-webkit-scrollbar-thumb {
+  background: var(--rv-slate);
+  border-radius: 10px;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Revstudio × Archer Design — scroll-reveal system.
+   Ported from the HSC × Archer Design prospect page's .reveal pattern
+   (public/revenue-activation/index.html) into a reusable React wrapper
+   (components/marketing/revstudio/Reveal.tsx). Same easing/timing/stagger
+   values, so motion feels consistent between the two partnership pages.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .rv-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.revstudio-theme .rv-reveal.is-visible { opacity: 1; transform: none; }
+.revstudio-theme .rv-reveal-d1 { transition-delay: 0.08s; }
+.revstudio-theme .rv-reveal-d2 { transition-delay: 0.16s; }
+.revstudio-theme .rv-reveal-d3 { transition-delay: 0.24s; }
+.revstudio-theme .rv-reveal-d4 { transition-delay: 0.32s; }
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-reveal {
+    opacity: 1 !important; transform: none !important; transition: none !important;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Revstudio × Archer Design — 3D object accents (hero-knot / system-cube /
+   pilot-torus). Same halo + orbit-ring + soft-float technique as the HSC
+   page's .object-wrap system, reused via components/marketing/revstudio/
+   ObjectStage.tsx. Purely decorative — always rendered aria-hidden.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .rv-object-stage {
+  position: relative;
+  isolation: isolate;
+  margin: 0 auto;
+}
+.revstudio-theme .rv-object-halo {
+  position: absolute; inset: -22%; z-index: 0; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(84,132,255,0.2), rgba(61,108,255,0.07) 55%, transparent 78%);
+}
+.revstudio-theme .rv-object-img {
+  position: relative; z-index: 1; width: 100%; height: auto;
+  filter: drop-shadow(0 28px 56px rgba(0,0,0,0.55));
+  animation: rv-obj-float 10s ease-in-out infinite;
+}
+@keyframes rv-obj-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(3deg); }
+}
+.revstudio-theme .rv-object-cube { animation-name: rv-obj-float-cube; animation-duration: 11.5s; }
+@keyframes rv-obj-float-cube {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-9px) rotate(-3.5deg); }
+}
+.revstudio-theme .rv-object-torus { animation: rv-obj-spin-torus 46s linear infinite; }
+@keyframes rv-obj-spin-torus { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.revstudio-theme .rv-orbit-ring {
+  position: absolute; border: 1px solid var(--rv-line); border-radius: 50%;
+  z-index: 0; pointer-events: none;
+}
+.revstudio-theme .rv-orbit-ring::before {
+  content: ""; position: absolute; top: -2px; left: 50%; width: 4px; height: 4px;
+  border-radius: 50%; background: var(--rv-blue-bright); transform: translateX(-50%);
+  box-shadow: 0 0 8px rgba(92,134,255,0.6);
+}
+.revstudio-theme .rv-orbit-ring-1 { inset: -14%; animation: rv-orbit-spin 64s linear infinite; }
+.revstudio-theme .rv-orbit-ring-2 { inset: -30%; animation: rv-orbit-spin-rev 96s linear infinite; }
+@keyframes rv-orbit-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes rv-orbit-spin-rev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-object-img,
+  .revstudio-theme .rv-orbit-ring { animation: none !important; }
+}
+
+/* Thin architectural line accents used to frame panels/sections. */
+.revstudio-theme .rv-hline {
+  height: 1px; width: 100%;
+  background: linear-gradient(90deg, transparent, var(--rv-line-strong) 20%, var(--rv-line-strong) 80%, transparent);
+}
+.revstudio-theme .rv-vline {
+  width: 1px; align-self: stretch;
+  background: linear-gradient(180deg, transparent, var(--rv-line-strong) 20%, var(--rv-line-strong) 80%, transparent);
+}

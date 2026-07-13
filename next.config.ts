@@ -21,6 +21,18 @@ const nextConfig: NextConfig = {
           destination: "/valencia/index.html",
         },
         {
+          source: "/revenue-activation",
+          destination: "/revenue-activation/index.html",
+        },
+        {
+          source: "/revenue-activation/work",
+          destination: "/revenue-activation/work/index.html",
+        },
+        {
+          source: "/revenue-activation/confirmed",
+          destination: "/revenue-activation/confirmed/index.html",
+        },
+        {
           source: "/",
           destination: "/archer-preview/index.html",
         },

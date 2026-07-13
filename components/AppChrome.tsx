@@ -27,6 +27,10 @@ const PUBLIC_ROUTES = [
   "/spa-salon-creative-support",
   "/hotel-creative-without-adding-headcount",
   "/promo-rescue",
+  // Revstudio × Archer Design partnership landing page — early/unapproved,
+  // noindex by default (see lib/revstudio.ts), but still needs to render
+  // full-bleed like the other public marketing pages, not the CRM chrome.
+  "/revstudio",
 ];
 // Auth routes: full-bleed, no sidebar, no guard (these ARE the login flow).
 const AUTH_ROUTES = ["/login", "/auth/callback"];

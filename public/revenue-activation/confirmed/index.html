@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Strategy Call Confirmed — Hotel Sales Consultants × Archer Design</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Your hotel portfolio strategy call is confirmed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#030914;
+  --bg-2:#07101D;
+  --panel:rgba(10,20,35,0.72);
+  --navy-deep:#0A1728;
+  --blue-primary:#315BEF;
+  --blue-bright:#5484FF;
+  --blue-soft:#96B8FF;
+  --cream:#F3F0EA;
+  --muted:#9AA6B5;
+  --muted-faint:rgba(154,166,181,0.58);
+  --line-subtle:rgba(150,184,255,0.13);
+  --line-strong:rgba(150,184,255,0.24);
+  --ease:cubic-bezier(.22,.61,.19,.99);
+}
+*{ box-sizing:border-box; }
+html{ background:var(--bg); }
+body{
+  margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+  padding:clamp(24px,5vw,64px) 20px;
+  background:
+    radial-gradient(58% 62% at 82% 20%, rgba(49,91,239,0.14), transparent 70%),
+    var(--bg);
+  color:var(--cream);
+  font-family:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{ color:inherit; }
+.serif{ font-family:"Fraunces",ui-serif,Georgia,"Times New Roman",serif; font-weight:340; letter-spacing:-0.012em; }
+.card{
+  width:100%; max-width:620px; padding:clamp(32px,5vw,52px);
+  background:var(--panel); border:1px solid var(--line-subtle); border-radius:20px;
+  backdrop-filter:blur(18px) saturate(130%); -webkit-backdrop-filter:blur(18px) saturate(130%);
+  box-shadow:0 30px 70px rgba(2,6,16,0.45);
+}
+.logo{ display:block; height:32px; width:auto; margin:0 auto clamp(28px,4vw,36px); }
+.check{
+  width:52px; height:52px; border-radius:50%; margin:0 auto 22px;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(84,132,255,0.12); border:1px solid var(--line-strong);
+}
+.check svg{ width:22px; height:22px; }
+h1{
+  margin:0 0 14px; text-align:center; color:var(--cream);
+  font-size:clamp(1.5rem,3vw,2rem); line-height:1.25; font-weight:340;
+}
+.lead{ text-align:center; font-size:14.5px; line-height:1.7; color:var(--muted); margin:0 0 clamp(28px,4vw,36px); }
+.details{
+  border-top:1px solid var(--line-subtle); border-bottom:1px solid var(--line-subtle);
+  padding:clamp(18px,2.6vw,24px) 0; margin-bottom:clamp(24px,3vw,32px);
+  display:none;
+}
+.details.is-visible{ display:grid; gap:14px; }
+.detail-row{ display:flex; justify-content:space-between; gap:16px; font-size:13.5px; }
+.detail-row .k{ color:var(--muted-faint); letter-spacing:0.04em; text-transform:uppercase; font-size:10.5px; font-weight:600; align-self:center; }
+.detail-row .v{ color:var(--cream); font-family:"Fraunces",serif; font-weight:400; font-size:15px; text-align:right; }
+.pending{ text-align:center; font-size:12.5px; color:var(--muted-faint); margin:0 0 clamp(24px,3vw,32px); }
+.actions{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
+.btn{
+  display:inline-flex; align-items:center; gap:9px; font-size:12px; letter-spacing:0.06em; text-transform:uppercase;
+  font-weight:600; padding:13px 22px; border-radius:9px; text-decoration:none; cursor:pointer;
+  transition:transform .3s var(--ease), background .3s var(--ease), border-color .3s var(--ease);
+}
+.btn-primary{
+  color:var(--cream); background:linear-gradient(180deg, #3d6cff 0%, #2854e8 45%, #163bbd 100%);
+  border:1px solid rgba(135,175,255,0.55);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -2px 4px rgba(0,20,80,0.36), 0 10px 24px rgba(24,60,180,0.35);
+}
+.btn-primary:hover{ transform:translateY(-2px); }
+.btn-outline{ border:1px solid var(--line-strong); color:var(--cream); background:rgba(150,184,255,0.04); }
+.btn-outline:hover{ background:rgba(150,184,255,0.09); border-color:var(--blue-soft); }
+.home-link{
+  display:block; text-align:center; margin-top:clamp(24px,3vw,32px);
+  font-size:12px; letter-spacing:0.04em; color:var(--muted-faint); text-decoration:none;
+  border-top:1px solid var(--line-subtle); padding-top:20px;
+}
+.home-link:hover{ color:var(--blue-soft); }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <img class="logo" src="/revenue-activation/logos/logo.png" alt="Hotel Sales Consultants × Archer Design">
+
+  <div class="check" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#96B8FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+  </div>
+
+  <h1 class="serif">Your hotel portfolio strategy call is confirmed.</h1>
+  <p class="lead">Wesam or a member of the HSC sales team will review the information before the call. Devon and the Archer Design team will be included when the conversation involves creative strategy, portfolio rollout, or campaign support.</p>
+
+  <div class="details" id="details">
+    <div class="detail-row"><span class="k">Date &amp; time</span><span class="v" id="dDateTime">—</span></div>
+    <div class="detail-row"><span class="k">Timezone</span><span class="v" id="dTimezone">—</span></div>
+    <div class="detail-row" id="dRepRow" style="display:none;"><span class="k">Representative</span><span class="v" id="dRep">—</span></div>
+  </div>
+  <p class="pending" id="pending">Finalizing your booking details — this page will update automatically in a few seconds. You'll also receive a confirmation by email.</p>
+
+  <div class="actions">
+    <a class="btn btn-primary" id="addToCalendar" href="#" target="_blank" rel="noopener" style="display:none;">Add to calendar</a>
+    <a class="btn btn-outline" id="rescheduleLink" href="#" target="_blank" rel="noopener" style="display:none;">Reschedule</a>
+    <a class="btn btn-outline" id="cancelLink" href="#" target="_blank" rel="noopener" style="display:none;">Cancel</a>
+  </div>
+
+  <a class="home-link" href="/revenue-activation">← Back to Hotel Sales Consultants × Archer Design</a>
+</div>
+
+<script>
+(function(){
+  // Calendly's "Redirect on booking page" (Standard plan and up) can be
+  // configured to send visitors here. Depending on how it's configured it
+  // may or may not append an identifier — we support both `booking_id` and
+  // `invitee_uuid` as the query param name. If neither is present, or the
+  // lookup doesn't resolve yet, this page still shows the required
+  // confirmation copy above — it just skips the live date/time/rep details.
+  // No internal lead-source codes are ever rendered on this page.
+  var params = new URLSearchParams(window.location.search);
+  var bookingId = params.get("booking_id") || params.get("invitee_uuid") || "";
+
+  var detailsEl = document.getElementById("details");
+  var pendingEl = document.getElementById("pending");
+
+  function showDetails(b){
+    var start = b.scheduled_start_at ? new Date(b.scheduled_start_at) : null;
+    var tz = b.visitor_timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    if (start) {
+      var dateTimeText = start.toLocaleString("en-US", {
+        weekday: "long", year: "numeric", month: "long", day: "numeric",
+        hour: "numeric", minute: "2-digit", timeZone: tz
+      });
+      document.getElementById("dDateTime").textContent = dateTimeText;
+      document.getElementById("dTimezone").textContent = tz;
+
+      if (b.scheduled_end_at) {
+        var end = new Date(b.scheduled_end_at);
+        var fmtGCal = function(d){ return d.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z"; };
+        var gcalUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE"
+          + "&text=" + encodeURIComponent("HSC × Archer Design — Hotel Portfolio Strategy Call")
+          + "&dates=" + fmtGCal(start) + "/" + fmtGCal(end)
+          + "&details=" + encodeURIComponent("Hotel portfolio strategy call with Hotel Sales Consultants × Archer Design.");
+        var addBtn = document.getElementById("addToCalendar");
+        addBtn.href = gcalUrl;
+        addBtn.style.display = "";
+      }
+      detailsEl.classList.add("is-visible");
+    }
+
+    if (b.assigned_salesperson_name) {
+      document.getElementById("dRep").textContent = b.assigned_salesperson_name;
+      document.getElementById("dRepRow").style.display = "";
+      detailsEl.classList.add("is-visible");
+    }
+
+    if (b.reschedule_url) {
+      var r = document.getElementById("rescheduleLink");
+      r.href = b.reschedule_url; r.style.display = "";
+    }
+    if (b.cancel_url) {
+      var c = document.getElementById("cancelLink");
+      c.href = b.cancel_url; c.style.display = "";
+    }
+
+    if (start || b.assigned_salesperson_name) {
+      pendingEl.style.display = "none";
+    }
+  }
+
+  function poll(attemptsLeft){
+    if (!bookingId) { pendingEl.textContent = "You'll receive a confirmation email with the full details shortly."; return; }
+    fetch("/api/strategy-call/confirmation?booking_id=" + encodeURIComponent(bookingId))
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if (data && data.ok && data.found && data.booking) {
+          showDetails(data.booking);
+          return;
+        }
+        if (attemptsLeft > 0) {
+          setTimeout(function(){ poll(attemptsLeft - 1); }, 2500);
+        } else {
+          pendingEl.textContent = "You'll receive a confirmation email with the full details shortly.";
+        }
+      })
+      .catch(function(){
+        if (attemptsLeft > 0) setTimeout(function(){ poll(attemptsLeft - 1); }, 2500);
+        else pendingEl.textContent = "You'll receive a confirmation email with the full details shortly.";
+      });
+  }
+
+  poll(4); // ~10s of polling to cover the webhook-delivery race, then give up gracefully
+})();
+</script>
+
+</body>
+</html>
