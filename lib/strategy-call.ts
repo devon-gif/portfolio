@@ -36,12 +36,12 @@ export const STRATEGY_CALL_BASE_URL = (process.env.NEXT_PUBLIC_STRATEGY_CALL_URL
 /* ------------------------------------------------------------------ */
 
 export const PRIMARY_INTEREST_OPTIONS = [
-  "Hotel sales and pipeline generation",
-  "Creative and social support",
-  "Restaurant and F&B promotion",
-  "Meetings, weddings, and events",
-  "Multi-property portfolio support",
-  "Full sales and creative pilot",
+  "Hotel sales support",
+  "Revenue activation",
+  "Creative and social media support",
+  "Group and corporate business development",
+  "Meetings and events",
+  "Multi-property support",
   "Other",
 ] as const;
 
@@ -225,6 +225,11 @@ export function assignSalesperson(existingBookingCount: number): SalesPerson | n
 /* ------------------------------------------------------------------ */
 
 export const BOOKING_STATUSES = [
+  // A visitor submitted the direct request form on /revenue-activation
+  // (POST /api/strategy-call) — no call time exists yet, Wesam/Devon still
+  // need to review and coordinate a meeting. See migration
+  // 20260715_strategy_call_bookings_add_request_submitted_status.sql.
+  "request_submitted",
   "strategy_call_booked",
   "call_completed",
   "pilot_proposed",
