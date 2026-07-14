@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { JsonLd } from "@/components/marketing/JsonLd";
+import { InitialScrollTop } from "@/components/marketing/InitialScrollTop";
 import { LazyVideo } from "@/components/marketing/LazyVideo";
 import { StudioFooter } from "@/components/marketing/StudioFooter";
 import { StudioCTA } from "@/components/marketing/StudioCTA";
@@ -269,6 +270,7 @@ export default function SocialMediaWorkPage() {
   return (
     <div className={`${fraunces.variable} archer-studio min-h-screen`}>
       <JsonLd data={organizationJsonLd()} />
+      <InitialScrollTop />
 
       {/* No site header/nav on this page by design: it opens directly on
           the portfolio hero, independent of the main Archer Studio nav. */}

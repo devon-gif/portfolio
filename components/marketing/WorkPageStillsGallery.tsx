@@ -29,6 +29,9 @@ export function WorkPageStillsGallery({ items }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const filmstripRef = useRef<HTMLDivElement | null>(null);
+  // Skips the filmstrip auto-scroll on first mount (see effect below) so
+  // the gallery never nudges the page's own scroll position on load.
+  const skipInitialScrollRef = useRef(true);
 
   const filtered = useMemo(
     () =>
@@ -56,6 +59,16 @@ export function WorkPageStillsGallery({ items }: Props) {
   );
 
   useEffect(() => {
+    // Root cause of the page loading mid-scroll: this effect also ran on
+    // the very first mount (activeIndex starts at 0), and scrollIntoView's
+    // "nearest" block option was pulling the whole page's scroll position
+    // toward the filmstrip before the user had scrolled there themselves.
+    // Only real navigation (arrows, thumbnail clicks, keyboard) should
+    // trigger this, so the first run is skipped here.
+    if (skipInitialScrollRef.current) {
+      skipInitialScrollRef.current = false;
+      return;
+    }
     const el = filmstripRef.current?.querySelector(`[data-index="${activeIndex}"]`);
     el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   }, [activeIndex]);
