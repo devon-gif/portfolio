@@ -114,3 +114,7 @@ public/Screenshot 2026-*.png
 # Stray Next build output (sandbox verify)
 /tmp/
 tmp/
+.next-verify-build/
+.next-*/
+.next_*/
+public/Work page/
