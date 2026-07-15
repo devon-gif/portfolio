@@ -35,7 +35,10 @@ const PUBLIC_ROUTES = [
 // Auth routes: full-bleed, no sidebar, no guard (these ARE the login flow).
 const AUTH_ROUTES = ["/login", "/auth/callback"];
 // Public prefixes (e.g. email unsubscribe links).
-const PUBLIC_PREFIXES = ["/unsubscribe"];
+// "/social-media-work" is a public marketing portfolio page (and any future
+// child paths under it) — must render full-bleed with no Supabase/auth/
+// sidebar, same as the other public marketing routes above.
+const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work"];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;
