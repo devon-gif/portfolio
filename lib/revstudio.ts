@@ -36,6 +36,11 @@ export const REVSTUDIO_BOOKING_URL = (process.env.NEXT_PUBLIC_REVSTUDIO_BOOKING_
 export const REVSTUDIO_FALLBACK_MAILTO =
   "mailto:hello@archerdesign.shop?subject=The%20Revstudio%20%C3%97%20Archer%20Design%20%E2%80%94%20Pilot%20Conversation";
 
+/** Public contact email shown in the footer / final CTA. Falls back to the
+ *  shared Archer inbox until a dedicated Revstudio address is configured —
+ *  see NEXT_PUBLIC_REVSTUDIO_CONTACT_EMAIL in .env.example. */
+export const REVSTUDIO_CONTACT_EMAIL = (process.env.NEXT_PUBLIC_REVSTUDIO_CONTACT_EMAIL ?? "hello@archerdesign.shop").trim();
+
 /* ------------------------------------------------------------------ */
 /* Booking form / prefill                                              */
 /* ------------------------------------------------------------------ */

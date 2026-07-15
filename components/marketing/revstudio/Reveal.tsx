@@ -13,10 +13,13 @@ export function Reveal({
   children,
   className,
   delay,
+  id,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: 1 | 2 | 3 | 4;
+  /** Forwarded to the rendered div, for in-page anchor targets. */
+  id?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   // Lazy initializer (not a setState-in-effect) so environments without
@@ -46,7 +49,7 @@ export function Reveal({
     .join(" ");
 
   return (
-    <div ref={ref} className={classes}>
+    <div ref={ref} id={id} className={classes}>
       {children}
     </div>
   );

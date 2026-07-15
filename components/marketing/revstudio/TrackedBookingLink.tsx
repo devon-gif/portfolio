@@ -30,7 +30,7 @@ export function TrackedBookingLink({
 }: {
   /** Internal only — identifies which CTA on the page was clicked for our
    *  own debugging. Never exposes internal lead-source codes to the visitor. */
-  variant: "header" | "hero" | "model" | "pilot" | "final-cta";
+  variant: "header" | "hero" | "model" | "pilot" | "agencies" | "hotels" | "portfolio" | "final-cta";
   className?: string;
   children: React.ReactNode;
   ariaLabel?: string;
