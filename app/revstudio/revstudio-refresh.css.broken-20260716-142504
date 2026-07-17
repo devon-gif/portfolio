@@ -1,0 +1,1303 @@
+
+/*
+  The Revstudio × Archer Design
+  Light editorial refresh
+  Primary brand color supplied by The Revstudio: #5B21F5
+*/
+
+.revstudio-refresh {
+  --rev-purple: #5b21f5;
+  --rev-purple-dark: #4315c7;
+  --rev-purple-soft: #eee8ff;
+  --rev-lavender: #f7f4ff;
+  --rev-lavender-2: #fbfaff;
+  --rev-ink: #17131d;
+  --rev-body: #5f5868;
+  --rev-muted: #89818f;
+  --rev-line: #e7e1ec;
+  --rev-paper: #ffffff;
+
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--rev-paper) !important;
+  color: var(--rev-ink) !important;
+}
+
+.revstudio-refresh,
+.revstudio-refresh * {
+  box-sizing: border-box;
+}
+
+/* Remove the original full-page dark treatment. */
+.revstudio-refresh > div,
+.revstudio-refresh main {
+  background-color: var(--rev-paper) !important;
+  color: var(--rev-ink) !important;
+}
+
+.revstudio-refresh
+  :is(main, section, article, aside, div)[class*="bg-black"],
+.revstudio-refresh
+  :is(main, section, article, aside, div)[class*="bg-[#0"],
+.revstudio-refresh
+  :is(main, section, article, aside, div)[class*="bg-neutral-9"],
+.revstudio-refresh
+  :is(main, section, article, aside, div)[class*="bg-zinc-9"],
+.revstudio-refresh
+  :is(main, section, article, aside, div)[class*="bg-slate-9"] {
+  background-color: transparent !important;
+}
+
+/* Navigation */
+.revstudio-refresh header,
+.revstudio-refresh nav {
+  border-color: var(--rev-line) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: var(--rev-ink) !important;
+  box-shadow: 0 1px 0 rgba(42, 25, 56, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+.revstudio-refresh header a,
+.revstudio-refresh nav a {
+  color: #49414f !important;
+}
+
+.revstudio-refresh header a:hover,
+.revstudio-refresh nav a:hover {
+  color: var(--rev-purple) !important;
+}
+
+/* The main navigation CTA remains purple. */
+.revstudio-refresh header a[class*="bg-"],
+.revstudio-refresh header button[class*="bg-"],
+.revstudio-refresh nav a[class*="bg-"],
+.revstudio-refresh nav button[class*="bg-"] {
+  border-color: var(--rev-purple) !important;
+  background: linear-gradient(
+    135deg,
+    var(--rev-purple),
+    #7447f8
+  ) !important;
+  color: white !important;
+  box-shadow: 0 10px 30px rgba(91, 33, 245, 0.2);
+}
+
+/* Primary page sections */
+.revstudio-refresh main > section {
+  position: relative;
+  border-color: var(--rev-line) !important;
+  background-color: var(--rev-paper) !important;
+  background-image: none !important;
+  color: var(--rev-ink) !important;
+}
+
+.revstudio-refresh main > section:nth-of-type(even) {
+  background:
+    radial-gradient(
+      circle at 86% 12%,
+      rgba(91, 33, 245, 0.085),
+      transparent 30%
+    ),
+    linear-gradient(
+      180deg,
+      var(--rev-lavender-2),
+      var(--rev-lavender)
+    ) !important;
+}
+
+/* Hero gets a subtle white-to-lavender atmosphere. */
+.revstudio-refresh main > section:first-of-type {
+  background:
+    radial-gradient(
+      circle at 75% 22%,
+      rgba(91, 33, 245, 0.11),
+      transparent 35%
+    ),
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #fcfaff 64%,
+      #f8f4ff 100%
+    ) !important;
+}
+
+/* Typography */
+.revstudio-refresh
+  :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--rev-ink) !important;
+  text-shadow: none !important;
+}
+
+.revstudio-refresh
+  :is(h1, h2, h3)
+  :is(span, em) {
+  color: var(--rev-purple) !important;
+}
+
+.revstudio-refresh p {
+  color: var(--rev-body) !important;
+}
+
+.revstudio-refresh
+  :is(small, figcaption) {
+  color: var(--rev-muted) !important;
+}
+
+.revstudio-refresh
+  [class*="uppercase"][class*="tracking"] {
+  color: var(--rev-purple) !important;
+}
+
+/* Cards and content panels */
+.revstudio-refresh main article,
+.revstudio-refresh main
+  :is(div, aside)[class*="rounded-"][class*="border-"] {
+  border-color: var(--rev-line) !important;
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  box-shadow:
+    0 18px 50px rgba(39, 23, 50, 0.07),
+    0 2px 10px rgba(39, 23, 50, 0.035);
+}
+
+/* Keep photography and motion media visually rich. */
+.revstudio-refresh
+  :is(figure, picture) {
+  overflow: hidden;
+  border-color: #ded5e8 !important;
+  background: #100d15 !important;
+}
+
+.revstudio-refresh
+  :is(img, video) {
+  max-width: 100%;
+}
+
+/* Buttons */
+.revstudio-refresh main
+  :is(a, button)[class*="bg-purple"],
+.revstudio-refresh main
+  :is(a, button)[class*="bg-violet"],
+.revstudio-refresh main
+  :is(a, button)[class*="bg-[#"] {
+  border-color: var(--rev-purple) !important;
+  background: linear-gradient(
+    135deg,
+    var(--rev-purple),
+    #7447f8
+  ) !important;
+  color: white !important;
+  box-shadow: 0 12px 34px rgba(91, 33, 245, 0.18);
+}
+
+.revstudio-refresh main
+  :is(a, button)[class*="border-"]:not([class*="bg-"]) {
+  border-color: #cbc0d8 !important;
+  background: white !important;
+  color: var(--rev-ink) !important;
+}
+
+.revstudio-refresh main
+  :is(a, button):hover {
+  transform: translateY(-1px);
+}
+
+/* Icons and accents */
+.revstudio-refresh
+  :is(svg, [class*="icon"])[class*="text-purple"],
+.revstudio-refresh
+  :is(svg, [class*="icon"])[class*="text-violet"] {
+  color: var(--rev-purple) !important;
+}
+
+.revstudio-refresh blockquote {
+  border-color: var(--rev-purple) !important;
+  background: var(--rev-purple-soft) !important;
+  color: #3d2853 !important;
+}
+
+/* Tables, dividers and metric rows */
+.revstudio-refresh
+  :is(hr, table, th, td) {
+  border-color: var(--rev-line) !important;
+}
+
+.revstudio-refresh
+  [class*="border-white"],
+.revstudio-refresh
+  [class*="border-zinc"],
+.revstudio-refresh
+  [class*="border-neutral"] {
+  border-color: var(--rev-line) !important;
+}
+
+/* Keep one premium dark closing band for contrast. */
+.revstudio-refresh main > section:last-of-type {
+  background:
+    radial-gradient(
+      circle at 80% 30%,
+      rgba(91, 33, 245, 0.34),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #17131d,
+      #21142d
+    ) !important;
+  color: white !important;
+}
+
+.revstudio-refresh main > section:last-of-type
+  :is(h1, h2, h3, h4, h5, h6) {
+  color: white !important;
+}
+
+.revstudio-refresh main > section:last-of-type p {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.revstudio-refresh main > section:last-of-type
+  :is(h1, h2, h3)
+  :is(span, em) {
+  color: #a98cff !important;
+}
+
+/* Footer */
+.revstudio-refresh footer {
+  border-color: var(--rev-line) !important;
+  background: white !important;
+  color: var(--rev-body) !important;
+}
+
+.revstudio-refresh footer a {
+  color: var(--rev-purple) !important;
+}
+
+/* Softer decorative background lines on white. */
+.revstudio-refresh
+  [class*="pointer-events-none"][class*="absolute"] {
+  opacity: 0.12 !important;
+}
+
+/* Mobile refinement */
+@media (max-width: 900px) {
+  .revstudio-refresh header,
+  .revstudio-refresh nav {
+    background: rgba(255, 255, 255, 0.98) !important;
+  }
+
+  .revstudio-refresh main > section {
+    background-color: white !important;
+  }
+
+  .revstudio-refresh main > section:nth-of-type(even) {
+    background: var(--rev-lavender) !important;
+  }
+}
+
+/* REVSTUDIO PURPLE BRAND LOGOS */
+
+/*
+  Converts the existing white logo artwork to The Revstudio purple.
+  Targeting is limited to the hospitality brand-logo filenames and alt text.
+*/
+.revstudio-refresh img[alt*="Hampton" i],
+.revstudio-refresh img[alt*="Hotel Indigo" i],
+.revstudio-refresh img[alt*="Eliza" i],
+.revstudio-refresh img[alt*="Elements" i],
+.revstudio-refresh img[alt*="IHG" i],
+.revstudio-refresh img[alt*="Hilton" i],
+.revstudio-refresh img[alt*="Marriott" i],
+.revstudio-refresh img[src*="hampton" i],
+.revstudio-refresh img[src*="hotel-indigo" i],
+.revstudio-refresh img[src*="hotel_indigo" i],
+.revstudio-refresh img[src*="eliza" i],
+.revstudio-refresh img[src*="elements" i],
+.revstudio-refresh img[src*="/ihg" i],
+.revstudio-refresh img[src*="hilton" i],
+.revstudio-refresh img[src*="marriott" i] {
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(19%)
+    sepia(99%)
+    saturate(6947%)
+    hue-rotate(258deg)
+    brightness(94%)
+    contrast(111%) !important;
+}
+
+/* Keep the logos clear and visible against the white background. */
+.revstudio-refresh img[alt*="Hampton" i]:hover,
+.revstudio-refresh img[alt*="Hotel Indigo" i]:hover,
+.revstudio-refresh img[alt*="Eliza" i]:hover,
+.revstudio-refresh img[alt*="Elements" i]:hover,
+.revstudio-refresh img[alt*="IHG" i]:hover,
+.revstudio-refresh img[alt*="Hilton" i]:hover,
+.revstudio-refresh img[alt*="Marriott" i]:hover {
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(15%)
+    sepia(98%)
+    saturate(7233%)
+    hue-rotate(260deg)
+    brightness(82%)
+    contrast(118%) !important;
+}
+
+/* END REVSTUDIO PURPLE BRAND LOGOS */
+
+/* REVSTUDIO DARK PURPLE GLASS PANELS */
+
+/*
+  Change large gray informational panels into premium dark-purple glass.
+  Media containers remain untouched.
+*/
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][class*="bg-"]:not(:has(img, video, picture)),
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][style*="background"]:not(:has(img, video, picture)) {
+  border: 1px solid rgba(174, 143, 255, 0.26) !important;
+
+  background:
+    radial-gradient(
+      circle at 12% 8%,
+      rgba(127, 76, 255, 0.28),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 86% 88%,
+      rgba(91, 33, 245, 0.22),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(36, 17, 66, 0.97),
+      rgba(54, 22, 91, 0.94)
+    ) !important;
+
+  background-color: #291442 !important;
+
+  box-shadow:
+    0 28px 70px rgba(38, 13, 68, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+
+  backdrop-filter: blur(24px) saturate(135%);
+  -webkit-backdrop-filter: blur(24px) saturate(135%);
+
+  color: #ffffff !important;
+}
+
+/* Main writing inside the purple panels */
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][class*="bg-"]:not(:has(img, video, picture))
+  :is(h1, h2, h3, h4, h5, h6),
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][style*="background"]:not(:has(img, video, picture))
+  :is(h1, h2, h3, h4, h5, h6) {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* Paragraphs and explanatory text */
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][class*="bg-"]:not(:has(img, video, picture))
+  p,
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][style*="background"]:not(:has(img, video, picture))
+  p {
+  color: rgba(255, 255, 255, 0.78) !important;
+  opacity: 1 !important;
+}
+
+/* Small labels, numbers and eyebrow text */
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][class*="bg-"]:not(:has(img, video, picture))
+  :is(
+    span,
+    small,
+    strong,
+    em,
+    [class*="uppercase"],
+    [class*="tracking"]
+  ),
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][style*="background"]:not(:has(img, video, picture))
+  :is(
+    span,
+    small,
+    strong,
+    em,
+    [class*="uppercase"],
+    [class*="tracking"]
+  ) {
+  color: #d9caff !important;
+  opacity: 1 !important;
+}
+
+/* Brighter purple and gold accent dots and rules */
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][class*="bg-"]:not(:has(img, video, picture))
+  [class*="bg-purple"],
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][class*="bg-"]:not(:has(img, video, picture))
+  [class*="bg-violet"] {
+  background-color: #9b72ff !important;
+}
+
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][class*="bg-"]:not(:has(img, video, picture))
+  [class*="border-"] {
+  border-color: rgba(184, 158, 255, 0.32) !important;
+}
+
+/* Keep black pill-style labels readable */
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][class*="bg-"]:not(:has(img, video, picture))
+  :is(a, button)[class*="bg-black"],
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][class*="bg-"]:not(:has(img, video, picture))
+  :is(a, button)[class*="bg-[#0"] {
+  background: rgba(10, 7, 16, 0.88) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+}
+
+/* Prevent muted Tailwind text classes from making content unreadable */
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][class*="bg-"]:not(:has(img, video, picture))
+  [class*="text-gray"],
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][class*="bg-"]:not(:has(img, video, picture))
+  [class*="text-zinc"],
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][class*="bg-"]:not(:has(img, video, picture))
+  [class*="text-neutral"],
+.revstudio-refresh main
+  :is(section, article, aside, div)
+  [class*="rounded-"][class*="bg-"]:not(:has(img, video, picture))
+  [class*="text-slate"] {
+  color: rgba(255, 255, 255, 0.74) !important;
+}
+
+/* END REVSTUDIO DARK PURPLE GLASS PANELS */
+
+/* REVSTUDIO FINAL READABILITY AND CONTACT PATCH */
+
+.revstudio-refresh {
+  --rev-purple: #5b21f5;
+  --rev-purple-light: #a98aff;
+  --rev-purple-dark: #35106f;
+  --rev-purple-black: #12081e;
+}
+
+/* Readable dark information panels */
+.revstudio-refresh .rev-readable-panel {
+  position: relative !important;
+  overflow: hidden !important;
+
+  border:
+    1px solid
+    rgba(179, 147, 255, 0.3)
+    !important;
+
+  background:
+    radial-gradient(
+      circle at 15% 0%,
+      rgba(117, 61, 244, 0.3),
+      transparent 37%
+    ),
+    radial-gradient(
+      circle at 92% 100%,
+      rgba(82, 24, 157, 0.35),
+      transparent 40%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(18, 8, 30, 0.99),
+      rgba(38, 13, 67, 0.98)
+    ) !important;
+
+  background-color:
+    #160922 !important;
+
+  box-shadow:
+    0 28px 70px
+      rgba(24, 7, 43, 0.28),
+    0 8px 24px
+      rgba(91, 33, 245, 0.12),
+    inset 0 1px 0
+      rgba(255, 255, 255, 0.13)
+      !important;
+
+  backdrop-filter:
+    blur(20px)
+    saturate(135%);
+
+  -webkit-backdrop-filter:
+    blur(20px)
+    saturate(135%);
+
+  color: white !important;
+}
+
+.revstudio-refresh
+  .rev-readable-panel::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  background:
+    linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.07),
+      transparent 24%,
+      transparent 72%,
+      rgba(154, 108, 255, 0.08)
+    );
+}
+
+.revstudio-refresh
+  .rev-readable-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Override all nested dark and muted text utilities */
+.revstudio-refresh
+  .rev-readable-panel
+  :is(h1, h2, h3, h4, h5, h6) {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  text-shadow:
+    0 2px 18px
+    rgba(0, 0, 0, 0.22);
+}
+
+.revstudio-refresh
+  .rev-readable-panel
+  :is(p, li, dd, dt) {
+  color:
+    rgba(255, 255, 255, 0.78)
+    !important;
+
+  opacity: 1 !important;
+}
+
+.revstudio-refresh
+  .rev-readable-panel
+  :is(
+    span,
+    small,
+    strong,
+    em,
+    label,
+    [class*="text-"]
+  ) {
+  opacity: 1 !important;
+}
+
+.revstudio-refresh
+  .rev-readable-panel
+  [class*="text-black"],
+.revstudio-refresh
+  .rev-readable-panel
+  [class*="text-gray"],
+.revstudio-refresh
+  .rev-readable-panel
+  [class*="text-neutral"],
+.revstudio-refresh
+  .rev-readable-panel
+  [class*="text-zinc"],
+.revstudio-refresh
+  .rev-readable-panel
+  [class*="text-slate"],
+.revstudio-refresh
+  .rev-readable-panel
+  [class*="text-stone"] {
+  color:
+    rgba(255, 255, 255, 0.76)
+    !important;
+
+  opacity: 1 !important;
+}
+
+.revstudio-refresh
+  .rev-readable-panel
+  [class*="uppercase"],
+.revstudio-refresh
+  .rev-readable-panel
+  [class*="tracking"] {
+  color: #cbb7ff !important;
+  opacity: 1 !important;
+}
+
+.revstudio-refresh
+  .rev-readable-panel
+  :is(hr, [class*="border-"]) {
+  border-color:
+    rgba(194, 171, 255, 0.25)
+    !important;
+}
+
+/* Metrics and large numbers */
+.revstudio-refresh
+  .rev-readable-panel
+  [class*="text-4xl"],
+.revstudio-refresh
+  .rev-readable-panel
+  [class*="text-5xl"],
+.revstudio-refresh
+  .rev-readable-panel
+  [class*="text-6xl"] {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* Process pills */
+.revstudio-refresh
+  .rev-process-pill {
+  border:
+    1px solid
+    rgba(91, 33, 245, 0.44)
+    !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff,
+      #f1ebff
+    ) !important;
+
+  color: #35106f !important;
+
+  box-shadow:
+    0 10px 30px
+      rgba(91, 33, 245, 0.11),
+    inset 0 1px 0
+      rgba(255, 255, 255, 0.9)
+      !important;
+
+  opacity: 1 !important;
+}
+
+.revstudio-refresh
+  .rev-process-pill * {
+  color: #5b21f5 !important;
+  opacity: 1 !important;
+}
+
+/* Scenario selector tabs */
+.revstudio-refresh
+  .rev-scenario-tab {
+  border:
+    1px solid
+    rgba(91, 33, 245, 0.3)
+    !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #291044,
+      #150921
+    ) !important;
+
+  color:
+    rgba(255, 255, 255, 0.86)
+    !important;
+
+  box-shadow:
+    0 9px 24px
+      rgba(34, 10, 57, 0.14)
+      !important;
+
+  opacity: 1 !important;
+}
+
+.revstudio-refresh
+  .rev-scenario-tab * {
+  color:
+    rgba(255, 255, 255, 0.86)
+    !important;
+
+  opacity: 1 !important;
+}
+
+.revstudio-refresh
+  .rev-scenario-tab:hover,
+.revstudio-refresh
+  .rev-scenario-tab[aria-selected="true"],
+.revstudio-refresh
+  .rev-scenario-tab[data-state="active"] {
+  border-color:
+    rgba(179, 143, 255, 0.8)
+    !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #5b21f5,
+      #39108a
+    ) !important;
+
+  color: #ffffff !important;
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 14px 34px
+      rgba(91, 33, 245, 0.29)
+      !important;
+}
+
+/* High-impact 3D pilot buttons */
+.revstudio-refresh
+  .rev-pilot-cta {
+  position: relative !important;
+  isolation: isolate;
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.34)
+    !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #7b4bff 0%,
+      #5b21f5 44%,
+      #3510aa 100%
+    ) !important;
+
+  color: #ffffff !important;
+
+  font-weight: 750 !important;
+  letter-spacing: 0.01em;
+
+  text-shadow:
+    0 1px 8px
+    rgba(20, 5, 50, 0.5);
+
+  box-shadow:
+    0 5px 0 #2b087f,
+    0 14px 22px
+      rgba(91, 33, 245, 0.3),
+    0 26px 52px
+      rgba(91, 33, 245, 0.22),
+    inset 0 1px 0
+      rgba(255, 255, 255, 0.5),
+    inset 0 -8px 18px
+      rgba(40, 7, 120, 0.25)
+      !important;
+
+  transform:
+    translateY(-2px);
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease
+    !important;
+}
+
+.revstudio-refresh
+  .rev-pilot-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.36),
+      transparent 24%,
+      transparent 62%,
+      rgba(255, 255, 255, 0.13)
+    );
+}
+
+.revstudio-refresh
+  .rev-pilot-cta:hover {
+  filter:
+    brightness(1.09)
+    saturate(1.12);
+
+  transform:
+    translateY(-5px)
+    scale(1.015);
+
+  box-shadow:
+    0 7px 0 #28066f,
+    0 18px 30px
+      rgba(91, 33, 245, 0.37),
+    0 32px 65px
+      rgba(91, 33, 245, 0.28),
+    inset 0 1px 0
+      rgba(255, 255, 255, 0.55)
+      !important;
+}
+
+.revstudio-refresh
+  .rev-pilot-cta:active {
+  transform:
+    translateY(2px);
+
+  box-shadow:
+    0 2px 0 #28066f,
+    0 8px 18px
+      rgba(91, 33, 245, 0.25)
+      !important;
+}
+
+/* Missing media fallback */
+.revstudio-refresh
+  .rev-broken-media {
+  position: relative !important;
+  min-height: 220px;
+
+  background:
+    radial-gradient(
+      circle at 40% 30%,
+      rgba(146, 92, 255, 0.45),
+      transparent 34%
+    ),
+    linear-gradient(
+      145deg,
+      #5b21f5,
+      #20074f
+    ) !important;
+}
+
+.revstudio-refresh
+  .rev-broken-media::after {
+  content:
+    "Creative preview unavailable";
+
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+
+  padding: 24px;
+
+  color:
+    rgba(255, 255, 255, 0.86);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Floating contact button */
+.rev-floating-contact {
+  position: fixed;
+  right: 26px;
+  bottom: 26px;
+  z-index: 170;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  min-height: 56px;
+  padding: 0 22px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.38);
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #7b4bff,
+      #5b21f5 48%,
+      #310c94
+    );
+
+  color: white;
+
+  font: inherit;
+  font-size: 14px;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 0 #26066e,
+    0 15px 34px
+      rgba(91, 33, 245, 0.34),
+    0 30px 60px
+      rgba(91, 33, 245, 0.24),
+    inset 0 1px 0
+      rgba(255, 255, 255, 0.48);
+
+  transform:
+    translateY(-2px);
+
+  transition:
+    180ms ease;
+}
+
+.rev-floating-contact:hover {
+  transform:
+    translateY(-6px)
+    scale(1.02);
+
+  filter:
+    brightness(1.08);
+}
+
+/* Contact form modal */
+.rev-contact-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+
+  display: grid;
+  place-items: center;
+
+  padding: 24px;
+
+  background:
+    rgba(14, 5, 25, 0.68);
+
+  backdrop-filter:
+    blur(16px);
+
+  -webkit-backdrop-filter:
+    blur(16px);
+}
+
+.rev-contact-modal {
+  position: relative;
+  width:
+    min(620px, 100%);
+
+  max-height:
+    calc(100vh - 48px);
+
+  overflow-y: auto;
+
+  border:
+    1px solid
+    rgba(186, 155, 255, 0.38);
+
+  border-radius: 30px;
+
+  padding:
+    44px;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(123, 75, 255, 0.3),
+      transparent 36%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(24, 9, 40, 0.99),
+      rgba(48, 15, 82, 0.98)
+    );
+
+  color: white;
+
+  box-shadow:
+    0 40px 100px
+      rgba(10, 2, 18, 0.5),
+    inset 0 1px 0
+      rgba(255, 255, 255, 0.13);
+}
+
+.rev-contact-modal h2 {
+  margin:
+    8px 0 12px;
+
+  color: white !important;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(34px, 5vw, 54px);
+
+  line-height: 1.02;
+}
+
+.rev-contact-eyebrow {
+  margin: 0;
+
+  color:
+    #c9b3ff !important;
+
+  font-size: 11px;
+  font-weight: 750;
+
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+}
+
+.rev-contact-intro {
+  max-width: 470px;
+  margin:
+    0 0 28px;
+
+  color:
+    rgba(255, 255, 255, 0.72)
+    !important;
+
+  line-height: 1.65;
+}
+
+.rev-contact-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+
+  width: 40px;
+  height: 40px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.18);
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.07);
+
+  color: white;
+
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.rev-contact-form {
+  display: grid;
+  gap: 17px;
+}
+
+.rev-contact-form label {
+  display: grid;
+  gap: 8px;
+
+  color:
+    rgba(255, 255, 255, 0.85);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
+}
+
+.rev-contact-form
+  :is(input, textarea) {
+  width: 100%;
+
+  border:
+    1px solid
+    rgba(206, 185, 255, 0.25);
+
+  border-radius: 14px;
+
+  padding:
+    14px 15px;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  color: white;
+
+  font: inherit;
+  font-size: 14px;
+
+  outline: none;
+}
+
+.rev-contact-form
+  :is(input, textarea):focus {
+  border-color:
+    rgba(179, 143, 255, 0.85);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(91, 33, 245, 0.2);
+}
+
+.rev-contact-form
+  textarea {
+  resize: vertical;
+}
+
+.rev-contact-form
+  ::placeholder {
+  color:
+    rgba(255, 255, 255, 0.38);
+}
+
+.rev-contact-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  min-height: 54px;
+  margin-top: 3px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.4);
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #8155ff,
+      #5b21f5 50%,
+      #3510a4
+    );
+
+  color: white;
+
+  font: inherit;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 0 #26066e,
+    0 16px 34px
+      rgba(91, 33, 245, 0.32),
+    inset 0 1px 0
+      rgba(255, 255, 255, 0.42);
+}
+
+.rev-contact-note {
+  margin: 5px 0 0;
+
+  color:
+    rgba(255, 255, 255, 0.48)
+    !important;
+
+  font-size: 11px;
+  text-align: center;
+}
+
+.rev-contact-success {
+  border:
+    1px solid
+    rgba(179, 143, 255, 0.32);
+
+  border-radius: 18px;
+
+  padding: 24px;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+}
+
+.rev-contact-success strong {
+  color: white;
+  font-size: 18px;
+}
+
+.rev-contact-success p {
+  margin:
+    8px 0 0;
+
+  color:
+    rgba(255, 255, 255, 0.7);
+}
+
+/* Mobile */
+@media
+  (max-width: 720px) {
+  .rev-floating-contact {
+    right: 14px;
+    bottom: 14px;
+
+    min-height: 52px;
+    padding: 0 18px;
+  }
+
+  .rev-contact-backdrop {
+    align-items: end;
+    padding: 10px;
+  }
+
+  .rev-contact-modal {
+    max-height:
+      calc(100vh - 20px);
+
+    border-radius: 24px;
+    padding:
+      36px 22px 24px;
+  }
+}
+
+/* END REVSTUDIO FINAL READABILITY AND CONTACT PATCH */
+
+/* REVSTUDIO HERO VISIBILITY SAFEGUARD */
+
+.revstudio-refresh main,
+.revstudio-refresh main > section,
+.revstudio-refresh main > section > * {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.revstudio-refresh main > section:first-of-type {
+  isolation: auto !important;
+  overflow: visible !important;
+
+  background:
+    radial-gradient(
+      circle at 78% 16%,
+      rgba(91, 33, 245, 0.09),
+      transparent 36%
+    ),
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #fbf9ff 100%
+    ) !important;
+}
+
+.revstudio-refresh main > section:first-of-type::before {
+  content: none !important;
+}
+
+/* END REVSTUDIO HERO VISIBILITY SAFEGUARD */
+

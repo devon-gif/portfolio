@@ -1,0 +1,14 @@
+import type { ReactNode } from "react";
+import "./revstudio-refresh.css";
+
+export default function RevstudioLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return (
+    <div className="revstudio-refresh">
+      {children}
+    </div>
+  );
+}

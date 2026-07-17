@@ -1,0 +1,291 @@
+"use client";
+
+import { useEffect } from "react";
+
+const TRS_PURPLE = "#5B21F5";
+const HOTEL_LOGO_FILTER =
+  "brightness(0) saturate(100%) invert(49%)";
+
+function normalizeText(element: Element) {
+  return (element.textContent || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+function forceStyle(
+  element: HTMLElement | SVGElement,
+  property: string,
+  value: string,
+) {
+  element.style.setProperty(
+    property,
+    value,
+    "important",
+  );
+}
+
+function stylePrimaryCTA(hero: HTMLElement) {
+  const controls = Array.from(
+    hero.querySelectorAll<HTMLElement>(
+      "a, button",
+    ),
+  );
+
+  const button = controls.find((element) =>
+    normalizeText(element).includes(
+      "discuss a pilot",
+    ),
+  );
+
+  if (!button) return;
+
+  forceStyle(
+    button,
+    "background",
+    TRS_PURPLE,
+  );
+
+  forceStyle(
+    button,
+    "background-color",
+    TRS_PURPLE,
+  );
+
+  forceStyle(
+    button,
+    "background-image",
+    "none",
+  );
+
+  forceStyle(
+    button,
+    "border",
+    "1px solid #7547ff",
+  );
+
+  forceStyle(
+    button,
+    "color",
+    "#ffffff",
+  );
+
+  forceStyle(
+    button,
+    "-webkit-text-fill-color",
+    "#ffffff",
+  );
+
+  forceStyle(
+    button,
+    "opacity",
+    "1",
+  );
+
+  forceStyle(
+    button,
+    "filter",
+    "none",
+  );
+
+  forceStyle(
+    button,
+    "box-shadow",
+    [
+      "0 5px 0 #32108d",
+      "0 14px 30px rgba(91,33,245,0.30)",
+      "inset 0 1px 0 rgba(255,255,255,0.35)",
+    ].join(", "),
+  );
+
+  button
+    .querySelectorAll<HTMLElement>("*")
+    .forEach((child) => {
+      forceStyle(
+        child,
+        "color",
+        "#ffffff",
+      );
+
+      forceStyle(
+        child,
+        "-webkit-text-fill-color",
+        "#ffffff",
+      );
+
+      forceStyle(
+        child,
+        "opacity",
+        "1",
+      );
+    });
+}
+
+function styleHotelLogos(hero: HTMLElement) {
+  const logoTerms = [
+    "hampton",
+    "hotel indigo",
+    "hotel-indigo",
+    "hotel_indigo",
+    "eliza",
+    "elements",
+    "ihg",
+    "hilton",
+    "marriott",
+  ];
+
+  hero
+    .querySelectorAll<HTMLImageElement>("img")
+    .forEach((image) => {
+      const identity = [
+        image.alt,
+        image.currentSrc,
+        image.src,
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      const isHotelLogo =
+        logoTerms.some((term) =>
+          identity.includes(term),
+        );
+
+      if (!isHotelLogo) return;
+
+      forceStyle(
+        image,
+        "filter",
+        HOTEL_LOGO_FILTER,
+      );
+
+      forceStyle(
+        image,
+        "opacity",
+        "0.9",
+      );
+
+      forceStyle(
+        image,
+        "mix-blend-mode",
+        "normal",
+      );
+    });
+
+  /*
+    Also support inline SVG logos when they have
+    accessible hotel-brand labels.
+  */
+  hero
+    .querySelectorAll<HTMLElement>(
+      [
+        '[aria-label*="Hampton" i]',
+        '[aria-label*="Indigo" i]',
+        '[aria-label*="Eliza" i]',
+        '[aria-label*="Elements" i]',
+        '[aria-label*="IHG" i]',
+        '[aria-label*="Hilton" i]',
+        '[aria-label*="Marriott" i]',
+      ].join(","),
+    )
+    .forEach((logo) => {
+      logo
+        .querySelectorAll<SVGElement>(
+          "svg, path, rect, circle, polygon",
+        )
+        .forEach((part) => {
+          forceStyle(
+            part,
+            "fill",
+            "#77737c",
+          );
+
+          forceStyle(
+            part,
+            "stroke",
+            "#77737c",
+          );
+
+          forceStyle(
+            part,
+            "opacity",
+            "1",
+          );
+        });
+    });
+}
+
+function applyHeroBrandStyles() {
+  const headline = Array.from(
+    document.querySelectorAll<HTMLElement>(
+      "h1, h2",
+    ),
+  ).find((element) =>
+    normalizeText(element).includes(
+      "from revenue priority",
+    ),
+  );
+
+  if (!headline) return;
+
+  const hero =
+    headline.closest<HTMLElement>("section") ||
+    headline.parentElement;
+
+  if (!hero) return;
+
+  stylePrimaryCTA(hero);
+  styleHotelLogos(hero);
+}
+
+export default function HeroBrandStyleFix() {
+  useEffect(() => {
+    let frame = 0;
+
+    const apply = () => {
+      window.cancelAnimationFrame(frame);
+
+      frame = window.requestAnimationFrame(
+        applyHeroBrandStyles,
+      );
+    };
+
+    const timers = [
+      window.setTimeout(apply, 50),
+      window.setTimeout(apply, 300),
+      window.setTimeout(apply, 900),
+      window.setTimeout(apply, 1800),
+      window.setTimeout(apply, 3000),
+    ];
+
+    const observer =
+      new MutationObserver(apply);
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+
+    window.addEventListener(
+      "load",
+      apply,
+    );
+
+    apply();
+
+    return () => {
+      timers.forEach(
+        window.clearTimeout,
+      );
+
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+
+      window.removeEventListener(
+        "load",
+        apply,
+      );
+    };
+  }, []);
+
+  return null;
+}

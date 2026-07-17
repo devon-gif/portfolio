@@ -1,0 +1,259 @@
+"use client";
+
+import { useEffect } from "react";
+
+function normalizeText(element: Element) {
+  return (element.textContent || "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function forceStyle(
+  element: HTMLElement,
+  property: string,
+  value: string,
+) {
+  element.style.setProperty(
+    property,
+    value,
+    "important",
+  );
+}
+
+function forceTextColor(
+  element: HTMLElement,
+  color: string,
+) {
+  forceStyle(element, "color", color);
+  forceStyle(
+    element,
+    "-webkit-text-fill-color",
+    color,
+  );
+  forceStyle(
+    element,
+    "background-image",
+    "none",
+  );
+  forceStyle(
+    element,
+    "background-clip",
+    "border-box",
+  );
+  forceStyle(
+    element,
+    "-webkit-background-clip",
+    "border-box",
+  );
+  forceStyle(element, "opacity", "1");
+  forceStyle(element, "filter", "none");
+  forceStyle(
+    element,
+    "mix-blend-mode",
+    "normal",
+  );
+  forceStyle(element, "text-shadow", "none");
+  forceStyle(element, "visibility", "visible");
+}
+
+function applyHeroContrast() {
+  const headings = Array.from(
+    document.querySelectorAll<HTMLElement>(
+      "h1, h2",
+    ),
+  );
+
+  const headline = headings.find((element) =>
+    normalizeText(element).includes(
+      "From revenue priority",
+    ),
+  );
+
+  if (!headline) {
+    return false;
+  }
+
+  const hero =
+    headline.closest<HTMLElement>("section") ||
+    headline.parentElement;
+
+  if (!hero) {
+    return false;
+  }
+
+  /*
+    Remove opacity, filters and blending from all
+    rendered hero elements. A faded parent can make
+    dark child text appear nearly white.
+  */
+  hero
+    .querySelectorAll<HTMLElement>("*")
+    .forEach((element) => {
+      forceStyle(element, "opacity", "1");
+      forceStyle(element, "filter", "none");
+      forceStyle(
+        element,
+        "mix-blend-mode",
+        "normal",
+      );
+      forceStyle(
+        element,
+        "visibility",
+        "visible",
+      );
+    });
+
+  const textElements =
+    hero.querySelectorAll<HTMLElement>(
+      [
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "p",
+        "span",
+        "small",
+        "strong",
+        "em",
+        "li",
+        "blockquote",
+        "figcaption",
+        "label",
+      ].join(","),
+    );
+
+  textElements.forEach((element) => {
+    if (element.closest("a, button")) {
+      return;
+    }
+
+    forceTextColor(element, "#49444d");
+  });
+
+  /*
+    Headline gets the strongest dark gray.
+  */
+  forceTextColor(headline, "#29252d");
+
+  headline
+    .querySelectorAll<HTMLElement>("*")
+    .forEach((element) => {
+      forceTextColor(element, "#29252d");
+    });
+
+  /*
+    Find the smallest headline element containing
+    “finished” and restore the TRS purple.
+  */
+  const purpleCandidates = Array.from(
+    headline.querySelectorAll<HTMLElement>(
+      "span, em, strong",
+    ),
+  )
+    .filter((element) =>
+      normalizeText(element)
+        .toLowerCase()
+        .includes("finished"),
+    )
+    .sort(
+      (a, b) =>
+        normalizeText(a).length -
+        normalizeText(b).length,
+    );
+
+  if (purpleCandidates[0]) {
+    forceTextColor(
+      purpleCandidates[0],
+      "#5B21F5",
+    );
+  }
+
+  /*
+    Keep editorial labels purple.
+  */
+  hero
+    .querySelectorAll<HTMLElement>(
+      '[class*="uppercase"], [class*="tracking"]',
+    )
+    .forEach((element) => {
+      forceTextColor(element, "#5B21F5");
+    });
+
+  /*
+    Keep the primary CTA white; make secondary
+    button text dark.
+  */
+  hero
+    .querySelectorAll<HTMLElement>(
+      "a, button",
+    )
+    .forEach((button) => {
+      const text = normalizeText(button);
+      const isPrimary =
+        text.toLowerCase().includes(
+          "discuss a pilot",
+        );
+
+      const color = isPrimary
+        ? "#ffffff"
+        : "#39343d";
+
+      forceTextColor(button, color);
+
+      button
+        .querySelectorAll<HTMLElement>("*")
+        .forEach((child) => {
+          forceTextColor(child, color);
+        });
+    });
+
+  return true;
+}
+
+export default function HeroTextContrastFix() {
+  useEffect(() => {
+    let attempts = 0;
+
+    const apply = () => {
+      attempts += 1;
+
+      const found = applyHeroContrast();
+
+      if (!found && attempts < 20) {
+        window.setTimeout(apply, 150);
+      }
+    };
+
+    /*
+      Apply after React hydration and again after
+      delayed animations have initialized.
+    */
+    requestAnimationFrame(() => {
+      requestAnimationFrame(apply);
+    });
+
+    const timers = [
+      window.setTimeout(apply, 300),
+      window.setTimeout(apply, 900),
+      window.setTimeout(apply, 1800),
+    ];
+
+    window.addEventListener(
+      "load",
+      apply,
+    );
+
+    return () => {
+      timers.forEach(window.clearTimeout);
+
+      window.removeEventListener(
+        "load",
+        apply,
+      );
+    };
+  }, []);
+
+  return null;
+}

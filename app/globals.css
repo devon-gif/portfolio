@@ -437,50 +437,177 @@ body {
    a palette swap; only the values changed.
    ─────────────────────────────────────────────────────────────────────────── */
 .revstudio-theme {
-  color-scheme: dark;
-  /* Surfaces */
+  color-scheme: light;
+  /* Surfaces — unchanged: these stay dark and back the intentionally dark
+     cards/panels/media stages (.rv-model-card, .op-frame, .am-item, etc.).
+     The PAGE itself is light; only these specific surfaces are dark. */
   --rv-bg: #030304;
   --rv-bg-2: #09090c;
   --rv-navy: #100a14;
   --rv-panel: rgba(16, 10, 20, 0.62);
   --rv-panel-strong: rgba(9, 9, 12, 0.82);
-  /* Ink */
-  --rv-ink: #f2eee7;
-  --rv-ink-soft: rgba(242, 238, 231, 0.74);
-  --rv-ink-muted: rgba(242, 238, 231, 0.5);
-  /* Accents — Revstudio purple is the only accent hue; amber is reserved
-     for the hero's warm hotel-lighting glow only, never UI chrome. */
+
+  /* Ink — default (light-page) values. Text sitting directly on the light
+     background/glass sections uses these. Genuinely dark surfaces
+     (.rv-model-card, .op-frame, .rv-hero-stage, .am-item, .rv-icon-badge,
+     etc.) re-declare all of --rv-ink/--rv-ink-soft/--rv-ink-muted/
+     --rv-gold/--rv-blue-bright/--rv-champagne/--rv-line/--rv-line-strong
+     back to their dark-surface values in one scoped block below — see
+     "DARK-SURFACE TOKEN OVERRIDE". CSS custom properties cascade normally,
+     so every descendant text/icon color automatically follows whichever
+     scope it's actually sitting inside — no per-element color rules and no
+     runtime DOM color-fixing required. */
+  --rv-ink: #211d25;             /* primary heading */
+  --rv-ink-soft: #514b56;        /* body text */
+  --rv-ink-muted: #746d79;       /* muted supporting text */
+
+  /* Accents — TRS purple is the sole accent hue on the light page; amber
+     is reserved for the hero's warm hotel-lighting glow only, never UI
+     chrome. --rv-gold (kicker/label color) and --rv-blue-bright (the
+     "Revstudio" accent used throughout) both resolve to the same exact
+     TRS purple on the light page for one consistent brand color. */
   --rv-slate: #a7a1aa;
-  --rv-gold: #9668d7;
-  --rv-gold-soft: rgba(150, 104, 215, 0.16);
+  --rv-gold: #5b21f5;
+  --rv-gold-soft: rgba(91, 33, 245, 0.1);
   --rv-blue: #7254a8;
-  --rv-blue-bright: #9668d7;
+  --rv-blue-bright: #5b21f5;
   --rv-cyan: rgba(150, 104, 215, 0.5);
   --rv-amber: rgba(217, 165, 101, 0.4);
   /* Archer Design's side-accent in shared Revstudio x Archer sections
-     (Opportunity execution-gap infographic, Results). A restrained warm
-     champagne, distinct from --rv-amber (reserved for the hero glow). */
-  --rv-champagne: #d9b97a;
-  --rv-champagne-soft: rgba(217, 185, 122, 0.16);
-  /* Lines */
-  --rv-line: rgba(215, 205, 225, 0.12);
-  --rv-line-strong: rgba(215, 205, 225, 0.24);
+     (Opportunity execution-gap infographic, Results). Darkened from the
+     original dark-surface gold so it stays readable on the light page;
+     the brighter original value returns on dark surfaces below. */
+  --rv-champagne: #8a6a2e;
+  --rv-champagne-soft: rgba(138, 106, 46, 0.12);
+
+  /* Lines — a visible soft charcoal/purple hairline on the light page.
+     Dark surfaces restore the original pale line beneath. */
+  --rv-line: rgba(33, 29, 37, 0.1);
+  --rv-line-strong: rgba(91, 33, 245, 0.18);
+
   /* Shadows */
-  --rv-shadow: 0 26px 70px -30px rgba(0, 0, 0, 0.75);
+  --rv-shadow: 0 26px 70px -30px rgba(44, 24, 75, 0.22);
   /* Shared page shell — keeps the header logo and hero content locked to
      the same left edge, and gives the hero a fixed-width frame instead of
      fluid columns that reflow on every resize. */
   --revstudio-shell-width: 1440px;
   --revstudio-page-gutter: 40px;
 
-  /* 50% so the fixed purple Background.png shows through the wrapper's own
-     base color instead of being fully hidden behind it. --rv-bg itself
-     stays a solid opaque color for cards/video surfaces elsewhere. */
-  background: rgba(3, 3, 4, 0.5);
+  /* Page background — flowing white/lavender glass artwork, not a blank
+     page. A light wash keeps text readable without washing the artwork
+     out to near-nothing (a nearly opaque white layer was the earlier
+     mistake here). Sections layer their own translucent glass on top. */
+  background-color: #f8f6fb;
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(247, 242, 255, 0.34) 45%, rgba(255, 255, 255, 0.5) 100%),
+    url("/revstudio/media/revstudio-background.png");
+  background-position: center top, center top;
+  background-size: cover, cover;
+  background-repeat: no-repeat, no-repeat;
+  background-attachment: fixed, fixed;
   color: var(--rv-ink);
   font-family: var(--font-geist-sans, ui-sans-serif, system-ui, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+@media (max-width: 800px) {
+  .revstudio-theme {
+    /* Fixed backgrounds repaint on every scroll frame on many mobile
+       browsers; scroll keeps the page smooth without changing the look. */
+    background-attachment: scroll, scroll;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   DARK-SURFACE TOKEN OVERRIDE — every component that renders its own dark
+   background (cards, panels, badges, media stages, pills) re-declares the
+   ink/accent/line tokens back to their light-on-dark values here, once.
+   Everything else on the page inherits the light-page tokens from
+   .revstudio-theme above automatically through normal CSS cascade.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme :is(
+  .rv-model-card,
+  .rv-card,
+  .rv-panel,
+  .rv-icon-badge,
+  .am-item,
+  .op-frame,
+  .op-badge,
+  .rs-frame,
+  .rs-bridge-word,
+  .rv-process-badge,
+  .rv-process-icon,
+  .rv-scenario-pill,
+  .rv-scenario-flow,
+  .rv-scenario-step-icon,
+  .rv-hero-stage,
+  .rv-people-avatar
+) {
+  --rv-ink: #ffffff;
+  --rv-ink-soft: rgba(255, 255, 255, 0.76);
+  --rv-ink-muted: rgba(255, 255, 255, 0.72);
+  --rv-gold: #9668d7;
+  --rv-blue-bright: #9668d7;
+  --rv-champagne: #d9b97a;
+  --rv-line: rgba(215, 205, 225, 0.12);
+  --rv-line-strong: rgba(215, 205, 225, 0.24);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   LIGHT GLASS SECTIONS — every full-bleed section gets a translucent glass
+   layer over the page background artwork instead of a heavy, near-opaque
+   white fill. Alternating sections shift slightly toward lavender so the
+   page reads as one continuous glass surface, not identical stacked boxes.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme main > section {
+  position: relative;
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(22px) saturate(135%);
+  -webkit-backdrop-filter: blur(22px) saturate(135%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+.revstudio-theme main > section:nth-of-type(even) {
+  background: rgba(247, 243, 255, 0.6);
+}
+.revstudio-theme main > section.border-t {
+  border-top-color: var(--rv-line);
+}
+
+/* Header / mobile nav — a light glass bar rather than a hardcoded dark
+   surface, so it reads consistently with the rest of the light page. */
+.revstudio-theme .rv-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 1px 0 rgba(44, 24, 75, 0.06), 0 12px 34px rgba(44, 24, 75, 0.06);
+}
+.revstudio-theme .rv-mobile-nav {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+}
+
+/* Visible keyboard focus everywhere on the page, as a safety net for any
+   link/button not already given a dedicated focus-visible treatment. */
+.revstudio-theme a:focus-visible,
+.revstudio-theme button:focus-visible {
+  outline: 2px solid #5b21f5;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Hero building image — floats on the page inside .rv-hero-stage--pad
+   (no dark card fill, just breathing room + corner accents; see below),
+   replacing the previous hero video. object-fit:contain keeps the full
+   building visible, unclipped, centered. */
+.revstudio-theme .rv-hero-building-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 780px;
+  object-fit: contain;
+  margin-inline: auto;
 }
 
 .revstudio-theme .rv-shell {
@@ -849,10 +976,7 @@ body {
   font-family: var(--font-luxury-serif), serif;
   font-size: 2.5rem;
   line-height: 1;
-  background: linear-gradient(135deg, var(--rv-ink), var(--rv-blue-bright));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--rv-ink);
 }
 .revstudio-theme .rv-price-unit { font-size: 13px; color: var(--rv-ink-muted); }
 .revstudio-theme .rv-price-sublabel { margin-top: 0.4rem; font-size: 12.5px; color: var(--rv-ink-soft); }
@@ -893,46 +1017,93 @@ body {
   .revstudio-theme .rv-proof-strip { transition: none !important; }
 }
 
+/* Primary "Discuss a pilot" CTA — smooth premium TRS-purple button. Used
+   identically in the header, hero and every later section, so it's the
+   single source of truth for that button's appearance (no per-section
+   runtime overrides). */
 .revstudio-theme .rv-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 8px;
+  border-radius: 14px;
   padding: 0.85rem 1.6rem;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  background: linear-gradient(180deg, var(--rv-blue-bright), var(--rv-blue));
-  color: #f8f5ff;
-  border: 1px solid rgba(190, 160, 225, 0.45);
-  box-shadow: 0 14px 30px -12px rgba(114, 84, 168, 0.5);
+  background: linear-gradient(135deg, #7045ff 0%, #5b21f5 55%, #4513c6 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 12px 30px rgba(91, 33, 245, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .revstudio-theme .rv-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 18px 36px -12px rgba(150, 104, 215, 0.55);
+  transform: translateY(-2px);
+  box-shadow:
+    0 17px 38px rgba(91, 33, 245, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38);
+}
+.revstudio-theme .rv-btn:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+  box-shadow:
+    0 0 0 4px rgba(91, 33, 245, 0.35),
+    0 12px 30px rgba(91, 33, 245, 0.28);
+}
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-btn { transition: none !important; }
+  .revstudio-theme .rv-btn:hover { transform: none !important; }
 }
 
+/* Secondary CTA — a light-glass pill so it reads clearly on the light
+   page/hero instead of the near-invisible pale-on-pale border it had
+   before. */
 .revstudio-theme .rv-btn-ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 8px;
+  border-radius: 14px;
   padding: 0.85rem 1.5rem;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px) saturate(135%);
+  -webkit-backdrop-filter: blur(14px) saturate(135%);
   color: var(--rv-ink);
-  border: 1px solid var(--rv-line-strong);
-  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  border: 1px solid rgba(91, 33, 245, 0.22);
+  box-shadow: 0 8px 24px rgba(44, 24, 75, 0.08);
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 .revstudio-theme .rv-btn-ghost:hover {
-  transform: translateY(-1px);
-  border-color: var(--rv-gold);
-  background: rgba(150, 104, 215, 0.07);
+  transform: translateY(-2px);
+  border-color: rgba(91, 33, 245, 0.4);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 12px 28px rgba(44, 24, 75, 0.12);
+}
+.revstudio-theme .rv-btn-ghost:focus-visible {
+  outline: 2px solid #5b21f5;
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-btn-ghost { transition: none !important; }
+  .revstudio-theme .rv-btn-ghost:hover { transform: none !important; }
+}
+
+/* Dark-surface variant: the ghost button also appears inside dark cards
+   (e.g. none currently, kept as a safety net for future use) — on a dark
+   host the light-glass fill would read as a pale card-on-card box, so
+   swap to a thin light-purple outline instead. */
+.revstudio-theme :is(.rv-model-card, .op-frame, .rv-hero-stage) .rv-btn-ghost {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(150, 104, 215, 0.4);
+}
+.revstudio-theme :is(.rv-model-card, .op-frame, .rv-hero-stage) .rv-btn-ghost:hover {
+  background: rgba(150, 104, 215, 0.12);
+  border-color: rgba(150, 104, 215, 0.6);
 }
 
 .revstudio-theme .rv-divider {
@@ -1081,7 +1252,7 @@ body {
   align-items: center;
 }
 .revstudio-theme .rv-hero-copy { max-width: 46rem; }
-.revstudio-theme .rv-hero-visual { position: relative; width: 100%; max-width: 32rem; margin-inline: auto; }
+.revstudio-theme .rv-hero-visual { position: relative; width: 100%; max-width: 42rem; margin-inline: auto; }
 .revstudio-theme .rv-hero-visual::before {
   content: "";
   position: absolute;
@@ -1098,15 +1269,15 @@ body {
     min-height: 560px;
   }
   .revstudio-theme .rv-hero-copy { max-width: 500px; }
-  .revstudio-theme .rv-hero-visual { max-width: 660px; margin-inline: 0; }
+  .revstudio-theme .rv-hero-visual { max-width: 820px; margin-inline: 0; }
 }
 
 /* ───────────────────────────────────────────────────────────────────────────
-   Hero video stage — an isolated luxury-hotel clip on pure black, framed by
-   a near-black glass stage with a faint purple edge and thin corner
-   markers, so the video's own black background blends seamlessly into the
-   page rather than sitting inside a bright card. object-fit:contain keeps
-   the full building visible and unclipped.
+   .rv-hero-stage — shared frame base. Still used, with its dark glass fill,
+   by the Opportunity section's video (an edge-to-edge clip that needs its
+   own black backdrop). The hero's building render uses the --pad modifier
+   below, which strips the dark fill so the render's own transparent
+   background blends straight into the page instead of sitting in a box.
    ─────────────────────────────────────────────────────────────────────────── */
 .revstudio-theme .rv-hero-stage {
   position: relative;
@@ -1124,8 +1295,21 @@ body {
 /* Hero-only variant: extra inset padding so the architectural model has
    breathing room inside the frame instead of touching the edges. Scoped
    with a modifier (not applied to .rv-hero-stage globally) so the
-   Opportunity section's video keeps its own edge-to-edge framing. */
-.revstudio-theme .rv-hero-stage--pad { padding: 18px; }
+   Opportunity section's video keeps its own edge-to-edge framing.
+   The building render already has its own transparent background (see
+   .rv-hero-building-image), so this variant drops the dark card fill
+   entirely — just soft breathing room and the purple corner accents,
+   with the image floating on the page the way it does in the source
+   file rather than sitting inside a black box. */
+.revstudio-theme .rv-hero-stage--pad {
+  padding: 24px;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+@media (min-width: 640px) {
+  .revstudio-theme .rv-hero-stage--pad { padding: 32px; }
+}
 .revstudio-theme .rv-hero-video {
   display: block; width: 100%; height: auto;
   aspect-ratio: 1664 / 1248;
@@ -1458,11 +1642,14 @@ body {
 .revstudio-theme .rs-logos img {
   display: block; height: 100%; width: auto; max-width: 124px;
   object-fit: contain;
-  filter: brightness(0) invert(1);
-  opacity: 0.85;
+  /* This strip sits directly on the light page background, not a dark
+     surface, so logos render as a dark charcoal silhouette (brightness(0))
+     rather than the white silhouette used on dark surfaces elsewhere. */
+  filter: brightness(0);
+  opacity: 0.72;
   transition: opacity 0.3s ease;
 }
-.revstudio-theme .rs-logo-item:hover img { opacity: 1; }
+.revstudio-theme .rs-logo-item:hover img { opacity: 0.92; }
 @media (max-width: 640px) {
   .revstudio-theme .rs-logos { gap: 1.25rem 1.75rem; }
   .revstudio-theme .rs-logo-item { height: 30px; }

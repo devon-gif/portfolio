@@ -1,0 +1,18 @@
+import type { ReactNode } from "react";
+import "./revstudio-light.css";
+import HeroTextContrastFix from "@/components/revstudio/HeroTextContrastFix";
+import SectionTextContrastFix from "@/components/revstudio/SectionTextContrastFix";
+
+export default function RevstudioLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return (
+    <div className="revstudio-light-shell">
+      {children}
+      <SectionTextContrastFix />
+      <HeroTextContrastFix />
+    </div>
+  );
+}

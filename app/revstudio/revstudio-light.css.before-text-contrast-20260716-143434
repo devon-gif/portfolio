@@ -1,0 +1,190 @@
+
+/*
+  Safe CSS-only Revstudio light treatment.
+  Background image: /revstudio/media/new%20background.png
+*/
+
+.revstudio-light-shell {
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  background-color: #ffffff !important;
+
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.91) 0%,
+      rgba(255, 255, 255, 0.86) 42%,
+      rgba(249, 246, 255, 0.91) 100%
+    ),
+    url("/revstudio/media/new%20background.png");
+
+  background-position:
+    center top,
+    center top;
+
+  background-size:
+    cover,
+    cover;
+
+  background-repeat:
+    no-repeat,
+    no-repeat;
+
+  background-attachment:
+    fixed,
+    fixed;
+
+  color: #19151e;
+}
+
+/*
+  Remove only the old page-level dark background.
+  This does not change visibility, opacity, positioning,
+  animation, or React-rendered content.
+*/
+.revstudio-light-shell > div,
+.revstudio-light-shell main {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* White navigation */
+.revstudio-light-shell header,
+.revstudio-light-shell nav {
+  background:
+    rgba(255, 255, 255, 0.96)
+    !important;
+
+  border-color:
+    rgba(91, 33, 245, 0.12)
+    !important;
+
+  color: #201a26 !important;
+
+  box-shadow:
+    0 1px 0 rgba(49, 26, 72, 0.07),
+    0 12px 34px rgba(40, 18, 65, 0.035);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.revstudio-light-shell header a,
+.revstudio-light-shell nav a {
+  color: #423b48 !important;
+}
+
+.revstudio-light-shell header a:hover,
+.revstudio-light-shell nav a:hover {
+  color: #5b21f5 !important;
+}
+
+/*
+  Main page sections become translucent white panels,
+  allowing the background artwork to show through softly.
+*/
+.revstudio-light-shell main > section {
+  background:
+    rgba(255, 255, 255, 0.86)
+    !important;
+
+  border-color:
+    rgba(91, 33, 245, 0.1)
+    !important;
+
+  color: #19151e !important;
+
+  backdrop-filter:
+    blur(8px);
+
+  -webkit-backdrop-filter:
+    blur(8px);
+}
+
+.revstudio-light-shell main > section:nth-of-type(even) {
+  background:
+    rgba(248, 245, 255, 0.88)
+    !important;
+}
+
+/* Restore readable dark typography on light sections. */
+.revstudio-light-shell main > section
+  :is(h1, h2, h3, h4, h5, h6) {
+  color: #19151e !important;
+  text-shadow: none !important;
+}
+
+.revstudio-light-shell main > section > div > p,
+.revstudio-light-shell main > section > p {
+  color: #615968 !important;
+}
+
+/* Revstudio purple for editorial accents. */
+.revstudio-light-shell
+  :is(h1, h2, h3)
+  :is(em, span[class*="purple"], span[class*="violet"]) {
+  color: #5b21f5 !important;
+}
+
+.revstudio-light-shell
+  [class*="uppercase"][class*="tracking"] {
+  color: #5b21f5 !important;
+}
+
+/*
+  Preserve intentionally dark cards, media panels,
+  videos and creative showcase areas.
+*/
+.revstudio-light-shell
+  :is(article, aside, div)[class*="bg-black"],
+.revstudio-light-shell
+  :is(article, aside, div)[class*="bg-[#0"],
+.revstudio-light-shell
+  :is(article, aside, div)[class*="bg-neutral-9"],
+.revstudio-light-shell
+  :is(article, aside, div)[class*="bg-zinc-9"] {
+  background-color: #180b27 !important;
+}
+
+/* Strong purple CTA */
+.revstudio-light-shell
+  :is(a, button)[class*="bg-purple"],
+.revstudio-light-shell
+  :is(a, button)[class*="bg-violet"] {
+  border-color: #7446ff !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #8258ff,
+      #5b21f5 50%,
+      #3b0fac
+    ) !important;
+
+  color: #ffffff !important;
+
+  box-shadow:
+    0 5px 0 #2c087d,
+    0 15px 34px rgba(91, 33, 245, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42)
+    !important;
+}
+
+@media (max-width: 800px) {
+  .revstudio-light-shell {
+    background-attachment:
+      scroll,
+      scroll;
+
+    background-position:
+      center top,
+      62% top;
+  }
+
+  .revstudio-light-shell main > section {
+    background:
+      rgba(255, 255, 255, 0.92)
+      !important;
+  }
+}
