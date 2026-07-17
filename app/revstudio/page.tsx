@@ -25,7 +25,6 @@ import { absoluteUrl, faqJsonLd, serviceJsonLd } from "@/lib/seo";
 import { isRevstudioPageApproved, REVSTUDIO_FALLBACK_MAILTO } from "@/lib/revstudio";
 import { JointPartnerHeader } from "@/components/marketing/revstudio/JointPartnerHeader";
 import { JointFooter } from "@/components/marketing/revstudio/JointFooter";
-import { RevstudioHeroVideo } from "@/components/marketing/revstudio/RevstudioHeroVideo";
 import { TrackedBookingLink } from "@/components/marketing/revstudio/TrackedBookingLink";
 import { PartnershipFAQ } from "@/components/marketing/revstudio/PartnershipFAQ";
 import { Reveal } from "@/components/marketing/revstudio/Reveal";
@@ -132,11 +131,6 @@ export default function RevstudioPage() {
         ]}
       />
 
-      <div
-        className="pointer-events-none fixed inset-0 -z-10 bg-cover bg-top bg-no-repeat opacity-90"
-        style={{ backgroundImage: "url('/revstudio/media/Background.png')" }}
-        aria-hidden="true"
-      />
       <div className="rv-ops-field pointer-events-none absolute inset-x-0 top-0 h-[900px]" aria-hidden="true" />
 
       <JointPartnerHeader />
@@ -205,7 +199,14 @@ export default function RevstudioPage() {
             <div className="rv-hero-stage rv-hero-stage--pad">
               <span className="rv-hero-corner rv-hero-corner-tl" aria-hidden="true" />
               <span className="rv-hero-corner rv-hero-corner-br" aria-hidden="true" />
-              <RevstudioHeroVideo />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/revstudio/media/new-building-trs.png"
+                alt="The Revstudio's hotel property, an isolated architectural rendering"
+                className="rv-hero-building-image"
+                loading="eager"
+                fetchPriority="high"
+              />
             </div>
           </Reveal>
         </div>

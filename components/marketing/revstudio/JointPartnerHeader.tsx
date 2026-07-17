@@ -27,7 +27,7 @@ export function JointPartnerHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--rv-line)] bg-[rgba(6,11,22,0.86)] backdrop-blur-xl">
+    <header className="rv-header sticky top-0 z-40">
       <div className="rv-shell flex items-center justify-between gap-4 py-4">
         <Link href="#top" className="flex min-w-0 shrink-0 items-center" aria-label="The Revstudio x Archer Design, home">
           <Image
@@ -70,7 +70,7 @@ export function JointPartnerHeader() {
         <nav
           id="revstudio-mobile-nav"
           aria-label="Page sections"
-          className="border-t border-[var(--rv-line)] bg-[rgba(6,11,22,0.98)] px-6 sm:px-8 lg:px-10 py-5 xl:hidden"
+          className="rv-mobile-nav border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-5 xl:hidden"
         >
           <ul className="flex flex-col gap-4 text-[15px]">
             {NAV.map((item) => (
