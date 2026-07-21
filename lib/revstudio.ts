@@ -61,6 +61,25 @@ export const REVSTUDIO_SERVICE_INTEREST_OPTIONS = [
   "Not sure yet",
 ] as const;
 
+/** "Primary area of interest" options for the /revstudio "Request a
+ *  strategy call" contact modal (components/marketing/revstudio/
+ *  RevstudioContactModal.tsx, POST /api/revstudio/contact). Separate from
+ *  REVSTUDIO_SERVICE_INTEREST_OPTIONS above (that one is Calendly-prefill
+ *  specific and pre-dates the contact form). */
+export const REVSTUDIO_CONTACT_INTEREST_OPTIONS = [
+  "Revenue strategy and creative execution",
+  "Revenue management support",
+  "Hospitality creative and motion",
+  "Social and campaign content",
+  "F&B, meetings, events, or wellness",
+  "Hotel portfolio or management-company support",
+  "Agency partnership",
+  "Joint Revstudio × Archer package",
+  "Other",
+] as const;
+
+export type RevstudioContactInterest = (typeof REVSTUDIO_CONTACT_INTEREST_OPTIONS)[number];
+
 export type RevstudioPrefill = {
   name?: string | null;
   email?: string | null;
@@ -138,6 +157,34 @@ export function getRevstudioGhisela(): NotifyPerson | null {
 export function getRevstudioNotificationEmail(): string | null {
   const email = (process.env.REVSTUDIO_NOTIFICATION_EMAIL ?? "").trim();
   return email || null;
+}
+
+/**
+ * Recipient list for the /revstudio "Request a strategy call" contact modal
+ * (components/marketing/revstudio/RevstudioStrategyCallModal.tsx -> POST
+ * /api/revstudio/contact -> lib/revstudio-contact-notify.ts). A single
+ * comma-separated env var rather than the individual Devon/Ghisela vars
+ * above, so the two-person review inbox can be reconfigured without a code
+ * change. Splits on commas, trims whitespace off each address, drops empty
+ * entries (e.g. a stray trailing comma), and de-dupes case-insensitively.
+ * Returns [] (never throws) if the var is unset/blank — callers must treat
+ * an empty list as "not configured," not send anything, and report that
+ * clearly rather than silently succeeding.
+ */
+export function getRevstudioLeadRecipients(): string[] {
+  const raw = (process.env.REVSTUDIO_LEAD_RECIPIENTS ?? "").trim();
+  if (!raw) return [];
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const part of raw.split(",")) {
+    const email = part.trim();
+    if (!email) continue;
+    const key = email.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(email);
+  }
+  return out;
 }
 
 export function getRevstudioSharedCalendarId(): string | null {

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { RevstudioContactTrigger } from "./RevstudioContactTrigger";
 
 /** Joint footer for /revstudio, both companies, both sites, the
  *  independent-companies disclaimer required by the partnership brief. */
@@ -21,11 +22,12 @@ export function JointFooter() {
           <a href="https://www.archerdesign.shop/" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--rv-ink)]">
             archerdesign.shop ↗
           </a>
-          <a href="mailto:hello@archerdesign.shop" className="hover:text-[var(--rv-ink)]">
+          <RevstudioContactTrigger className="hover:text-[var(--rv-ink)]">
             Contact
-          </a>
+          </RevstudioContactTrigger>
           {/* No dedicated /privacy route exists on the site yet, routes to a
-              direct question in the meantime. See setup doc. */}
+              direct question in the meantime. See setup doc. Left as a plain
+              mailto: link intentionally — not a contact-modal CTA. */}
           <a href="mailto:hello@archerdesign.shop?subject=Privacy%20Question" className="hover:text-[var(--rv-ink)]">
             Privacy
           </a>

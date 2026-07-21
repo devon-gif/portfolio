@@ -22,10 +22,12 @@ import {
 import { JsonLd } from "@/components/marketing/JsonLd";
 import { fraunces } from "@/components/marketing/studioFont";
 import { absoluteUrl, faqJsonLd, serviceJsonLd } from "@/lib/seo";
-import { isRevstudioPageApproved, REVSTUDIO_FALLBACK_MAILTO } from "@/lib/revstudio";
+import { isRevstudioPageApproved } from "@/lib/revstudio";
 import { JointPartnerHeader } from "@/components/marketing/revstudio/JointPartnerHeader";
 import { JointFooter } from "@/components/marketing/revstudio/JointFooter";
 import { TrackedBookingLink } from "@/components/marketing/revstudio/TrackedBookingLink";
+import { RevstudioContactTrigger } from "@/components/marketing/revstudio/RevstudioContactTrigger";
+import { RevstudioContactModalProvider } from "@/components/marketing/revstudio/RevstudioContactModalContext";
 import { PartnershipFAQ } from "@/components/marketing/revstudio/PartnershipFAQ";
 import { Reveal } from "@/components/marketing/revstudio/Reveal";
 import { ProcessFlow } from "@/components/marketing/revstudio/ProcessFlow";
@@ -118,6 +120,7 @@ const PILOT_FLOW_ICONS = [Flag, Workflow, BarChart3];
 
 export default function RevstudioPage() {
   return (
+    <RevstudioContactModalProvider>
     <div id="top" className={`${fraunces.variable} revstudio-theme relative min-h-screen`}>
       <JsonLd
         data={[
@@ -891,9 +894,9 @@ export default function RevstudioPage() {
             <TrackedBookingLink variant="final-cta" className="rv-btn px-7 py-3.5 text-[13.5px]">
               {FINAL_CTA.primaryCta}
             </TrackedBookingLink>
-            <a href={REVSTUDIO_FALLBACK_MAILTO} className="rv-btn-ghost px-7 py-3.5 text-[13.5px]">
+            <RevstudioContactTrigger className="rv-btn-ghost px-7 py-3.5 text-[13.5px]">
               {FINAL_CTA.secondaryCta}
-            </a>
+            </RevstudioContactTrigger>
           </div>
         </Reveal>
       </section>
@@ -924,5 +927,6 @@ export default function RevstudioPage() {
 
       <JointFooter />
     </div>
+    </RevstudioContactModalProvider>
   );
 }
