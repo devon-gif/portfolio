@@ -1,0 +1,47 @@
+CoralTree / Magnolia reference imagery — source record
+========================================================
+These images are OFFICIAL CoralTree Hospitality marketing photography,
+downloaded from the public CoralTree Hospitality website for reference
+and context ONLY inside this private proposal (app/coraltree). They are
+NOT Archer Design creative work and must never be captioned or implied
+as such. They illustrate the properties/collections being discussed,
+the same way a sales deck would reference a client's own site photos.
+
+Downloaded: 2026-07-21
+
+1) reference/magnolia-denver-exterior.webp
+   Source page: CoralTree Hospitality — Magnolia Hotels collection
+   Source page URL: https://www.coraltreehospitality.com/explore/our-collection/magnolia-hotels/
+   Original asset URL: https://www.coraltreehospitality.com/site/assets/files/1269/exterior_-_1526870.800x0.webp
+   Property: Magnolia Denver, a Tribute Portfolio Hotel (Denver, CO)
+
+2) reference/magnolia-stlouis-lobby.webp
+   Source page: CoralTree Hospitality — Magnolia Hotels collection
+   Source page URL: https://www.coraltreehospitality.com/explore/our-collection/magnolia-hotels/
+   Original asset URL: https://www.coraltreehospitality.com/site/assets/files/1290/magnoliastl_dec_2021_0030.800x0.webp
+   Property: Magnolia St. Louis, a Tribute Portfolio Hotel (St. Louis, MO)
+
+3) reference/coraltree-resorts-collection.webp
+   Source page: CoralTree Hospitality — homepage / Resorts collection tile
+   Source page URL: https://www.coraltreehospitality.com/
+   Original asset URL: https://www.coraltreehospitality.com/site/assets/files/1027/dji_0112_2-final-retouch_1.1200x0.webp
+   Property: CoralTree Resorts collection (aerial, unspecified property)
+
+4) reference/coraltree-spa-wellness.webp
+   Source page: CoralTree Hospitality — homepage / Spa & Wellness collection tile
+   Source page URL: https://www.coraltreehospitality.com/
+   Original asset URL: https://www.coraltreehospitality.com/site/assets/files/1021/spavitalitypool_dyess042025_smaller_1.1200x0.webp
+   Property: CoralTree Spa & Wellness collection (unspecified property)
+
+Usage on /coraltree: these four images are used as small, clearly-labeled
+reference thumbnails (e.g. "Referenced: Magnolia Denver," sourced from
+coraltreehospitality.com) inside the Scale/Opportunity and Personalized
+Note sections — never inside the "Selected Archer Design hospitality
+motion studies" gallery, and never with alt text or captions implying
+Archer produced them.
+
+All other media on /coraltree (hero visual, motion gallery, process
+diagram) is existing Archer Design creative work, reused from other
+routes in this repository (dovetail, valencia, lark, archer-preview) —
+see app/coraltree/page.tsx and lib/coraltree-content.ts for the exact
+file references.
