@@ -31,6 +31,11 @@ const PUBLIC_ROUTES = [
   // noindex by default (see lib/revstudio.ts), but still needs to render
   // full-bleed like the other public marketing pages, not the CRM chrome.
   "/revstudio",
+  // CoralTree × Archer Design private creative proposal. Keep both the
+  // canonical route and the hyphenated email alias public so neither is
+  // intercepted by the owner-only CRM auth guard.
+  "/coraltree",
+  "/coral-tree",
 ];
 // Auth routes: full-bleed, no sidebar, no guard (these ARE the login flow).
 const AUTH_ROUTES = ["/login", "/auth/callback"];
