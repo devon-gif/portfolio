@@ -84,11 +84,12 @@ export interface SendEmailArgs {
   to: string;
   subject: string;
   text: string;
+  html?: string;
   from?: string;
   replyTo?: string;
 }
 
-/** Sends a plain-text email through Resend. Returns the Resend message id. */
+/** Sends an email through Resend. Plain text is required; HTML is optional. */
 export async function sendEmail(args: SendEmailArgs): Promise<string> {
   const from = (args.from || process.env.RESEND_FROM_EMAIL || "").trim();
   if (!from) throw new Error("RESEND_FROM_EMAIL is not set.");
@@ -100,6 +101,7 @@ export async function sendEmail(args: SendEmailArgs): Promise<string> {
     to: args.to,
     subject: args.subject,
     text: args.text,
+    ...(args.html ? { html: args.html } : {}),
     ...(replyTo ? { replyTo } : {}),
   });
   if (error) throw new Error(error.message || "Resend send failed.");
