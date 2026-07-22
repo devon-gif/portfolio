@@ -1427,90 +1427,94 @@
   .topline-theme .tl-calc-num-input { grid-column: 1 / -1; width: 100%; margin-top: 10px; }
 }
 
-/* ---------- shared interest modal (every sales CTA on the page) ---------- */
-.topline-theme .tl-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background: rgba(20, 14, 9, 0.55);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  animation: tl-modal-fade-in 0.2s var(--tl-ease);
+/* ---------- /topline/schedule ---------- */
+.topline-theme .tl-schedule-participants {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
-.topline-theme .tl-modal {
-  position: relative;
-  width: 100%;
-  max-width: 440px;
-  max-height: calc(100vh - 40px);
-  overflow-y: auto;
+.topline-theme .tl-schedule-participant {
+  border-radius: 16px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-panel-strong);
+  box-shadow: var(--tl-shadow-soft);
+  padding: 16px 18px 18px;
+}
+.topline-theme .tl-schedule-participant--revstudio { border-top: 2px solid rgba(124, 92, 192, 0.5); }
+.topline-theme .tl-schedule-participant--archer { border-top: 2px solid rgba(169, 138, 76, 0.55); }
+.topline-theme .tl-schedule-participant-name {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 16px;
+  color: var(--tl-ink);
+}
+.topline-theme .tl-schedule-participant-org {
+  margin-top: 3px;
+  font-size: 11.5px;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--tl-teal-deep);
+}
+.topline-theme .tl-schedule-participant--revstudio .tl-schedule-participant-org { color: var(--tl-purple); }
+.topline-theme .tl-schedule-participant--archer .tl-schedule-participant-org { color: var(--tl-gold); }
+.topline-theme .tl-schedule-participant-role {
+  margin-top: 6px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--tl-ink-soft);
+}
+
+.topline-theme .tl-schedule-reassurance {
+  max-width: 52ch;
+  font-size: 12.5px;
+  line-height: 1.6;
+  font-style: italic;
+  color: var(--tl-ink-muted);
+}
+
+.topline-theme .tl-schedule-return {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tl-teal-deep);
+  transition: gap 0.2s var(--tl-ease);
+}
+.topline-theme .tl-schedule-return:hover { gap: 11px; }
+
+.topline-theme .tl-schedule-card {
   border-radius: 22px;
   border: 1px solid var(--tl-line);
   background: var(--tl-panel-strong);
   box-shadow: var(--tl-shadow);
-  padding: clamp(30px, 5vw, 38px) clamp(24px, 5vw, 34px) clamp(28px, 5vw, 34px);
+  padding: clamp(26px, 4vw, 34px);
   text-align: center;
-  animation: tl-modal-scale-in 0.22s var(--tl-ease);
 }
-.topline-theme .tl-modal:focus { outline: none; }
-.topline-theme .tl-modal--reduced-motion { animation: none !important; }
-
-.topline-theme .tl-modal-close {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-  border-radius: 9999px;
-  border: 1px solid var(--tl-line);
-  background: var(--tl-cream);
+.topline-theme .tl-schedule-btn { width: 100%; }
+.topline-theme .tl-schedule-note {
+  margin-top: 10px;
+  font-size: 11.5px;
   color: var(--tl-ink-muted);
-  cursor: pointer;
-  transition: background 0.15s var(--tl-ease), color 0.15s var(--tl-ease);
 }
-.topline-theme .tl-modal-close:hover { background: var(--tl-teal-soft); color: var(--tl-teal-deep); }
-.topline-theme .tl-modal-close:focus-visible { outline: 2px solid var(--tl-teal-deep); outline-offset: 2px; }
-
-.topline-theme .tl-modal-heading {
-  margin-top: 4px;
+.topline-theme .tl-schedule-embed-wrap {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--tl-line);
+}
+.topline-theme .tl-schedule-pending-title {
   font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
-  font-size: clamp(1.25rem, 3vw, 1.5rem);
-  line-height: 1.3;
+  font-size: 1.15rem;
   color: var(--tl-ink);
 }
-.topline-theme .tl-modal-message {
-  margin-top: 14px;
-  font-size: 14px;
+.topline-theme .tl-schedule-pending-copy {
+  margin-top: 10px;
+  font-size: 13px;
   line-height: 1.65;
   color: var(--tl-ink-soft);
 }
-.topline-theme .tl-modal-primary {
-  margin-top: 26px;
-  min-width: 148px;
-}
-.topline-theme .tl-modal-primary:focus-visible { outline: 2px solid var(--tl-teal-deep); outline-offset: 3px; }
-
-@keyframes tl-modal-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes tl-modal-scale-in {
-  from { opacity: 0; transform: scale(0.96) translateY(6px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .topline-theme .tl-modal-backdrop,
-  .topline-theme .tl-modal { animation: none !important; }
-}
-@media (max-width: 480px) {
-  .topline-theme .tl-modal { max-width: 100%; }
+@media (max-width: 720px) {
+  .topline-theme .tl-schedule-participants { grid-template-columns: 1fr; }
 }
 
 /* ---------- footer ---------- */

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { Fragment } from "react";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
@@ -33,7 +34,6 @@ import { TOPLINE_VIDEOS, TOPLINE_IMAGES } from "./topline-media";
 import { Reveal } from "./components/Reveal";
 import { LoadingIntro } from "./components/LoadingIntro";
 import { PortfolioCalculator } from "./components/PortfolioCalculator";
-import { ToplineInterestModalProvider, ToplineCtaButton } from "./components/ToplineInterestModal";
 import { ToplineHeader } from "./components/ToplineHeader";
 import { HeroVideoBackground } from "./components/HeroVideoBackground";
 
@@ -438,7 +438,6 @@ const CONFIDENCE_QUALIFICATION =
 export default function ToplinePage() {
   return (
     <div id="top" className={`${fraunces.variable} topline-theme archer-studio relative min-h-screen`}>
-      <ToplineInterestModalProvider>
       <LoadingIntro />
       <ToplineHeader hasLogo={hasToplineLogo} />
 
@@ -507,10 +506,10 @@ export default function ToplinePage() {
               </div>
 
               <div className="mt-6 flex flex-wrap items-stretch gap-3.5">
-                <ToplineCtaButton className="tl-btn">
+                <Link href="/topline/schedule" className="tl-btn">
                   Review the 30-day pilot
                   <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden="true" />
-                </ToplineCtaButton>
+                </Link>
                 <a href="#work" className="tl-btn-ghost tl-btn-ghost--on-dark">
                   See selected hospitality work
                   <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden="true" />
@@ -1218,7 +1217,9 @@ export default function ToplinePage() {
               could operate.
             </p>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <ToplineCtaButton className="tl-btn">Discuss the three-property pilot</ToplineCtaButton>
+              <Link href="/topline/schedule" className="tl-btn">
+                Discuss the three-property pilot
+              </Link>
               <a href="https://www.archerdesign.shop/social-media-work" className="tl-btn-ghost">
                 View Archer Design&rsquo;s hospitality work
                 <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden="true" />
@@ -1244,7 +1245,6 @@ export default function ToplinePage() {
           </p>
         </div>
       </footer>
-      </ToplineInterestModalProvider>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { useToplineInterestModal } from "./ToplineInterestModal";
 
 const NAV = [
   { href: "#motion", label: "Our work" },
@@ -30,12 +30,6 @@ const NAV = [
 export function ToplineHeader({ hasLogo }: { hasLogo: boolean }) {
   const [open, setOpen] = useState(false);
   const barRef = useRef<HTMLSpanElement>(null);
-  const { openModal } = useToplineInterestModal();
-
-  function handleCtaClick() {
-    setOpen(false);
-    openModal();
-  }
 
   useEffect(() => {
     let raf = 0;
@@ -108,9 +102,9 @@ export function ToplineHeader({ hasLogo }: { hasLogo: boolean }) {
         </nav>
 
         <div className="hidden items-center lg:flex">
-          <button type="button" className="tl-btn px-5 py-2.5 text-[12.5px]" onClick={handleCtaClick}>
+          <Link href="/topline/schedule" className="tl-btn px-5 py-2.5 text-[12.5px]">
             Review the pilot
-          </button>
+          </Link>
         </div>
 
         <button
@@ -136,13 +130,13 @@ export function ToplineHeader({ hasLogo }: { hasLogo: boolean }) {
               </li>
             ))}
             <li>
-              <button
-                type="button"
+              <Link
+                href="/topline/schedule"
                 className="tl-btn mt-1 px-5 py-2.5 text-[13px]"
-                onClick={handleCtaClick}
+                onClick={() => setOpen(false)}
               >
                 Review the pilot
-              </button>
+              </Link>
             </li>
           </ul>
         </nav>
