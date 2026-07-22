@@ -36,6 +36,7 @@ const PUBLIC_ROUTES = [
   // needs to render full-bleed like the other marketing pages, not the
   // CRM sidebar/auth guard.
   "/coraltree",
+  "/george",
 ];
 // Auth routes: full-bleed, no sidebar, no guard (these ARE the login flow).
 const AUTH_ROUTES = ["/login", "/auth/callback"];

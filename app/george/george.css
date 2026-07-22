@@ -1,0 +1,586 @@
+/* ────────────────────────────────────────────────────────────────────────
+   THE GEORGE, private creative preview (/george)
+   Scoped entirely under .george-theme with a gg- class prefix so nothing
+   here can ever leak into /topline, /revstudio, /coraltree, the CRM, or any
+   other route. Warm, editorial, "classic hotel library and bar" palette,
+   deep forest green + brass gold accents on a warm cream background,
+   distinct from /topline's teal/purple/gold system while sharing the same
+   general structure (header, hero, section, panel, btn, gallery, packages,
+   pilot, footer) proven out there.
+   ──────────────────────────────────────────────────────────────────────── */
+
+.george-theme {
+  --gg-cream: #f6f1e7;
+  --gg-cream-deep: #efe6d3;
+  --gg-panel: #ffffff;
+  --gg-ink: #241f18;
+  --gg-ink-soft: #4a4236;
+  --gg-ink-muted: #8a8071;
+  --gg-line: rgba(36, 31, 24, 0.12);
+  --gg-line-strong: rgba(36, 31, 24, 0.22);
+  --gg-forest: #23402f;
+  --gg-forest-deep: #16281c;
+  --gg-forest-soft: rgba(35, 64, 47, 0.1);
+  --gg-brass: #a9812f;
+  --gg-brass-soft: rgba(169, 129, 47, 0.14);
+  --gg-shadow: 0 26px 64px -30px rgba(36, 31, 24, 0.3);
+  --gg-shadow-soft: 0 14px 34px -20px rgba(36, 31, 24, 0.22);
+  --gg-ease: cubic-bezier(0.22, 0.61, 0.19, 0.99);
+
+  background: var(--gg-cream);
+  color: var(--gg-ink);
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+.george-theme h1,
+.george-theme h2,
+.george-theme h3 {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--gg-ink);
+}
+
+.george-theme .gg-shell {
+  width: 100%;
+  max-width: 1160px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 48px);
+}
+
+.george-theme .gg-section {
+  position: relative;
+  padding-block: clamp(56px, 8vw, 96px);
+}
+
+.george-theme .gg-eyebrow {
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gg-brass);
+}
+
+/* ---------- header ---------- */
+.george-theme .gg-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(246, 241, 231, 0.86);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  border-bottom: 1px solid var(--gg-line);
+}
+.george-theme .gg-logo-group {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 10px;
+}
+.george-theme .gg-logo-mark {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 19px;
+  letter-spacing: 0.02em;
+  color: var(--gg-forest-deep);
+}
+.george-theme .gg-logo-sep {
+  height: 16px;
+  width: 1px;
+  flex-shrink: 0;
+  background: var(--gg-line-strong);
+}
+.george-theme .gg-logo-sub {
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gg-ink-muted);
+  white-space: nowrap;
+}
+.george-theme .gg-nav a {
+  font-size: 12.5px;
+  color: var(--gg-ink-soft);
+  white-space: nowrap;
+  transition: color 0.2s var(--gg-ease);
+}
+.george-theme .gg-nav a:hover { color: var(--gg-forest-deep); }
+.george-theme .gg-mobile-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--gg-line);
+  color: var(--gg-ink);
+}
+.george-theme .gg-mobile-nav {
+  border-top: 1px solid var(--gg-line);
+  background: rgba(246, 241, 231, 0.98);
+}
+
+/* ---------- buttons ---------- */
+.george-theme .gg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, var(--gg-forest-deep) 0%, var(--gg-forest) 65%, #2d5540 130%);
+  color: #f8f4ea;
+  font-size: 13.5px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  padding: 0.9rem 1.6rem;
+  border: 1px solid rgba(35, 64, 47, 0.5);
+  box-shadow: 0 16px 34px -16px rgba(35, 64, 47, 0.45);
+  transition: transform 0.3s var(--gg-ease), box-shadow 0.3s var(--gg-ease), filter 0.3s var(--gg-ease);
+}
+.george-theme .gg-btn:hover { transform: translateY(-2px); filter: brightness(1.06); }
+.george-theme .gg-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 9999px;
+  border: 1px solid var(--gg-line-strong);
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--gg-ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 0.9rem 1.6rem;
+  transition: border-color 0.3s var(--gg-ease), background 0.3s var(--gg-ease), transform 0.3s var(--gg-ease);
+}
+.george-theme .gg-btn-ghost:hover { border-color: var(--gg-brass); background: var(--gg-brass-soft); transform: translateY(-2px); }
+.george-theme .gg-btn-ghost--on-dark {
+  border-color: rgba(248, 244, 234, 0.35);
+  background: rgba(248, 244, 234, 0.08);
+  color: #f8f4ea;
+}
+.george-theme .gg-btn-ghost--on-dark:hover { border-color: var(--gg-brass); background: rgba(169, 129, 47, 0.18); }
+
+/* ---------- hero ---------- */
+.george-theme .gg-hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  padding-block: 120px 64px;
+}
+.george-theme .gg-hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.george-theme .gg-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(22, 40, 28, 0.55) 0%, rgba(18, 15, 10, 0.55) 55%, rgba(14, 12, 8, 0.88) 100%);
+}
+.george-theme .gg-hero-content { position: relative; z-index: 2; max-width: 640px; }
+.george-theme .gg-hero h1 { color: #f8f4ea; font-size: clamp(2rem, 4.6vw, 2.85rem); line-height: 1.12; }
+.george-theme .gg-hero-copy { color: rgba(248, 244, 234, 0.86); font-size: 15px; line-height: 1.7; max-width: 46ch; }
+.george-theme .gg-hero .gg-eyebrow { color: #c9a862; }
+
+/* ---------- gallery ---------- */
+.george-theme .gg-gallery-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.george-theme .gg-gallery-item {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--gg-line);
+  box-shadow: var(--gg-shadow-soft);
+  aspect-ratio: 4 / 5;
+  background: var(--gg-ink);
+}
+.george-theme .gg-gallery-item video,
+.george-theme .gg-gallery-item img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.george-theme .gg-gallery-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 16px 18px;
+  background: linear-gradient(180deg, transparent, rgba(14, 12, 8, 0.82));
+}
+.george-theme .gg-gallery-caption-label {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #c9a862;
+}
+.george-theme .gg-gallery-caption-title {
+  margin-top: 3px;
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 16px;
+  color: #f8f4ea;
+}
+
+/* ---------- panels / packages ---------- */
+.george-theme .gg-panel {
+  border-radius: 20px;
+  border: 1px solid var(--gg-line);
+  background: var(--gg-panel);
+  box-shadow: var(--gg-shadow-soft);
+}
+.george-theme .gg-pkg-price {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 1.25rem;
+  color: var(--gg-forest-deep);
+}
+.george-theme .gg-pkg-subhead {
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gg-ink-muted);
+}
+.george-theme .gg-check {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--gg-ink-soft);
+}
+.george-theme .gg-check-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  border-radius: 9999px;
+  border: 1px solid rgba(35, 64, 47, 0.3);
+  background: var(--gg-forest-soft);
+  color: var(--gg-forest-deep);
+}
+.george-theme .gg-hline { display: block; height: 1px; background: var(--gg-line); }
+
+/* ---------- asset equation (4 + 2 = 6) ---------- */
+.george-theme .gg-asset-eq {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--gg-cream-deep);
+  border: 1px solid var(--gg-line);
+}
+.george-theme .gg-asset-eq-part { display: flex; flex-direction: column; align-items: center; min-width: 64px; text-align: center; }
+.george-theme .gg-asset-eq-num { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: 1.6rem; color: var(--gg-ink); }
+.george-theme .gg-asset-eq-part--total .gg-asset-eq-num { color: var(--gg-forest-deep); }
+.george-theme .gg-asset-eq-label { margin-top: 3px; font-size: 9.5px; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gg-ink-muted); white-space: nowrap; }
+.george-theme .gg-asset-eq-op { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: 1.2rem; color: var(--gg-ink-muted); }
+.george-theme .gg-asset-eq-op--equals { color: var(--gg-forest-deep); }
+
+/* ---------- pilot ---------- */
+.george-theme .gg-pilot-frame {
+  border-radius: 26px;
+  border: 1px solid var(--gg-line);
+  background: var(--gg-panel);
+  box-shadow: var(--gg-shadow);
+  padding: clamp(24px, 4vw, 40px);
+}
+.george-theme .gg-pilot-figure {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  line-height: 1.12;
+  color: var(--gg-ink);
+}
+.george-theme .gg-pilot-figure em { font-style: normal; color: var(--gg-forest-deep); }
+
+/* ---------- final CTA / footer ---------- */
+.george-theme .gg-final-cta { background: var(--gg-forest-deep); }
+.george-theme .gg-final-cta h2 { color: #f8f4ea; }
+.george-theme .gg-final-cta p { color: rgba(248, 244, 234, 0.82); }
+.george-theme .gg-footer {
+  border-top: 1px solid var(--gg-line);
+  padding-block: 40px 48px;
+}
+.george-theme .gg-footer .gg-wordmark { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: 15px; letter-spacing: 0.06em; color: var(--gg-ink); }
+
+/* ---------- simplified header extras ---------- */
+.george-theme .gg-logo-x {
+  color: var(--gg-brass);
+  font-weight: 400;
+  margin-inline: 2px;
+}
+.george-theme .gg-header-tag {
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gg-ink-muted);
+  white-space: nowrap;
+}
+.george-theme .gg-header-cta {
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--gg-forest-deep);
+  white-space: nowrap;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s var(--gg-ease);
+}
+.george-theme .gg-header-cta:hover { border-color: var(--gg-forest-deep); }
+
+/* ---------- simple, video-forward hero (private preview) ----------
+   Deliberately NOT the full-bleed object-fit: cover hero used elsewhere --
+   this hero shows the video at its true aspect ratio, contained inside a
+   dark stage, so nothing in the footage is ever cropped or stretched. */
+.george-theme .gg-hero-simple {
+  padding-block: clamp(48px, 7vw, 80px) clamp(8px, 2vw, 16px);
+}
+.george-theme .gg-hero-intro {
+  max-width: 640px;
+  margin-inline: auto;
+  text-align: center;
+}
+.george-theme .gg-hero-intro h1 {
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  line-height: 1.15;
+}
+.george-theme .gg-hero-intro p {
+  margin-top: 16px;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--gg-ink-soft);
+}
+.george-theme .gg-hero-stage {
+  position: relative;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  min-height: 240px;
+  max-height: 80vh;
+  padding: clamp(10px, 2vw, 22px);
+  border-radius: 22px;
+  background: #100e0a;
+  box-shadow: var(--gg-shadow);
+  overflow: hidden;
+}
+.george-theme .gg-hero-stage video {
+  max-width: 100%;
+  max-height: 72vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #100e0a;
+}
+.george-theme .gg-hero-stage-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 220px;
+  color: rgba(248, 244, 234, 0.5);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 24px;
+}
+
+/* ---------- personal notes (hero intro note + closing note) ---------- */
+.george-theme .gg-note-section { padding-block: clamp(28px, 5vw, 52px); }
+.george-theme .gg-note {
+  max-width: 60ch;
+  margin-inline: auto;
+  margin-top: 32px;
+  text-align: center;
+}
+.george-theme .gg-note p {
+  font-size: 15.5px;
+  line-height: 1.8;
+  color: var(--gg-ink-soft);
+}
+
+/* ---------- video slideshow ---------- */
+.george-theme .gg-slideshow { display: flex; flex-direction: column; gap: 22px; }
+.george-theme .gg-slideshow-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  min-height: 260px;
+  max-height: 80vh;
+  padding: clamp(10px, 2vw, 22px);
+  border-radius: 22px;
+  background: #100e0a;
+  box-shadow: var(--gg-shadow);
+  overflow: hidden;
+  touch-action: pan-y;
+}
+.george-theme .gg-slideshow-video {
+  max-width: 100%;
+  max-height: 72vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #100e0a;
+}
+.george-theme .gg-slideshow-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  border: 1px solid rgba(248, 244, 234, 0.28);
+  background: rgba(20, 17, 12, 0.55);
+  color: #f8f4ea;
+  backdrop-filter: blur(6px);
+  transition: background 0.25s var(--gg-ease);
+}
+.george-theme .gg-slideshow-arrow:hover { background: rgba(169, 129, 47, 0.6); }
+.george-theme .gg-slideshow-arrow--prev { left: 12px; }
+.george-theme .gg-slideshow-arrow--next { right: 12px; }
+.george-theme .gg-slideshow-stage-controls {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 3;
+  display: flex;
+  gap: 8px;
+}
+.george-theme .gg-slideshow-iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  border: 1px solid rgba(248, 244, 234, 0.28);
+  background: rgba(20, 17, 12, 0.55);
+  color: #f8f4ea;
+  transition: background 0.25s var(--gg-ease);
+}
+.george-theme .gg-slideshow-iconbtn:hover { background: rgba(169, 129, 47, 0.6); }
+.george-theme .gg-slideshow-meta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.george-theme .gg-slideshow-title {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 19px;
+  color: var(--gg-ink);
+}
+.george-theme .gg-slideshow-desc {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--gg-ink-soft);
+}
+.george-theme .gg-slideshow-counter {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--gg-ink-muted);
+  white-space: nowrap;
+}
+.george-theme .gg-slideshow-thumbs {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+}
+.george-theme .gg-slideshow-thumb {
+  position: relative;
+  flex: 0 0 auto;
+  width: 120px;
+  aspect-ratio: 4 / 3;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px solid transparent;
+  background: var(--gg-ink);
+  opacity: 0.62;
+  transition: border-color 0.25s var(--gg-ease), opacity 0.25s var(--gg-ease);
+}
+.george-theme .gg-slideshow-thumb:hover { opacity: 0.85; }
+.george-theme .gg-slideshow-thumb.is-active { border-color: var(--gg-brass); opacity: 1; }
+.george-theme .gg-slideshow-thumb video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.george-theme .gg-slideshow-thumb-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  color: rgba(248, 244, 234, 0.65);
+}
+.george-theme .gg-slideshow-thumb-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 5px 7px;
+  font-size: 9.5px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: #f8f4ea;
+  text-align: left;
+  background: linear-gradient(180deg, transparent, rgba(14, 12, 8, 0.88));
+}
+@media (max-width: 720px) {
+  .george-theme .gg-slideshow-arrow { width: 36px; height: 36px; }
+  .george-theme .gg-slideshow-thumb { width: 92px; }
+}
+
+/* ---------- gentle reveal (CSS-only, no JS observer) ---------- */
+.george-theme .gg-fade-up {
+  animation: gg-fade-up 0.7s var(--gg-ease) both;
+}
+@keyframes gg-fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .george-theme .gg-fade-up { animation: none; }
+  .george-theme .gg-btn:hover,
+  .george-theme .gg-btn-ghost:hover { transform: none; }
+}
+
+@media (max-width: 720px) {
+  .george-theme .gg-hero { min-height: 100vh; padding-block: 100px 48px; }
+}
