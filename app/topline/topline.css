@@ -1,0 +1,1543 @@
+/* ============================================================================
+   TOPLINE REVENUE MANAGEMENT — private proposal (/topline)
+   REDESIGN: warm ivory/cream/taupe editorial system (moved off the original
+   navy/graphite "tech" theme per direct feedback) — the same premium,
+   hospitality-appropriate mood as the main Archer Design site's
+   .archer-studio theme (see app/globals.css), with teal reserved as a small
+   restrained highlight/CTA accent, and Revstudio purple / Archer gold used
+   ONLY to differentiate the two execution layers. Scoped ENTIRELY under
+   .topline-theme (tl- prefix) so it can never affect /revstudio,
+   /coraltree, or any other route. Kept in its own stylesheet (imported by
+   app/topline/layout.tsx) rather than appended to globals.css.
+
+   NOTE: the page root also carries the `.archer-studio` class alongside
+   `.topline-theme` (see app/topline/page.tsx) purely so the real,
+   already-built portfolio galleries (components/marketing/
+   MotionPortfolioGallery.tsx, WorkPageStillsGallery.tsx — the same
+   components behind archerdesign.shop/social-media-work) can be embedded
+   unmodified: they read --st-* custom properties, which .archer-studio
+   defines. .archer-studio's own ivory/gold palette is intentionally close
+   to this file's, so there is no visual seam.
+   ============================================================================ */
+
+.topline-theme {
+  /* Surfaces */
+  --tl-ivory: #faf6ee;
+  --tl-cream: #f4ecdd;
+  --tl-sand: #ece0cb;
+  --tl-white: #ffffff;
+  --tl-panel: rgba(255, 255, 255, 0.72);
+  --tl-panel-strong: #ffffff;
+  --tl-glass-hi: rgba(255, 255, 255, 0.6);
+
+  /* Ink */
+  --tl-ink: #2b2420;
+  --tl-ink-soft: #5c5146;
+  --tl-ink-muted: #8c8070;
+
+  /* Accents — teal is the restrained "Topline / revenue" highlight, used
+     sparingly (small CTA, one role tag, thin rules) rather than washed
+     across the page. */
+  --tl-teal: #1f8f80;
+  --tl-teal-deep: #14685d;
+  --tl-teal-soft: rgba(31, 143, 128, 0.1);
+  --tl-cyan: #2f7fae;
+
+  /* The two execution layers only */
+  --tl-purple: #7c5cc0;
+  --tl-purple-soft: rgba(124, 92, 192, 0.1);
+  --tl-gold: #a98a4c;
+  --tl-gold-soft: rgba(169, 138, 76, 0.12);
+
+  /* Lines */
+  --tl-line: rgba(43, 36, 32, 0.11);
+  --tl-line-strong: rgba(31, 143, 128, 0.32);
+
+  --tl-shadow: 0 26px 64px -30px rgba(63, 53, 38, 0.28);
+  --tl-shadow-soft: 0 14px 34px -20px rgba(63, 53, 38, 0.22);
+  --tl-ease: cubic-bezier(0.22, 0.61, 0.19, 0.99);
+
+  position: relative;
+  background: linear-gradient(180deg, var(--tl-ivory) 0%, var(--tl-cream) 100%);
+  color: var(--tl-ink);
+  font-family: var(--font-geist-sans, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+.topline-theme img,
+.topline-theme video { max-width: 100%; display: block; }
+.topline-theme a { color: inherit; }
+
+/* WCAG-conscious focus states, page-wide safety net. */
+.topline-theme a:focus-visible,
+.topline-theme button:focus-visible,
+.topline-theme [tabindex]:focus-visible {
+  outline: 2px solid var(--tl-teal);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.topline-theme .tl-serif,
+.topline-theme h1,
+.topline-theme h2,
+.topline-theme h3 {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.topline-theme .tl-shell {
+  width: min(1180px, calc(100% - 48px));
+  margin-inline: auto;
+}
+@media (min-width: 640px) {
+  .topline-theme .tl-shell { width: min(1180px, calc(100% - 64px)); }
+}
+
+.topline-theme .tl-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--tl-teal-deep);
+}
+
+.topline-theme .tl-section {
+  position: relative;
+  border-top: 1px solid var(--tl-line);
+  padding-block: 80px;
+  scroll-margin-top: 88px;
+}
+@media (min-width: 768px) {
+  .topline-theme .tl-section { padding-block: 108px; }
+}
+
+/* Very faint architectural grid texture behind selected sections — static,
+   masked to a vignette so it never washes over the copy. */
+.topline-theme .tl-grid-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(43, 36, 32, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(43, 36, 32, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(70% 60% at 50% 35%, black, transparent 78%);
+  mask-image: radial-gradient(70% 60% at 50% 35%, black, transparent 78%);
+}
+
+/* Soft directional glows for section atmosphere — warm, not neon. */
+.topline-theme .tl-glow-teal {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(48% 42% at 70% 8%, rgba(31, 143, 128, 0.05), transparent 70%);
+}
+.topline-theme .tl-glow-cyan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(50% 45% at 22% 90%, rgba(169, 138, 76, 0.06), transparent 70%);
+}
+
+/* ---------- loading intro ---------------------------------------------------
+   A brief, elegant curtain: ivory field, thin gold rule drawing across, the
+   "Prepared for" line fading up, then the whole veil lifts. Fixed overlay,
+   so it causes zero layout shift; removed from the DOM when done. Reduced-
+   motion users never see it (component renders nothing). */
+.topline-theme-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #faf6ee 0%, #f4ecdd 100%);
+  animation: tl-intro-lift 0.7s var(--tl-ease, cubic-bezier(0.22, 0.61, 0.19, 0.99)) 1.55s forwards;
+}
+.topline-theme-intro .tl-intro-inner {
+  text-align: center;
+  padding-inline: 24px;
+}
+.topline-theme-intro .tl-intro-kicker {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: #8c7530;
+  opacity: 0;
+  animation: tl-intro-fade 0.7s ease-out 0.15s forwards;
+}
+.topline-theme-intro .tl-intro-word {
+  margin-top: 14px;
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: clamp(1.7rem, 4.5vw, 2.6rem);
+  letter-spacing: 0.42em;
+  text-indent: 0.42em; /* visually recenter the tracked-out word */
+  color: #2b2420;
+  opacity: 0;
+  animation: tl-intro-fade 0.8s ease-out 0.35s forwards;
+}
+.topline-theme-intro .tl-intro-rule {
+  margin: 22px auto 0;
+  height: 1px;
+  width: 180px;
+  background: linear-gradient(90deg, transparent, #a98a4c, transparent);
+  transform: scaleX(0);
+  animation: tl-intro-rule 0.9s var(--tl-ease, ease-out) 0.5s forwards;
+}
+@keyframes tl-intro-fade { to { opacity: 1; } }
+@keyframes tl-intro-rule { to { transform: scaleX(1); } }
+@keyframes tl-intro-lift {
+  to { opacity: 0; visibility: hidden; }
+}
+
+/* ---------- header ---------- */
+.topline-theme .tl-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(250, 246, 238, 0.85);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border-bottom: 1px solid var(--tl-line);
+}
+.topline-theme .tl-progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 100%;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, var(--tl-teal), var(--tl-gold));
+  will-change: transform;
+}
+.topline-theme .tl-wordmark {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 17px;
+  letter-spacing: 0.34em;
+  color: var(--tl-ink);
+}
+.topline-theme .tl-wordmark-prep {
+  display: block;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--tl-ink-muted);
+  margin-bottom: 3px;
+}
+
+/* ---------- header logo lockup (Topline + The Revstudio x Archer Design) --
+   Topline stays visually dominant (largest, first); the real supplied
+   Revstudio x Archer Design combined mark sits after a thin hairline,
+   quieter than Topline's own logo, matching the "prepared for Topline"
+   framing rather than implying an equal merger. */
+.topline-theme .tl-logo-group {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+}
+.topline-theme .tl-logo-topline {
+  height: 26px;
+  width: auto;
+  flex-shrink: 0;
+}
+.topline-theme .tl-logo-sep {
+  height: 18px;
+  width: 1px;
+  flex-shrink: 0;
+  background: var(--tl-line-strong);
+}
+/* The Revstudio x Archer Design: real supplied combined logo image (same
+   file used as the header logo on the live /revstudio joint page), sized
+   quieter than Topline's own supplied logo. */
+.topline-theme .tl-logo-trs-ad {
+  height: 24px;
+  width: auto;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.topline-theme .tl-logo-microcopy {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tl-ink-muted);
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  .topline-theme .tl-logo-group { gap: 7px; }
+  .topline-theme .tl-logo-topline { height: 21px; }
+  .topline-theme .tl-logo-sep { height: 14px; }
+  .topline-theme .tl-logo-trs-ad { height: 19px; }
+  .topline-theme .tl-logo-microcopy { display: none; }
+}
+.topline-theme .tl-mobile-nav {
+  background: rgba(250, 246, 238, 0.98);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* ---------- reveal-on-scroll ---------- */
+.topline-theme .tl-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.95s var(--tl-ease), transform 0.95s var(--tl-ease);
+}
+.topline-theme .tl-reveal.is-visible { opacity: 1; transform: none; }
+.topline-theme .tl-reveal-d1 { transition-delay: 0.08s; }
+.topline-theme .tl-reveal-d2 { transition-delay: 0.16s; }
+.topline-theme .tl-reveal-d3 { transition-delay: 0.24s; }
+.topline-theme .tl-reveal-d4 { transition-delay: 0.32s; }
+
+/* ---------- buttons ---------- */
+.topline-theme .tl-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #226d62 0%, var(--tl-teal) 55%, #2f7fae 130%);
+  color: #fbf8f2;
+  font-size: 13.5px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  padding: 0.9rem 1.6rem;
+  border: 1px solid rgba(31, 143, 128, 0.55);
+  box-shadow: 0 16px 34px -16px rgba(31, 143, 128, 0.4);
+  transition: transform 0.3s var(--tl-ease), box-shadow 0.3s var(--tl-ease), filter 0.3s var(--tl-ease);
+}
+.topline-theme .tl-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 20px 42px -16px rgba(31, 143, 128, 0.5);
+}
+.topline-theme .tl-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 9999px;
+  border: 1px solid var(--tl-line);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--tl-ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 0.9rem 1.6rem;
+  transition: border-color 0.3s var(--tl-ease), background 0.3s var(--tl-ease), transform 0.3s var(--tl-ease);
+}
+.topline-theme .tl-btn-ghost:hover {
+  border-color: var(--tl-gold);
+  background: rgba(169, 138, 76, 0.08);
+  transform: translateY(-2px);
+}
+
+/* ---------- glass panels & cards ---------- */
+.topline-theme .tl-panel {
+  position: relative;
+  background: var(--tl-panel);
+  border: 1px solid var(--tl-line);
+  border-radius: 20px;
+  backdrop-filter: blur(14px) saturate(125%);
+  -webkit-backdrop-filter: blur(14px) saturate(125%);
+  box-shadow: var(--tl-shadow-soft), inset 0 1px 0 var(--tl-glass-hi);
+  transition: transform 0.35s var(--tl-ease), border-color 0.35s var(--tl-ease), box-shadow 0.35s var(--tl-ease);
+}
+.topline-theme .tl-panel:hover {
+  transform: translateY(-3px);
+  border-color: var(--tl-line-strong);
+  box-shadow: var(--tl-shadow);
+}
+.topline-theme .tl-panel--static:hover { transform: none; border-color: var(--tl-line); box-shadow: var(--tl-shadow-soft); }
+.topline-theme .tl-panel--solid { background: var(--tl-panel-strong); }
+
+/* Role-card accent treatments: teal (Topline), purple (Revstudio),
+   gold (Archer) — kept as the only three role colors on the page (the
+   header's small Revstudio accent dot reuses this same purple for the
+   same reason: it's the one consistent "Revstudio" color everywhere). */
+.topline-theme .tl-panel--topline { border-top: 2px solid rgba(31, 143, 128, 0.5); }
+.topline-theme .tl-panel--revstudio { border-top: 2px solid rgba(124, 92, 192, 0.5); }
+.topline-theme .tl-panel--archer { border-top: 2px solid rgba(169, 138, 76, 0.55); }
+
+.topline-theme .tl-role-tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.topline-theme .tl-role-tag--topline { color: var(--tl-teal-deep); }
+.topline-theme .tl-role-tag--revstudio { color: var(--tl-purple); }
+.topline-theme .tl-role-tag--archer { color: var(--tl-gold); }
+
+.topline-theme .tl-dot {
+  width: 4px; height: 4px; border-radius: 9999px; flex-shrink: 0; margin-top: 8px;
+  background: var(--tl-teal);
+}
+.topline-theme .tl-dot--revstudio { background: var(--tl-purple); }
+.topline-theme .tl-dot--archer { background: var(--tl-gold); }
+
+.topline-theme .tl-hline {
+  display: block;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, var(--tl-line-strong), transparent);
+}
+
+/* Connectors that visually join the three role cards on desktop. */
+.topline-theme .tl-card-connector {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .topline-theme .tl-card-connector {
+    display: block;
+    width: 40px;
+    height: 1px;
+    align-self: center;
+    background: linear-gradient(90deg, var(--tl-teal), var(--tl-purple));
+    opacity: 0.5;
+  }
+  .topline-theme .tl-card-connector--second {
+    background: linear-gradient(90deg, var(--tl-purple), var(--tl-gold));
+  }
+}
+
+/* ---------- hero (full-bleed video background) ---------------------------
+   Redesign: the hero is now its own cinematic, dark-video module -- the one
+   deliberately darker moment on an otherwise warm-ivory page -- so headline,
+   metrics, and proof read instantly over real hospitality footage. A warm
+   (not navy/cyber) espresso-brown scrim keeps it hospitality-premium rather
+   than dark-SaaS, and .tl-hero-fade dissolves into the page's ivory
+   background at the bottom edge so the transition feels intentional. */
+.topline-theme .tl-hero--video {
+  position: relative;
+  overflow: hidden;
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+  padding-block: 100px 56px;
+}
+@media (max-width: 640px) {
+  .topline-theme .tl-hero--video { min-height: auto; padding-block: 108px 64px; }
+}
+
+.topline-theme .tl-hero-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Warm espresso scrim, stronger toward the left (where the copy sits) and
+   toward the bottom, so text never fights the footage for attention. */
+.topline-theme .tl-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(100deg, rgba(18, 12, 8, 0.86) 0%, rgba(18, 12, 8, 0.6) 42%, rgba(18, 12, 8, 0.32) 72%, rgba(18, 12, 8, 0.22) 100%),
+    linear-gradient(0deg, rgba(14, 9, 6, 0.55) 0%, transparent 38%);
+}
+
+/* Dissolve into the page's ivory background at the bottom edge. */
+.topline-theme .tl-hero-fade {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 2;
+  height: 140px;
+  background: linear-gradient(180deg, transparent, var(--tl-ivory));
+  pointer-events: none;
+}
+
+.topline-theme .tl-hero-content {
+  position: relative;
+  z-index: 3;
+  max-width: 600px;
+}
+
+.topline-theme .tl-hero--video .tl-eyebrow { color: #7fe0d0; }
+.topline-theme .tl-hero--video h1 { color: #fbf7ee; }
+.topline-theme .tl-hero-copy { color: rgba(251, 247, 238, 0.86); }
+
+/* Partnership / "built with" proof card: the real supplied Archer Design +
+   Revstudio combined logo, then a short explanatory line. Compact
+   dark-glass card rather than a tall stacked block, so it reads in one
+   glance and doesn't push the metrics band down. */
+.topline-theme .tl-partnership-card {
+  border-radius: 14px;
+  border: 1px solid rgba(251, 247, 238, 0.2);
+  background: rgba(20, 14, 9, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 12px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+/* The source logo file has an opaque white background, so it sits on a
+   small light chip rather than directly on the dark hero glass. */
+.topline-theme .tl-partnership-logo-chip {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 9px;
+  background: #fbf7ee;
+  padding: 7px 11px;
+}
+.topline-theme .tl-partnership-logo {
+  display: block;
+  height: 20px;
+  width: auto;
+  object-fit: contain;
+}
+.topline-theme .tl-partnership-card-text {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: rgba(251, 247, 238, 0.82);
+  max-width: 32ch;
+}
+
+/* Metrics band, dark-glass variant for the video hero. */
+.topline-theme .tl-metrics-band {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: rgba(251, 247, 238, 0.14);
+  border: 1px solid rgba(251, 247, 238, 0.16);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+@media (min-width: 560px) {
+  .topline-theme .tl-metrics-band { grid-template-columns: repeat(4, 1fr); }
+}
+.topline-theme .tl-metric {
+  background: rgba(20, 14, 9, 0.32);
+  padding: 12px 14px;
+  text-align: left;
+}
+.topline-theme .tl-metric-icon {
+  color: rgba(127, 224, 208, 0.85);
+}
+.topline-theme .tl-metric-value {
+  margin-top: 5px;
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+  color: #7fe0d0;
+  line-height: 1;
+}
+.topline-theme .tl-metric-label {
+  margin-top: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: rgba(251, 247, 238, 0.68);
+}
+
+.topline-theme .tl-btn-ghost--on-dark {
+  border-color: rgba(251, 247, 238, 0.35);
+  background: rgba(251, 247, 238, 0.08);
+  color: #fbf7ee;
+}
+.topline-theme .tl-btn-ghost--on-dark:hover {
+  border-color: #7fe0d0;
+  background: rgba(127, 224, 208, 0.14);
+}
+
+.topline-theme .tl-trust-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.topline-theme .tl-trust-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--tl-line);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.55);
+  padding: 0.45rem 0.95rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tl-ink-soft);
+}
+.topline-theme .tl-trust-chip svg { color: var(--tl-teal); }
+.topline-theme .tl-trust-chip--on-dark {
+  border-color: rgba(251, 247, 238, 0.22);
+  background: rgba(251, 247, 238, 0.08);
+  color: rgba(251, 247, 238, 0.88);
+}
+.topline-theme .tl-trust-chip--on-dark svg { color: #7fe0d0; }
+
+/* Floating Hotel Indigo proof card -- the one light/cream "editorial
+   insert" against the dark video, anchored lower-right on desktop, stacked
+   under the content column on mobile/tablet. A teal quote-mark glyph
+   stands in for a logo image here, matching the approved reference card. */
+.topline-theme .tl-proof-float {
+  position: relative;
+  z-index: 3;
+  margin-top: 32px;
+  max-width: 320px;
+  border-radius: 16px;
+  border: 1px solid var(--tl-line);
+  background: rgba(251, 247, 238, 0.97);
+  box-shadow: var(--tl-shadow);
+  padding: 18px 20px;
+}
+@media (min-width: 1024px) {
+  .topline-theme .tl-proof-float {
+    position: absolute;
+    right: clamp(24px, 4vw, 56px);
+    bottom: 40px;
+    margin-top: 0;
+  }
+}
+.topline-theme .tl-proof-float-mark {
+  color: var(--tl-teal);
+}
+.topline-theme .tl-proof-float-text {
+  margin-top: 8px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--tl-ink);
+}
+.topline-theme .tl-proof-float-qualifier {
+  font-size: 10px;
+  line-height: 1.45;
+  color: var(--tl-ink-muted);
+}
+
+/* ---------- proof / stat band ---------- */
+.topline-theme .tl-stat-band {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--tl-line);
+  border: 1px solid var(--tl-line);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--tl-shadow-soft);
+}
+@media (min-width: 768px) {
+  .topline-theme .tl-stat-band { grid-template-columns: repeat(4, 1fr); }
+}
+.topline-theme .tl-stat {
+  background: var(--tl-panel-strong);
+  padding: 28px 22px;
+  text-align: center;
+}
+.topline-theme .tl-stat-value {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+  color: var(--tl-teal-deep);
+  line-height: 1;
+}
+.topline-theme .tl-stat-label {
+  margin-top: 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--tl-ink-muted);
+}
+
+/* ---------- execution-gap band ---------- */
+.topline-theme .tl-gap-band {
+  border-left: 2px solid var(--tl-teal);
+  padding-left: 22px;
+}
+
+/* Explanatory callout box (e.g. "Why there is no text" in Motion Library). */
+.topline-theme .tl-callout {
+  border: 1px solid var(--tl-line);
+  border-radius: 14px;
+  background: var(--tl-panel);
+  padding: 16px 18px;
+}
+.topline-theme .tl-callout-label {
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tl-teal-deep);
+}
+.topline-theme .tl-callout-copy {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--tl-ink-soft);
+}
+
+/* ---------- commitments grid ---------- */
+.topline-theme .tl-commit {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  border: 1px solid var(--tl-line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.55);
+  padding: 18px 20px;
+  transition: border-color 0.3s var(--tl-ease), background 0.3s var(--tl-ease), transform 0.3s var(--tl-ease);
+}
+.topline-theme .tl-commit:hover {
+  border-color: var(--tl-line-strong);
+  background: rgba(255, 255, 255, 0.85);
+  transform: translateY(-2px);
+}
+.topline-theme .tl-commit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  border: 1px solid rgba(31, 143, 128, 0.3);
+  background: var(--tl-teal-soft);
+  color: var(--tl-teal-deep);
+}
+
+/* ---------- selected hospitality work: category cards ---------- */
+.topline-theme .tl-work-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 768px) {
+  .topline-theme .tl-work-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.topline-theme .tl-work-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-panel-strong);
+  box-shadow: var(--tl-shadow-soft);
+  transition: transform 0.35s var(--tl-ease), box-shadow 0.35s var(--tl-ease);
+}
+.topline-theme .tl-work-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--tl-shadow);
+}
+.topline-theme .tl-work-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--tl-sand);
+  overflow: hidden;
+}
+.topline-theme .tl-work-media img,
+.topline-theme .tl-work-media video {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--tl-ease);
+}
+.topline-theme .tl-work-card:hover .tl-work-media img,
+.topline-theme .tl-work-card:hover .tl-work-media video {
+  transform: scale(1.045);
+}
+.topline-theme .tl-work-media-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 9999px;
+  background: rgba(20, 16, 12, 0.55);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  backdrop-filter: blur(4px);
+}
+.topline-theme .tl-work-body { padding: 16px 18px 20px; }
+.topline-theme .tl-work-label {
+  font-size: 15px;
+  color: var(--tl-ink);
+}
+.topline-theme .tl-work-desc {
+  margin-top: 6px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--tl-ink-muted);
+}
+
+/* Embedded real portfolio galleries (MotionPortfolioGallery,
+   WorkPageStillsGallery) render inside a .archer-studio-scoped card so
+   their --st-* tokens resolve — see the class note at the top of this
+   file. This wrapper just adds consistent padding/border to match the
+   rest of the page's module rhythm. */
+.topline-theme .tl-gallery-frame {
+  border-radius: 24px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-panel-strong);
+  box-shadow: var(--tl-shadow-soft);
+  padding: clamp(20px, 3vw, 36px);
+}
+
+/* ---------- quote / confidence panel ---------- */
+.topline-theme .tl-quote-panel {
+  border-radius: 24px;
+  border: 1px solid var(--tl-line);
+  border-left: 4px solid var(--tl-gold);
+  background: var(--tl-panel-strong);
+  box-shadow: var(--tl-shadow-soft);
+  padding: clamp(28px, 4vw, 48px);
+}
+.topline-theme .tl-quote-mark {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  line-height: 1.4;
+  color: var(--tl-ink);
+}
+
+/* ---------- use-case tabs ---------- */
+.topline-theme .tl-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.topline-theme .tl-tab {
+  border: 1px solid var(--tl-line);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--tl-ink-soft);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.65rem 1.15rem;
+  cursor: pointer;
+  transition: border-color 0.25s var(--tl-ease), background 0.25s var(--tl-ease), color 0.25s var(--tl-ease);
+}
+.topline-theme .tl-tab:hover { border-color: var(--tl-line-strong); color: var(--tl-ink); }
+.topline-theme .tl-tab[aria-selected="true"] {
+  border-color: var(--tl-teal);
+  background: var(--tl-teal-soft);
+  color: var(--tl-ink);
+}
+.topline-theme .tl-tabpanel {
+  animation: tl-panel-in 0.45s var(--tl-ease);
+}
+@keyframes tl-panel-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.topline-theme .tl-usecase-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-sand);
+  margin-bottom: 16px;
+}
+.topline-theme .tl-usecase-media img,
+.topline-theme .tl-usecase-media video { height: 100%; width: 100%; object-fit: cover; }
+.topline-theme .tl-usecase-col {
+  border-left: 2px solid var(--tl-teal);
+  padding-left: 18px;
+}
+.topline-theme .tl-usecase-col--revstudio { border-left-color: var(--tl-purple); }
+.topline-theme .tl-usecase-col--archer { border-left-color: var(--tl-gold); }
+
+/* ---------- pilot (executive proposal module) ---------- */
+.topline-theme .tl-pilot-figure {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: clamp(2.1rem, 4.6vw, 3.1rem);
+  line-height: 1.08;
+  color: var(--tl-ink);
+}
+.topline-theme .tl-pilot-figure em {
+  font-style: normal;
+  color: var(--tl-teal-deep);
+}
+.topline-theme .tl-pilot-frame {
+  border-radius: 26px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-panel-strong);
+  box-shadow: var(--tl-shadow);
+  padding: clamp(24px, 4vw, 20px);
+}
+.topline-theme .tl-pilot-totals {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.topline-theme .tl-pilot-total-card {
+  border-radius: 18px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-cream);
+  padding: 18px 20px 20px;
+}
+.topline-theme .tl-pilot-total-label {
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tl-ink-muted);
+}
+.topline-theme .tl-pilot-total-card .tl-asset-eq {
+  background: var(--tl-panel-strong);
+  justify-content: center;
+}
+
+/* Core pilot summary: 3 hotels / 12 motion / 6 static / 18 total, large
+   readable numbers in a single compact row. */
+.topline-theme .tl-pilot-stats {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(4, 1fr);
+}
+.topline-theme .tl-pilot-stat {
+  border-radius: 16px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-cream);
+  padding: 16px 12px;
+  text-align: center;
+}
+.topline-theme .tl-pilot-stat-value {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  line-height: 1;
+  color: var(--tl-ink);
+}
+.topline-theme .tl-pilot-stat--total { background: var(--tl-teal-soft); border-color: rgba(31, 143, 128, 0.3); }
+.topline-theme .tl-pilot-stat--total .tl-pilot-stat-value { color: var(--tl-teal-deep); }
+.topline-theme .tl-pilot-stat-label {
+  margin-top: 4px;
+  font-size: 9.5px;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tl-ink-muted);
+}
+@media (max-width: 640px) {
+  .topline-theme .tl-pilot-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Pilot investment: total wholesale figure alongside the optional
+   sold-at-retail economics, side by side rather than stacked. */
+.topline-theme .tl-pilot-investment {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(220px, 0.9fr) 1.1fr;
+  align-items: stretch;
+}
+.topline-theme .tl-pilot-investment-figure {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 18px;
+  border: 1px solid rgba(31, 143, 128, 0.3);
+  background: var(--tl-teal-soft);
+  padding: 22px 22px 20px;
+  text-align: center;
+}
+.topline-theme .tl-pilot-investment-value {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: clamp(1.9rem, 4vw, 2.3rem);
+  color: var(--tl-teal-deep);
+}
+.topline-theme .tl-pilot-investment-label {
+  margin-top: 4px;
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tl-ink-muted);
+}
+.topline-theme .tl-pilot-investment-note {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--tl-ink-soft);
+}
+.topline-theme .tl-pilot-econ-card {
+  border-radius: 18px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-panel-strong);
+  padding: 18px 20px 20px;
+}
+@media (max-width: 720px) {
+  .topline-theme .tl-pilot-investment { grid-template-columns: 1fr; }
+}
+
+/* Recommended property mix, one compact wrapping row of chips. */
+.topline-theme .tl-pilot-mix-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.topline-theme .tl-pilot-mix-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 9999px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-panel-strong);
+  padding: 8px 14px;
+  font-size: 12.5px;
+  color: var(--tl-ink-soft);
+}
+.topline-theme .tl-pilot-mix-icon { color: var(--tl-teal-deep); flex-shrink: 0; }
+
+/* Per-property scope, compact two-column grid instead of a tall stacked list. */
+.topline-theme .tl-pilot-scope-grid {
+  display: grid;
+  gap: 10px 24px;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (max-width: 640px) {
+  .topline-theme .tl-pilot-scope-grid { grid-template-columns: 1fr; }
+}
+
+/* Five-step operating workflow, a horizontal strip on desktop that wraps to
+   a simple stacked list on small screens. */
+.topline-theme .tl-pilot-workflow {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(5, 1fr);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.topline-theme .tl-pilot-workflow-step {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-panel-strong);
+  padding: 14px 14px 16px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--tl-ink-soft);
+}
+.topline-theme .tl-pilot-workflow-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  background: var(--tl-teal-soft);
+  color: var(--tl-teal-deep);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+@media (max-width: 900px) {
+  .topline-theme .tl-pilot-workflow { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 520px) {
+  .topline-theme .tl-pilot-workflow { grid-template-columns: 1fr; }
+}
+
+/* Detailed pilot terms, collapsed behind a native <details> so they no
+   longer dominate the section but remain fully accessible on demand. */
+.topline-theme .tl-pilot-terms {
+  border-radius: 16px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-cream);
+  padding: 14px 18px;
+}
+.topline-theme .tl-pilot-terms-summary {
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  color: var(--tl-teal-deep);
+  list-style: none;
+}
+.topline-theme .tl-pilot-terms-summary::-webkit-details-marker { display: none; }
+.topline-theme .tl-pilot-terms-summary::before {
+  content: "+";
+  display: inline-block;
+  margin-right: 8px;
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 15px;
+}
+.topline-theme .tl-pilot-terms[open] .tl-pilot-terms-summary::before { content: "\2212"; }
+.topline-theme .tl-pilot-terms-list {
+  display: grid;
+  gap: 10px 24px;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (max-width: 640px) {
+  .topline-theme .tl-pilot-terms-list { grid-template-columns: 1fr; }
+}
+
+.topline-theme .tl-check {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--tl-ink-soft);
+}
+.topline-theme .tl-check-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  border-radius: 9999px;
+  border: 1px solid rgba(31, 143, 128, 0.35);
+  background: var(--tl-teal-soft);
+  color: var(--tl-teal-deep);
+}
+
+/* ---------- packages & Topline economics ---------- */
+.topline-theme .tl-pkg-price {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 1.25rem;
+  color: var(--tl-teal-deep);
+}
+.topline-theme .tl-pkg-subhead {
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tl-ink-muted);
+}
+.topline-theme .tl-excl {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--tl-ink-muted);
+}
+.topline-theme .tl-excl-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  border-radius: 9999px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-sand);
+  color: var(--tl-ink-muted);
+}
+.topline-theme .tl-pkg-econ {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.topline-theme .tl-pkg-econ-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12.5px;
+  color: var(--tl-ink-soft);
+}
+.topline-theme .tl-pkg-econ-row span:last-child {
+  font-weight: 600;
+  color: var(--tl-ink);
+  white-space: nowrap;
+}
+.topline-theme .tl-pkg-econ-row--highlight {
+  border-radius: 10px;
+  background: var(--tl-teal-soft);
+  padding: 8px 10px;
+  margin-inline: -10px;
+}
+.topline-theme .tl-pkg-econ-row--highlight span:last-child { color: var(--tl-teal-deep); }
+
+/* Prominent "6 original campaign assets" summary line, sitting directly
+   under the positioning copy so the deliverable quantity reads instantly. */
+.topline-theme .tl-pkg-summary {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  color: var(--tl-ink);
+}
+
+/* Compact "4 + 2 = 6" asset-count equation, reused on both package cards
+   and the pilot section. Large numbers, restrained teal for the total. */
+.topline-theme .tl-asset-eq {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--tl-sand);
+  border: 1px solid var(--tl-line);
+}
+.topline-theme .tl-asset-eq-part {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 64px;
+  text-align: center;
+}
+.topline-theme .tl-asset-eq-num {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--tl-ink);
+}
+.topline-theme .tl-asset-eq-part--total .tl-asset-eq-num {
+  color: var(--tl-teal-deep);
+}
+.topline-theme .tl-asset-eq-label {
+  margin-top: 3px;
+  font-size: 9.5px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tl-ink-muted);
+  white-space: nowrap;
+}
+.topline-theme .tl-asset-eq-op {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 1.2rem;
+  color: var(--tl-ink-muted);
+  flex-shrink: 0;
+}
+.topline-theme .tl-asset-eq-op--equals { color: var(--tl-teal-deep); }
+.topline-theme .tl-asset-eq--lg .tl-asset-eq-num { font-size: 2.1rem; }
+.topline-theme .tl-asset-eq--lg .tl-asset-eq-part { min-width: 84px; }
+
+.topline-theme .tl-pkg-distinction {
+  font-size: 12.5px;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--tl-ink-soft);
+}
+
+.topline-theme .tl-pkg-framing {
+  max-width: 62ch;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--tl-ink-soft);
+}
+
+.topline-theme .tl-compare {
+  overflow-x: auto;
+  border: 1px solid var(--tl-line);
+  border-radius: 16px;
+  background: var(--tl-panel-strong);
+  box-shadow: var(--tl-shadow-soft);
+}
+.topline-theme .tl-compare-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 14px;
+  padding: 12px 18px;
+  font-size: 12.5px;
+  color: var(--tl-ink-soft);
+  border-bottom: 1px solid var(--tl-line);
+  min-width: 520px;
+}
+.topline-theme .tl-compare-row:last-child { border-bottom: none; }
+.topline-theme .tl-compare-row--head {
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tl-ink);
+  background: var(--tl-cream);
+}
+.topline-theme .tl-compare-label { color: var(--tl-ink-muted); }
+
+/* ---------- portfolio earnings calculator ---------- */
+.topline-theme .tl-calc {
+  border-radius: 22px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-panel-strong);
+  box-shadow: var(--tl-shadow);
+  padding: clamp(20px, 3.5vw, 32px);
+}
+.topline-theme .tl-calc-count-row { display: flex; justify-content: space-between; align-items: baseline; }
+.topline-theme .tl-calc-count {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: clamp(1.3rem, 3vw, 1.6rem);
+  color: var(--tl-ink);
+}
+.topline-theme .tl-calc-count-num { color: var(--tl-teal-deep); }
+
+.topline-theme .tl-calc-slider-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+}
+.topline-theme .tl-calc-stepper-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-panel-strong);
+  color: var(--tl-ink);
+  cursor: pointer;
+  transition: background 0.15s var(--tl-ease), border-color 0.15s var(--tl-ease);
+}
+.topline-theme .tl-calc-stepper-btn:hover:not(:disabled) { background: var(--tl-teal-soft); border-color: rgba(31, 143, 128, 0.35); }
+.topline-theme .tl-calc-stepper-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.topline-theme .tl-calc-stepper-btn:focus-visible,
+.topline-theme .tl-calc-slider:focus-visible,
+.topline-theme .tl-calc-num-input:focus-visible,
+.topline-theme .tl-calc-tab:focus-visible {
+  outline: 2px solid var(--tl-teal-deep);
+  outline-offset: 2px;
+}
+
+.topline-theme .tl-calc-slider-wrap { position: relative; padding-bottom: 20px; }
+.topline-theme .tl-calc-slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--tl-sand);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+.topline-theme .tl-calc-slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: var(--tl-teal-deep);
+  border: 3px solid var(--tl-panel-strong);
+  box-shadow: 0 1px 4px rgba(31, 143, 128, 0.4);
+  cursor: pointer;
+}
+.topline-theme .tl-calc-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: var(--tl-teal-deep);
+  border: 3px solid var(--tl-panel-strong);
+  box-shadow: 0 1px 4px rgba(31, 143, 128, 0.4);
+  cursor: pointer;
+}
+.topline-theme .tl-calc-slider-labels { position: relative; height: 14px; margin-top: 8px; }
+.topline-theme .tl-calc-slider-label {
+  position: absolute;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--tl-ink-muted);
+  white-space: nowrap;
+}
+.topline-theme .tl-calc-num-input {
+  width: 68px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-cream);
+  padding: 7px 8px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--tl-ink);
+}
+
+.topline-theme .tl-calc-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.topline-theme .tl-calc-tab {
+  border-radius: 9999px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-panel-strong);
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tl-ink-soft);
+  cursor: pointer;
+  transition: background 0.15s var(--tl-ease), color 0.15s var(--tl-ease), border-color 0.15s var(--tl-ease);
+}
+.topline-theme .tl-calc-tab.is-active {
+  background: var(--tl-teal-deep);
+  border-color: var(--tl-teal-deep);
+  color: #fbf7ee;
+}
+.topline-theme .tl-calc-tab:hover:not(.is-active) { background: var(--tl-teal-soft); }
+
+.topline-theme .tl-calc-results {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+.topline-theme .tl-calc-results--compare { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.topline-theme .tl-calc-result-card {
+  border-radius: 16px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-cream);
+  padding: 18px 20px 20px;
+}
+.topline-theme .tl-calc-result-card--topline { border-top: 2px solid rgba(31, 143, 128, 0.5); }
+.topline-theme .tl-calc-result-card--archer { border-top: 2px solid rgba(169, 138, 76, 0.55); }
+.topline-theme .tl-calc-result-rows { display: flex; flex-direction: column; gap: 8px; }
+.topline-theme .tl-calc-result-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12.5px;
+  color: var(--tl-ink-soft);
+}
+.topline-theme .tl-calc-result-row span:last-child { font-weight: 600; color: var(--tl-ink); white-space: nowrap; }
+.topline-theme .tl-calc-result-row--highlight {
+  border-radius: 10px;
+  background: var(--tl-teal-soft);
+  padding: 8px 10px;
+  margin-inline: -10px;
+}
+.topline-theme .tl-calc-result-row--highlight span:last-child { color: var(--tl-teal-deep); }
+
+.topline-theme .tl-calc-disclaimer {
+  max-width: 68ch;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--tl-ink-muted);
+}
+
+@media (max-width: 560px) {
+  .topline-theme .tl-calc-slider-row { grid-template-columns: auto 1fr auto; }
+  .topline-theme .tl-calc-num-input { grid-column: 1 / -1; width: 100%; margin-top: 10px; }
+}
+
+/* ---------- shared interest modal (every sales CTA on the page) ---------- */
+.topline-theme .tl-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(20, 14, 9, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: tl-modal-fade-in 0.2s var(--tl-ease);
+}
+.topline-theme .tl-modal {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  border-radius: 22px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-panel-strong);
+  box-shadow: var(--tl-shadow);
+  padding: clamp(30px, 5vw, 38px) clamp(24px, 5vw, 34px) clamp(28px, 5vw, 34px);
+  text-align: center;
+  animation: tl-modal-scale-in 0.22s var(--tl-ease);
+}
+.topline-theme .tl-modal:focus { outline: none; }
+.topline-theme .tl-modal--reduced-motion { animation: none !important; }
+
+.topline-theme .tl-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  border: 1px solid var(--tl-line);
+  background: var(--tl-cream);
+  color: var(--tl-ink-muted);
+  cursor: pointer;
+  transition: background 0.15s var(--tl-ease), color 0.15s var(--tl-ease);
+}
+.topline-theme .tl-modal-close:hover { background: var(--tl-teal-soft); color: var(--tl-teal-deep); }
+.topline-theme .tl-modal-close:focus-visible { outline: 2px solid var(--tl-teal-deep); outline-offset: 2px; }
+
+.topline-theme .tl-modal-heading {
+  margin-top: 4px;
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  line-height: 1.3;
+  color: var(--tl-ink);
+}
+.topline-theme .tl-modal-message {
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--tl-ink-soft);
+}
+.topline-theme .tl-modal-primary {
+  margin-top: 26px;
+  min-width: 148px;
+}
+.topline-theme .tl-modal-primary:focus-visible { outline: 2px solid var(--tl-teal-deep); outline-offset: 3px; }
+
+@keyframes tl-modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes tl-modal-scale-in {
+  from { opacity: 0; transform: scale(0.96) translateY(6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .topline-theme .tl-modal-backdrop,
+  .topline-theme .tl-modal { animation: none !important; }
+}
+@media (max-width: 480px) {
+  .topline-theme .tl-modal { max-width: 100%; }
+}
+
+/* ---------- footer ---------- */
+.topline-theme .tl-footer {
+  border-top: 1px solid var(--tl-line);
+  padding-block: 44px 52px;
+}
+
+/* ---------- reduced motion: everything settles instantly ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .topline-theme .tl-reveal,
+  .topline-theme .tl-tabpanel {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  .topline-theme .tl-btn,
+  .topline-theme .tl-btn-ghost,
+  .topline-theme .tl-panel,
+  .topline-theme .tl-commit,
+  .topline-theme .tl-work-card { transition: none !important; }
+  .topline-theme .tl-btn:hover,
+  .topline-theme .tl-btn-ghost:hover,
+  .topline-theme .tl-panel:hover,
+  .topline-theme .tl-work-card:hover { transform: none !important; }
+  .topline-theme .tl-work-card:hover .tl-work-media img,
+  .topline-theme .tl-work-card:hover .tl-work-media video { transform: none !important; }
+  .topline-theme-intro { display: none !important; }
+}

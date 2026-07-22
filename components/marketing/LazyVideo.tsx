@@ -83,7 +83,29 @@ export function LazyVideo({
         />
       );
     }
-    return null;
+    // No poster to fall back to: show a quiet, in-UI "unavailable" state
+    // rather than rendering nothing (which reads as a layout bug) or letting
+    // the failed <video> linger (which is what was producing the disruptive
+    // dev-mode overlays reported on /topline's motion library).
+    return (
+      <div
+        className={className}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "rgba(0,0,0,0.06)",
+          color: "rgba(0,0,0,0.4)",
+          fontSize: "11px",
+          letterSpacing: "0.04em",
+          textTransform: "uppercase",
+          textAlign: "center",
+          padding: "8px",
+        }}
+      >
+        Preview unavailable
+      </div>
+    );
   }
 
   return (

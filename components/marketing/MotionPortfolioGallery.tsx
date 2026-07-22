@@ -233,6 +233,13 @@ export function MotionPortfolioGallery({ items }: Props) {
               controls
               aria-label={active.title}
               className="max-h-[86vh] w-full object-contain"
+              onError={(e) => {
+                // A failed source here should never bubble into an uncaught
+                // error / dev overlay -- just log it for debugging and close
+                // the lightbox back to the (already-guarded) primary stage.
+                console.error(`[MotionPortfolioGallery lightbox] video failed to load — src: ${active.src}`, e);
+                setLightboxOpen(false);
+              }}
             />
             <div className="flex items-center justify-between bg-[rgba(10,9,7,0.85)] px-5 py-3">
               <span className="text-[13px] font-medium text-white">{active.title}</span>

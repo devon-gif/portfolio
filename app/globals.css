@@ -2115,8 +2115,6 @@ body {
 }
 .revstudio-theme .rv-people-card--archer .rv-people-company { color: var(--rv-champagne); }
 
-/* === CORALTREE PRIVATE PROPOSAL STYLES: BEGIN === */
-
 /* ============================================================================
    CORALTREE HOSPITALITY × ARCHER DESIGN — private proposal (/coraltree)
    Warm, editorial, experience-led theme. Scoped entirely to .coraltree-theme
@@ -2156,18 +2154,14 @@ body {
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
-
 .coraltree-theme .ct-serif {
   font-family: var(--font-luxury-serif), ui-serif, Georgia, "Times New Roman", serif;
   font-weight: 400;
   letter-spacing: -0.01em;
 }
-
 .coraltree-theme img,
 .coraltree-theme video { max-width: 100%; display: block; }
-
 .coraltree-theme a { color: inherit; }
-
 .coraltree-theme a:focus-visible,
 .coraltree-theme button:focus-visible {
   outline: 2px solid var(--ct-gold);
@@ -2179,7 +2173,6 @@ body {
   width: min(1240px, calc(100% - 48px));
   margin: 0 auto;
 }
-
 @media (min-width: 640px) {
   .coraltree-theme .ct-shell { width: min(1240px, calc(100% - 64px)); }
 }
@@ -2191,9 +2184,7 @@ body {
   font-weight: 600;
   color: var(--ct-gold);
 }
-
 .coraltree-theme .ct-label-row { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
-
 .coraltree-theme .ct-label-row .ct-rule { width: 32px; height: 1px; background: var(--ct-gold); opacity: 0.7; }
 
 /* ---------- reveal-on-scroll ---------- */
@@ -2202,17 +2193,11 @@ body {
   transform: translateY(26px);
   transition: opacity 1s var(--ct-ease), transform 1s var(--ct-ease);
 }
-
 .coraltree-theme .ct-reveal.is-visible { opacity: 1; transform: none; }
-
 .coraltree-theme .ct-reveal-d1 { transition-delay: 0.08s; }
-
 .coraltree-theme .ct-reveal-d2 { transition-delay: 0.16s; }
-
 .coraltree-theme .ct-reveal-d3 { transition-delay: 0.24s; }
-
 .coraltree-theme .ct-reveal-d4 { transition-delay: 0.32s; }
-
 @media (prefers-reduced-motion: reduce) {
   .coraltree-theme .ct-reveal {
     opacity: 1 !important;
@@ -2238,32 +2223,25 @@ body {
   cursor: pointer;
   border: none;
 }
-
 .coraltree-theme .ct-btn-primary {
   background: linear-gradient(135deg, #c7a563 0%, var(--ct-gold) 55%, #a3813f 100%);
   color: #1c1710;
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 10px 26px rgba(185, 150, 85, 0.32);
 }
-
 .coraltree-theme .ct-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(185, 150, 85, 0.4); }
-
 .coraltree-theme .ct-btn-ghost-light {
   border: 1px solid rgba(255, 255, 255, 0.4);
   color: var(--ct-white);
   background: transparent;
 }
-
 .coraltree-theme .ct-btn-ghost-light:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.72); }
-
 .coraltree-theme .ct-btn-ghost-dark {
   border: 1px solid rgba(23, 61, 54, 0.3);
   color: var(--ct-forest);
   background: transparent;
 }
-
 .coraltree-theme .ct-btn-ghost-dark:hover { background: rgba(23, 61, 54, 0.06); border-color: rgba(23, 61, 54, 0.55); }
-
 .coraltree-theme .ct-text-link {
   text-decoration: none;
   border-bottom: 1px solid currentColor;
@@ -2273,35 +2251,26 @@ body {
   opacity: 0.88;
   transition: opacity 0.3s var(--ct-ease);
 }
-
 .coraltree-theme .ct-text-link:hover { opacity: 1; }
-
 @media (prefers-reduced-motion: reduce) {
   .coraltree-theme .ct-btn-primary:hover { transform: none; }
 }
 
 /* ---------- section scaffolding ---------- */
 .coraltree-theme section { position: relative; }
-
 .coraltree-theme .ct-section-pad { padding: clamp(76px, 11vw, 150px) 0; }
-
 .coraltree-theme .ct-on-ivory { background: var(--ct-ivory); color: var(--ct-ink); }
-
 .coraltree-theme .ct-on-cream { background: var(--ct-cream); color: var(--ct-ink); }
-
 .coraltree-theme .ct-on-dark {
   background: linear-gradient(165deg, var(--ct-forest) 0%, var(--ct-pine) 100%);
   color: var(--ct-on-dark);
 }
-
 .coraltree-theme .ct-on-dark .ct-eyebrow { color: var(--ct-gold); }
-
 .coraltree-theme .ct-on-dark .ct-label-row .ct-rule { background: var(--ct-gold); }
 
 /* subtle organic motifs: soft canopy dot-field on light sections, thin
    topographic contour rings on dark sections. Both intentionally faint. */
 .coraltree-theme .ct-canopy-bg { position: relative; overflow: hidden; }
-
 .coraltree-theme .ct-canopy-bg::before {
   content: "";
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
@@ -2310,9 +2279,7 @@ body {
   -webkit-mask-image: radial-gradient(80% 70% at 80% 20%, black, transparent 72%);
   mask-image: radial-gradient(80% 70% at 80% 20%, black, transparent 72%);
 }
-
 .coraltree-theme .ct-contour-bg { position: relative; overflow: hidden; }
-
 .coraltree-theme .ct-contour-bg::before {
   content: "";
   position: absolute; inset: -10%; z-index: 0; pointer-events: none; opacity: 0.5;
@@ -2320,7 +2287,6 @@ body {
     repeating-radial-gradient(circle at 78% 22%, transparent 0, transparent 34px, rgba(185, 150, 85, 0.09) 35px, transparent 36px, transparent 70px),
     repeating-radial-gradient(circle at 12% 88%, transparent 0, transparent 46px, rgba(142, 166, 156, 0.1) 47px, transparent 48px, transparent 92px);
 }
-
 .coraltree-theme .ct-canopy-bg > *,
 .coraltree-theme .ct-contour-bg > * { position: relative; z-index: 1; }
 
@@ -2334,7 +2300,6 @@ body {
   transition: background 0.4s var(--ct-ease), padding 0.4s var(--ct-ease), border-color 0.4s var(--ct-ease), box-shadow 0.4s var(--ct-ease);
   border-bottom: 1px solid transparent;
 }
-
 .coraltree-theme .ct-header.ct-scrolled {
   background: rgba(16, 45, 41, 0.92);
   backdrop-filter: blur(16px) saturate(140%);
@@ -2343,9 +2308,7 @@ body {
   padding-top: 13px; padding-bottom: 13px;
   box-shadow: 0 12px 34px rgba(8, 20, 18, 0.28);
 }
-
 .coraltree-theme .ct-nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-
 .coraltree-theme .ct-nav-mark {
   flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center;
   width: 30px; height: 30px; border-radius: 50%;
@@ -2354,38 +2317,28 @@ body {
   font-family: var(--font-luxury-serif), serif; font-size: 11px; font-weight: 600; letter-spacing: 0.01em;
   color: var(--ct-gold); line-height: 1;
 }
-
 .coraltree-theme .ct-nav-wordmark {
   font-family: var(--font-luxury-serif), serif; font-size: 13.5px; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--ct-white); font-weight: 500;
 }
-
 .coraltree-theme .ct-nav-wordmark small { display: block; font-size: 10px; letter-spacing: 0.1em; color: var(--ct-on-dark-muted); font-family: ui-sans-serif, system-ui, sans-serif; text-transform: none; margin-top: 1px; }
-
 .coraltree-theme .ct-nav-links { display: flex; align-items: center; gap: clamp(16px, 2.4vw, 32px); }
-
 .coraltree-theme .ct-nav-links a {
   font-size: 12px; letter-spacing: 0.07em; text-transform: uppercase;
   color: rgba(255, 255, 255, 0.8); text-decoration: none; font-weight: 500;
   transition: color 0.3s var(--ct-ease);
 }
-
 .coraltree-theme .ct-nav-links a:hover { color: var(--ct-gold); }
-
 .coraltree-theme .ct-nav-links a.ct-nav-cta {
   color: var(--ct-white); border: 1px solid rgba(255, 255, 255, 0.36);
   padding: 9px 16px; border-radius: 3px;
 }
-
 .coraltree-theme .ct-nav-links a.ct-nav-cta:hover { border-color: var(--ct-gold); color: var(--ct-gold); }
-
 .coraltree-theme .ct-nav-toggle {
   display: none; flex-direction: column; gap: 5px; width: 26px; background: none;
   border: 0; cursor: pointer; padding: 8px; z-index: 110;
 }
-
 .coraltree-theme .ct-nav-toggle span { display: block; height: 1px; background: var(--ct-white); width: 100%; }
-
 @media (max-width: 900px) {
   .coraltree-theme .ct-nav-links {
     position: fixed; inset: 0 0 0 auto; width: min(320px, 84vw); height: 100vh;
@@ -2397,7 +2350,6 @@ body {
   .coraltree-theme .ct-nav-links a { font-size: 15px; }
   .coraltree-theme .ct-nav-toggle { display: flex; }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .coraltree-theme .ct-nav-links { transition: none; }
 }
@@ -2408,7 +2360,6 @@ body {
 .coraltree-theme .ct-media-frame {
   position: relative; overflow: hidden; background: var(--ct-pine); isolation: isolate;
 }
-
 .coraltree-theme .ct-media-frame video,
 .coraltree-theme .ct-media-frame img {
   /* object-fit: cover crops to fill the frame but never distorts/stretches
@@ -2416,25 +2367,19 @@ body {
      square (1:1) source inside a much wider full-bleed band. */
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 1;
 }
-
 .coraltree-theme .ct-media-frame::before {
   content: ""; position: absolute; inset: 0; z-index: 0;
   background: radial-gradient(120% 90% at 30% 100%, rgba(23, 61, 54, 0.55), transparent 60%), linear-gradient(150deg, #0d211d 0%, #14322c 50%, #102d29 100%);
 }
-
 .coraltree-theme .ct-media-frame .ct-scene-tag {
   position: absolute; left: 20px; bottom: 18px; z-index: 3;
   display: flex; align-items: center; gap: 10px;
   font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
   color: rgba(255, 255, 255, 0.66); font-weight: 500;
 }
-
 .coraltree-theme .ct-media-frame .ct-scene-tag::before { content: ""; width: 16px; height: 1px; background: var(--ct-gold); opacity: 0.7; }
-
 .coraltree-theme .ct-media-frame .ct-corner { position: absolute; z-index: 3; width: 20px; height: 20px; pointer-events: none; border-color: rgba(255, 255, 255, 0.3); }
-
 .coraltree-theme .ct-media-frame .ct-corner-tl { top: 16px; left: 16px; border-top: 1px solid; border-left: 1px solid; }
-
 .coraltree-theme .ct-media-frame .ct-corner-br { bottom: 16px; right: 16px; border-bottom: 1px solid; border-right: 1px solid; }
 
 /* ============================================================================
@@ -2444,30 +2389,22 @@ body {
   position: relative; height: 100svh; min-height: 620px; width: 100%;
   display: flex; align-items: flex-end; overflow: hidden; background: var(--ct-pine);
 }
-
 .coraltree-theme .ct-hero .ct-media-frame { position: absolute; inset: 0; }
-
 .coraltree-theme .ct-hero-overlay {
   position: absolute; inset: 0; z-index: 4;
   background: linear-gradient(180deg, rgba(16, 45, 41, 0.32) 0%, rgba(16, 45, 41, 0.08) 30%, rgba(12, 33, 30, 0.56) 78%, rgba(10, 27, 24, 0.88) 100%);
 }
-
 .coraltree-theme .ct-hero-inner { position: relative; z-index: 5; width: 100%; padding: 0 clamp(20px, 4vw, 44px) clamp(54px, 9vh, 116px); }
-
 .coraltree-theme .ct-hero-inner .ct-shell { width: 100%; max-width: 900px; margin: 0; }
-
 .coraltree-theme .ct-hero .ct-eyebrow { color: var(--ct-gold); margin-bottom: 20px; display: block; font-size: 12.5px; letter-spacing: 0.24em; font-weight: 700; }
-
 .coraltree-theme .ct-hero h1 {
   margin: 0 0 24px; color: var(--ct-white);
   font-size: clamp(2.3rem, 5.2vw, 4.3rem); line-height: 1.08; font-weight: 400; letter-spacing: -0.01em;
 }
-
 .coraltree-theme .ct-hero p.ct-sub {
   color: rgba(255, 255, 255, 0.82); font-size: clamp(15px, 1.4vw, 17.5px);
   max-width: 560px; line-height: 1.65; margin: 0 0 36px; font-weight: 400;
 }
-
 .coraltree-theme .ct-hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
 
 /* ============================================================================
@@ -2480,18 +2417,13 @@ body {
   position: relative; height: 88vh; min-height: 520px; width: 100%;
   display: flex; align-items: flex-end; overflow: hidden; background: var(--ct-pine);
 }
-
 .coraltree-theme .ct-cinematic .ct-media-frame { position: absolute; inset: 0; }
-
 .coraltree-theme .ct-cinematic-overlay {
   position: absolute; inset: 0; z-index: 4;
   background: linear-gradient(0deg, rgba(10, 27, 24, 0.84) 0%, rgba(10, 27, 24, 0.14) 55%, transparent 80%);
 }
-
 .coraltree-theme .ct-cinematic-inner { position: relative; z-index: 5; padding: 0 clamp(20px, 4vw, 44px) clamp(52px, 8vh, 104px); width: 100%; }
-
 .coraltree-theme .ct-cinematic-inner .ct-shell { margin: 0; width: 100%; max-width: 760px; }
-
 .coraltree-theme .ct-cinematic h2 {
   font-size: clamp(1.8rem, 3.6vw, 2.9rem); line-height: 1.2; font-weight: 400; color: var(--ct-white); margin: 0;
 }
@@ -2502,15 +2434,10 @@ body {
    (public/dovetail/index.html .split#idea).
    ============================================================================ */
 .coraltree-theme .ct-split { display: grid; grid-template-columns: 1fr 1fr; min-height: 74vh; }
-
 .coraltree-theme .ct-split .ct-media-frame { height: 100%; min-height: 380px; }
-
 .coraltree-theme .ct-split-copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(44px, 6vw, 90px); }
-
 .coraltree-theme .ct-split-copy h2 { font-size: clamp(1.7rem, 3vw, 2.5rem); font-weight: 400; line-height: 1.22; margin: 0 0 20px; max-width: 14ch; color: var(--ct-white); }
-
 .coraltree-theme .ct-split-copy p { font-size: 15.5px; line-height: 1.8; color: var(--ct-on-dark-soft); max-width: 42ch; margin: 0; }
-
 @media (max-width: 900px) {
   .coraltree-theme .ct-split { grid-template-columns: 1fr; min-height: auto; }
   .coraltree-theme .ct-split .ct-media-frame { min-height: 48vh; }
@@ -2526,7 +2453,6 @@ body {
   position: relative; height: 50vh; min-height: 300px; margin-top: clamp(40px, 5vw, 64px);
   border-radius: 4px; overflow: hidden;
 }
-
 .coraltree-theme .ct-video-strip .ct-media-frame { position: absolute; inset: 0; height: 100%; }
 
 /* ============================================================================
@@ -2536,45 +2462,34 @@ body {
    (public/dovetail/index.html .arrival).
    ============================================================================ */
 .coraltree-theme .ct-ambient-section { position: relative; overflow: hidden; }
-
 .coraltree-theme .ct-ambient-section > .ct-media-frame { position: absolute; inset: 0; z-index: 0; }
-
 .coraltree-theme .ct-ambient-overlay {
   position: absolute; inset: 0; z-index: 1;
   background: linear-gradient(165deg, rgba(16, 45, 41, 0.92) 0%, rgba(16, 45, 41, 0.82) 50%, rgba(10, 27, 24, 0.94) 100%);
 }
-
 .coraltree-theme .ct-ambient-section > .ct-shell { position: relative; z-index: 2; }
 
 /* ============================================================================
    SCALE STRIP
    ============================================================================ */
 .coraltree-theme .ct-scale-strip { padding: clamp(50px, 6vw, 78px) 0; }
-
 .coraltree-theme .ct-scale-heading {
   font-size: clamp(1.3rem, 2.4vw, 1.8rem); font-weight: 400; line-height: 1.35;
   max-width: 26ch; margin: 0 0 clamp(34px, 4vw, 52px); color: var(--ct-white);
 }
-
 .coraltree-theme .ct-scale-row {
   display: flex; flex-wrap: wrap; border-top: 1px solid var(--ct-line-on-dark);
 }
-
 .coraltree-theme .ct-scale-stat {
   flex: 1 1 140px; padding: 26px clamp(14px, 1.8vw, 26px) 4px 0; border-right: 1px solid var(--ct-line-on-dark);
 }
-
 .coraltree-theme .ct-scale-stat:last-child { border-right: none; }
-
 .coraltree-theme .ct-scale-stat .ct-num {
   font-family: var(--font-luxury-serif), serif; font-weight: 400; letter-spacing: -0.02em;
   font-size: clamp(2.1rem, 3.4vw, 2.9rem); color: var(--ct-white); display: block;
 }
-
 .coraltree-theme .ct-scale-stat .ct-lbl { margin-top: 6px; font-size: 12px; letter-spacing: 0.04em; color: var(--ct-on-dark-muted); }
-
 .coraltree-theme .ct-scale-note { margin-top: 22px; font-size: 12px; color: var(--ct-on-dark-muted); }
-
 @media (max-width: 700px) {
   .coraltree-theme .ct-scale-stat { flex: 1 1 44%; border-right: none; border-bottom: 1px solid var(--ct-line-on-dark); padding-bottom: 16px; }
 }
@@ -2591,7 +2506,6 @@ body {
   max-width: 560px;
   margin-bottom: clamp(56px, 7vw, 84px);
 }
-
 .coraltree-theme .ct-opportunity-head::before {
   content: "01";
   position: absolute;
@@ -2604,20 +2518,15 @@ body {
   pointer-events: none;
   user-select: none;
 }
-
 .coraltree-theme .ct-opportunity-head > * { position: relative; z-index: 1; }
-
 .coraltree-theme .ct-opportunity-head .ct-label-row { margin-bottom: 28px; }
-
 .coraltree-theme .ct-opportunity-head h2 { font-size: clamp(1.8rem, 3.4vw, 2.85rem); font-weight: 400; line-height: 1.22; margin: 0 0 24px; }
-
 .coraltree-theme .ct-opportunity-head p { font-size: 16px; line-height: 1.8; color: var(--ct-ink-soft); margin: 0; max-width: 56ch; }
 
 /* Faint field behind the mosaic — barely-visible gold/sage rings, echoing
    the topographic-contour motif used elsewhere on the page. Kept extremely
    subtle so the cream page background still reads as clean. */
 .coraltree-theme .ct-mosaic-field { position: relative; }
-
 .coraltree-theme .ct-mosaic-field::before {
   content: "";
   position: absolute; inset: -6% -4%; z-index: 0; pointer-events: none; opacity: 0.5;
@@ -2625,14 +2534,12 @@ body {
     radial-gradient(46% 60% at 85% 8%, rgba(185, 150, 85, 0.07), transparent 70%),
     repeating-radial-gradient(circle at 6% 96%, transparent 0, transparent 40px, rgba(142, 166, 156, 0.08) 41px, transparent 42px, transparent 80px);
 }
-
 .coraltree-theme .ct-moment-mosaic {
   position: relative; z-index: 1;
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(16px, 2vw, 22px);
 }
-
 @media (min-width: 860px) {
   .coraltree-theme .ct-moment-mosaic { grid-template-columns: repeat(12, 1fr); }
   .coraltree-theme .ct-opp-span-4 { grid-column: span 4; }
@@ -2653,23 +2560,18 @@ body {
   overflow: hidden;
   transition: transform 300ms var(--ct-ease), box-shadow 300ms var(--ct-ease), border-color 300ms var(--ct-ease);
 }
-
 .coraltree-theme .ct-opp-card::before {
   content: ""; position: absolute; top: 0; left: 26px; right: 26px; height: 2px;
   background: linear-gradient(90deg, transparent, var(--ct-gold), transparent);
   opacity: 0.55;
 }
-
 .coraltree-theme .ct-opp-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 22px 46px rgba(23, 61, 54, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.6);
   border-color: rgba(185, 150, 85, 0.4);
 }
-
 .coraltree-theme .ct-opp-card--cream { background: rgba(252, 250, 246, 0.86); }
-
 .coraltree-theme .ct-opp-card--sage { background: linear-gradient(160deg, rgba(142, 166, 156, 0.2), rgba(252, 250, 246, 0.88)); }
-
 .coraltree-theme .ct-opp-card--stone { background: linear-gradient(160deg, rgba(32, 35, 33, 0.055), rgba(252, 250, 246, 0.9)); }
 
 .coraltree-theme .ct-opp-icon {
@@ -2679,35 +2581,24 @@ body {
   margin-bottom: 18px;
   transition: transform 300ms var(--ct-ease);
 }
-
 .coraltree-theme .ct-opp-card:hover .ct-opp-icon { transform: rotate(-8deg) scale(1.06); }
-
 .coraltree-theme .ct-opp-card h3 {
   font-family: var(--font-luxury-serif), serif; font-weight: 400; margin: 0 0 10px; color: var(--ct-forest); line-height: 1.28;
 }
-
 .coraltree-theme .ct-opp-card p { font-size: 14px; line-height: 1.65; color: var(--ct-ink-muted); margin: 0; max-width: 40ch; }
-
 .coraltree-theme .ct-opp-card--large h3 { font-size: 21px; }
-
 .coraltree-theme .ct-opp-card--medium h3 { font-size: 18.5px; }
-
 .coraltree-theme .ct-opp-card--wide h3 { font-size: 18.5px; }
 
 /* Full-width closing card — icon and copy sit side by side. */
 .coraltree-theme .ct-opp-card--banner { display: flex; align-items: center; gap: 22px; }
-
 .coraltree-theme .ct-opp-card--banner .ct-opp-icon { margin-bottom: 0; flex: 0 0 auto; width: 48px; height: 48px; }
-
 .coraltree-theme .ct-opp-card--banner h3 { font-size: 19px; margin-bottom: 4px; }
-
 .coraltree-theme .ct-opp-card--banner p { max-width: 52ch; }
-
 @media (max-width: 560px) {
   .coraltree-theme .ct-opp-card--banner { flex-direction: column; align-items: flex-start; gap: 14px; }
   .coraltree-theme .ct-opp-card--banner .ct-opp-icon { margin-bottom: 4px; }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .coraltree-theme .ct-opp-card,
   .coraltree-theme .ct-opp-icon { transition: none; }
@@ -2718,39 +2609,27 @@ body {
    DIFFERENTIATOR — capability pills + process flow
    ============================================================================ */
 .coraltree-theme .ct-differentiator-head { max-width: 660px; margin-bottom: clamp(40px, 5vw, 56px); }
-
 .coraltree-theme .ct-differentiator-head h2 { font-size: clamp(1.8rem, 3.4vw, 2.85rem); font-weight: 400; line-height: 1.2; margin: 0 0 20px; color: var(--ct-white); }
-
 .coraltree-theme .ct-differentiator-head p { font-size: 16px; line-height: 1.8; color: var(--ct-on-dark-soft); margin: 0; max-width: 62ch; }
-
 .coraltree-theme .ct-pill-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: clamp(48px, 6vw, 76px); }
-
 .coraltree-theme .ct-pill {
   font-size: 12.5px; letter-spacing: 0.02em; padding: 9px 16px; border-radius: 999px;
   border: 1px solid var(--ct-line-on-dark); color: var(--ct-on-dark-soft); background: rgba(255, 255, 255, 0.04);
 }
-
 .coraltree-theme .ct-process-flow {
   display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; border-top: 1px solid var(--ct-line-on-dark); padding-top: 30px;
 }
-
 .coraltree-theme .ct-process-step { position: relative; padding-right: 10px; }
-
 .coraltree-theme .ct-process-step:not(:last-child)::after {
   content: "→"; position: absolute; top: 2px; right: -14px; color: var(--ct-gold); font-size: 14px; opacity: 0.7;
 }
-
 .coraltree-theme .ct-process-step .ct-idx { display: block; font-size: 11px; letter-spacing: 0.1em; color: var(--ct-gold); margin-bottom: 12px; }
-
 .coraltree-theme .ct-process-step h3 { font-family: var(--font-luxury-serif), serif; font-weight: 400; font-size: 15.5px; margin: 0 0 8px; color: var(--ct-white); line-height: 1.3; }
-
 .coraltree-theme .ct-process-step p { font-size: 12.5px; line-height: 1.55; color: var(--ct-on-dark-muted); margin: 0; }
-
 @media (max-width: 980px) {
   .coraltree-theme .ct-process-flow { grid-template-columns: 1fr 1fr; }
   .coraltree-theme .ct-process-step:not(:last-child)::after { display: none; }
 }
-
 @media (max-width: 560px) {
   .coraltree-theme .ct-process-flow { grid-template-columns: 1fr; }
 }
@@ -2759,37 +2638,25 @@ body {
    EXPERIENCE SYSTEM — category cards
    ============================================================================ */
 .coraltree-theme .ct-experience-head { max-width: 680px; margin-bottom: clamp(40px, 5vw, 60px); }
-
 .coraltree-theme .ct-experience-head h2 { font-size: clamp(1.8rem, 3.4vw, 2.85rem); font-weight: 400; line-height: 1.2; margin: 0 0 20px; }
-
 .coraltree-theme .ct-experience-head p { font-size: 16px; line-height: 1.8; color: var(--ct-ink-soft); margin: 0; max-width: 62ch; }
-
 .coraltree-theme .ct-category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: clamp(44px, 5vw, 64px); }
-
 .coraltree-theme .ct-category-card {
   background: var(--ct-ivory); border: 1px solid var(--ct-line); border-radius: 4px; padding: 28px 26px;
   transition: border-color 0.35s var(--ct-ease), box-shadow 0.35s var(--ct-ease), transform 0.35s var(--ct-ease);
 }
-
 .coraltree-theme .ct-category-card:hover { border-color: var(--ct-line-strong); box-shadow: 0 18px 40px rgba(23, 61, 54, 0.08); transform: translateY(-2px); }
-
 .coraltree-theme .ct-category-card h3 { font-family: var(--font-luxury-serif), serif; font-weight: 400; font-size: 19px; margin: 0 0 12px; color: var(--ct-forest); }
-
 .coraltree-theme .ct-category-card p { font-size: 14px; line-height: 1.65; color: var(--ct-ink-muted); margin: 0; }
-
 @media (max-width: 900px) { .coraltree-theme .ct-category-grid { grid-template-columns: 1fr 1fr; } }
-
 @media (max-width: 620px) { .coraltree-theme .ct-category-grid { grid-template-columns: 1fr; } }
-
 @media (prefers-reduced-motion: reduce) { .coraltree-theme .ct-category-card:hover { transform: none; } }
 
 .coraltree-theme .ct-outputs-row {
   display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
   border-top: 1px solid var(--ct-line); padding-top: 24px;
 }
-
 .coraltree-theme .ct-outputs-row .ct-outputs-label { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ct-ink-muted); margin-right: 6px; }
-
 .coraltree-theme .ct-output-chip {
   font-size: 12.5px; padding: 8px 14px; border-radius: 999px; background: var(--ct-forest); color: var(--ct-white);
 }
@@ -2798,159 +2665,97 @@ body {
    GALLERY
    ============================================================================ */
 .coraltree-theme .ct-gallery-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: clamp(36px, 5vw, 56px); flex-wrap: wrap; }
-
 .coraltree-theme .ct-gallery-head h2 { font-size: clamp(1.8rem, 3.4vw, 2.85rem); font-weight: 400; line-height: 1.15; margin: 0; max-width: 16ch; }
-
 .coraltree-theme .ct-gallery-head p { font-size: 14px; color: var(--ct-ink-muted); max-width: 34ch; margin: 4px 0 0; line-height: 1.6; }
-
 .coraltree-theme .ct-gallery-disclaimer {
   font-size: 12px; color: var(--ct-ink-muted); margin: 0 0 clamp(28px, 3.4vw, 40px); padding-bottom: 20px; border-bottom: 1px solid var(--ct-line);
 }
-
 .coraltree-theme .ct-gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: clamp(12px, 1.5vw, 20px); }
-
 .coraltree-theme .ct-g-item { position: relative; overflow: hidden; background: var(--ct-pine); border-radius: 3px; }
-
 .coraltree-theme .ct-g-item .ct-media-frame { height: 100%; position: static; }
-
 .coraltree-theme .ct-g-item video { transition: transform 1.3s var(--ct-ease); }
-
 .coraltree-theme .ct-g-item:hover video { transform: scale(1.04); }
-
 .coraltree-theme .ct-g-caption {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 5; padding: 20px;
   background: linear-gradient(0deg, rgba(10, 27, 24, 0.85) 0%, transparent 75%);
 }
-
 .coraltree-theme .ct-g-caption .ct-g-name { font-family: var(--font-luxury-serif), serif; font-style: italic; font-size: 17px; color: var(--ct-white); display: block; }
-
 .coraltree-theme .ct-g-caption .ct-g-tag { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255, 255, 255, 0.62); margin-top: 4px; display: block; }
-
 .coraltree-theme .ct-g-wide { grid-column: span 7; aspect-ratio: 4 / 3; }
-
 .coraltree-theme .ct-g-tall { grid-column: span 5; aspect-ratio: 4 / 5; }
-
 .coraltree-theme .ct-g-square { grid-column: span 4; aspect-ratio: 3 / 4; }
-
 .coraltree-theme .ct-g-full { grid-column: span 12; aspect-ratio: 16 / 7; }
-
 @media (max-width: 900px) {
   .coraltree-theme .ct-gallery-grid { grid-template-columns: 1fr 1fr; }
   .coraltree-theme .ct-g-wide, .coraltree-theme .ct-g-tall, .coraltree-theme .ct-g-full { grid-column: span 2; aspect-ratio: 4 / 3; }
   .coraltree-theme .ct-g-square { grid-column: span 1; aspect-ratio: 3 / 4; }
 }
-
 @media (max-width: 560px) {
   .coraltree-theme .ct-gallery-grid { grid-template-columns: 1fr; }
   .coraltree-theme .ct-g-wide, .coraltree-theme .ct-g-tall, .coraltree-theme .ct-g-square, .coraltree-theme .ct-g-full { grid-column: span 1; aspect-ratio: 4 / 3.2; }
 }
-
 @media (prefers-reduced-motion: reduce) { .coraltree-theme .ct-g-item:hover video { transform: none; } }
 
 /* ============================================================================
    PROOF
    ============================================================================ */
 .coraltree-theme .ct-proof-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(36px, 5vw, 70px); align-items: start; }
-
 .coraltree-theme .ct-proof-grid h2 { font-size: clamp(1.8rem, 3.4vw, 2.85rem); font-weight: 400; line-height: 1.2; margin: 0 0 18px; color: var(--ct-white); max-width: 16ch; }
-
 .coraltree-theme .ct-proof-metrics { display: flex; flex-wrap: wrap; border-top: 1px solid var(--ct-line-on-dark); margin-top: clamp(30px, 4vw, 44px); }
-
 .coraltree-theme .ct-proof-metric { flex: 1 1 150px; padding: 22px clamp(12px, 1.6vw, 22px) 4px 0; border-right: 1px solid var(--ct-line-on-dark); }
-
 .coraltree-theme .ct-proof-metric:last-child { border-right: none; }
-
 .coraltree-theme .ct-proof-metric .ct-num { font-family: var(--font-luxury-serif), serif; font-weight: 400; font-size: clamp(1.7rem, 2.6vw, 2.25rem); color: var(--ct-white); display: block; }
-
 .coraltree-theme .ct-proof-metric .ct-lbl { margin-top: 5px; font-size: 11.5px; color: var(--ct-on-dark-muted); }
-
 .coraltree-theme .ct-client-card { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--ct-line-on-dark); border-radius: 4px; padding: 26px; }
-
 .coraltree-theme .ct-client-card h3 { font-family: var(--font-luxury-serif), serif; font-weight: 400; font-size: 15px; letter-spacing: 0.02em; margin: 0 0 14px; color: var(--ct-gold); text-transform: uppercase; font-style: normal; }
-
 .coraltree-theme .ct-client-list { list-style: none; margin: 0 0 18px; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-
 .coraltree-theme .ct-client-list li { font-size: 14px; color: var(--ct-on-dark-soft); padding-left: 16px; position: relative; }
-
 .coraltree-theme .ct-client-list li::before { content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 1px; background: var(--ct-gold); }
-
 .coraltree-theme .ct-proof-disclaimer { font-size: 11.5px; line-height: 1.6; color: var(--ct-on-dark-muted); margin: 0; }
-
 @media (max-width: 900px) { .coraltree-theme .ct-proof-grid { grid-template-columns: 1fr; } }
 
 /* ============================================================================
    COST / CAPACITY
    ============================================================================ */
 .coraltree-theme .ct-cost-head { max-width: 700px; margin-bottom: clamp(20px, 3vw, 30px); }
-
 .coraltree-theme .ct-cost-head h2 { font-size: clamp(1.8rem, 3.4vw, 2.85rem); font-weight: 400; line-height: 1.2; margin: 0 0 20px; }
-
 .coraltree-theme .ct-cost-head p { font-size: 16px; line-height: 1.8; color: var(--ct-ink-soft); margin: 0; max-width: 68ch; }
-
 .coraltree-theme .ct-cost-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: clamp(36px, 4.5vw, 54px); }
-
 .coraltree-theme .ct-cost-col { border-radius: 4px; padding: 28px 26px; }
-
 .coraltree-theme .ct-cost-col.ct-cost-fragmented { background: var(--ct-ivory); border: 1px dashed var(--ct-line-strong); }
-
 .coraltree-theme .ct-cost-col.ct-cost-consolidated { background: linear-gradient(165deg, var(--ct-forest) 0%, var(--ct-pine) 100%); color: var(--ct-white); }
-
 .coraltree-theme .ct-cost-col h3 { font-family: var(--font-luxury-serif), serif; font-weight: 400; font-size: 17px; margin: 0 0 16px; }
-
 .coraltree-theme .ct-cost-col.ct-cost-fragmented h3 { color: var(--ct-ink-muted); }
-
 .coraltree-theme .ct-cost-col.ct-cost-consolidated h3 { color: var(--ct-gold); }
-
 .coraltree-theme .ct-cost-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-
 .coraltree-theme .ct-cost-col li { font-size: 14px; padding-left: 18px; position: relative; }
-
 .coraltree-theme .ct-cost-fragmented li { color: var(--ct-ink-muted); }
-
 .coraltree-theme .ct-cost-fragmented li::before { content: "×"; position: absolute; left: 0; color: var(--ct-sage); }
-
 .coraltree-theme .ct-cost-consolidated li { color: var(--ct-on-dark-soft); }
-
 .coraltree-theme .ct-cost-consolidated li::before { content: "✓"; position: absolute; left: 0; color: var(--ct-gold); }
-
 @media (max-width: 760px) { .coraltree-theme .ct-cost-compare { grid-template-columns: 1fr; } }
 
 /* ============================================================================
    ENTRY POINT
    ============================================================================ */
 .coraltree-theme .ct-entry-head { max-width: 680px; margin-bottom: clamp(36px, 4.5vw, 52px); }
-
 .coraltree-theme .ct-entry-head h2 { font-size: clamp(1.8rem, 3.4vw, 2.85rem); font-weight: 400; line-height: 1.2; margin: 0 0 20px; }
-
 .coraltree-theme .ct-entry-head p { font-size: 16px; line-height: 1.8; color: var(--ct-ink-soft); margin: 0; max-width: 62ch; }
-
 .coraltree-theme .ct-entry-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(28px, 4vw, 50px); align-items: start; }
-
 .coraltree-theme .ct-cluster-card {
   background: linear-gradient(165deg, var(--ct-forest) 0%, var(--ct-pine) 100%); color: var(--ct-white);
   border-radius: 5px; padding: 30px 28px;
 }
-
 .coraltree-theme .ct-cluster-card h3 { font-family: var(--font-luxury-serif), serif; font-weight: 400; font-size: 20px; margin: 0 0 18px; color: var(--ct-gold); }
-
 .coraltree-theme .ct-cluster-card ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
-
 .coraltree-theme .ct-cluster-card li { font-size: 13.5px; color: var(--ct-on-dark-soft); padding-left: 16px; position: relative; }
-
 .coraltree-theme .ct-cluster-card li::before { content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 1px; background: var(--ct-gold); }
-
 .coraltree-theme .ct-deliverables { background: var(--ct-ivory); border: 1px solid var(--ct-line); border-radius: 5px; padding: 30px 28px; }
-
 .coraltree-theme .ct-deliverables h3 { font-family: var(--font-luxury-serif), serif; font-weight: 400; font-size: 16px; margin: 0 0 16px; color: var(--ct-forest); text-transform: uppercase; letter-spacing: 0.03em; font-style: normal; }
-
 .coraltree-theme .ct-deliverables ul { list-style: none; margin: 0 0 20px; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; }
-
 .coraltree-theme .ct-deliverables li { font-size: 13.5px; color: var(--ct-ink-soft); padding-left: 16px; position: relative; }
-
 .coraltree-theme .ct-deliverables li::before { content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 1px; background: var(--ct-forest); }
-
 .coraltree-theme .ct-pricing-note { font-size: 12.5px; color: var(--ct-ink-muted); font-style: italic; margin: 0; padding-top: 16px; border-top: 1px solid var(--ct-line); }
-
 @media (max-width: 900px) {
   .coraltree-theme .ct-entry-grid { grid-template-columns: 1fr; }
   .coraltree-theme .ct-deliverables ul { grid-template-columns: 1fr; }
@@ -2963,23 +2768,14 @@ body {
   background: var(--ct-cream); border: 1px solid var(--ct-line-strong); border-left: 3px solid var(--ct-gold);
   border-radius: 3px; padding: clamp(28px, 4vw, 44px);
 }
-
 .coraltree-theme .ct-note-card .ct-eyebrow { display: block; margin-bottom: 14px; }
-
 .coraltree-theme .ct-note-card h2 { font-family: var(--font-luxury-serif), serif; font-weight: 400; font-size: clamp(1.4rem, 2.2vw, 1.75rem); margin: 0 0 4px; color: var(--ct-forest); }
-
 .coraltree-theme .ct-note-role { font-size: 13.5px; color: var(--ct-ink-muted); margin: 0 0 2px; }
-
 .coraltree-theme .ct-note-org { font-size: 12.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ct-sage); margin: 0 0 22px; }
-
 .coraltree-theme .ct-note-card p.ct-note-body { font-size: 15.5px; line-height: 1.8; color: var(--ct-ink-soft); margin: 0; max-width: 66ch; }
-
 .coraltree-theme .ct-note-reference-row { display: flex; gap: 16px; margin-top: 26px; flex-wrap: wrap; }
-
 .coraltree-theme .ct-note-reference { display: flex; align-items: center; gap: 10px; }
-
 .coraltree-theme .ct-note-reference img { width: 64px; height: 64px; object-fit: cover; border-radius: 3px; flex: 0 0 auto; }
-
 .coraltree-theme .ct-note-reference span { font-size: 11.5px; color: var(--ct-ink-muted); max-width: 16ch; line-height: 1.4; }
 
 /* ============================================================================
@@ -2989,38 +2785,26 @@ body {
   position: relative; min-height: 62vh; display: flex; align-items: center; overflow: hidden;
   background: linear-gradient(165deg, var(--ct-forest) 0%, var(--ct-pine) 100%);
 }
-
 /* Soft ambient motion behind the closing CTA, same treatment as Dovetail's
    own final-CTA video background (public/dovetail/index.html .cta video.cta-bg):
    low opacity, gradient overlay on top for text contrast. */
 .coraltree-theme .ct-final-cta-bg {
   position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.32;
 }
-
 .coraltree-theme .ct-final-cta::before {
   content: ""; position: absolute; inset: 0; z-index: 1;
   background: radial-gradient(120% 90% at 50% 20%, rgba(23, 61, 54, 0.55), transparent 60%), linear-gradient(180deg, var(--ct-pine) 0%, var(--ct-forest) 55%, var(--ct-pine) 100%);
 }
-
 .coraltree-theme .ct-final-cta-inner { position: relative; z-index: 2; text-align: center; width: 100%; padding: clamp(60px, 8vw, 0px) clamp(20px, 4vw, 44px); }
-
 .coraltree-theme .ct-final-cta h2 { font-size: clamp(2rem, 4.6vw, 3.4rem); font-weight: 400; color: var(--ct-white); margin: 0 auto 24px; max-width: 16ch; line-height: 1.14; }
-
 .coraltree-theme .ct-final-cta p { font-size: 16px; line-height: 1.85; color: var(--ct-on-dark-soft); max-width: 54ch; margin: 0 auto 40px; }
-
 .coraltree-theme .ct-final-cta-actions { display: flex; flex-direction: column; align-items: center; gap: 20px; }
 
 /* ============================================================================
    FOOTER
    ============================================================================ */
 .coraltree-theme .ct-footer { background: var(--ct-pine); border-top: 1px solid var(--ct-line-on-dark); padding: 30px 0; }
-
 .coraltree-theme .ct-footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-
 .coraltree-theme .ct-footer-mark { display: flex; align-items: center; gap: 10px; }
-
 .coraltree-theme .ct-footer-mark span { font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ct-on-dark-muted); }
-
 .coraltree-theme .ct-footer-note { font-size: 11px; color: var(--ct-on-dark-muted); letter-spacing: 0.01em; }
-
-/* === CORALTREE PRIVATE PROPOSAL STYLES: END === */
