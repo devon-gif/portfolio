@@ -31,6 +31,9 @@ const PUBLIC_ROUTES = [
   // noindex by default (see lib/revstudio.ts), but still needs to render
   // full-bleed like the other public marketing pages, not the CRM chrome.
   "/revstudio",
+  // Topline × Revstudio × Archer Design private proposal. It is intentionally
+  // public-by-link while remaining noindex, so it must bypass the CRM auth guard.
+  "/topline",
   // CoralTree × Archer Design private creative proposal. Keep both the
   // canonical route and the hyphenated email alias public so neither is
   // intercepted by the owner-only CRM auth guard.
