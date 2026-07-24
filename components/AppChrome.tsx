@@ -38,25 +38,24 @@ const PUBLIC_ROUTES = [
   "/coraltree",
   "/george",
 ];
+
 // Auth routes: full-bleed, no sidebar, no guard (these ARE the login flow).
 const AUTH_ROUTES = ["/login", "/auth/callback"];
-// Public prefixes (e.g. email unsubscribe links).
-// "/social-media-work" is a public marketing portfolio page (and any future
-// child paths under it) — must render full-bleed with no Supabase/auth/
-// sidebar, same as the other public marketing routes above.
-// "/review" is the Archer Review client portal — it ships its own login and
-// chrome, so it must render full-bleed with no CRM sidebar or owner guard.
-// "/topline" is the Topline Revenue Management private, personalized
-// proposal microsite — noindex, never linked from nav/sitemap/footer,
-// direct URL only. Treated as a prefix (not an exact match) so nested
-// routes such as /topline/schedule are automatically public too, without
-// needing a matching entry added here every time a new proposal sub-page
-// is created.
-const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/review", "/topline"];
+
+// Public shells that provide their own access controls. /review and /emma
+// render full-bleed, but their contents are protected by ReviewAdminGate /
+// EmmaPortalGate and Supabase RLS rather than the private CRM owner guard.
+const PUBLIC_PREFIXES = [
+  "/unsubscribe",
+  "/social-media-work",
+  "/review",
+  "/topline",
+  "/emma",
+];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;
-  return PUBLIC_PREFIXES.some((p) => pathname.startsWith(p));
+  return PUBLIC_PREFIXES.some((prefix) => pathname.startsWith(prefix));
 }
 
 /**
@@ -75,7 +74,7 @@ export function AppChrome({ children }: { children: React.ReactNode }) {
     <OwnerAuthGuard>
       <div className="flex h-full min-h-screen">
         <Sidebar />
-        <main className="flex-1 ml-56 min-h-screen overflow-auto">{children}</main>
+        <main className="ml-56 min-h-screen flex-1 overflow-auto">{children}</main>
       </div>
     </OwnerAuthGuard>
   );

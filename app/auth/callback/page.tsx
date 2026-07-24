@@ -1,18 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { isOwnerEmail } from "@/lib/owner";
+import { getCurrentProfile } from "@/lib/review";
 
 /**
- * Magic-link / OAuth callback. supabase-js (detectSessionInUrl) auto-parses the
- * token from the URL hash on load; for PKCE we exchange the ?code. We then
- * verify the owner email and route into the CRM, or back to /login.
+ * Shared magic-link / OAuth callback for the whole project. supabase-js
+ * (detectSessionInUrl) auto-parses the token from the URL hash on load; for
+ * PKCE we exchange the ?code. Routing after a successful sign-in:
+ *
+ *   1. The CRM owner email (lib/owner.ts) -> /dashboard, as before.
+ *   2. Otherwise, check for a review_profiles row (the client review
+ *      portal's own identity table, separate from the CRM owner check):
+ *      role "admin" -> /review/admin, role "client" -> /emma.
+ *   3. Anything else is signed out and sent back to /login, as before.
+ *
+ * The optional ?next= param (set by MagicLinkForm) is not blindly trusted
+ * for the redirect target — it's only used as a hint for which of the two
+ * review-portal routes to prefer if step 2 matches, so an unrecognized
+ * email can never be redirected somewhere it doesn't have a profile for.
  */
-export default function AuthCallbackPage() {
+function AuthCallbackInner() {
   const router = useRouter();
+  const params = useSearchParams();
   const [message, setMessage] = useState("Signing you in…");
 
   useEffect(() => {
@@ -38,11 +51,38 @@ export default function AuthCallbackPage() {
         router.replace("/dashboard");
         return;
       }
-      if (data.session && !isOwnerEmail(email)) {
+
+      if (data.session) {
+        const profile = await getCurrentProfile().catch(() => null);
+        if (!active) return;
+        if (profile?.role === "admin") {
+          router.replace("/review/admin");
+          return;
+        }
+        if (profile?.role === "client") {
+          router.replace("/emma");
+          return;
+        }
+      }
+
+      // No matching profile (or no session at all). If this sign-in
+      // originated from the review portal's own login screens, send them
+      // back there WITHOUT forcing a sign-out — EmmaPortalGate /
+      // ReviewAdminGate show their own calm "not set up yet" / "forbidden"
+      // state for a session with no matching profile, which is a better
+      // experience than the generic CRM message below and still never
+      // reveals whether any particular email has an account.
+      const next = params.get("next");
+      if (data.session && (next === "/emma" || next === "/review/admin")) {
+        router.replace(next);
+        return;
+      }
+
+      if (data.session) {
         await supabase.auth.signOut();
       }
       if (!active) return;
-      setMessage("This CRM is private. Redirecting…");
+      setMessage("This account isn't recognized. Redirecting…");
       router.replace("/login?error=private");
     }
 
@@ -50,12 +90,27 @@ export default function AuthCallbackPage() {
     return () => {
       active = false;
     };
-  }, [router]);
+  }, [router, params]);
 
   return (
     <div className="flex min-h-screen items-center justify-center gap-3 bg-zinc-950 text-zinc-400">
       <Loader2 className="h-5 w-5 animate-spin" />
       <span className="text-sm">{message}</span>
     </div>
+  );
+}
+
+export default function AuthCallbackPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center gap-3 bg-zinc-950 text-zinc-400">
+          <Loader2 className="h-5 w-5 animate-spin" />
+          <span className="text-sm">Signing you in…</span>
+        </div>
+      }
+    >
+      <AuthCallbackInner />
+    </Suspense>
   );
 }
