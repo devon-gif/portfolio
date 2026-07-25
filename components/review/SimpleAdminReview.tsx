@@ -1,15 +1,25 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import { Archive, Download, LogOut, RefreshCw, Send, UploadCloud } from "lucide-react";
+import {
+  FormEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import { Archive, Download, SendHorizonal, UploadCloud } from "lucide-react";
+
 import { supabase } from "@/lib/supabase";
 import {
   archiveItem,
   createDraftItem,
   downloadApprovedAsset,
+  isReviewSupabaseConfigured,
   listOrganizations,
   listProperties,
   listReviewItems,
+  resetLocalDemo,
   sendToReview,
   subscribeToChanges,
   uploadNewVersion,
@@ -18,123 +28,1066 @@ import {
   type ReviewItemRecord,
   type ReviewStatus,
 } from "@/lib/review";
+
 import ChatPanel from "./ChatPanel";
 import MediaDropzone from "./MediaDropzone";
 import MediaPreview from "./MediaPreview";
 
-const LOGO = "/review/valencia-hotel-collection-logo.jpeg";
-const statuses: Array<"All" | ReviewStatus> = ["All", "Draft", "Awaiting review", "Revision requested", "New direction requested", "Approved", "Archived"];
+import styles from "./SimpleReview.module.css";
 
-function glass(extra = "") {
-  return `rounded-3xl border border-white/70 bg-[#fffaf2]/70 shadow-[0_24px_80px_rgba(79,60,47,.10)] backdrop-blur-2xl ${extra}`;
-}
+const ADMIN_SESSION_KEY =
+  "archer-review-devon-demo";
 
-function badge(status: ReviewStatus) {
-  const tone = status === "Approved" ? "bg-[#e7dec2] text-[#6d541d]" : status.includes("requested") ? "bg-[#ead9d5] text-[#773b45]" : status === "Draft" ? "bg-[#e8e3dc] text-[#645d55]" : "bg-[#e9e2f0] text-[#5b4770]";
-  return <span className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wide ${tone}`}>{status}</span>;
+const VALENCIA_LOGO_SRC = "/review/valencia-hotel-collection-logo.jpeg";
+
+type AdminFilter =
+  | "All"
+  | ReviewStatus;
+
+type PropertyFilter = "All" | string;
+
+function statusClass(
+  status: ReviewStatus,
+) {
+  if (status === "Approved") {
+    return styles.statusApproved;
+  }
+
+  if (
+    status ===
+    "Revision requested"
+  ) {
+    return styles.statusRevision;
+  }
+
+  if (
+    status ===
+    "New direction requested"
+  ) {
+    return styles.statusDirection;
+  }
+
+  if (status === "Draft") {
+    return styles.statusDraft;
+  }
+
+  return "";
 }
 
 export default function SimpleAdminReview() {
-  const [organizations, setOrganizations] = useState<OrganizationRecord[]>([]);
-  const [organizationId, setOrganizationId] = useState("");
-  const [properties, setProperties] = useState<PropertyRecord[]>([]);
-  const [items, setItems] = useState<ReviewItemRecord[]>([]);
-  const [statusFilter, setStatusFilter] = useState<"All" | ReviewStatus>("All");
-  const [propertyFilter, setPropertyFilter] = useState("All");
-  const [file, setFile] = useState<File | null>(null);
-  const [form, setForm] = useState({ propertyId: "", title: "", description: "", dueDate: "" });
-  const [busy, setBusy] = useState(false);
-  const [replacement, setReplacement] = useState<Record<string, File | null>>({});
-  const [replacementNote, setReplacementNote] = useState<Record<string, string>>({});
-  const [notice, setNotice] = useState<Record<string, string>>({});
+  const [items, setItems] =
+    useState<ReviewItemRecord[]>([]);
 
-  const refresh = useCallback(() => {
-    listReviewItems({ organizationId: organizationId || undefined }).then(setItems).catch(console.error);
-  }, [organizationId]);
+  const [organizations, setOrganizations] =
+    useState<OrganizationRecord[]>([]);
 
-  useEffect(() => {
-    listOrganizations().then((rows) => { setOrganizations(rows); setOrganizationId(rows[0]?.id || ""); }).catch(console.error);
-  }, []);
-  useEffect(() => {
-    if (!organizationId) return;
-    listProperties(organizationId).then(setProperties).catch(console.error);
-    refresh();
-    return subscribeToChanges(organizationId, refresh);
-  }, [organizationId, refresh]);
+  const [selectedOrgId, setSelectedOrgId] =
+    useState<string>("");
 
-  const visible = useMemo(() => items.filter((item) => (statusFilter === "All" || item.status === statusFilter) && (propertyFilter === "All" || item.propertyId === propertyFilter)), [items, propertyFilter, statusFilter]);
-  const counts = {
-    draft: items.filter((i) => i.status === "Draft").length,
-    awaiting: items.filter((i) => i.status === "Awaiting review").length,
-    changes: items.filter((i) => i.status.includes("requested")).length,
-    approved: items.filter((i) => i.status === "Approved").length,
-  };
+  const [properties, setProperties] =
+    useState<PropertyRecord[]>([]);
 
-  async function create(event: FormEvent) {
-    event.preventDefault();
-    const property = properties.find((p) => p.id === form.propertyId);
-    if (!file || !property || !form.title.trim()) { window.alert("Choose a property, title, and image or video."); return; }
-    setBusy(true);
+  const [ready, setReady] =
+    useState(false);
+
+  const [signedIn, setSignedIn] =
+    useState(false);
+
+  const [filter, setFilter] =
+    useState<AdminFilter>("All");
+
+  const [propertyFilter, setPropertyFilter] =
+    useState<PropertyFilter>("All");
+
+  const [creating, setCreating] =
+    useState(false);
+
+  const [selectedFile, setSelectedFile] =
+    useState<File | null>(null);
+
+  const [
+    replacementFiles,
+    setReplacementFiles,
+  ] = useState<
+    Record<string, File | null>
+  >({});
+
+  const [
+    replacementNotes,
+    setReplacementNotes,
+  ] = useState<
+    Record<string, string>
+  >({});
+
+  const [form, setForm] =
+    useState({
+      propertyId: "",
+      title: "",
+      dueDate: "",
+      description: "",
+    });
+
+  // Disables a given item's "Download approved asset" button while a
+  // download is in flight, and drives its "Preparing download…" copy.
+  const [downloading, setDownloading] =
+    useState<Record<string, boolean>>({});
+
+  // A short-lived per-item status line ("Download started." / an inline
+  // failure message) shown under the download button — never an alert(),
+  // and never anything that navigates the page.
+  const [downloadNotice, setDownloadNotice] =
+    useState<Record<string, string>>({});
+
+  const supabaseMode = isReviewSupabaseConfigured();
+
+  async function handleDownload(item: ReviewItemRecord) {
+    if (downloading[item.id]) {
+      return;
+    }
+
+    setDownloading((current) => ({ ...current, [item.id]: true }));
+    setDownloadNotice((current) => ({ ...current, [item.id]: "Preparing download…" }));
+
     try {
-      await createDraftItem({ organizationId, propertyId: property.id, property: property.name, title: form.title.trim(), description: form.description.trim(), dueDate: form.dueDate, file });
-      setForm({ propertyId: "", title: "", description: "", dueDate: "" }); setFile(null); refresh();
-    } catch (error) { console.error(error); window.alert("The item could not be created."); }
-    finally { setBusy(false); }
+      await downloadApprovedAsset(item);
+      setDownloadNotice((current) => ({ ...current, [item.id]: "Download started." }));
+    } catch (error) {
+      console.error(error);
+      setDownloadNotice((current) => ({
+        ...current,
+        [item.id]: "This file could not be downloaded. Please try again.",
+      }));
+    } finally {
+      setDownloading((current) => ({ ...current, [item.id]: false }));
+    }
   }
 
-  async function act(itemId: string, action: () => Promise<void>) {
-    setNotice((n) => ({ ...n, [itemId]: "Working…" }));
-    try { await action(); setNotice((n) => ({ ...n, [itemId]: "Saved." })); refresh(); }
-    catch (error) { console.error(error); setNotice((n) => ({ ...n, [itemId]: "That action could not be completed." })); }
+  const loadItems = useCallback(() => {
+    listReviewItems({ organizationId: selectedOrgId || undefined })
+      .then(setItems)
+      .catch((error) => console.error("Failed to load review items:", error));
+  }, [selectedOrgId]);
+
+  // Local demo session gate (Supabase mode uses real auth instead — see
+  // app/review/admin/page.tsx, which wraps this component in an admin-only
+  // guard once Supabase is configured. This fallback gate only matters when
+  // Supabase isn't configured at all.)
+  useEffect(() => {
+    // Deferred via queueMicrotask (rather than setState directly in the
+    // effect body) to avoid a cascading-render lint warning — see the
+    // identical pattern used for GeorgeSlideshow.tsx earlier in this project.
+    if (supabaseMode) {
+      queueMicrotask(() => setSignedIn(true));
+      return;
+    }
+    const local = window.localStorage.getItem(ADMIN_SESSION_KEY) === "true";
+    queueMicrotask(() => setSignedIn(local));
+  }, [supabaseMode]);
+
+  useEffect(() => {
+    let active = true;
+    listOrganizations()
+      .then((orgs) => {
+        if (!active) return;
+        setOrganizations(orgs);
+        setSelectedOrgId((current) => current || orgs[0]?.id || "");
+        setReady(true);
+      })
+      .catch((error) => {
+        console.error("Failed to load organizations:", error);
+        setReady(true);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!selectedOrgId) return;
+    let active = true;
+    listProperties(selectedOrgId).then((props) => {
+      if (active) setProperties(props);
+    });
+    return () => {
+      active = false;
+    };
+  }, [selectedOrgId]);
+
+  useEffect(() => {
+    if (!selectedOrgId) return;
+    loadItems();
+    return subscribeToChanges(selectedOrgId, loadItems);
+  }, [selectedOrgId, loadItems]);
+
+  const visibleItems = useMemo(
+    () =>
+      items.filter((item) => {
+        if (filter !== "All" && item.status !== filter) return false;
+        if (propertyFilter !== "All" && item.property !== propertyFilter) return false;
+        return true;
+      }),
+    [filter, propertyFilter, items],
+  );
+
+  const counts = {
+    draft: items.filter((item) => item.status === "Draft").length,
+    awaiting: items.filter((item) => item.status === "Awaiting review").length,
+    changes: items.filter(
+      (item) =>
+        item.status === "Revision requested" ||
+        item.status === "New direction requested",
+    ).length,
+    approved: items.filter((item) => item.status === "Approved").length,
+  };
+
+  async function createItem(
+    event: FormEvent,
+  ) {
+    event.preventDefault();
+
+    if (!selectedFile) {
+      window.alert(
+        "Please select or drop an image or video.",
+      );
+      return;
+    }
+
+    const property = properties.find((p) => p.id === form.propertyId);
+    if (!property) {
+      window.alert("Please select a property.");
+      return;
+    }
+
+    try {
+      setCreating(true);
+
+      await createDraftItem({
+        organizationId: selectedOrgId,
+        propertyId: property.id,
+        property: property.name,
+        title: form.title.trim(),
+        description: form.description.trim(),
+        dueDate: form.dueDate,
+        file: selectedFile,
+      });
+
+      loadItems();
+
+      setForm({
+        propertyId: "",
+        title: "",
+        dueDate: "",
+        description: "",
+      });
+
+      setSelectedFile(null);
+    } catch (error) {
+      console.error(error);
+
+      window.alert(
+        "The file could not be stored. Very large raw files should stay in Google Drive; upload a compressed review MP4 or JPG here.",
+      );
+    } finally {
+      setCreating(false);
+    }
+  }
+
+  async function handleSendToReview(
+    item: ReviewItemRecord,
+  ) {
+    try {
+      await sendToReview(item.id);
+      loadItems();
+    } catch (error) {
+      console.error(error);
+      window.alert("This item could not be sent for review.");
+    }
+  }
+
+  async function submitNewVersion(
+    item: ReviewItemRecord,
+  ) {
+    const file =
+      replacementFiles[
+        item.id
+      ];
+
+    if (!file) {
+      window.alert(
+        "Drop or choose the revised image or video first.",
+      );
+      return;
+    }
+
+    try {
+      await uploadNewVersion(item.id, file, replacementNotes[item.id]?.trim() || "", {
+        organizationId: item.organizationId,
+        propertyId: item.propertyId,
+        nextVersion: item.version + 1,
+      });
+
+      loadItems();
+
+      setReplacementFiles((current) => ({ ...current, [item.id]: null }));
+      setReplacementNotes((current) => ({ ...current, [item.id]: "" }));
+    } catch (error) {
+      console.error(error);
+      window.alert("The revised file could not be saved.");
+    }
+  }
+
+  async function handleArchive(
+    item: ReviewItemRecord,
+  ) {
+    try {
+      await archiveItem(item.id);
+      loadItems();
+    } catch (error) {
+      console.error(error);
+      window.alert("This item could not be archived.");
+    }
+  }
+
+  if (!ready) {
+    return null;
+  }
+
+  if (!signedIn) {
+    return (
+      <main className={styles.login}>
+        <section
+          className={
+            styles.loginCard
+          }
+        >
+          <div className={styles.loginLogo}>
+            <img src={VALENCIA_LOGO_SRC} alt="Valencia Hotel Collection" />
+          </div>
+
+          <h1>Archer Admin</h1>
+
+          <p>
+            Upload motion assets,
+            send them to Emma and
+            manage requested changes.
+          </p>
+
+          <button
+            className={`${styles.button} ${styles.buttonDark}`}
+            onClick={() => {
+              window.localStorage.setItem(
+                ADMIN_SESSION_KEY,
+                "true",
+              );
+
+              setSignedIn(true);
+            }}
+          >
+            Continue as Devon
+          </button>
+        </section>
+      </main>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_75%_0%,rgba(169,129,47,.15),transparent_34%),radial-gradient(circle_at_8%_90%,rgba(216,189,184,.18),transparent_40%),#f8f3ea] text-[#2b241f]">
-      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/60 bg-[#fffaf2]/75 px-5 py-4 backdrop-blur-2xl md:px-10">
-        <div className="flex items-center gap-3"><img src={LOGO} alt="Valencia Hotel Collection" className="h-9 rounded-lg" /><div><h1 className="font-serif text-xl">Archer Review Admin</h1><p className="text-xs text-[#817668]">Valencia Hotel Group creative workflow</p></div></div>
-        <button type="button" onClick={() => supabase.auth.signOut().then(() => window.location.reload())} className="inline-flex items-center gap-2 rounded-full border border-[#d9cbb8] bg-white/60 px-4 py-2 text-xs font-semibold"><LogOut className="h-4 w-4" /> Sign out</button>
+    <div className={styles.shell}>
+      <header
+        className={styles.header}
+      >
+        <div
+          className={styles.brand}
+        >
+          <div className={styles.brandMark}>
+            <img className={styles.brandLogo} src={VALENCIA_LOGO_SRC} alt="Valencia Hotel Collection" />
+          </div>
+
+          <div className={styles.brandText}>
+            <h1
+              className={
+                styles.brandTitle
+              }
+            >
+              Archer Review Admin
+            </h1>
+
+            <span
+              className={
+                styles.brandSub
+              }
+            >
+              Creative production
+              workspace
+            </span>
+          </div>
+        </div>
+
+        <div
+          className={
+            styles.headerActions
+          }
+        >
+          <a
+            className={styles.link}
+            href="/emma"
+            target="_blank"
+          >
+            Open Emma’s view
+          </a>
+
+          <div
+            className={styles.user
+            }
+          >
+            <span
+              className={
+                styles.userName
+              }
+            >
+              Devon Archer
+            </span>
+
+            <span
+              className={
+                styles.userRole
+              }
+            >
+              Creative administrator
+            </span>
+          </div>
+
+          <button
+            className={`${styles.button} ${styles.buttonSecondary}`}
+            onClick={async () => {
+              if (supabaseMode) {
+                await supabase.auth.signOut();
+                window.location.reload();
+                return;
+              }
+              window.localStorage.removeItem(
+                ADMIN_SESSION_KEY,
+              );
+
+              setSignedIn(false);
+            }}
+          >
+            Sign out
+          </button>
+        </div>
       </header>
 
-      <main className="mx-auto max-w-7xl space-y-8 px-4 py-8 md:px-8">
-        <section className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
-          <div><p className="text-xs font-semibold uppercase tracking-[.2em] text-[#a9812f]">Private operations workspace</p><h2 className="mt-2 font-serif text-4xl md:text-5xl">Upload, review, revise, approve.</h2></div>
-          <div className="grid grid-cols-4 gap-2">{Object.entries(counts).map(([key, value]) => <div key={key} className={glass("min-w-20 p-3 text-center")}><strong className="block text-xl">{value}</strong><span className="text-[10px] uppercase text-[#817668]">{key}</span></div>)}</div>
+      <main className={styles.main}>
+        <section
+          className={styles.hero}
+        >
+          <div>
+            <h1>
+              Creative production queue
+            </h1>
+
+            <p>
+              Upload new motion assets,
+              send them for approval and
+              respond to Emma’s feedback.
+            </p>
+          </div>
+
+          <div className={styles.stats}>
+            <div className={styles.stat}>
+              <strong>
+                {counts.draft}
+              </strong>
+              <span>Draft</span>
+            </div>
+
+            <div className={styles.stat}>
+              <strong>
+                {counts.awaiting}
+              </strong>
+              <span>Review</span>
+            </div>
+
+            <div className={styles.stat}>
+              <strong>
+                {counts.changes}
+              </strong>
+              <span>Changes</span>
+            </div>
+
+            <div className={styles.stat}>
+              <strong>
+                {counts.approved}
+              </strong>
+              <span>Approved</span>
+            </div>
+          </div>
         </section>
 
-        <form onSubmit={create} className={glass("grid gap-5 p-5 md:grid-cols-2 md:p-7")}>
-          <div className="md:col-span-2 flex items-center gap-2"><UploadCloud className="h-5 w-5 text-[#a9812f]" /><h3 className="font-serif text-2xl">Create a review item</h3></div>
-          <label className="text-sm">Organization<select value={organizationId} onChange={(e) => setOrganizationId(e.target.value)} className="mt-1 w-full rounded-xl border border-[#d9cbb8] bg-white/70 px-3 py-3">{organizations.map((o) => <option key={o.id} value={o.id}>{o.name}</option>)}</select></label>
-          <label className="text-sm">Property<select value={form.propertyId} onChange={(e) => setForm({ ...form, propertyId: e.target.value })} className="mt-1 w-full rounded-xl border border-[#d9cbb8] bg-white/70 px-3 py-3"><option value="">Choose property</option>{properties.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}</select></label>
-          <label className="text-sm">Title<input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="mt-1 w-full rounded-xl border border-[#d9cbb8] bg-white/70 px-3 py-3" placeholder="Summer rooftop motion" /></label>
-          <label className="text-sm">Optional due date<input type="date" value={form.dueDate} onChange={(e) => setForm({ ...form, dueDate: e.target.value })} className="mt-1 w-full rounded-xl border border-[#d9cbb8] bg-white/70 px-3 py-3" /></label>
-          <label className="text-sm md:col-span-2">Notes<textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="mt-1 min-h-24 w-full rounded-xl border border-[#d9cbb8] bg-white/70 px-3 py-3" /></label>
-          <div className="md:col-span-2"><MediaDropzone file={file} onFileChange={setFile} /></div>
-          <button disabled={busy} className="md:col-span-2 rounded-full bg-[#2b241f] px-5 py-3 font-semibold text-white disabled:opacity-50">{busy ? "Uploading…" : "Save draft"}</button>
+        {organizations.length > 1 && (
+          <div className={styles.field} style={{ maxWidth: 320, marginBottom: 18 }}>
+            <label>Organization</label>
+            <select
+              className={styles.select}
+              value={selectedOrgId}
+              onChange={(event) => {
+                setSelectedOrgId(event.target.value);
+                setPropertyFilter("All");
+                setForm((current) => ({ ...current, propertyId: "" }));
+              }}
+            >
+              {organizations.map((org) => (
+                <option key={org.id} value={org.id}>
+                  {org.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        <form
+          className={styles.formCard}
+          onSubmit={createItem}
+        >
+          <h2>
+            Upload a creative asset
+          </h2>
+
+          <div
+            className={
+              styles.formGrid
+            }
+          >
+            <div
+              className={styles.field}
+            >
+              <label>Property</label>
+
+              <select
+                className={
+                  styles.select
+                }
+                required
+                value={form.propertyId}
+                onChange={(event) =>
+                  setForm(
+                    (current) => ({
+                      ...current,
+                      propertyId:
+                        event.target.value,
+                    }),
+                  )
+                }
+              >
+                <option value="" disabled>
+                  Select a property
+                </option>
+
+                {properties.map(
+                  (property) => (
+                    <option
+                      key={property.id}
+                      value={property.id}
+                    >
+                      {property.name}
+                    </option>
+                  ),
+                )}
+              </select>
+            </div>
+
+            <div
+              className={styles.field}
+            >
+              <label>Asset title</label>
+
+              <input
+                className={
+                  styles.input
+                }
+                required
+                value={form.title}
+                onChange={(event) =>
+                  setForm(
+                    (current) => ({
+                      ...current,
+                      title:
+                        event.target
+                          .value,
+                    }),
+                  )
+                }
+                placeholder="Poolside summer motion"
+              />
+            </div>
+
+            {!supabaseMode && (
+              <div
+                className={styles.field}
+              >
+                <label>
+                  Feedback due date
+                </label>
+
+                <input
+                  className={
+                    styles.input
+                  }
+                  type="date"
+                  value={form.dueDate}
+                  onChange={(event) =>
+                    setForm(
+                      (current) => ({
+                        ...current,
+                        dueDate:
+                          event.target
+                            .value,
+                      }),
+                    )
+                  }
+                />
+              </div>
+            )}
+
+            <div
+              className={styles.field}
+            >
+              <label>
+                Production note
+              </label>
+
+              <input
+                className={
+                  styles.input
+                }
+                value={
+                  form.description
+                }
+                onChange={(event) =>
+                  setForm(
+                    (current) => ({
+                      ...current,
+                      description:
+                        event.target
+                          .value,
+                    }),
+                  )
+                }
+                placeholder="Optional internal note"
+              />
+            </div>
+
+            <div
+              className={`${styles.field} ${styles.fieldFull}`}
+            >
+              <label>
+                Image or motion file
+              </label>
+
+              <MediaDropzone
+                file={selectedFile}
+                onFileChange={
+                  setSelectedFile
+                }
+              />
+            </div>
+          </div>
+
+          <p className={styles.help}>
+            Upload a compressed JPG, PNG,
+            WebP, MP4 or WebM review file.
+            Keep original high-resolution
+            photography and raw footage in
+            Google Drive.
+          </p>
+
+          <button
+            className={`${styles.button} ${styles.buttonDark}`}
+            type="submit"
+            disabled={creating}
+          >
+            {creating
+              ? "Saving file…"
+              : "Create draft"}
+          </button>
         </form>
 
-        <section className="space-y-4">
-          <div className="flex flex-wrap gap-2">{statuses.map((s) => <button key={s} onClick={() => setStatusFilter(s)} className={`rounded-full px-4 py-2 text-xs font-semibold ${statusFilter === s ? "bg-[#a9812f] text-white" : "border border-[#d9cbb8] bg-white/55"}`}>{s}</button>)}<select value={propertyFilter} onChange={(e) => setPropertyFilter(e.target.value)} className="rounded-full border border-[#d9cbb8] bg-white/70 px-4 py-2 text-xs"><option value="All">All properties</option>{properties.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}</select><button onClick={refresh} className="ml-auto inline-flex items-center gap-1 rounded-full border border-[#d9cbb8] bg-white/60 px-4 py-2 text-xs"><RefreshCw className="h-3.5 w-3.5" /> Refresh</button></div>
-
-          {visible.map((item) => (
-            <article key={item.id} className={glass("overflow-hidden")}>
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#e3d8ca] px-5 py-4"><div><h3 className="font-serif text-2xl">{item.title}</h3><p className="text-xs text-[#817668]">{item.property} · V{item.version} · {item.kind}</p></div>{badge(item.status)}</div>
-              <div className="grid md:grid-cols-[minmax(0,1.7fr)_minmax(280px,.7fr)]">
-                <div className="bg-[#151411]"><MediaPreview kind={item.kind} assetSource={item.assetSource} assetRef={item.assetRef} title={item.title} /></div>
-                <aside className="space-y-4 p-5">
-                  {item.clientFeedback && <div className="rounded-2xl bg-[#f2e8e1] p-4"><strong className="text-sm">Emma’s feedback</strong><p className="mt-2 text-sm leading-relaxed text-[#6d6155]">{item.clientFeedback}</p></div>}
-                  {item.status === "Draft" && <button onClick={() => act(item.id, () => sendToReview(item.id))} className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#a9812f] px-4 py-3 font-semibold text-white"><Send className="h-4 w-4" /> Send to Emma</button>}
-                  {(item.status === "Revision requested" || item.status === "New direction requested") && <><MediaDropzone compact file={replacement[item.id] || null} onFileChange={(next) => setReplacement((r) => ({ ...r, [item.id]: next }))} /><textarea value={replacementNote[item.id] || ""} onChange={(e) => setReplacementNote((r) => ({ ...r, [item.id]: e.target.value }))} placeholder="What changed?" className="min-h-20 w-full rounded-xl border border-[#d9cbb8] bg-white/70 px-3 py-2 text-sm" /><button onClick={() => { const next = replacement[item.id]; if (!next) return window.alert("Choose the revised file first."); act(item.id, () => uploadNewVersion(item.id, next, replacementNote[item.id] || "", { organizationId: item.organizationId, propertyId: item.propertyId, nextVersion: item.version + 1 })); }} className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#a9812f] px-4 py-3 font-semibold text-white"><UploadCloud className="h-4 w-4" /> Submit new version</button></>}
-                  {item.status === "Approved" && <><button onClick={() => act(item.id, () => downloadApprovedAsset(item))} className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#b89955] bg-[#f6edda] px-4 py-3 font-semibold text-[#72571d]"><Download className="h-4 w-4" /> Download approved asset</button><button onClick={() => act(item.id, () => archiveItem(item.id))} className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#d9cbb8] bg-white/60 px-4 py-3 text-sm font-semibold"><Archive className="h-4 w-4" /> Archive</button></>}
-                  {notice[item.id] && <p className="text-center text-xs text-[#817668]">{notice[item.id]}</p>}
-                  <details className="text-sm"><summary className="cursor-pointer font-semibold">Version history</summary><div className="mt-3 space-y-2">{[...item.history].reverse().map((h) => <div key={h.id} className="rounded-xl bg-white/55 p-3 text-xs"><strong>{h.by}</strong>: {h.message}<time className="mt-1 block text-[#817668]">{new Date(h.createdAt).toLocaleString()}</time></div>)}</div></details>
-                </aside>
-              </div>
-            </article>
+        <div className={styles.tabs}>
+          {[
+            "All",
+            "Draft",
+            "Awaiting review",
+            "Revision requested",
+            "New direction requested",
+            "Approved",
+            "Archived",
+          ].map((option) => (
+            <button
+              key={option}
+              className={`${styles.tab} ${
+                filter === option
+                  ? styles.tabActive
+                  : ""
+              }`}
+              onClick={() =>
+                setFilter(
+                  option as AdminFilter,
+                )
+              }
+            >
+              {option}
+            </button>
           ))}
-          {visible.length === 0 && <div className={glass("p-12 text-center text-[#817668]")}>No creative items match this view.</div>}
-        </section>
+        </div>
+
+        {properties.length > 0 && (
+          <div className={styles.tabs}>
+            <button
+              className={`${styles.tab} ${
+                propertyFilter === "All" ? styles.tabActive : ""
+              }`}
+              onClick={() => setPropertyFilter("All")}
+            >
+              All properties
+            </button>
+            {properties.map((property) => (
+              <button
+                key={property.id}
+                className={`${styles.tab} ${
+                  propertyFilter === property.name ? styles.tabActive : ""
+                }`}
+                onClick={() => setPropertyFilter(property.name)}
+              >
+                {property.name}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div className={styles.grid}>
+          {visibleItems.map(
+            (item) => (
+              <article
+                key={item.id}
+                className={
+                  styles.card
+                }
+              >
+                <div
+                  className={
+                    styles.cardTop
+                  }
+                >
+                  <div>
+                    <h2
+                      className={
+                        styles.cardTitle
+                      }
+                    >
+                      {item.title}
+                    </h2>
+
+                    <div
+                      className={
+                        styles.cardMeta
+                      }
+                    >
+                      {item.property}
+                      {" · "}
+                      Version{" "}
+                      {item.version}
+                      {" · "}
+                      {item.assetName ||
+                        item.kind}
+                    </div>
+                  </div>
+
+                  <span
+                    className={`${styles.status} ${statusClass(
+                      item.status,
+                    )}`}
+                  >
+                    {item.status}
+                  </span>
+                </div>
+
+                <div
+                  className={
+                    styles.adminCardBody
+                  }
+                >
+                  <div>
+                    <div
+                      className={
+                        styles.media
+                      }
+                    >
+                      <MediaPreview
+                        kind={
+                          item.kind
+                        }
+                        assetSource={
+                          item.assetSource
+                        }
+                        assetRef={
+                          item.assetRef
+                        }
+                        title={
+                          item.title
+                        }
+                      />
+                    </div>
+
+                    <details
+                      className={
+                        styles.history
+                      }
+                    >
+                      <summary>
+                        Version history
+                      </summary>
+
+                      <div
+                        className={
+                          styles.historyList
+                        }
+                      >
+                        {[
+                          ...item.history,
+                        ]
+                          .reverse()
+                          .map(
+                            (entry) => (
+                              <div
+                                key={
+                                  entry.id
+                                }
+                                className={
+                                  styles.historyEntry
+                                }
+                              >
+                                <strong>
+                                  {
+                                    entry.by
+                                  }
+                                  :
+                                </strong>{" "}
+                                {
+                                  entry.message
+                                }
+                                <br />
+                                <small>
+                                  {new Date(
+                                    entry.createdAt,
+                                  ).toLocaleString()}
+                                </small>
+                              </div>
+                            ),
+                          )}
+                      </div>
+                    </details>
+                  </div>
+
+                  <aside
+                    className={
+                      styles.adminControls
+                    }
+                  >
+                    <div
+                      className={
+                        styles.feedbackPanel
+                      }
+                    >
+                      <h3>
+                        Emma’s feedback
+                      </h3>
+
+                      <p
+                        className={
+                          styles.feedbackText
+                        }
+                      >
+                        {item.clientFeedback ||
+                          "No client feedback yet."}
+                      </p>
+                    </div>
+
+                    {item.status ===
+                      "Draft" && (
+                      <button
+                        className={`${styles.button} ${styles.buttonPrimary}`}
+                        onClick={() =>
+                          handleSendToReview(
+                            item,
+                          )
+                        }
+                      >
+                        <SendHorizonal size={15} strokeWidth={2.5} />
+                        Send to Emma
+                      </button>
+                    )}
+
+                    {(item.status ===
+                      "Revision requested" ||
+                      item.status ===
+                        "New direction requested") && (
+                      <>
+                        <div
+                          className={
+                            styles.field
+                          }
+                        >
+                          <label>
+                            Revised file
+                          </label>
+
+                          <MediaDropzone
+                            compact
+                            file={
+                              replacementFiles[
+                                item.id
+                              ] || null
+                            }
+                            onFileChange={(
+                              file,
+                            ) =>
+                              setReplacementFiles(
+                                (
+                                  current,
+                                ) => ({
+                                  ...current,
+                                  [item.id]:
+                                    file,
+                                }),
+                              )
+                            }
+                          />
+                        </div>
+
+                        <div
+                          className={
+                            styles.field
+                          }
+                        >
+                          <label>
+                            Version note
+                          </label>
+
+                          <textarea
+                            className={
+                              styles.textarea
+                            }
+                            value={
+                              replacementNotes[
+                                item.id
+                              ] || ""
+                            }
+                            onChange={(
+                              event,
+                            ) =>
+                              setReplacementNotes(
+                                (
+                                  current,
+                                ) => ({
+                                  ...current,
+                                  [item.id]:
+                                    event
+                                      .target
+                                      .value,
+                                }),
+                              )
+                            }
+                            placeholder="Describe what changed."
+                          />
+                        </div>
+
+                        <button
+                          className={`${styles.button} ${styles.buttonPrimary}`}
+                          onClick={() =>
+                            submitNewVersion(
+                              item,
+                            )
+                          }
+                        >
+                          <UploadCloud size={15} strokeWidth={2.5} />
+                          Submit new version
+                        </button>
+                      </>
+                    )}
+
+                    {item.status ===
+                      "Approved" && (
+                      <>
+                        <button
+                          className={`${styles.button} ${styles.buttonDownload}`}
+                          disabled={downloading[item.id]}
+                          onClick={() => handleDownload(item)}
+                        >
+                          <Download size={15} strokeWidth={2.5} />
+                          {downloading[item.id] ? "Preparing download…" : "Download approved asset"}
+                        </button>
+
+                        {downloadNotice[item.id] && (
+                          <p className={styles.help}>
+                            {downloadNotice[item.id]}
+                          </p>
+                        )}
+
+                        <button
+                          className={`${styles.button} ${styles.buttonSecondary}`}
+                          onClick={() =>
+                            handleArchive(
+                              item,
+                            )
+                          }
+                        >
+                          <Archive size={15} strokeWidth={2.5} />
+                          Archive approved item
+                        </button>
+                      </>
+                    )}
+                  </aside>
+                </div>
+              </article>
+            ),
+          )}
+
+          {visibleItems.length === 0 && (
+            <div className={styles.empty}>
+              No creative items match this view.
+            </div>
+          )}
+        </div>
+
+        {!supabaseMode && (
+          <div
+            style={{
+              marginTop: 30,
+              display: "flex",
+              justifyContent:
+                "flex-end",
+            }}
+          >
+            <button
+              className={`${styles.button} ${styles.buttonSecondary}`}
+              onClick={() => {
+                if (
+                  !window.confirm(
+                    "Reset the local demo data?",
+                  )
+                ) {
+                  return;
+                }
+
+                resetLocalDemo().then(loadItems);
+              }}
+            >
+              Reset local demo
+            </button>
+          </div>
+        )}
       </main>
-      <ChatPanel currentUser="Devon" organizationId={organizationId || undefined} />
+
+      <ChatPanel currentUser="Devon" organizationId={selectedOrgId || undefined} />
     </div>
   );
 }

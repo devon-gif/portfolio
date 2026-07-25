@@ -1,65 +1,201 @@
 "use client";
 
-import { useRef, useState, type DragEvent } from "react";
-import { UploadCloud, X } from "lucide-react";
+import {
+  DragEvent,
+  KeyboardEvent,
+  useRef,
+  useState,
+} from "react";
 
-export default function MediaDropzone({ file, onFileChange, compact = false }: {
+import styles from "./SimpleReview.module.css";
+
+function formatBytes(bytes: number) {
+  if (bytes < 1024) {
+    return `${bytes} bytes`;
+  }
+
+  const kilobytes = bytes / 1024;
+
+  if (kilobytes < 1024) {
+    return `${kilobytes.toFixed(1)} KB`;
+  }
+
+  const megabytes =
+    kilobytes / 1024;
+
+  if (megabytes < 1024) {
+    return `${megabytes.toFixed(1)} MB`;
+  }
+
+  return `${(
+    megabytes / 1024
+  ).toFixed(2)} GB`;
+}
+
+export default function MediaDropzone({
+  file,
+  onFileChange,
+  compact = false,
+}: {
   file: File | null;
-  onFileChange: (file: File | null) => void;
+  onFileChange: (
+    file: File | null,
+  ) => void;
   compact?: boolean;
 }) {
-  const input = useRef<HTMLInputElement>(null);
-  const [dragging, setDragging] = useState(false);
+  const inputRef =
+    useRef<HTMLInputElement>(null);
 
-  function choose(selected?: File) {
-    if (!selected) return;
-    if (!selected.type.startsWith("image/") && !selected.type.startsWith("video/")) {
-      window.alert("Please choose an image or video file.");
+  const [dragging, setDragging] =
+    useState(false);
+
+  function selectFile(
+    selected: File | undefined,
+  ) {
+    if (!selected) {
       return;
     }
+
+    if (
+      !selected.type.startsWith(
+        "image/",
+      ) &&
+      !selected.type.startsWith(
+        "video/",
+      )
+    ) {
+      window.alert(
+        "Please choose an image or video file.",
+      );
+
+      return;
+    }
+
     onFileChange(selected);
   }
 
-  function drop(event: DragEvent<HTMLDivElement>) {
+  function handleDrop(
+    event: DragEvent<HTMLDivElement>,
+  ) {
     event.preventDefault();
     setDragging(false);
-    choose(event.dataTransfer.files[0]);
+
+    selectFile(
+      event.dataTransfer.files[0],
+    );
+  }
+
+  function handleKeyDown(
+    event: KeyboardEvent<HTMLDivElement>,
+  ) {
+    if (
+      event.key === "Enter" ||
+      event.key === " "
+    ) {
+      event.preventDefault();
+      inputRef.current?.click();
+    }
   }
 
   return (
     <div>
       <div
+        className={`${styles.dropzone} ${
+          dragging
+            ? styles.dropzoneActive
+            : ""
+        } ${
+          compact
+            ? styles.dropzoneCompact
+            : ""
+        }`}
         role="button"
         tabIndex={0}
-        onClick={() => input.current?.click()}
-        onKeyDown={(event) => {
-          if (event.key === "Enter" || event.key === " ") input.current?.click();
+        onClick={() =>
+          inputRef.current?.click()
+        }
+        onKeyDown={handleKeyDown}
+        onDragEnter={(event) => {
+          event.preventDefault();
+          setDragging(true);
         }}
-        onDragOver={(event) => { event.preventDefault(); setDragging(true); }}
-        onDragLeave={() => setDragging(false)}
-        onDrop={drop}
-        className={`cursor-pointer rounded-2xl border border-dashed p-5 text-center transition ${compact ? "min-h-28" : "min-h-40"} ${dragging ? "border-[#a9812f] bg-[#f4ead7]" : "border-[#d9cbb8] bg-white/45 hover:bg-white/70"}`}
+        onDragOver={(event) => {
+          event.preventDefault();
+          setDragging(true);
+        }}
+        onDragLeave={() =>
+          setDragging(false)
+        }
+        onDrop={handleDrop}
       >
-        <input ref={input} type="file" accept="image/*,video/*" className="hidden" onChange={(event) => { choose(event.target.files?.[0]); event.target.value = ""; }} />
+        <input
+          ref={inputRef}
+          className={
+            styles.hiddenFileInput
+          }
+          type="file"
+          accept="image/*,video/*"
+          onChange={(event) => {
+            selectFile(
+              event.target.files?.[0],
+            );
+
+            event.target.value = "";
+          }}
+        />
+
         {file ? (
-          <div className="flex h-full items-center justify-center gap-3 text-left">
-            <UploadCloud className="h-6 w-6 text-[#a9812f]" />
-            <div className="min-w-0">
-              <strong className="block truncate text-sm text-[#2b241f]">{file.name}</strong>
-              <span className="text-xs text-[#817668]">{(file.size / 1024 / 1024).toFixed(1)} MB</span>
+          <div
+            className={
+              styles.selectedFile
+            }
+          >
+            <div
+              className={
+                styles.fileIcon
+              }
+            >
+              {file.type.startsWith(
+                "video/",
+              )
+                ? "▶"
+                : "▧"}
+            </div>
+
+            <div>
+              <strong>
+                {file.name}
+              </strong>
+
+              <span>
+                {formatBytes(file.size)}
+              </span>
             </div>
           </div>
         ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-2 text-[#6d6155]">
-            <UploadCloud className="h-7 w-7 text-[#a9812f]" />
-            <strong className="text-sm text-[#2b241f]">Drop an image or video here</strong>
-            <span className="text-xs">or click to choose a file</span>
-          </div>
+          <>
+            <strong>
+              Drop an image or video here
+            </strong>
+
+            <span>
+              Or click to choose a file
+            </span>
+          </>
         )}
       </div>
+
       {file && (
-        <button type="button" onClick={() => onFileChange(null)} className="mt-2 inline-flex items-center gap-1 text-xs text-[#7c3338] hover:underline">
-          <X className="h-3.5 w-3.5" /> Remove file
+        <button
+          className={
+            styles.removeFileButton
+          }
+          type="button"
+          onClick={() =>
+            onFileChange(null)
+          }
+        >
+          Remove selected file
         </button>
       )}
     </div>

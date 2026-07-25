@@ -1,138 +1,940 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Check, Download, LogOut, RefreshCw } from "lucide-react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import { Check, Compass, Download, PenLine } from "lucide-react";
+
 import { supabase } from "@/lib/supabase";
 import {
   clientDecide,
   downloadApprovedAsset,
+  isReviewSupabaseConfigured,
   listOrganizations,
   listProperties,
   listReviewItems,
   subscribeToChanges,
-  type ClientDecision,
   type OrganizationRecord,
   type PropertyRecord,
   type ReviewItemRecord,
   type ReviewStatus,
 } from "@/lib/review";
+
 import ChatPanel from "./ChatPanel";
 import MediaPreview from "./MediaPreview";
+import styles from "./SimpleReview.module.css";
 
-const LOGO = "/review/valencia-hotel-collection-logo.jpeg";
-const filters: Array<"All" | ReviewStatus> = ["All", "Awaiting review", "Revision requested", "New direction requested", "Approved"];
+const VALENCIA_LOGO_SRC = "/review/valencia-hotel-collection-logo.jpeg";
 
-function glass(extra = "") {
-  return `rounded-3xl border border-white/70 bg-[#fffaf2]/70 shadow-[0_24px_80px_rgba(79,60,47,.10)] backdrop-blur-2xl ${extra}`;
+const CLIENT_SESSION_KEY =
+  "archer-review-emma-demo";
+
+type Filter =
+  | "All"
+  | "Awaiting review"
+  | "Approved"
+  | "Changes requested";
+
+type PropertyFilter = "All" | string;
+
+function readableDate(
+  value: string,
+) {
+  if (!value) return "Not set";
+
+  const date = new Date(
+    `${value}T12:00:00`,
+  );
+
+  return date.toLocaleDateString(
+    "en-US",
+    {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    },
+  );
 }
 
-function badge(status: ReviewStatus) {
-  const tone = status === "Approved" ? "bg-[#e7dec2] text-[#6d541d]" : status.includes("requested") ? "bg-[#ead9d5] text-[#773b45]" : "bg-[#e9e2f0] text-[#5b4770]";
-  return <span className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wide ${tone}`}>{status}</span>;
-}
-
-export default function SimpleClientReview() {
-  const [organizations, setOrganizations] = useState<OrganizationRecord[]>([]);
-  const [organizationId, setOrganizationId] = useState("");
-  const [properties, setProperties] = useState<PropertyRecord[]>([]);
-  const [items, setItems] = useState<ReviewItemRecord[]>([]);
-  const [statusFilter, setStatusFilter] = useState<"All" | ReviewStatus>("All");
-  const [propertyFilter, setPropertyFilter] = useState("All");
-  const [feedback, setFeedback] = useState<Record<string, string>>({});
-  const [busy, setBusy] = useState<Record<string, boolean>>({});
-  const [notice, setNotice] = useState<Record<string, string>>({});
-
-  const refresh = useCallback(() => {
-    listReviewItems({ organizationId: organizationId || undefined, forClient: true }).then(setItems).catch(console.error);
-  }, [organizationId]);
-
-  useEffect(() => {
-    listOrganizations().then((rows) => { setOrganizations(rows); setOrganizationId(rows[0]?.id || ""); }).catch(console.error);
-  }, []);
-  useEffect(() => {
-    if (!organizationId) return;
-    listProperties(organizationId).then(setProperties).catch(console.error);
-    refresh();
-    return subscribeToChanges(organizationId, refresh);
-  }, [organizationId, refresh]);
-
-  const visible = useMemo(() => items.filter((item) => (statusFilter === "All" || item.status === statusFilter) && (propertyFilter === "All" || item.propertyId === propertyFilter)), [items, propertyFilter, statusFilter]);
-  const counts = {
-    awaiting: items.filter((i) => i.status === "Awaiting review").length,
-    changes: items.filter((i) => i.status.includes("requested")).length,
-    approved: items.filter((i) => i.status === "Approved").length,
-  };
-
-  async function decide(item: ReviewItemRecord, decision: ClientDecision) {
-    const note = (feedback[item.id] || "").trim();
-    if (decision !== "Approved" && !note) { setNotice((n) => ({ ...n, [item.id]: "Please add feedback before requesting a change." })); return; }
-    if (busy[item.id]) return;
-    setBusy((b) => ({ ...b, [item.id]: true }));
-    setNotice((n) => ({ ...n, [item.id]: "Saving your decision…" }));
-    try {
-      await clientDecide(item.id, decision, note);
-      refresh();
-      if (decision === "Approved") {
-        setNotice((n) => ({ ...n, [item.id]: "Approved and ready to share. Preparing the download…" }));
-        try { await downloadApprovedAsset(item); setNotice((n) => ({ ...n, [item.id]: "Approved and ready to share. Download started." })); }
-        catch { setNotice((n) => ({ ...n, [item.id]: "Your approval was saved, but the automatic download could not start. Use the download button below." })); }
-      } else {
-        setNotice((n) => ({ ...n, [item.id]: "Your feedback was sent to Devon." }));
-      }
-    } catch (error) { console.error(error); setNotice((n) => ({ ...n, [item.id]: "Your decision could not be saved. Please try again." })); }
-    finally { setBusy((b) => ({ ...b, [item.id]: false })); }
+function statusClass(
+  status: ReviewStatus,
+) {
+  if (status === "Approved") {
+    return styles.statusApproved;
   }
 
-  async function download(item: ReviewItemRecord) {
-    if (busy[item.id]) return;
-    setBusy((b) => ({ ...b, [item.id]: true })); setNotice((n) => ({ ...n, [item.id]: "Preparing download…" }));
-    try { await downloadApprovedAsset(item); setNotice((n) => ({ ...n, [item.id]: "Download started." })); }
-    catch { setNotice((n) => ({ ...n, [item.id]: "The download could not start. Please try again." })); }
-    finally { setBusy((b) => ({ ...b, [item.id]: false })); }
+  if (
+    status ===
+    "Revision requested"
+  ) {
+    return styles.statusRevision;
+  }
+
+  if (
+    status ===
+    "New direction requested"
+  ) {
+    return styles.statusDirection;
+  }
+
+  if (status === "Draft") {
+    return styles.statusDraft;
+  }
+
+  return "";
+}
+
+/**
+ * The client review queue. Rendered both by the deprecated /review route
+ * (which now redirects to /emma — see app/review/page.tsx) and by /emma
+ * itself (app/emma/page.tsx), which wraps it in a real magic-link auth
+ * guard once Supabase is configured. When Supabase isn't configured, this
+ * component falls back to its own "Continue as Emma" local demo gate so the
+ * portal still renders during local development.
+ */
+export default function SimpleClientReview() {
+  const [items, setItems] =
+    useState<ReviewItemRecord[]>([]);
+
+  const [organizations, setOrganizations] =
+    useState<OrganizationRecord[]>([]);
+
+  const [selectedOrgId, setSelectedOrgId] =
+    useState("");
+
+  const [properties, setProperties] =
+    useState<PropertyRecord[]>([]);
+
+  const [ready, setReady] =
+    useState(false);
+
+  const [signedIn, setSignedIn] =
+    useState(false);
+
+  const [filter, setFilter] =
+    useState<Filter>("All");
+
+  const [propertyFilter, setPropertyFilter] =
+    useState<PropertyFilter>("All");
+
+  const [feedback, setFeedback] =
+    useState<Record<string, string>>(
+      {},
+    );
+
+  const [errors, setErrors] =
+    useState<Record<string, string>>(
+      {},
+    );
+
+  // Disables the Approve / Request revision / New direction buttons for a
+  // given item while its decision is being saved, so a slow save (or a
+  // double click) can't submit the same decision twice.
+  const [processing, setProcessing] =
+    useState<Record<string, boolean>>(
+      {},
+    );
+
+  // Disables the manual "Download approved asset" button for a given item
+  // while a download is in flight, and drives its "Preparing download…" copy.
+  const [downloading, setDownloading] =
+    useState<Record<string, boolean>>(
+      {},
+    );
+
+  // A short-lived, per-item status line shown under the decision panel —
+  // "Approved and ready to share.", the download-failed fallback notice, or
+  // "Download started." Cleared automatically the next time that item's
+  // state actually changes.
+  const [downloadNotice, setDownloadNotice] =
+    useState<Record<string, string>>(
+      {},
+    );
+
+  const supabaseMode = isReviewSupabaseConfigured();
+
+  const loadItems = useCallback(() => {
+    listReviewItems({ organizationId: selectedOrgId || undefined, forClient: true })
+      .then(setItems)
+      .catch((error) => console.error("Failed to load review items:", error));
+  }, [selectedOrgId]);
+
+  useEffect(() => {
+    // Deferred via queueMicrotask (rather than setState directly in the
+    // effect body) to avoid a cascading-render lint warning.
+    if (supabaseMode) {
+      queueMicrotask(() => setSignedIn(true));
+      return;
+    }
+    const local =
+      window.localStorage.getItem(CLIENT_SESSION_KEY) === "true";
+    queueMicrotask(() => setSignedIn(local));
+  }, [supabaseMode]);
+
+  useEffect(() => {
+    let active = true;
+    listOrganizations()
+      .then((orgs) => {
+        if (!active) return;
+        setOrganizations(orgs);
+        setSelectedOrgId((current) => current || orgs[0]?.id || "");
+        setReady(true);
+      })
+      .catch((error) => {
+        console.error("Failed to load organizations:", error);
+        setReady(true);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!selectedOrgId) return;
+    let active = true;
+    listProperties(selectedOrgId).then((props) => {
+      if (active) setProperties(props);
+    });
+    return () => {
+      active = false;
+    };
+  }, [selectedOrgId]);
+
+  useEffect(() => {
+    if (!selectedOrgId) return;
+    loadItems();
+    return subscribeToChanges(selectedOrgId, loadItems);
+  }, [selectedOrgId, loadItems]);
+
+  const visibleItems = useMemo(
+    () =>
+      items.filter(
+        (item) => {
+          if (
+            item.status ===
+              "Draft" ||
+            item.status ===
+              "Archived"
+          ) {
+            return false;
+          }
+
+          if (propertyFilter !== "All" && item.property !== propertyFilter) {
+            return false;
+          }
+
+          if (filter === "All") {
+            return true;
+          }
+
+          if (
+            filter ===
+            "Changes requested"
+          ) {
+            return (
+              item.status ===
+                "Revision requested" ||
+              item.status ===
+                "New direction requested"
+            );
+          }
+
+          return (
+            item.status === filter
+          );
+        },
+      ),
+    [filter, propertyFilter, items],
+  );
+
+  const counts = {
+    awaiting: items.filter(
+      (item) =>
+        item.status ===
+        "Awaiting review",
+    ).length,
+
+    approved: items.filter(
+      (item) =>
+        item.status === "Approved",
+    ).length,
+
+    changes: items.filter(
+      (item) =>
+        item.status ===
+          "Revision requested" ||
+        item.status ===
+          "New direction requested",
+    ).length,
+  };
+
+  async function submitDecision(
+    item: ReviewItemRecord,
+    status:
+      | "Approved"
+      | "Revision requested"
+      | "New direction requested",
+  ) {
+    if (processing[item.id]) {
+      // Already saving this item's decision — ignore the extra click rather
+      // than submitting the same decision twice.
+      return;
+    }
+
+    const note =
+      feedback[item.id]?.trim() ||
+      "";
+
+    if (
+      status !== "Approved" &&
+      !note
+    ) {
+      setErrors((current) => ({
+        ...current,
+        [item.id]:
+          "Please include feedback before requesting a change.",
+      }));
+
+      return;
+    }
+
+    setProcessing((current) => ({ ...current, [item.id]: true }));
+
+    // Step 1: save the decision first, and confirm it actually succeeded
+    // before touching anything else. If this throws, the item is left
+    // exactly as it was — no download is attempted, and nothing about the
+    // (unsaved) approval is shown as successful.
+    try {
+      await clientDecide(item.id, status, note);
+    } catch (error) {
+      console.error(error);
+      setErrors((current) => ({
+        ...current,
+        [item.id]:
+          error instanceof Error ? error.message : "This decision could not be saved.",
+      }));
+      setProcessing((current) => ({ ...current, [item.id]: false }));
+      return;
+    }
+
+    // Step 2: the save succeeded. Refresh the list so the card visually
+    // flips to Approved, clear the feedback form, and — only for a direct
+    // Approve click, never on refresh or a background re-render — attempt
+    // the automatic download. A failed download never undoes the approval
+    // that's already been saved.
+    loadItems();
+
+    setFeedback((current) => ({ ...current, [item.id]: "" }));
+    setErrors((current) => ({ ...current, [item.id]: "" }));
+
+    if (status === "Approved") {
+      setDownloadNotice((current) => ({ ...current, [item.id]: "Approved and ready to share." }));
+
+      try {
+        await downloadApprovedAsset(item);
+      } catch (downloadError) {
+        console.error("Automatic download failed:", downloadError);
+        setDownloadNotice((current) => ({
+          ...current,
+          [item.id]:
+            "Your approval was saved, but the automatic download could not start. Use the download button below.",
+        }));
+      }
+    }
+
+    setProcessing((current) => ({ ...current, [item.id]: false }));
+  }
+
+  async function handleManualDownload(item: ReviewItemRecord) {
+    if (downloading[item.id]) {
+      // A download for this item is already in flight — ignore the repeat
+      // click rather than firing a second overlapping download.
+      return;
+    }
+
+    setDownloading((current) => ({ ...current, [item.id]: true }));
+    setDownloadNotice((current) => ({ ...current, [item.id]: "Preparing download…" }));
+
+    try {
+      await downloadApprovedAsset(item);
+      setDownloadNotice((current) => ({ ...current, [item.id]: "Download started." }));
+    } catch (error) {
+      console.error(error);
+      setDownloadNotice((current) => ({
+        ...current,
+        [item.id]: "This file could not be downloaded. Please try again.",
+      }));
+    } finally {
+      setDownloading((current) => ({ ...current, [item.id]: false }));
+    }
+  }
+
+  if (!ready) {
+    return null;
+  }
+
+  if (!signedIn) {
+    return (
+      <main
+        className={styles.login}
+      >
+        <section
+          className={
+            styles.loginCard
+          }
+        >
+          <div className={styles.loginLogo}>
+            <img src={VALENCIA_LOGO_SRC} alt="Valencia Hotel Collection" />
+          </div>
+
+          <h1>Archer Review</h1>
+
+          <p>
+            Private creative review
+            workspace for Valencia Hotel
+            Collection.
+          </p>
+
+          <button
+            className={`${styles.button} ${styles.buttonPrimary}`}
+            onClick={() => {
+              window.localStorage.setItem(
+                CLIENT_SESSION_KEY,
+                "true",
+              );
+
+              setSignedIn(true);
+            }}
+          >
+            Continue as Emma
+          </button>
+
+          <p className={styles.help}>
+            Local demonstration access.
+            Production authentication can
+            be added after launch.
+          </p>
+        </section>
+      </main>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_75%_0%,rgba(169,129,47,.15),transparent_34%),radial-gradient(circle_at_8%_90%,rgba(216,189,184,.2),transparent_40%),#f8f3ea] text-[#2b241f]">
-      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/60 bg-[#fffaf2]/75 px-5 py-4 backdrop-blur-2xl md:px-10">
-        <div className="flex items-center gap-3"><img src={LOGO} alt="Valencia Hotel Collection" className="h-9 rounded-lg" /><div><h1 className="font-serif text-xl">Archer Review</h1><p className="text-xs uppercase tracking-[.12em] text-[#817668]">Valencia Hotel Group</p></div></div>
-        <div className="flex items-center gap-3"><div className="hidden text-right sm:block"><strong className="block text-sm">Emma Stinson</strong><span className="text-xs text-[#817668]">Client approver</span></div><button type="button" onClick={() => supabase.auth.signOut().then(() => window.location.reload())} className="inline-flex items-center gap-2 rounded-full border border-[#d9cbb8] bg-white/60 px-4 py-2 text-xs font-semibold"><LogOut className="h-4 w-4" /> Sign out</button></div>
+    <div className={styles.shell}>
+      <header
+        className={styles.header}
+      >
+        <div
+          className={styles.brand}
+        >
+          <div className={styles.brandMark}>
+            <img className={styles.brandLogo} src={VALENCIA_LOGO_SRC} alt="Valencia Hotel Collection" />
+          </div>
+
+          <div className={styles.brandText}>
+            <h1
+              className={
+                styles.brandTitle
+              }
+            >
+              Archer Review
+            </h1>
+
+            <span
+              className={
+                styles.brandSub
+              }
+            >
+              {organizations.find((o) => o.id === selectedOrgId)?.name ||
+                "Valencia Hotel Collection"}
+            </span>
+          </div>
+        </div>
+
+        <div
+          className={
+            styles.headerActions
+          }
+        >
+          <div
+            className={styles.user}
+          >
+            <span
+              className={
+                styles.userName
+              }
+            >
+              Emma Stinson
+            </span>
+
+            <span
+              className={
+                styles.userRole
+              }
+            >
+              Client approver
+            </span>
+          </div>
+
+          <button
+            className={`${styles.button} ${styles.buttonSecondary}`}
+            onClick={async () => {
+              if (supabaseMode) {
+                await supabase.auth.signOut();
+                window.location.href = "/emma";
+                return;
+              }
+              window.localStorage.removeItem(
+                CLIENT_SESSION_KEY,
+              );
+
+              setSignedIn(false);
+            }}
+          >
+            Sign out
+          </button>
+        </div>
       </header>
 
-      <main className="mx-auto max-w-7xl space-y-8 px-4 py-8 md:px-8">
-        <section className="grid gap-5 md:grid-cols-[1fr_auto] md:items-end">
-          <div><p className="text-xs font-semibold uppercase tracking-[.2em] text-[#a9812f]">Private creative workspace</p><h2 className="mt-2 font-serif text-4xl md:text-6xl">Creative review queue</h2><p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#6d6155]">Review each asset, approve it, request a specific revision, or ask Devon to explore a completely new direction.</p></div>
-          <div className="grid grid-cols-3 gap-2">{Object.entries(counts).map(([key, value]) => <div key={key} className={glass("min-w-24 p-4 text-center")}><strong className="block text-2xl">{value}</strong><span className="text-[10px] uppercase text-[#817668]">{key}</span></div>)}</div>
+      <main className={styles.main}>
+        <section
+          className={styles.hero}
+        >
+          <div>
+            <h1>
+              Creative review queue
+            </h1>
+
+            <p>
+              Review each motion asset,
+              approve it, request a specific
+              revision, or request a completely
+              new direction.
+            </p>
+          </div>
+
+          <div className={styles.stats}>
+            <div className={styles.stat}>
+              <strong>
+                {counts.awaiting}
+              </strong>
+              <span>Awaiting</span>
+            </div>
+
+            <div className={styles.stat}>
+              <strong>
+                {counts.changes}
+              </strong>
+              <span>Changes</span>
+            </div>
+
+            <div className={styles.stat}>
+              <strong>
+                {counts.approved}
+              </strong>
+              <span>Approved</span>
+            </div>
+          </div>
         </section>
 
-        <section className="flex flex-wrap gap-2">
-          {filters.map((s) => <button key={s} onClick={() => setStatusFilter(s)} className={`rounded-full px-4 py-2 text-xs font-semibold ${statusFilter === s ? "bg-[#a9812f] text-white" : "border border-[#d9cbb8] bg-white/55"}`}>{s}</button>)}
-          <select value={propertyFilter} onChange={(e) => setPropertyFilter(e.target.value)} className="rounded-full border border-[#d9cbb8] bg-white/70 px-4 py-2 text-xs"><option value="All">All properties</option>{properties.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}</select>
-          <button onClick={refresh} className="ml-auto inline-flex items-center gap-1 rounded-full border border-[#d9cbb8] bg-white/60 px-4 py-2 text-xs"><RefreshCw className="h-3.5 w-3.5" /> Refresh</button>
-        </section>
+        <div className={styles.tabs}>
+          {[
+            "All",
+            "Awaiting review",
+            "Changes requested",
+            "Approved",
+          ].map((option) => (
+            <button
+              key={option}
+              className={`${styles.tab} ${
+                filter === option
+                  ? styles.tabActive
+                  : ""
+              }`}
+              onClick={() =>
+                setFilter(
+                  option as Filter,
+                )
+              }
+            >
+              {option}
+            </button>
+          ))}
+        </div>
 
-        <section className="space-y-6">
-          {visible.map((item) => (
-            <article key={item.id} className={glass("overflow-hidden")}>
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#e3d8ca] px-5 py-4"><div><h3 className="font-serif text-2xl">{item.title}</h3><p className="text-xs text-[#817668]">{item.property} · Version {item.version}</p></div>{badge(item.status)}</div>
-              <div className="bg-[#151411]"><MediaPreview kind={item.kind} assetSource={item.assetSource} assetRef={item.assetRef} title={item.title} /></div>
-              <div className="grid gap-5 p-5 md:grid-cols-[1fr_360px] md:p-7">
-                <div className="space-y-4">
-                  <dl className="grid gap-3 text-sm sm:grid-cols-3"><div><dt className="text-[10px] font-semibold uppercase tracking-wide text-[#a9812f]">Property</dt><dd className="mt-1">{item.property}</dd></div><div><dt className="text-[10px] font-semibold uppercase tracking-wide text-[#a9812f]">Asset</dt><dd className="mt-1 capitalize">{item.kind}</dd></div><div><dt className="text-[10px] font-semibold uppercase tracking-wide text-[#a9812f]">Version</dt><dd className="mt-1">V{item.version}</dd></div></dl>
-                  {item.description && <p className="text-sm leading-relaxed text-[#6d6155]">{item.description}</p>}
-                  <details className="text-sm"><summary className="cursor-pointer font-semibold">Version history</summary><div className="mt-3 space-y-2">{[...item.history].reverse().map((h) => <div key={h.id} className="rounded-xl bg-white/55 p-3 text-xs"><strong>{h.by}</strong>: {h.message}<time className="mt-1 block text-[#817668]">{new Date(h.createdAt).toLocaleString()}</time></div>)}</div></details>
+        {properties.length > 1 && (
+          <div className={styles.tabs}>
+            <button
+              className={`${styles.tab} ${
+                propertyFilter === "All" ? styles.tabActive : ""
+              }`}
+              onClick={() => setPropertyFilter("All")}
+            >
+              All properties
+            </button>
+            {properties.map((property) => (
+              <button
+                key={property.id}
+                className={`${styles.tab} ${
+                  propertyFilter === property.name ? styles.tabActive : ""
+                }`}
+                onClick={() => setPropertyFilter(property.name)}
+              >
+                {property.name}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div className={styles.grid}>
+          {visibleItems.map((item) => (
+            <article
+              key={item.id}
+              className={styles.card}
+            >
+              <div
+                className={
+                  styles.cardTop
+                }
+              >
+                <div>
+                  <h2
+                    className={
+                      styles.cardTitle
+                    }
+                  >
+                    {item.title}
+                  </h2>
+
+                  <div
+                    className={
+                      styles.cardMeta
+                    }
+                  >
+                    {item.property}
+                    {" · "}
+                    Version {item.version}
+                    {item.dueDate && (
+                      <>
+                        {" · "}
+                        Due{" "}
+                        {readableDate(
+                          item.dueDate,
+                        )}
+                      </>
+                    )}
+                  </div>
                 </div>
 
-                <aside className="rounded-2xl border border-white/80 bg-[#fbf5ed]/80 p-4 shadow-inner">
-                  {item.status === "Approved" ? <><div className="rounded-2xl bg-[#eee5cf] p-4"><div className="flex items-center gap-2 text-[#6d541d]"><Check className="h-5 w-5" /><strong>Approved and ready to share</strong></div>{item.decisionAt && <p className="mt-2 text-xs text-[#817668]">By Emma · {new Date(item.decisionAt).toLocaleString()}</p>}</div><button disabled={busy[item.id]} onClick={() => download(item)} className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#b89955] bg-white/70 px-4 py-3 font-semibold text-[#72571d] disabled:opacity-50"><Download className="h-4 w-4" /> {busy[item.id] ? "Preparing download…" : "Download approved asset"}</button></> : <><label className="text-sm font-medium">Feedback for Devon<textarea value={feedback[item.id] || ""} onChange={(e) => setFeedback((f) => ({ ...f, [item.id]: e.target.value }))} placeholder="Only required when requesting a revision or a new direction." className="mt-2 min-h-28 w-full rounded-xl border border-[#d9cbb8] bg-white/80 px-3 py-3 text-sm outline-none focus:border-[#a9812f]" /></label><div className="mt-4 grid gap-2 sm:grid-cols-3 md:grid-cols-1 lg:grid-cols-3"><button disabled={busy[item.id]} onClick={() => decide(item, "Approved")} className="rounded-xl bg-[#b89955] px-3 py-3 text-sm font-semibold text-white disabled:opacity-50">Approve</button><button disabled={busy[item.id]} onClick={() => decide(item, "Revision requested")} className="rounded-xl bg-[#d4ad69] px-3 py-3 text-sm font-semibold text-[#3d2c16] disabled:opacity-50">Request revision</button><button disabled={busy[item.id]} onClick={() => decide(item, "New direction requested")} className="rounded-xl border border-[#b57883] bg-[#f1dfdf] px-3 py-3 text-sm font-semibold text-[#773b45] disabled:opacity-50">New direction</button></div></>}
-                  {notice[item.id] && <p aria-live="polite" className="mt-3 text-center text-xs leading-relaxed text-[#817668]">{notice[item.id]}</p>}
-                </aside>
+                <span
+                  className={`${styles.status} ${statusClass(
+                    item.status,
+                  )}`}
+                >
+                  {item.status}
+                </span>
+              </div>
+
+              <div
+                className={styles.media}
+              >
+                <MediaPreview
+                  kind={item.kind}
+                  assetSource={item.assetSource}
+                  assetRef={item.assetRef}
+                  title={item.title}
+                />
+              </div>
+
+              <div
+                className={
+                  styles.cardBody
+                }
+              >
+                <div
+                  className={
+                    styles.reviewLayout
+                  }
+                >
+                  <div
+                    className={
+                      styles.details
+                    }
+                  >
+                    <div
+                      className={
+                        styles.detailRow
+                      }
+                    >
+                      <span
+                        className={
+                          styles.detailLabel
+                        }
+                      >
+                        Property
+                      </span>
+
+                      <span>
+                        {item.property}
+                      </span>
+                    </div>
+
+                    <div
+                      className={
+                        styles.detailRow
+                      }
+                    >
+                      <span
+                        className={
+                          styles.detailLabel
+                        }
+                      >
+                        Asset
+                      </span>
+
+                      <span>
+                        {item.kind ===
+                        "video"
+                          ? "Motion video"
+                          : "Image"}
+                      </span>
+                    </div>
+
+                    <div
+                      className={
+                        styles.detailRow
+                      }
+                    >
+                      <span
+                        className={
+                          styles.detailLabel
+                        }
+                      >
+                        Version
+                      </span>
+
+                      <span>
+                        V{item.version}
+                      </span>
+                    </div>
+                  </div>
+
+                  <aside
+                    className={
+                      styles.feedbackPanel
+                    }
+                  >
+                    {item.status ===
+                    "Awaiting review" ? (
+                      <>
+                        <h3>
+                          Feedback for Devon
+                        </h3>
+
+                        <textarea
+                          className={
+                            styles.textarea
+                          }
+                          value={
+                            feedback[
+                              item.id
+                            ] || ""
+                          }
+                          placeholder="Only required when requesting a revision or a new direction."
+                          onChange={(
+                            event,
+                          ) =>
+                            setFeedback(
+                              (
+                                current,
+                              ) => ({
+                                ...current,
+                                [item.id]:
+                                  event
+                                    .target
+                                    .value,
+                              }),
+                            )
+                          }
+                        />
+
+                        <div
+                          className={
+                            styles.actions
+                          }
+                        >
+                          <button
+                            className={`${styles.button} ${styles.buttonApprove}`}
+                            disabled={processing[item.id]}
+                            onClick={() =>
+                              submitDecision(
+                                item,
+                                "Approved",
+                              )
+                            }
+                          >
+                            <Check size={15} strokeWidth={2.5} />
+                            {processing[item.id] ? "Saving…" : "Approve"}
+                          </button>
+
+                          <button
+                            className={`${styles.button} ${styles.buttonRevision}`}
+                            disabled={processing[item.id]}
+                            onClick={() =>
+                              submitDecision(
+                                item,
+                                "Revision requested",
+                              )
+                            }
+                          >
+                            <PenLine size={15} strokeWidth={2.5} />
+                            Request revision
+                          </button>
+
+                          <button
+                            className={`${styles.button} ${styles.buttonDirection}`}
+                            disabled={processing[item.id]}
+                            onClick={() =>
+                              submitDecision(
+                                item,
+                                "New direction requested",
+                              )
+                            }
+                          >
+                            <Compass size={15} strokeWidth={2.5} />
+                            New direction
+                          </button>
+                        </div>
+
+                        {errors[item.id] && (
+                          <p
+                            className={
+                              styles.notice
+                            }
+                          >
+                            {
+                              errors[
+                                item.id
+                              ]
+                            }
+                          </p>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <h3>
+                          Latest decision
+                        </h3>
+
+                        <p
+                          className={
+                            styles.feedbackText
+                          }
+                        >
+                          {item.clientFeedback ||
+                            (item.status ===
+                            "Approved"
+                              ? "Approved as submitted."
+                              : "Waiting for Devon to submit another version.")}
+                        </p>
+
+                        {item.decisionAt && (
+                          <p
+                            className={
+                              styles.help
+                            }
+                          >
+                            By{" "}
+                            {item.decisionBy ||
+                              "Emma"}
+                            {" · "}
+                            {new Date(
+                              item.decisionAt,
+                            ).toLocaleString()}
+                          </p>
+                        )}
+
+                        {item.status === "Approved" && (
+                          <>
+                            <button
+                              className={`${styles.button} ${styles.buttonDownload}`}
+                              style={{ marginTop: 14, width: "100%" }}
+                              disabled={downloading[item.id]}
+                              onClick={() => handleManualDownload(item)}
+                            >
+                              <Download size={15} strokeWidth={2.5} />
+                              {downloading[item.id] ? "Preparing download…" : "Download approved asset"}
+                            </button>
+
+                            {downloadNotice[item.id] && (
+                              <p className={styles.help} style={{ marginTop: 8 }}>
+                                {downloadNotice[item.id]}
+                              </p>
+                            )}
+                          </>
+                        )}
+                      </>
+                    )}
+                  </aside>
+                </div>
+
+                <details
+                  className={
+                    styles.history
+                  }
+                >
+                  <summary>
+                    Version history
+                  </summary>
+
+                  <div
+                    className={
+                      styles.historyList
+                    }
+                  >
+                    {[...item.history]
+                      .reverse()
+                      .map((entry) => (
+                        <div
+                          key={entry.id}
+                          className={
+                            styles.historyEntry
+                          }
+                        >
+                          <strong>
+                            {entry.by}:
+                          </strong>{" "}
+                          {entry.message}
+                          <br />
+                          <small>
+                            {new Date(
+                              entry.createdAt,
+                            ).toLocaleString()}
+                          </small>
+                        </div>
+                      ))}
+                  </div>
+                </details>
               </div>
             </article>
           ))}
-          {visible.length === 0 && <div className={glass("p-12 text-center text-[#817668]")}>There are no review items in this view.</div>}
-        </section>
+
+          {visibleItems.length === 0 && (
+            <div
+              className={styles.empty}
+            >
+              No creative items match this
+              view.
+            </div>
+          )}
+        </div>
       </main>
-      <ChatPanel currentUser="Emma" organizationId={organizationId || undefined} />
+
+      <ChatPanel currentUser="Emma" organizationId={selectedOrgId || undefined} />
     </div>
   );
 }
