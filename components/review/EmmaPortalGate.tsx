@@ -5,6 +5,7 @@ import { Loader2, ShieldCheck } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import {
   getCurrentProfile,
+  isClientPortalRole,
   isReviewProductionEnvironment,
   isReviewSupabaseConfigured,
   type ReviewProfile,
@@ -44,10 +45,10 @@ const GLASS: CSSProperties = {
  * that can never actually complete a sign-in is a worse, more confusing
  * failure mode than telling the truth.
  *
- * Once a session exists, this checks for a review_profiles row with role
- * "client" — anything else (no profile yet, or an admin account landing
- * here by mistake) shows a calm "not yet set up" state rather than the
- * portal, and never reveals account existence to a signed-out visitor.
+ * Once a session exists, this checks for a client-facing review role. The
+ * legacy "client" role remains accepted during migration, alongside
+ * client_admin, property_reviewer, guest_reviewer, and read_only. RLS still
+ * determines which organizations, properties, and review items are visible.
  */
 export function EmmaPortalGate() {
   const [status, setStatus] = useState<Status>("checking");
@@ -82,7 +83,7 @@ export function EmmaPortalGate() {
         setStatus("pending");
         return;
       }
-      if (p.role !== "client") {
+      if (!isClientPortalRole(p.role)) {
         setStatus("wrong-role");
         return;
       }

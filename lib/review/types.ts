@@ -14,6 +14,46 @@ export type ReviewStatus =
 
 export type MediaKind = "image" | "video";
 
+export type ReviewRole =
+  | "admin"
+  | "client"
+  | "archer_owner"
+  | "archer_designer"
+  | "partner_admin"
+  | "partner_strategist"
+  | "client_admin"
+  | "property_reviewer"
+  | "guest_reviewer"
+  | "read_only";
+
+export type ReviewSenderRole = "admin" | "client";
+
+const ARCHER_STAFF_ROLES = new Set<ReviewRole>(["admin", "archer_owner", "archer_designer"]);
+const CLIENT_PORTAL_ROLES = new Set<ReviewRole>([
+  "client",
+  "client_admin",
+  "property_reviewer",
+  "guest_reviewer",
+  "read_only",
+]);
+const PARTNER_ROLES = new Set<ReviewRole>(["partner_admin", "partner_strategist"]);
+
+export function isArcherStaffRole(role: ReviewRole | null | undefined): boolean {
+  return Boolean(role && ARCHER_STAFF_ROLES.has(role));
+}
+
+export function isClientPortalRole(role: ReviewRole | null | undefined): boolean {
+  return Boolean(role && CLIENT_PORTAL_ROLES.has(role));
+}
+
+export function isPartnerRole(role: ReviewRole | null | undefined): boolean {
+  return Boolean(role && PARTNER_ROLES.has(role));
+}
+
+export function reviewRoleToSenderRole(role: ReviewRole | null | undefined): ReviewSenderRole {
+  return isArcherStaffRole(role) || isPartnerRole(role) ? "admin" : "client";
+}
+
 export type HistoryEntry = {
   id: string;
   by: string;
@@ -73,7 +113,7 @@ export type ChatMessageRecord = {
   organizationId: string;
   reviewItemId?: string | null;
   sender: string;
-  senderRole: "admin" | "client";
+  senderRole: ReviewSenderRole;
   body: string;
   createdAt: string;
   readAt: string | null;
@@ -84,7 +124,7 @@ export type ReviewProfile = {
   email: string;
   firstName: string;
   lastName: string;
-  role: "admin" | "client";
+  role: ReviewRole;
 };
 
 export type ClientDecision = "Approved" | "Revision requested" | "New direction requested";

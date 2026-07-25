@@ -26,9 +26,11 @@ import type {
   PropertyRecord,
   ReviewItemRecord,
   ReviewProfile,
+  ReviewRole,
   ReviewStatus,
   Unsubscribe,
 } from "./types";
+import { reviewRoleToSenderRole } from "./types";
 
 const BUCKET = "review-media";
 
@@ -382,7 +384,9 @@ export async function listMessages(options: { organizationId: string; reviewItem
     .from("review_profiles")
     .select("user_id, role")
     .in("user_id", Array.from(new Set(rows.map((r) => r.sender_id ?? "").filter(Boolean))));
-  const roleByUser = new Map((profiles ?? []).map((p) => [p.user_id, p.role as "admin" | "client"]));
+  const roleByUser = new Map(
+    (profiles ?? []).map((p) => [p.user_id, reviewRoleToSenderRole(p.role as ReviewRole)] as const)
+  );
 
   return rows.map((r) => ({
     id: r.id,
@@ -429,6 +433,6 @@ export async function getCurrentProfile(): Promise<ReviewProfile | null> {
     email: data.email,
     firstName: data.first_name ?? "",
     lastName: data.last_name ?? "",
-    role: data.role,
+    role: data.role as ReviewRole,
   };
 }

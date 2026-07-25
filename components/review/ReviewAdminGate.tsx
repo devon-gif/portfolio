@@ -3,7 +3,12 @@
 import { type CSSProperties, type ReactNode, useEffect, useState } from "react";
 import { Loader2, ShieldAlert } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { getCurrentProfile, isReviewProductionEnvironment, isReviewSupabaseConfigured } from "@/lib/review";
+import {
+  getCurrentProfile,
+  isArcherStaffRole,
+  isReviewProductionEnvironment,
+  isReviewSupabaseConfigured,
+} from "@/lib/review";
 import { MagicLinkForm } from "./MagicLinkForm";
 import { ReviewConfigurationError } from "./ReviewConfigurationError";
 
@@ -37,9 +42,9 @@ const GLASS: CSSProperties = {
  * URL, with zero real auth. It shows a clear configuration error instead.
  *
  * Once Supabase IS configured, this performs the real check: a session must
- * exist AND the signed-in user's review_profiles row must have role
- * "admin" — a client role (Emma) is explicitly rejected here, never just
- * hidden in the UI.
+ * exist AND the signed-in user must have an Archer staff role. Legacy
+ * "admin" remains accepted during migration, alongside "archer_owner" and
+ * "archer_designer". Client and partner-only roles are rejected here.
  */
 export function ReviewAdminGate({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<Status>("checking");
@@ -69,7 +74,7 @@ export function ReviewAdminGate({ children }: { children: ReactNode }) {
       const profile = await getCurrentProfile();
       if (!active) return;
 
-      if (!profile || profile.role !== "admin") {
+      if (!profile || !isArcherStaffRole(profile.role)) {
         setStatus("forbidden");
         return;
       }

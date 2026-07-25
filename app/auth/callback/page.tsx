@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { isOwnerEmail } from "@/lib/owner";
-import { getCurrentProfile } from "@/lib/review";
+import { getCurrentProfile, isArcherStaffRole, isClientPortalRole } from "@/lib/review";
 
 /**
  * Shared magic-link / OAuth callback for the whole project. supabase-js
@@ -15,7 +15,7 @@ import { getCurrentProfile } from "@/lib/review";
  *   1. The CRM owner email (lib/owner.ts) -> /dashboard, as before.
  *   2. Otherwise, check for a review_profiles row (the client review
  *      portal's own identity table, separate from the CRM owner check):
- *      role "admin" -> /review/admin, role "client" -> /emma.
+ *      Archer staff roles -> /review/admin, client-facing roles -> /emma.
  *   3. Anything else is signed out and sent back to /login, as before.
  *
  * The optional ?next= param (set by MagicLinkForm) is not blindly trusted
@@ -55,11 +55,11 @@ function AuthCallbackInner() {
       if (data.session) {
         const profile = await getCurrentProfile().catch(() => null);
         if (!active) return;
-        if (profile?.role === "admin") {
+        if (isArcherStaffRole(profile?.role)) {
           router.replace("/review/admin");
           return;
         }
-        if (profile?.role === "client") {
+        if (isClientPortalRole(profile?.role)) {
           router.replace("/emma");
           return;
         }
