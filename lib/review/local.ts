@@ -35,6 +35,16 @@ import type {
 const LOCAL_ORG_ID = "local-demo";
 const LOCAL_ORG_NAME = "Valencia Hotel Collection (local demo)";
 
+// A second demo organization, so the multi-client admin shell (workspace
+// switcher, All Workspaces view, cross-organization property filtering) is
+// actually exercisable during local development — with no Supabase project
+// connected there is otherwise only ever one organization and the switcher
+// hides itself. Entirely fictional and clearly labeled; this file only ever
+// runs when Supabase is unconfigured, which lib/review/config.ts refuses to
+// allow in a real deployment.
+const SECOND_LOCAL_ORG_ID = "local-demo-harborlight";
+const SECOND_LOCAL_ORG_NAME = "Harborlight Collection (local demo)";
+
 // Mirrors the property list the admin UI has always offered in the local
 // demo (previously hardcoded directly in SimpleAdminReview.tsx as
 // VALENCIA_PROPERTIES) — kept here so both the local and Supabase-backed
@@ -50,6 +60,31 @@ const LOCAL_PROPERTIES = [
   "Caravan Court",
 ] as const;
 
+const SECOND_LOCAL_PROPERTIES = ["Harborlight Point", "Harborlight Cove"] as const;
+
+const LOCAL_ORGANIZATIONS: OrganizationRecord[] = [
+  { id: LOCAL_ORG_ID, name: LOCAL_ORG_NAME, slug: LOCAL_ORG_ID },
+  { id: SECOND_LOCAL_ORG_ID, name: SECOND_LOCAL_ORG_NAME, slug: SECOND_LOCAL_ORG_ID },
+];
+
+// The local store (lib/simple-review-store.ts) predates organizations and
+// keys items by property NAME alone, so ownership is derived from that name
+// here rather than stored. Anything unrecognized — including every item
+// already sitting in a developer's localStorage — falls back to the original
+// organization, which keeps existing local demo data exactly where it was.
+const LOCAL_PROPERTY_ORG: Record<string, string> = {
+  ...Object.fromEntries(LOCAL_PROPERTIES.map((name) => [name, LOCAL_ORG_ID])),
+  ...Object.fromEntries(SECOND_LOCAL_PROPERTIES.map((name) => [name, SECOND_LOCAL_ORG_ID])),
+};
+
+function localOrganizationIdForProperty(property: string): string {
+  return LOCAL_PROPERTY_ORG[property] ?? LOCAL_ORG_ID;
+}
+
+function localOrganizationName(organizationId: string): string {
+  return LOCAL_ORGANIZATIONS.find((organization) => organization.id === organizationId)?.name ?? LOCAL_ORG_NAME;
+}
+
 const CHAT_STORAGE_KEY = "archer-review-chat-v1";
 const CHAT_EVENT = "archer-review-chat-updated";
 
@@ -61,10 +96,12 @@ type LocalChatMessage = {
 };
 
 function toRecord(item: LocalReviewItem): ReviewItemRecord {
+  const organizationId = localOrganizationIdForProperty(item.property);
+
   return {
     id: item.id,
-    organizationId: LOCAL_ORG_ID,
-    organizationName: LOCAL_ORG_NAME,
+    organizationId,
+    organizationName: localOrganizationName(organizationId),
     propertyId: item.property,
     property: item.property,
     title: item.title,
@@ -90,22 +127,36 @@ function toRecord(item: LocalReviewItem): ReviewItemRecord {
 }
 
 export async function listOrganizations(): Promise<OrganizationRecord[]> {
-  return [{ id: LOCAL_ORG_ID, name: LOCAL_ORG_NAME, slug: LOCAL_ORG_ID }];
+  return LOCAL_ORGANIZATIONS.map((organization) => ({ ...organization }));
 }
 
-export async function listProperties(): Promise<PropertyRecord[]> {
-  return LOCAL_PROPERTIES.map((name) => ({
+/**
+ * Mirrors the Supabase signature: an omitted organizationId means "every
+ * property the caller can see", which is what the admin All Workspaces view
+ * asks for.
+ */
+export async function listProperties(organizationId?: string): Promise<PropertyRecord[]> {
+  const all: PropertyRecord[] = [...LOCAL_PROPERTIES, ...SECOND_LOCAL_PROPERTIES].map((name) => ({
     id: name,
-    organizationId: LOCAL_ORG_ID,
+    organizationId: localOrganizationIdForProperty(name),
     name,
     slug: name.toLowerCase().replace(/\s+/g, "-"),
     active: true,
   }));
+
+  if (!organizationId) return all;
+  return all.filter((property) => property.organizationId === organizationId);
 }
 
-export async function listReviewItems(options: { forClient?: boolean } = {}): Promise<ReviewItemRecord[]> {
+export async function listReviewItems(
+  options: { organizationId?: string; propertyId?: string; forClient?: boolean } = {}
+): Promise<ReviewItemRecord[]> {
   const state = loadReviewState();
   const items = state.items.filter((item) => {
+    if (options.organizationId && localOrganizationIdForProperty(item.property) !== options.organizationId) {
+      return false;
+    }
+    if (options.propertyId && item.property !== options.propertyId) return false;
     if (!options.forClient) return true;
     return item.status !== "Draft" && item.status !== "Archived";
   });
@@ -267,7 +318,10 @@ export async function getSignedReviewMediaUrl(assetRef: string): Promise<string>
   return URL.createObjectURL(stored.blob);
 }
 
-// ── Chat (single shared local thread — see components/review/ChatPanel.tsx,
+// ── Chat (one shared local thread, not per-organization: the demo store
+// predates organizations, so both local demo workspaces surface the same
+// conversation. Supabase-backed chat is properly org-scoped — see
+// listMessages in lib/review/supabase.ts.) See components/review/ChatPanel.tsx,
 // which still owns its own localStorage read/write for the demo path; these
 // helpers exist so a future single call-site could read the same data
 // through the repository facade if needed) ────────────────────────────────

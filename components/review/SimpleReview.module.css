@@ -255,6 +255,63 @@
   color: #2b2114;
 }
 
+/* Workspace switcher: the organization filter for the admin shell. Sits
+   above the status and property tab rows and reuses .tabs/.tab so all three
+   filter rows read as one control surface. */
+.workspaceBar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.workspaceLabel {
+  flex-shrink: 0;
+  color: var(--charcoal-soft);
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* The row already carries the spacing; zeroing it here keeps the "Workspace"
+   label optically centered against the pills rather than against the pills
+   plus their trailing margin. */
+.workspaceBar .tabs {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* The organization qualifier prefixed to a property tab in the cross-client
+   view, where two clients may own similarly named properties. */
+.tabQualifier {
+  opacity: 0.72;
+  font-size: 0.92em;
+}
+
+/* Which client an item belongs to, shown in the card meta line only while
+   the queue spans more than one workspace. */
+.orgBadge {
+  color: var(--charcoal);
+  font-weight: 600;
+}
+
+/* Stands in for a client logo on the cross-client view, and for any
+   organization with no logo on file — see ORGANIZATION_LOGOS in
+   SimpleAdminReview.tsx. */
+.brandMonogram {
+  display: block;
+  height: 26px;
+  min-width: 26px;
+  line-height: 26px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--charcoal);
+}
+
 .grid {
   display: grid;
   gap: 22px;

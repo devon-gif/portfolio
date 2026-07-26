@@ -14,14 +14,16 @@ import { supabase } from "@/lib/supabase";
 import {
   archiveItem,
   createDraftItem,
+  defaultWorkspaceScope,
   downloadApprovedAsset,
   isReviewSupabaseConfigured,
   listOrganizations,
   listProperties,
   listReviewItems,
   resetLocalDemo,
+  resolveScopeOrganization,
   sendToReview,
-  subscribeToChanges,
+  subscribeToScope,
   uploadNewVersion,
   type OrganizationRecord,
   type PropertyRecord,
@@ -32,18 +34,36 @@ import {
 import ChatPanel from "./ChatPanel";
 import MediaDropzone from "./MediaDropzone";
 import MediaPreview from "./MediaPreview";
+import { WorkspaceSwitcher } from "./WorkspaceSwitcher";
+import { useWorkspaceScope } from "./useWorkspaceScope";
 
 import styles from "./SimpleReview.module.css";
 
 const ADMIN_SESSION_KEY =
   "archer-review-devon-demo";
 
+const WORKSPACE_STORAGE_KEY = "archer-review-admin-workspace";
+
 const VALENCIA_LOGO_SRC = "/review/valencia-hotel-collection-logo.jpeg";
+
+// Per-organization branding for the admin header. Keyed by slug so the same
+// entry covers the real Valencia organization and the local demo stand-in.
+// An organization with no entry here — and the cross-client All Workspaces
+// view, which belongs to no single client — falls back to the Archer Design
+// monogram rather than flying another client's logo.
+const ORGANIZATION_LOGOS: Record<string, { src: string; alt: string }> = {
+  "valencia-hotel-group": { src: VALENCIA_LOGO_SRC, alt: "Valencia Hotel Collection" },
+  "local-demo": { src: VALENCIA_LOGO_SRC, alt: "Valencia Hotel Collection" },
+};
 
 type AdminFilter =
   | "All"
   | ReviewStatus;
 
+// "All", or a property id. Previously this held a property NAME, which was
+// safe only while every property belonged to one client — across
+// organizations two properties can share a name and a name-keyed filter would
+// silently show both.
 type PropertyFilter = "All" | string;
 
 function statusClass(
@@ -81,8 +101,8 @@ export default function SimpleAdminReview() {
   const [organizations, setOrganizations] =
     useState<OrganizationRecord[]>([]);
 
-  const [selectedOrgId, setSelectedOrgId] =
-    useState<string>("");
+  const { scope: storedScope, selectScope } =
+    useWorkspaceScope(WORKSPACE_STORAGE_KEY);
 
   const [properties, setProperties] =
     useState<PropertyRecord[]>([]);
@@ -162,11 +182,31 @@ export default function SimpleAdminReview() {
     }
   }
 
+  // The workspace actually in view. `storedScope` is null until the URL /
+  // localStorage read completes and whenever no preference has ever been
+  // expressed, in which case defaultWorkspaceScope() drops a single-client
+  // admin straight into their one organization — exactly where this screen
+  // landed before there was more than one client to choose from.
+  const scope = useMemo(
+    () => storedScope ?? defaultWorkspaceScope(organizations),
+    [storedScope, organizations],
+  );
+
+  // null for All Workspaces, and also for a scope whose organization no
+  // longer resolves (stale bookmark, revoked access). Both mean "don't
+  // constrain the query" — RLS, not this component, decides what comes back.
+  const scopeOrganization = useMemo(
+    () => resolveScopeOrganization(scope, organizations),
+    [scope, organizations],
+  );
+
+  const activeOrgId = scopeOrganization?.id ?? "";
+
   const loadItems = useCallback(() => {
-    listReviewItems({ organizationId: selectedOrgId || undefined })
+    listReviewItems({ organizationId: activeOrgId || undefined })
       .then(setItems)
       .catch((error) => console.error("Failed to load review items:", error));
-  }, [selectedOrgId]);
+  }, [activeOrgId]);
 
   // Local demo session gate (Supabase mode uses real auth instead — see
   // app/review/admin/page.tsx, which wraps this component in an admin-only
@@ -190,7 +230,6 @@ export default function SimpleAdminReview() {
       .then((orgs) => {
         if (!active) return;
         setOrganizations(orgs);
-        setSelectedOrgId((current) => current || orgs[0]?.id || "");
         setReady(true);
       })
       .catch((error) => {
@@ -202,31 +241,83 @@ export default function SimpleAdminReview() {
     };
   }, []);
 
+  // Guarded on `ready` rather than on a selected organization, because an
+  // empty activeOrgId is now a legitimate state — All Workspaces — and not
+  // just "nothing chosen yet". Passing undefined asks for every property /
+  // item the signed-in user can reach.
   useEffect(() => {
-    if (!selectedOrgId) return;
+    if (!ready) return;
     let active = true;
-    listProperties(selectedOrgId).then((props) => {
-      if (active) setProperties(props);
-    });
+    listProperties(activeOrgId || undefined)
+      .then((props) => {
+        if (active) setProperties(props);
+      })
+      .catch((error) => console.error("Failed to load properties:", error));
     return () => {
       active = false;
     };
-  }, [selectedOrgId]);
+  }, [ready, activeOrgId]);
 
   useEffect(() => {
-    if (!selectedOrgId) return;
+    if (!ready) return;
     loadItems();
-    return subscribeToChanges(selectedOrgId, loadItems);
-  }, [selectedOrgId, loadItems]);
+    // Subscribe to the one organization in view, or to all of them when the
+    // queue spans every workspace.
+    return subscribeToScope(
+      activeOrgId ? [activeOrgId] : organizations.map((organization) => organization.id),
+      loadItems,
+    );
+  }, [ready, activeOrgId, organizations, loadItems]);
+
+  // A property filter set in one workspace is meaningless in another. Derived
+  // rather than reset in an effect: the switcher already clears the filter on
+  // every workspace change, so this only has to cover the window where the
+  // property list has reloaded and no longer contains the filtered id.
+  const activePropertyFilter: PropertyFilter =
+    propertyFilter === "All" || properties.some((property) => property.id === propertyFilter)
+      ? propertyFilter
+      : "All";
+
+  const organizationNames = useMemo(
+    () => new Map(organizations.map((organization) => [organization.id, organization.name] as const)),
+    [organizations],
+  );
+
+  // Only worth labelling which client an item belongs to when the queue can
+  // actually contain more than one.
+  const showOrganizationLabels = scope.kind === "all" && organizations.length > 1;
+
+  const propertiesByOrganization = useMemo(() => {
+    const grouped = new Map<string, PropertyRecord[]>();
+    for (const property of properties) {
+      const group = grouped.get(property.organizationId);
+      if (group) group.push(property);
+      else grouped.set(property.organizationId, [property]);
+    }
+    return Array.from(grouped.entries());
+  }, [properties]);
+
+  const workspaceLabel = scopeOrganization?.name ?? "All workspaces";
+
+  const scopeLogo = scopeOrganization
+    ? ORGANIZATION_LOGOS[(scopeOrganization.slug ?? "").toLowerCase()] ?? null
+    : null;
+
+  // Chat is a per-organization thread, so it only has a well-defined subject
+  // inside a single workspace. In All Workspaces there is no one client to be
+  // talking to, and passing no organization would quietly fall through to the
+  // local demo thread (see listMessages in lib/review/index.ts), so the panel
+  // is left out entirely rather than shown against the wrong conversation.
+  const chatOrganizationId = activeOrgId || "";
 
   const visibleItems = useMemo(
     () =>
       items.filter((item) => {
         if (filter !== "All" && item.status !== filter) return false;
-        if (propertyFilter !== "All" && item.property !== propertyFilter) return false;
+        if (activePropertyFilter !== "All" && item.propertyId !== activePropertyFilter) return false;
         return true;
       }),
-    [filter, propertyFilter, items],
+    [filter, activePropertyFilter, items],
   );
 
   const counts = {
@@ -262,7 +353,10 @@ export default function SimpleAdminReview() {
       setCreating(true);
 
       await createDraftItem({
-        organizationId: selectedOrgId,
+        // Taken from the property rather than from the workspace scope: in
+        // All Workspaces there is no single organization in view, and even
+        // within one workspace the property is the authoritative owner.
+        organizationId: property.organizationId,
         propertyId: property.id,
         property: property.name,
         title: form.title.trim(),
@@ -399,7 +493,13 @@ export default function SimpleAdminReview() {
           className={styles.brand}
         >
           <div className={styles.brandMark}>
-            <img className={styles.brandLogo} src={VALENCIA_LOGO_SRC} alt="Valencia Hotel Collection" />
+            {scopeLogo ? (
+              <img className={styles.brandLogo} src={scopeLogo.src} alt={scopeLogo.alt} />
+            ) : (
+              <span className={styles.brandMonogram} aria-hidden="true">
+                AD
+              </span>
+            )}
           </div>
 
           <div className={styles.brandText}>
@@ -416,8 +516,7 @@ export default function SimpleAdminReview() {
                 styles.brandSub
               }
             >
-              Creative production
-              workspace
+              {workspaceLabel}
             </span>
           </div>
         </div>
@@ -523,26 +622,15 @@ export default function SimpleAdminReview() {
           </div>
         </section>
 
-        {organizations.length > 1 && (
-          <div className={styles.field} style={{ maxWidth: 320, marginBottom: 18 }}>
-            <label>Organization</label>
-            <select
-              className={styles.select}
-              value={selectedOrgId}
-              onChange={(event) => {
-                setSelectedOrgId(event.target.value);
-                setPropertyFilter("All");
-                setForm((current) => ({ ...current, propertyId: "" }));
-              }}
-            >
-              {organizations.map((org) => (
-                <option key={org.id} value={org.id}>
-                  {org.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
+        <WorkspaceSwitcher
+          organizations={organizations}
+          scope={scope}
+          onSelect={(next) => {
+            selectScope(next);
+            setPropertyFilter("All");
+            setForm((current) => ({ ...current, propertyId: "" }));
+          }}
+        />
 
         <form
           className={styles.formCard}
@@ -582,16 +670,40 @@ export default function SimpleAdminReview() {
                   Select a property
                 </option>
 
-                {properties.map(
-                  (property) => (
-                    <option
-                      key={property.id}
-                      value={property.id}
-                    >
-                      {property.name}
-                    </option>
-                  ),
-                )}
+                {showOrganizationLabels
+                  ? // Across workspaces, group by client so two similarly
+                    // named properties are never ambiguous. The chosen
+                    // property is what decides the new item's organization.
+                    propertiesByOrganization.map(
+                      ([organizationId, group]) => (
+                        <optgroup
+                          key={organizationId}
+                          label={
+                            organizationNames.get(organizationId) ??
+                            "Other"
+                          }
+                        >
+                          {group.map((property) => (
+                            <option
+                              key={property.id}
+                              value={property.id}
+                            >
+                              {property.name}
+                            </option>
+                          ))}
+                        </optgroup>
+                      ),
+                    )
+                  : properties.map(
+                      (property) => (
+                        <option
+                          key={property.id}
+                          value={property.id}
+                        >
+                          {property.name}
+                        </option>
+                      ),
+                    )}
               </select>
             </div>
 
@@ -740,11 +852,12 @@ export default function SimpleAdminReview() {
         </div>
 
         {properties.length > 0 && (
-          <div className={styles.tabs}>
+          <div className={styles.tabs} role="group" aria-label="Property">
             <button
               className={`${styles.tab} ${
-                propertyFilter === "All" ? styles.tabActive : ""
+                activePropertyFilter === "All" ? styles.tabActive : ""
               }`}
+              aria-pressed={activePropertyFilter === "All"}
               onClick={() => setPropertyFilter("All")}
             >
               All properties
@@ -753,10 +866,17 @@ export default function SimpleAdminReview() {
               <button
                 key={property.id}
                 className={`${styles.tab} ${
-                  propertyFilter === property.name ? styles.tabActive : ""
+                  activePropertyFilter === property.id ? styles.tabActive : ""
                 }`}
-                onClick={() => setPropertyFilter(property.name)}
+                aria-pressed={activePropertyFilter === property.id}
+                onClick={() => setPropertyFilter(property.id)}
               >
+                {showOrganizationLabels && (
+                  <span className={styles.tabQualifier}>
+                    {organizationNames.get(property.organizationId) ?? "Other"}
+                    {" · "}
+                  </span>
+                )}
                 {property.name}
               </button>
             ))}
@@ -791,6 +911,16 @@ export default function SimpleAdminReview() {
                         styles.cardMeta
                       }
                     >
+                      {showOrganizationLabels && (
+                        <>
+                          <span className={styles.orgBadge}>
+                            {item.organizationName ||
+                              organizationNames.get(item.organizationId) ||
+                              "Unknown client"}
+                          </span>
+                          {" · "}
+                        </>
+                      )}
                       {item.property}
                       {" · "}
                       Version{" "}
@@ -1087,7 +1217,9 @@ export default function SimpleAdminReview() {
         )}
       </main>
 
-      <ChatPanel currentUser="Devon" organizationId={selectedOrgId || undefined} />
+      {chatOrganizationId && (
+        <ChatPanel currentUser="Devon" organizationId={chatOrganizationId} />
+      )}
     </div>
   );
 }

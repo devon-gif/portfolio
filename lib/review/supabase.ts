@@ -251,6 +251,45 @@ export function subscribeToChanges(organizationId: string, onChange: () => void)
   };
 }
 
+/**
+ * Realtime for a multi-organization view (the admin "All workspaces" scope).
+ *
+ * One channel carrying per-organization filters rather than one channel per
+ * organization: review_actions has no organization_id to filter on, so a
+ * channel-per-organization arrangement would register N identical unfiltered
+ * listeners on it and fire N reloads for every single action. Here the item
+ * and message listeners stay filtered per organization and review_actions is
+ * listened to exactly once. Rows the user may not see are filtered out by RLS
+ * before they ever reach this subscription.
+ */
+export function subscribeToOrganizations(organizationIds: string[], onChange: () => void): Unsubscribe {
+  const ids = Array.from(new Set(organizationIds.filter(Boolean))).sort();
+  if (ids.length === 0) return () => {};
+
+  let channel = supabase.channel(`review-scope-${ids.join("-")}`);
+
+  for (const id of ids) {
+    channel = channel
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "review_items", filter: `organization_id=eq.${id}` },
+        onChange
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "review_messages", filter: `organization_id=eq.${id}` },
+        onChange
+      );
+  }
+
+  channel = channel.on("postgres_changes", { event: "*", schema: "public", table: "review_actions" }, onChange);
+  channel.subscribe();
+
+  return () => {
+    supabase.removeChannel(channel);
+  };
+}
+
 function sanitizeFilename(name: string): string {
   return name.replace(/[^a-zA-Z0-9_.-]/g, "-");
 }
@@ -400,6 +439,38 @@ export async function listMessages(options: { organizationId: string; reviewItem
   }));
 }
 
+/**
+ * Sends a client-visible message.
+ *
+ * INTERNAL MESSAGES ARE READ-ONLY FOR NOW, BY DESIGN. The multi-client
+ * migration (supabase/migrations/20260725_review_os_multiclient.sql) adds a
+ * `visibility` column to review_messages defaulting to 'client', along with
+ * RLS that would permit an Archer/partner user to insert an
+ * `visibility = 'internal'` row directly. This file deliberately does not do
+ * that: every mutation in the review portal goes through a SECURITY DEFINER
+ * RPC so authorization lives in Postgres rather than in client code, and
+ * bypassing that for one write would fork the pattern.
+ *
+ * The existing review_send_message RPC takes only
+ * (p_organization_id, p_property_id, p_review_item_id, p_body) and therefore
+ * always produces a 'client' row. Shipping internal messaging needs a
+ * follow-up migration that either:
+ *
+ *   1. adds `p_visibility text default 'client'` to review_send_message,
+ *      validating it against ('client','internal') and requiring
+ *      review_can_access_internal_organization(p_organization_id) before
+ *      allowing 'internal'; or
+ *   2. adds a separate review_send_internal_message(...) RPC with the same
+ *      guard, leaving review_send_message untouched.
+ *
+ * Option 1 keeps one call site; option 2 keeps the client path incapable of
+ * ever emitting an internal row. Either way the same follow-up should add
+ * `p_project_id` — review_items and review_messages both carry a project_id
+ * column after this migration that no RPC can currently populate.
+ *
+ * Until then, callers may READ internal messages (RLS already scopes them
+ * correctly) but this function only ever writes client-visible ones.
+ */
 export async function sendMessage(input: { organizationId: string; propertyId?: string; reviewItemId?: string; body: string }): Promise<void> {
   const { error } = await supabase.rpc("review_send_message", {
     p_organization_id: input.organizationId,

@@ -33,6 +33,7 @@ import type {
 } from "./types";
 
 export * from "./types";
+export * from "./workspace";
 export { isReviewSupabaseConfigured, isReviewProductionEnvironment } from "./config";
 
 // The low-level, backend-agnostic download primitive — fetches a URL into a
@@ -47,7 +48,7 @@ export function listOrganizations(): Promise<OrganizationRecord[]> {
 }
 
 export function listProperties(organizationId?: string): Promise<PropertyRecord[]> {
-  return isReviewSupabaseConfigured() ? remote.listProperties(organizationId) : local.listProperties();
+  return isReviewSupabaseConfigured() ? remote.listProperties(organizationId) : local.listProperties(organizationId);
 }
 
 export function listReviewItems(
@@ -59,6 +60,19 @@ export function listReviewItems(
 export function subscribeToChanges(organizationId: string | undefined, onChange: () => void): Unsubscribe {
   if (isReviewSupabaseConfigured() && organizationId) {
     return remote.subscribeToChanges(organizationId, onChange);
+  }
+  return local.subscribeToChanges(onChange);
+}
+
+/**
+ * Realtime for a whole workspace scope rather than a single organization.
+ * Pass every organization id currently in view — one for a single-client
+ * workspace, all of them for All Workspaces. subscribeToChanges above is left
+ * exactly as it was for /emma, which is always scoped to one organization.
+ */
+export function subscribeToScope(organizationIds: string[], onChange: () => void): Unsubscribe {
+  if (isReviewSupabaseConfigured() && organizationIds.length > 0) {
+    return remote.subscribeToOrganizations(organizationIds, onChange);
   }
   return local.subscribeToChanges(onChange);
 }
