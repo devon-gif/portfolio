@@ -6,7 +6,7 @@
 // backend answers a given call:
 //
 //   - Supabase (production path) when NEXT_PUBLIC_SUPABASE_URL and
-//     NEXT_PUBLIC_SUPABASE_ANON_KEY are set (isReviewSupabaseConfigured()).
+//     NEXT_PUBLIC_SUPABASE_ANON_KEY are set (useSupabaseReviewBackend()).
 //   - The original localStorage + IndexedDB demo (lib/simple-review-store.ts
 //     / lib/review-media-db.ts, wrapped by lib/review/local.ts) otherwise,
 //     so the UI keeps rendering during local development with no Supabase
@@ -16,7 +16,7 @@
 // backend, so SimpleAdminReview.tsx / SimpleClientReview.tsx / ChatPanel.tsx
 // / MediaPreview.tsx never need to branch on which backend is active.
 
-import { isReviewSupabaseConfigured } from "./config";
+import { isReviewDemoMode, isReviewSupabaseConfigured } from "./config";
 import { downloadReviewAsset, ensureFilenameExtension } from "./download";
 import * as local from "./local";
 import * as remote from "./supabase";
@@ -33,7 +33,7 @@ import type {
 } from "./types";
 
 export * from "./types";
-export { isReviewSupabaseConfigured, isReviewProductionEnvironment } from "./config";
+export { isReviewDemoMode, isReviewSupabaseConfigured, isReviewProductionEnvironment } from "./config";
 
 // The low-level, backend-agnostic download primitive — fetches a URL into a
 // Blob and saves it via a blob: object URL, so the browser's `download`
@@ -42,22 +42,26 @@ export { isReviewSupabaseConfigured, isReviewProductionEnvironment } from "./con
 // here so every review-portal component only ever imports from "@/lib/review".
 export { downloadReviewAsset } from "./download";
 
+function useSupabaseReviewBackend(): boolean {
+  return isReviewSupabaseConfigured() && !isReviewDemoMode();
+}
+
 export function listOrganizations(): Promise<OrganizationRecord[]> {
-  return isReviewSupabaseConfigured() ? remote.listOrganizations() : local.listOrganizations();
+  return useSupabaseReviewBackend() ? remote.listOrganizations() : local.listOrganizations();
 }
 
 export function listProperties(organizationId?: string): Promise<PropertyRecord[]> {
-  return isReviewSupabaseConfigured() ? remote.listProperties(organizationId) : local.listProperties();
+  return useSupabaseReviewBackend() ? remote.listProperties(organizationId) : local.listProperties();
 }
 
 export function listReviewItems(
   options: { organizationId?: string; propertyId?: string; forClient?: boolean } = {}
 ): Promise<ReviewItemRecord[]> {
-  return isReviewSupabaseConfigured() ? remote.listReviewItems(options) : local.listReviewItems(options);
+  return useSupabaseReviewBackend() ? remote.listReviewItems(options) : local.listReviewItems(options);
 }
 
 export function subscribeToChanges(organizationId: string | undefined, onChange: () => void): Unsubscribe {
-  if (isReviewSupabaseConfigured() && organizationId) {
+  if (useSupabaseReviewBackend() && organizationId) {
     return remote.subscribeToChanges(organizationId, onChange);
   }
   return local.subscribeToChanges(onChange);
@@ -72,11 +76,11 @@ export function createDraftItem(input: {
   dueDate: string;
   file: File;
 }): Promise<ReviewItemRecord> {
-  return isReviewSupabaseConfigured() ? remote.createDraftItem(input) : local.createDraftItem(input);
+  return useSupabaseReviewBackend() ? remote.createDraftItem(input) : local.createDraftItem(input);
 }
 
 export function sendToReview(itemId: string): Promise<void> {
-  return isReviewSupabaseConfigured() ? remote.sendToReview(itemId) : local.sendToReview(itemId);
+  return useSupabaseReviewBackend() ? remote.sendToReview(itemId) : local.sendToReview(itemId);
 }
 
 export function uploadNewVersion(
@@ -85,29 +89,29 @@ export function uploadNewVersion(
   note: string,
   context: { organizationId: string; propertyId: string; nextVersion: number }
 ): Promise<void> {
-  return isReviewSupabaseConfigured()
+  return useSupabaseReviewBackend()
     ? remote.uploadNewVersion(itemId, file, note, context)
     : local.uploadNewVersion(itemId, file, note);
 }
 
 export function archiveItem(itemId: string): Promise<void> {
-  return isReviewSupabaseConfigured() ? remote.archiveItem(itemId) : local.archiveItem(itemId);
+  return useSupabaseReviewBackend() ? remote.archiveItem(itemId) : local.archiveItem(itemId);
 }
 
 export function reopenItem(itemId: string): Promise<void> {
-  return isReviewSupabaseConfigured() ? remote.reopenItem(itemId) : local.reopenItem(itemId);
+  return useSupabaseReviewBackend() ? remote.reopenItem(itemId) : local.reopenItem(itemId);
 }
 
 export function clientDecide(itemId: string, decision: ClientDecision, note: string): Promise<void> {
-  return isReviewSupabaseConfigured() ? remote.clientDecide(itemId, decision, note) : local.clientDecide(itemId, decision, note);
+  return useSupabaseReviewBackend() ? remote.clientDecide(itemId, decision, note) : local.clientDecide(itemId, decision, note);
 }
 
 export function getSignedReviewMediaUrl(assetRef: string): Promise<string> {
-  return isReviewSupabaseConfigured() ? remote.getSignedReviewMediaUrl(assetRef) : local.getSignedReviewMediaUrl(assetRef);
+  return useSupabaseReviewBackend() ? remote.getSignedReviewMediaUrl(assetRef) : local.getSignedReviewMediaUrl(assetRef);
 }
 
 export function listMessages(options: { organizationId?: string; reviewItemId?: string } = {}): Promise<ChatMessageRecord[]> {
-  if (isReviewSupabaseConfigured() && options.organizationId) {
+  if (useSupabaseReviewBackend() && options.organizationId) {
     return remote.listMessages({ organizationId: options.organizationId, reviewItemId: options.reviewItemId });
   }
   return local.listMessages();
@@ -120,7 +124,7 @@ export function sendMessage(input: {
   senderName: "Devon" | "Emma";
   body: string;
 }): Promise<void> {
-  if (isReviewSupabaseConfigured() && input.organizationId) {
+  if (useSupabaseReviewBackend() && input.organizationId) {
     return remote.sendMessage({
       organizationId: input.organizationId,
       propertyId: input.propertyId,
@@ -132,16 +136,16 @@ export function sendMessage(input: {
 }
 
 export function markMessageRead(messageId: string): Promise<void> {
-  return isReviewSupabaseConfigured() ? remote.markMessageRead(messageId) : local.markMessageRead();
+  return useSupabaseReviewBackend() ? remote.markMessageRead(messageId) : local.markMessageRead();
 }
 
 export function getCurrentProfile(): Promise<ReviewProfile | null> {
-  return isReviewSupabaseConfigured() ? remote.getCurrentProfile() : Promise.resolve(null);
+  return useSupabaseReviewBackend() ? remote.getCurrentProfile() : Promise.resolve(null);
 }
 
 /** Local-demo-only helper; intentionally a no-op when Supabase is configured. */
 export function resetLocalDemo(): Promise<void> {
-  return isReviewSupabaseConfigured() ? Promise.resolve() : local.resetLocalDemo();
+  return useSupabaseReviewBackend() ? Promise.resolve() : local.resetLocalDemo();
 }
 
 function slugifyFilenamePart(value: string): string {
@@ -213,7 +217,7 @@ export async function resolveReviewAssetDownload(item: {
     return { url: item.assetRef, filename };
   }
 
-  const url = isReviewSupabaseConfigured()
+  const url = useSupabaseReviewBackend()
     ? await remote.getSignedReviewMediaDownloadUrl(item.assetRef, filename)
     : await local.getSignedReviewMediaUrl(item.assetRef);
 
