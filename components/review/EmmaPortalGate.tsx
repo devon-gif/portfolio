@@ -90,10 +90,18 @@ export function EmmaPortalGate() {
       setStatus("approved");
     }
 
-    evaluate();
+    void evaluate();
 
     if (!configured) return;
-    const { data: sub } = supabase.auth.onAuthStateChange(() => evaluate());
+    // Keep the auth callback synchronous. Supabase may hold an internal auth
+    // lock while this callback runs, so awaiting getSession/profile work here
+    // can deadlock or race with session persistence. Run the access check on
+    // the next task after the auth event has fully settled instead.
+    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      window.setTimeout(() => {
+        if (active) void evaluate();
+      }, 0);
+    });
     return () => {
       active = false;
       sub.subscription.unsubscribe();
