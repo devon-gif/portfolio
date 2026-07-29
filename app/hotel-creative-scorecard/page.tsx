@@ -54,9 +54,9 @@ const TRUST_BULLETS = [
 ];
 
 const PROOF_STATS = [
-  { value: "14.8M+", label: "Impressions" },
-  { value: "565K+", label: "Engagements" },
-  { value: "4.3M+", label: "Reach" },
+  { value: "18.6M+", label: "Impressions" },
+  { value: "612K+", label: "Engagements" },
+  { value: "4.9M+", label: "Reach" },
   { value: "670K+", label: "Reported post clicks" },
 ];
 
@@ -115,9 +115,9 @@ const PROOF_CARDS = [
 ];
 
 const ABOUT_BULLETS = [
-  "14.8M+ impressions tracked",
-  "565K+ engagements",
-  "2,500+ creative pieces / posts tracked",
+  "18.6M+ impressions tracked",
+  "612K+ engagements",
+  "2,700+ creative pieces / posts tracked",
   "Hospitality-focused creative support",
 ];
 
