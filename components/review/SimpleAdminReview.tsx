@@ -26,7 +26,11 @@ const LOGO = "/review/valencia-hotel-collection-logo.jpeg";
 const statuses: Array<"All" | ReviewStatus> = ["All", "Draft", "Awaiting review", "Revision requested", "New direction requested", "Approved", "Archived"];
 
 function glass(extra = "") {
-  return `rounded-3xl border border-white/70 bg-[#fffaf2]/70 shadow-[0_24px_80px_rgba(79,60,47,.10)] backdrop-blur-2xl ${extra}`;
+  // Keep the glass look without stacking large backdrop-filter layers.
+  // Firefox can become unresponsive when several blurred surfaces are
+  // mounted together, which previously crashed the admin tab as soon as
+  // the dashboard replaced the lightweight login screen.
+  return `rounded-3xl border border-white/80 bg-[#fffaf2]/95 shadow-[0_24px_80px_rgba(79,60,47,.10)] ${extra}`;
 }
 
 function badge(status: ReviewStatus) {
@@ -90,7 +94,7 @@ export default function SimpleAdminReview() {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_75%_0%,rgba(169,129,47,.15),transparent_34%),radial-gradient(circle_at_8%_90%,rgba(216,189,184,.18),transparent_40%),#f8f3ea] text-[#2b241f]">
-      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/60 bg-[#fffaf2]/75 px-5 py-4 backdrop-blur-2xl md:px-10">
+      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/70 bg-[#fffaf2]/95 px-5 py-4 shadow-[0_8px_28px_rgba(79,60,47,.06)] md:px-10">
         <div className="flex items-center gap-3"><img src={LOGO} alt="Valencia Hotel Collection" className="h-9 rounded-lg" /><div><h1 className="font-serif text-xl">Archer Review Admin</h1><p className="text-xs text-[#817668]">Valencia Hotel Group creative workflow</p></div></div>
         <button type="button" onClick={() => supabase.auth.signOut().then(() => window.location.reload())} className="inline-flex items-center gap-2 rounded-full border border-[#d9cbb8] bg-white/60 px-4 py-2 text-xs font-semibold"><LogOut className="h-4 w-4" /> Sign out</button>
       </header>

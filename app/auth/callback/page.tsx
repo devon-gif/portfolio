@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { isOwnerEmail } from "@/lib/owner";
-import { getCurrentProfile } from "@/lib/review";
 
 /**
  * Shared magic-link / OAuth callback for the whole project. supabase-js
@@ -18,10 +17,10 @@ import { getCurrentProfile } from "@/lib/review";
  *      role "admin" -> /review/admin, role "client" -> /emma.
  *   3. Anything else is signed out and sent back to /login, as before.
  *
- * The optional ?next= param (set by MagicLinkForm) is not blindly trusted
- * for the redirect target — it's only used as a hint for which of the two
- * review-portal routes to prefer if step 2 matches, so an unrecognized
- * email can never be redirected somewhere it doesn't have a profile for.
+ * The optional ?next= param (set by MagicLinkForm) is accepted only for the
+ * two known review routes. Their gates perform the role check before any
+ * workspace renders, so a signed-in user cannot use this parameter to reach
+ * a route or role they have not been granted.
  */
 function AuthCallbackInner() {
   const router = useRouter();
@@ -46,6 +45,17 @@ function AuthCallbackInner() {
       const { data } = await supabase.auth.getSession();
       if (!active) return;
       const email = data.session?.user?.email ?? null;
+      const next = params.get("next");
+      const reviewNext = next === "/emma" || next === "/review/admin" ? next : null;
+
+      // The review routes enforce their own role checks. Once the callback
+      // has a durable session, send review sign-ins straight to the requested
+      // gate instead of launching another profile request while the implicit
+      // magic-link session is still settling.
+      if (data.session && reviewNext) {
+        router.replace(reviewNext);
+        return;
+      }
 
       if (data.session && isOwnerEmail(email)) {
         router.replace("/dashboard");
@@ -53,7 +63,11 @@ function AuthCallbackInner() {
       }
 
       if (data.session) {
-        const profile = await getCurrentProfile().catch(() => null);
+        const { data: profile } = await supabase
+          .from("review_profiles")
+          .select("role")
+          .eq("user_id", data.session.user.id)
+          .maybeSingle();
         if (!active) return;
         if (profile?.role === "admin") {
           router.replace("/review/admin");
@@ -63,19 +77,6 @@ function AuthCallbackInner() {
           router.replace("/emma");
           return;
         }
-      }
-
-      // No matching profile (or no session at all). If this sign-in
-      // originated from the review portal's own login screens, send them
-      // back there WITHOUT forcing a sign-out — EmmaPortalGate /
-      // ReviewAdminGate show their own calm "not set up yet" / "forbidden"
-      // state for a session with no matching profile, which is a better
-      // experience than the generic CRM message below and still never
-      // reveals whether any particular email has an account.
-      const next = params.get("next");
-      if (data.session && (next === "/emma" || next === "/review/admin")) {
-        router.replace(next);
-        return;
       }
 
       if (data.session) {

@@ -25,11 +25,11 @@ export default function ChatPanel({ currentUser, organizationId }: { currentUser
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full border border-white/70 bg-[#6f4b56]/90 px-5 py-3 text-sm font-semibold text-white shadow-2xl backdrop-blur-xl">
+      <button type="button" onClick={() => setOpen(true)} className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full border border-white/70 bg-[#6f4b56] px-5 py-3 text-sm font-semibold text-white shadow-2xl">
         <MessageCircle className="h-4 w-4" /> Messages <span className="rounded-full bg-white/20 px-2 py-0.5 text-xs">{messages.length}</span>
       </button>
       {open && (
-        <aside className="fixed bottom-4 right-4 z-50 flex h-[min(620px,calc(100vh-32px))] w-[min(390px,calc(100vw-32px))] flex-col overflow-hidden rounded-3xl border border-white/70 bg-[#fffaf2]/90 shadow-2xl backdrop-blur-2xl">
+        <aside className="fixed bottom-4 right-4 z-50 flex h-[min(620px,calc(100vh-32px))] w-[min(390px,calc(100vw-32px))] flex-col overflow-hidden rounded-3xl border border-white/80 bg-[#fffaf2]/98 shadow-2xl">
           <header className="flex items-center justify-between border-b border-[#dfd3c4] px-5 py-4">
             <div><strong className="block text-[#2b241f]">Devon + Emma</strong><span className="text-xs text-[#817668]">Creative collaboration</span></div>
             <button type="button" onClick={() => setOpen(false)} aria-label="Close messages"><X className="h-5 w-5 text-[#6d6155]" /></button>
