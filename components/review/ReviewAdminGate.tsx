@@ -3,7 +3,7 @@
 import { type CSSProperties, type ReactNode, useEffect, useState } from "react";
 import { Loader2, ShieldAlert } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { isReviewProductionEnvironment, isReviewSupabaseConfigured } from "@/lib/review";
+import { isReviewDemoMode, isReviewProductionEnvironment, isReviewSupabaseConfigured } from "@/lib/review";
 import { MagicLinkForm } from "./MagicLinkForm";
 import { ReviewConfigurationError } from "./ReviewConfigurationError";
 
@@ -44,11 +44,17 @@ const GLASS: CSSProperties = {
 export function ReviewAdminGate({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<Status>("checking");
   const configured = isReviewSupabaseConfigured();
+  const demoMode = isReviewDemoMode();
 
   useEffect(() => {
     let active = true;
 
     async function evaluate() {
+      if (demoMode) {
+        if (active) setStatus("approved");
+        return;
+      }
+
       if (!configured) {
         if (isReviewProductionEnvironment()) {
           if (active) setStatus("unconfigured");
@@ -86,7 +92,7 @@ export function ReviewAdminGate({ children }: { children: ReactNode }) {
 
     void evaluate();
 
-    if (!configured) return;
+    if (!configured || demoMode) return;
 
     // Page-load authorization above is sufficient after the magic-link
     // callback has stored the session. Auth events such as INITIAL_SESSION
@@ -101,7 +107,7 @@ export function ReviewAdminGate({ children }: { children: ReactNode }) {
       active = false;
       sub.subscription.unsubscribe();
     };
-  }, [configured]);
+  }, [configured, demoMode]);
 
   if (status === "checking") {
     return (
