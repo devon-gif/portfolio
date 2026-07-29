@@ -3,7 +3,7 @@
 import { type CSSProperties, type ReactNode, useEffect, useState } from "react";
 import { Loader2, ShieldAlert } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { getCurrentProfile, isReviewProductionEnvironment, isReviewSupabaseConfigured } from "@/lib/review";
+import { isReviewProductionEnvironment, isReviewSupabaseConfigured } from "@/lib/review";
 import { MagicLinkForm } from "./MagicLinkForm";
 import { ReviewConfigurationError } from "./ReviewConfigurationError";
 
@@ -58,18 +58,26 @@ export function ReviewAdminGate({ children }: { children: ReactNode }) {
         return;
       }
 
-      const { data } = await supabase.auth.getSession();
+      // Verify the current user once, then query the role directly. Calling
+      // getCurrentProfile() here would perform a second getSession() while
+      // auth events are settling, which can race refresh-token rotation and
+      // produce intermittent 401s in browsers that reload aggressively.
+      const { data: userData, error: userError } = await supabase.auth.getUser();
       if (!active) return;
 
-      if (!data.session) {
+      if (userError || !userData.user) {
         setStatus("signed-out");
         return;
       }
 
-      const profile = await getCurrentProfile();
+      const { data: profile, error: profileError } = await supabase
+        .from("review_profiles")
+        .select("role")
+        .eq("user_id", userData.user.id)
+        .maybeSingle();
       if (!active) return;
 
-      if (!profile || profile.role !== "admin") {
+      if (profileError || profile?.role !== "admin") {
         setStatus("forbidden");
         return;
       }
@@ -79,14 +87,15 @@ export function ReviewAdminGate({ children }: { children: ReactNode }) {
     void evaluate();
 
     if (!configured) return;
-    // Keep the auth callback synchronous. Supabase may hold an internal auth
-    // lock while this callback runs, so awaiting getSession/profile work here
-    // can deadlock or race with session persistence. Run the access check on
-    // the next task after the auth event has fully settled instead.
-    const { data: sub } = supabase.auth.onAuthStateChange(() => {
-      window.setTimeout(() => {
-        if (active) void evaluate();
-      }, 0);
+
+    // Page-load authorization above is sufficient after the magic-link
+    // callback has stored the session. Auth events such as INITIAL_SESSION
+    // and TOKEN_REFRESHED must not launch overlapping profile checks. The
+    // listener only needs to close access if this browser signs out.
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_OUT" && active) {
+        setStatus("signed-out");
+      }
     });
     return () => {
       active = false;
