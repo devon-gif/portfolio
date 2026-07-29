@@ -19,6 +19,18 @@ export function isReviewSupabaseConfigured(): boolean {
   return hasSupabaseEnv();
 }
 
+/**
+ * Interview-only browser demo. The query string is intentionally explicit
+ * and never grants access to Supabase: lib/review/index.ts routes every data
+ * operation to the localStorage/IndexedDB demo backend while this is true.
+ *
+ * Remove ?demo=1 from the URL to return to the normal authenticated portal.
+ */
+export function isReviewDemoMode(): boolean {
+  if (typeof window === "undefined") return false;
+  return new URLSearchParams(window.location.search).get("demo") === "1";
+}
+
 export function isReviewAdminEmail(email: string | null | undefined): boolean {
   return (email ?? "").trim().toLowerCase() === REVIEW_ADMIN_EMAIL;
 }
