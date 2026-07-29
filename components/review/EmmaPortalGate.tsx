@@ -5,6 +5,7 @@ import { Loader2, ShieldCheck } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import {
   getCurrentProfile,
+  isReviewDemoMode,
   isReviewProductionEnvironment,
   isReviewSupabaseConfigured,
   type ReviewProfile,
@@ -53,11 +54,17 @@ export function EmmaPortalGate() {
   const [status, setStatus] = useState<Status>("checking");
   const [profile, setProfile] = useState<ReviewProfile | null>(null);
   const configured = isReviewSupabaseConfigured();
+  const demoMode = isReviewDemoMode();
 
   useEffect(() => {
     let active = true;
 
     async function evaluate() {
+      if (demoMode) {
+        if (active) setStatus("approved");
+        return;
+      }
+
       if (!configured) {
         if (isReviewProductionEnvironment()) {
           if (active) setStatus("unconfigured");
@@ -92,7 +99,7 @@ export function EmmaPortalGate() {
 
     void evaluate();
 
-    if (!configured) return;
+    if (!configured || demoMode) return;
     // Keep the auth callback synchronous. Supabase may hold an internal auth
     // lock while this callback runs, so awaiting getSession/profile work here
     // can deadlock or race with session persistence. Run the access check on
@@ -106,7 +113,7 @@ export function EmmaPortalGate() {
       active = false;
       sub.subscription.unsubscribe();
     };
-  }, [configured]);
+  }, [configured, demoMode]);
 
   if (status === "checking") {
     return (
@@ -117,7 +124,7 @@ export function EmmaPortalGate() {
     );
   }
 
-  if (status === "approved" && profile) {
+  if (status === "approved" && (profile || demoMode)) {
     return <SimpleClientReview />;
   }
 
