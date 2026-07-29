@@ -446,7 +446,10 @@ Important:
           content: userPrompt,
         },
       ],
-      max_output_tokens: 1400,
+      max_output_tokens: 6000,
+      reasoning: {
+        effort: "minimal",
+      },
       text: {
         format: {
           type: "json_schema",
@@ -464,9 +467,28 @@ Important:
   }
 
   const json = await res.json();
+
+  if (json.status === "incomplete") {
+    throw new Error(
+      `OpenAI response incomplete: ${
+        json.incomplete_details?.reason || "unknown_reason"
+      }`
+    );
+  }
+
   const outputText = extractOutputText(json);
 
   if (!outputText) {
+    console.error("OpenAI audit returned no output text.", {
+      status: json.status,
+      incomplete_reason: json.incomplete_details?.reason,
+      model: json.model,
+      usage: json.usage,
+      output_item_types: Array.isArray(json.output)
+        ? json.output.map((item: any) => item?.type)
+        : undefined,
+    });
+
     throw new Error("OpenAI returned no output text.");
   }
 
