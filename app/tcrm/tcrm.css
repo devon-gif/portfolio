@@ -1573,3 +1573,47 @@
   .tcrm-theme .tl-work-card:hover .tl-work-media video { transform: none !important; }
   .tcrm-theme-intro { display: none !important; }
 }
+
+/* TCRM DARK HEADER OVERRIDE */
+.tcrm-theme .tl-header {
+  --tl-ink: #ffffff;
+  --tl-ink-soft: rgba(255, 255, 255, 0.82);
+  --tl-ink-muted: rgba(255, 255, 255, 0.58);
+  --tl-line: rgba(255, 255, 255, 0.08);
+  --tl-line-strong: rgba(255, 255, 255, 0.28);
+
+  background: #171d1c;
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.tcrm-theme .tl-header .tl-logo-microcopy {
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.tcrm-theme .tl-header .tl-logo-sep {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.tcrm-theme .tl-header nav a {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.tcrm-theme .tl-header nav a:hover,
+.tcrm-theme .tl-header nav a:focus-visible {
+  color: #65d1c4;
+}
+
+.tcrm-theme .tl-header button {
+  color: rgba(255, 255, 255, 0.92);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.tcrm-theme .tl-mobile-nav {
+  background: #171d1c;
+  border-top-color: rgba(255, 255, 255, 0.08);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
