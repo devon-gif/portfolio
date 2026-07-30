@@ -52,7 +52,7 @@ const AUTH_ROUTES = ["/login", "/auth/callback"];
 // routes such as /topline/schedule are automatically public too, without
 // needing a matching entry added here every time a new proposal sub-page
 // is created.
-const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/review", "/topline"];
+const PUBLIC_PREFIXES = ["/tcrm", "/unsubscribe", "/social-media-work", "/review", "/topline"];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;
