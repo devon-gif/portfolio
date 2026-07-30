@@ -37,6 +37,7 @@ const PUBLIC_ROUTES = [
   // CRM sidebar/auth guard.
   "/coraltree",
   "/george",
+  "/auto",
 ];
 
 // Auth routes: full-bleed, no sidebar, no guard (these ARE the login flow).
