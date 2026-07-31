@@ -48,7 +48,6 @@ import {
   marginPct,
   platformFiles,
   totalConcepts,
-  type ActivationTier,
 } from "./tcrm-pricing";
 
 // Root layout's metadata.title.template appends " | Archer Design"
@@ -102,25 +101,6 @@ const PROOF_DISCLAIMER =
 function fmtAssetPrice(n: number) {
   return `$${n.toFixed(2)}/asset`;
 }
-
-// Comparison-row definitions for the three-tier table below the pricing
-// cards. Each row's cells are computed live from the tier data (via the
-// `cell` function) rather than hardcoded per tier, so the table can never
-// drift from the pricing cards above it.
-const TIER_COMPARISON_ROWS: { label: string; cell: (t: ActivationTier) => string }[] = [
-  {
-    label: "Original creative concepts",
-    cell: (t) => `${totalConcepts(t)} (${t.motionConcepts} motion + ${t.staticConcepts} static)`,
-  },
-  { label: "Platform-ready files", cell: (t) => `${platformFiles(t)} files` },
-  { label: "Promotional captions", cell: (t) => `${t.captions} captions` },
-  { label: "Suggested hotel-facing retail", cell: (t) => `${fmtMoney(t.retail)} / property / month` },
-  { label: "Archer Design wholesale", cell: (t) => `${fmtMoney(t.wholesale)} / property / month` },
-  {
-    label: "Illustrative TCRM gross profit",
-    cell: (t) => `${fmtMoney(grossProfit(t))} / property / month`,
-  },
-];
 
 /** Compact "5 + 3 = 8" style visual breakdown, reused on the package cards
  * and the pilot section so the concept count is unmistakable everywhere it
@@ -549,63 +529,105 @@ export default function TcrmPage() {
             </Reveal>
 
             <div className="mt-11 grid gap-6 lg:grid-cols-3">
-              {ACTIVATION_TIERS.map((tier, i) => (
-                <Reveal
-                  key={tier.key}
-                  delay={(i + 1) as 1 | 2 | 3}
-                  className={`tl-panel${tier.badge ? " tl-panel--featured" : ""} flex flex-col p-7 sm:p-8`}
-                >
-                  {tier.badge ? <span className="tl-pkg-badge">{tier.badge}</span> : null}
-                  <h3 className="mt-1 text-[21px] text-[var(--tl-ink)]">{tier.name}</h3>
-                  <p className="tl-pkg-price mt-2">{fmtMoney(tier.retail)} per property / month</p>
-                  <p className="mt-1 text-[12px] text-[var(--tl-ink-muted)]">
-                    Archer Design wholesale {fmtMoney(tier.wholesale)} &middot; TCRM keeps{" "}
-                    {fmtMoney(grossProfit(tier))}
-                  </p>
+              {ACTIVATION_TIERS.map((tier, i) => {
+                const creativeItems = [
+                  `${tier.motionConcepts} original motion concepts`,
+                  `${tier.staticConcepts} original static concepts`,
+                  `${totalConcepts(tier)} total original concepts`,
+                  `${platformFiles(tier)} platform-ready files`,
+                  `${tier.captions} promotional captions`,
+                ];
 
-                  <span className="tl-hline my-6" aria-hidden="true" />
+                const serviceItems = [...tier.features, ...CORE_INCLUDES];
 
-                  <AssetEquation
-                    parts={[
-                      { value: tier.motionConcepts, label: "Motion concepts" },
-                      { value: tier.staticConcepts, label: "Static concepts" },
-                    ]}
-                    total={totalConcepts(tier)}
-                    totalLabel="Original concepts"
-                  />
+                return (
+                  <Reveal
+                    key={tier.key}
+                    delay={(i + 1) as 1 | 2 | 3}
+                    className={`tl-panel${tier.badge ? " tl-panel--featured" : ""} flex flex-col p-7 sm:p-8`}
+                  >
+                    {tier.badge ? (
+                      <span className="tl-pkg-badge">{tier.badge}</span>
+                    ) : null}
 
-                  <div className="tl-pkg-econ mt-5">
-                    <div className="tl-pkg-econ-row">
-                      <span>Platform-ready files</span>
-                      <span>{platformFiles(tier)}</span>
+                    <h3 className="mt-1 text-[21px] text-[var(--tl-ink)]">
+                      {tier.name}
+                    </h3>
+
+                    <p className="tl-pkg-subhead mt-5">
+                      Suggested hotel-facing retail
+                    </p>
+
+                    <p className="tl-pkg-price mt-2">
+                      {fmtMoney(tier.retail)} / property / month
+                    </p>
+
+                    <div className="tl-pkg-econ mt-4">
+                      <div className="tl-pkg-econ-row">
+                        <span>Archer Design wholesale</span>
+                        <strong>{fmtMoney(tier.wholesale)}</strong>
+                      </div>
+
+                      <div className="tl-pkg-econ-row tl-pkg-econ-row--highlight">
+                        <span>TCRM retains</span>
+                        <strong>{fmtMoney(grossProfit(tier))}</strong>
+                      </div>
                     </div>
-                    <div className="tl-pkg-econ-row">
-                      <span>Promotional captions</span>
-                      <span>{tier.captions}</span>
-                    </div>
-                  </div>
 
-                  <span className="tl-hline my-6" aria-hidden="true" />
+                    <span className="tl-hline my-6" aria-hidden="true" />
 
-                  <ul className="flex flex-col gap-2.5">
-                    {tier.features.map((item) => (
-                      <li key={item} className="tl-check">
-                        <span className="tl-check-icon" aria-hidden="true">
-                          <CheckCircle2 size={11} strokeWidth={2} />
-                        </span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+                    <p className="tl-pkg-subhead">Each property receives</p>
 
-                  <p className="tl-pkg-bestfor">Best for: {tier.bestFor}</p>
+                    <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--tl-ink-muted)]">
+                      Original creative
+                    </p>
 
-                  <Link href={`/tcrm/schedule?tier=${tier.key}`} className="tl-btn mt-6">
-                    Choose a three-property pilot
-                    <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden="true" />
-                  </Link>
-                </Reveal>
-              ))}
+                    <ul className="mt-3 flex flex-col gap-2.5">
+                      {creativeItems.map((item) => (
+                        <li key={item} className="tl-check">
+                          <span className="tl-check-icon" aria-hidden="true">
+                            <CheckCircle2 size={11} strokeWidth={2} />
+                          </span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--tl-ink-muted)]">
+                      Delivery and service
+                    </p>
+
+                    <ul className="mt-3 flex flex-col gap-2.5">
+                      {serviceItems.map((item) => (
+                        <li key={item} className="tl-check">
+                          <span className="tl-check-icon" aria-hidden="true">
+                            <CheckCircle2 size={11} strokeWidth={2} />
+                          </span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <span className="tl-hline my-6" aria-hidden="true" />
+
+                    <p className="tl-pkg-bestfor">
+                      <strong>Best for:</strong> {tier.bestFor}
+                    </p>
+
+                    <Link
+                      href={`/tcrm/schedule?tier=${tier.key}`}
+                      className="tl-btn mt-auto"
+                    >
+                      Choose a three-property pilot
+                      <ArrowRight
+                        className="h-3.5 w-3.5"
+                        strokeWidth={2}
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  </Reveal>
+                );
+              })}
             </div>
 
             {/* Pricing footer note, required directly beneath the three cards. */}
@@ -627,37 +649,6 @@ export default function TcrmPage() {
               </p>
             </Reveal>
 
-            {/* Tier comparison, clean rows instead of a third repetition of the bullet lists above. */}
-            <Reveal delay={3} className="mt-10">
-              <p className="tl-pkg-subhead">Activation level comparison</p>
-              <div className="tl-compare mt-4">
-                <div className="tl-compare-row tl-compare-row--tiers tl-compare-row--head">
-                  <span />
-                  {ACTIVATION_TIERS.map((t) => (
-                    <span key={t.key}>{t.name}</span>
-                  ))}
-                </div>
-                {TIER_COMPARISON_ROWS.map((row) => (
-                  <div key={row.label} className="tl-compare-row tl-compare-row--tiers">
-                    <span className="tl-compare-label">{row.label}</span>
-                    {ACTIVATION_TIERS.map((t) => (
-                      <span key={t.key}>{row.cell(t)}</span>
-                    ))}
-                  </div>
-                ))}
-              </div>
-              <p className="tl-pkg-framing mt-4">Every activation level also includes:</p>
-              <ul className="mt-3 flex flex-col gap-2.5 sm:grid sm:grid-cols-2 sm:gap-x-8">
-                {CORE_INCLUDES.map((item) => (
-                  <li key={item} className="tl-check">
-                    <span className="tl-check-icon" aria-hidden="true">
-                      <CheckCircle2 size={11} strokeWidth={2} />
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
           </div>
         </section>
 
