@@ -52,7 +52,17 @@ const AUTH_ROUTES = ["/login", "/auth/callback"];
 // routes such as /topline/schedule are automatically public too, without
 // needing a matching entry added here every time a new proposal sub-page
 // is created.
-const PUBLIC_PREFIXES = ["/tcrm", "/unsubscribe", "/social-media-work", "/review", "/topline"];
+// "/oxford" is the Oxford Hotels & Resorts private concept microsite —
+// noindex and direct-URL only, but intentionally accessible without the
+// owner CRM login guard.
+const PUBLIC_PREFIXES = [
+  "/tcrm",
+  "/unsubscribe",
+  "/social-media-work",
+  "/review",
+  "/topline",
+  "/oxford",
+];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;
