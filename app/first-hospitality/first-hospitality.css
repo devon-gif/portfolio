@@ -1,0 +1,1007 @@
+/* ============================================================================
+   FIRST HOSPITALITY x ARCHER DESIGN, private partnership concept
+   (/first-hospitality)
+
+   A distinct visual identity from this project's other private proposal
+   microsites: deep charcoal-navy ink, warm ivory, and a restrained copper/
+   terracotta accent (not Oxford's bronze, not TCRM's teal) so the page reads
+   as its own commercial partnership concept rather than a reskinned copy.
+   Large editorial serif display type, clean sans-serif body copy, fine
+   hairline borders, generous whitespace, and selective glassmorphism
+   (header, opportunity panel, concept captions, partnership/proof/pilot
+   cards, final CTA) rather than a blanket glass treatment everywhere.
+
+   Scoped ENTIRELY under .fh-theme (fh- prefix, matching this project's other
+   private-proposal pages: .oxford-theme/ox-, .tcrm-theme/tcrm-, etc.) so it
+   can never affect /oxford, /tcrm, /topline, /revstudio, /social-media-work,
+   or the main site. Kept in its own stylesheet (imported by
+   app/first-hospitality/layout.tsx) rather than globals.css.
+   ============================================================================ */
+
+.fh-theme {
+  /* Ink (charcoal-navy, slightly cooler/darker than Oxford's midnight navy) */
+  --fh-ink: #0d1420;
+  --fh-ink-deep: #070b12;
+  --fh-ink-raise: #131b2a;
+  --fh-ink-soft: rgba(250, 246, 238, 0.72);
+  --fh-ink-faint: rgba(250, 246, 238, 0.46);
+
+  /* Warm ivory / off-white */
+  --fh-ivory: #ffffff;
+  --fh-paper: #faf6ee;
+  --fh-paper-2: #f2ecdd;
+
+  /* Body ink on light surfaces (warm charcoal, not blue-gray, to stay
+     visually distinct from /oxford's slate) */
+  --fh-slate: #362f27;
+  --fh-slate-soft: rgba(54, 47, 39, 0.66);
+  --fh-slate-faint: rgba(54, 47, 39, 0.42);
+
+  /* Restrained copper / terracotta accent, used sparingly */
+  --fh-copper: #b8703f;
+  --fh-copper-soft: rgba(184, 112, 63, 0.55);
+  --fh-copper-line: rgba(184, 112, 63, 0.32);
+
+  --fh-line-on-white: rgba(13, 20, 32, 0.12);
+  --fh-line-on-ink: rgba(250, 246, 238, 0.14);
+
+  /* Restrained luxury-glass system, used selectively (header, opportunity
+     panel, concept captions, service/workflow/partnership/pilot cards,
+     final CTA) -- never as a blanket wrapper around every section. */
+  --fh-glass-light-bg: rgba(255, 255, 255, 0.5);
+  --fh-glass-light-border: rgba(13, 20, 32, 0.1);
+  --fh-glass-dark-bg: rgba(13, 20, 32, 0.56);
+  --fh-glass-dark-border: rgba(250, 246, 238, 0.14);
+  --fh-glass-elevated-bg: rgba(10, 15, 24, 0.94);
+  --fh-glass-elevated-border: rgba(184, 112, 63, 0.24);
+  --fh-glass-blur: blur(18px) saturate(150%);
+  --fh-glass-shadow: 0 28px 64px -38px rgba(13, 20, 32, 0.32);
+  --fh-glass-shadow-ink: 0 28px 64px -34px rgba(0, 0, 0, 0.5);
+  --fh-glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  --fh-glass-inset-ink: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  --fh-ease: cubic-bezier(0.22, 0.61, 0.19, 0.99);
+
+  position: relative;
+  background: var(--fh-paper);
+  color: var(--fh-slate);
+  font-family: var(--font-geist-sans, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+.fh-theme img,
+.fh-theme video { max-width: 100%; display: block; }
+.fh-theme a { color: inherit; text-decoration: none; }
+
+.fh-theme a:focus-visible,
+.fh-theme button:focus-visible,
+.fh-theme [tabindex]:focus-visible {
+  outline: 2px solid var(--fh-copper);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.fh-theme .fh-serif,
+.fh-theme h1,
+.fh-theme h2,
+.fh-theme h3 {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.fh-theme .fh-shell {
+  width: min(1280px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.fh-theme .fh-eyebrow {
+  font-size: 11.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--fh-copper);
+}
+
+.fh-theme .fh-label-row { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+.fh-theme .fh-label-row .fh-rule { width: 32px; height: 1px; background: var(--fh-copper-line); }
+
+.fh-theme .fh-section-head { max-width: 780px; }
+.fh-theme .fh-section-head h2 { font-size: clamp(1.8rem, 3.2vw, 2.6rem); line-height: 1.22; margin: 0 0 16px; }
+.fh-theme .fh-section-head p { font-size: 15.5px; line-height: 1.75; color: var(--fh-slate-soft); margin: 0; }
+
+/* ---------- buttons + links ---------- */
+.fh-theme .fh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 15px 30px;
+  border-radius: 2px;
+  transition: background 0.4s var(--fh-ease), color 0.4s var(--fh-ease), border-color 0.4s var(--fh-ease), transform 0.3s var(--fh-ease);
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.fh-theme .fh-btn-primary {
+  background: var(--fh-copper);
+  color: var(--fh-paper);
+  border-color: var(--fh-copper);
+}
+.fh-theme .fh-btn-primary:hover { background: transparent; color: var(--fh-copper); transform: translateY(-1px); }
+.fh-theme .fh-on-ink .fh-btn-primary,
+.fh-theme .fh-on-ink-deep .fh-btn-primary { color: var(--fh-ink-deep); }
+.fh-theme .fh-on-ink .fh-btn-primary:hover,
+.fh-theme .fh-on-ink-deep .fh-btn-primary:hover { background: transparent; color: var(--fh-copper); border-color: var(--fh-copper); }
+.fh-theme .fh-btn-ghost-light {
+  border-color: rgba(250, 246, 238, 0.35);
+  color: var(--fh-paper);
+  background: transparent;
+}
+.fh-theme .fh-btn-ghost-light:hover { background: rgba(250, 246, 238, 0.08); border-color: rgba(250, 246, 238, 0.65); }
+.fh-theme .fh-btn-ghost-dark {
+  border-color: rgba(13, 20, 32, 0.28);
+  color: var(--fh-slate);
+  background: transparent;
+}
+.fh-theme .fh-btn-ghost-dark:hover { background: rgba(13, 20, 32, 0.05); border-color: rgba(13, 20, 32, 0.5); }
+.fh-theme .fh-text-link {
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  opacity: 0.86;
+  transition: opacity 0.3s var(--fh-ease);
+}
+.fh-theme .fh-text-link:hover { opacity: 1; }
+.fh-theme header .fh-text-link { color: var(--fh-paper); }
+
+/* ---------- reveal system ---------- */
+.fh-theme .fh-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.9s var(--fh-ease), transform 0.9s var(--fh-ease);
+}
+.fh-theme .fh-reveal.is-visible { opacity: 1; transform: translateY(0); }
+.fh-theme .fh-reveal-d1 { transition-delay: 0.08s; }
+.fh-theme .fh-reveal-d2 { transition-delay: 0.16s; }
+.fh-theme .fh-reveal-d3 { transition-delay: 0.24s; }
+.fh-theme .fh-reveal-d4 { transition-delay: 0.32s; }
+@media (prefers-reduced-motion: reduce) {
+  .fh-theme .fh-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* ---------- glass utilities ---------- */
+.fh-theme .fh-glass {
+  background: var(--fh-glass-light-bg);
+  border: 1px solid var(--fh-glass-light-border);
+  backdrop-filter: var(--fh-glass-blur);
+  -webkit-backdrop-filter: var(--fh-glass-blur);
+  box-shadow: var(--fh-glass-shadow), var(--fh-glass-inset);
+  border-radius: 16px;
+}
+.fh-theme .fh-glass-dark {
+  background: var(--fh-glass-dark-bg);
+  border: 1px solid var(--fh-glass-dark-border);
+  backdrop-filter: var(--fh-glass-blur);
+  -webkit-backdrop-filter: var(--fh-glass-blur);
+  box-shadow: var(--fh-glass-shadow-ink), var(--fh-glass-inset-ink);
+  border-radius: 16px;
+}
+.fh-theme .fh-glass-elevated {
+  background: var(--fh-glass-elevated-bg);
+  border: 1px solid var(--fh-glass-elevated-border);
+  backdrop-filter: var(--fh-glass-blur);
+  -webkit-backdrop-filter: var(--fh-glass-blur);
+  box-shadow: var(--fh-glass-shadow-ink), var(--fh-glass-inset-ink);
+  border-radius: 18px;
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .fh-theme .fh-glass { background: rgba(255, 255, 255, 0.86); }
+  .fh-theme .fh-glass-dark { background: rgba(13, 20, 32, 0.88); }
+  .fh-theme .fh-glass-elevated { background: rgba(10, 15, 24, 0.94); }
+}
+@media (max-width: 640px) {
+  .fh-theme .fh-glass,
+  .fh-theme .fh-glass-dark,
+  .fh-theme .fh-glass-elevated { backdrop-filter: blur(10px) saturate(140%); -webkit-backdrop-filter: blur(10px) saturate(140%); }
+}
+
+/* ---------- section backgrounds ---------- */
+.fh-theme .fh-on-white { background: var(--fh-paper); }
+.fh-theme .fh-on-white-alt { background: var(--fh-paper-2); }
+.fh-theme .fh-on-ink { background: var(--fh-ink); color: var(--fh-ink-soft); }
+.fh-theme .fh-on-ink-deep { background: var(--fh-ink-deep); color: var(--fh-ink-soft); }
+.fh-theme .fh-on-ink h2, .fh-theme .fh-on-ink h3,
+.fh-theme .fh-on-ink-deep h2, .fh-theme .fh-on-ink-deep h3 { color: var(--fh-paper); }
+.fh-theme .fh-on-ink p, .fh-theme .fh-on-ink-deep p { color: var(--fh-ink-soft); }
+.fh-theme .fh-section-pad { padding: clamp(56px, 7vw, 96px) 0; }
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.fh-theme .fh-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(7, 11, 18, 0.56);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border-bottom: 1px solid rgba(250, 246, 238, 0.08);
+  transition: background 0.4s var(--fh-ease), border-color 0.4s var(--fh-ease);
+}
+.fh-theme .fh-header.is-scrolled {
+  background: rgba(7, 11, 18, 0.86);
+  border-bottom-color: var(--fh-line-on-ink);
+  box-shadow: 0 14px 32px -22px rgba(0, 0, 0, 0.6);
+}
+@media (max-width: 640px) {
+  .fh-theme .fh-header { backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%); }
+}
+.fh-theme .fh-logo-group { display: flex; min-width: 0; align-items: center; gap: 10px; flex-wrap: wrap; }
+.fh-theme .fh-logo-word {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 13.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fh-paper);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.fh-theme .fh-logo-word-accent { color: var(--fh-copper); }
+.fh-theme .fh-logo-x { color: rgba(250, 246, 238, 0.4); font-size: 12px; }
+.fh-theme .fh-logo-microcopy {
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(250, 246, 238, 0.46);
+  font-weight: 500;
+}
+.fh-theme .fh-header-nav-link {
+  color: rgba(250, 246, 238, 0.78);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: color 0.25s var(--fh-ease);
+}
+.fh-theme .fh-header-nav-link:hover,
+.fh-theme .fh-header-nav-link:focus-visible { color: var(--fh-copper); }
+.fh-theme .fh-header-menu-btn {
+  border-color: rgba(250, 246, 238, 0.28);
+  color: rgba(250, 246, 238, 0.88);
+  background: transparent;
+}
+.fh-theme .fh-mobile-nav {
+  background: rgba(7, 11, 18, 0.98);
+  border-color: var(--fh-line-on-ink);
+}
+.fh-theme .fh-progress {
+  position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%;
+  background: var(--fh-copper); transform-origin: left center; transform: scaleX(0);
+  display: block;
+}
+@media (max-width: 900px) { .fh-theme .fh-logo-microcopy { display: none; } }
+@media (max-width: 560px) { .fh-theme .fh-logo-word { font-size: 11.5px; } }
+
+/* ============================================================
+   MEDIA FRAME + PLACEHOLDER SYSTEM
+   ============================================================ */
+.fh-theme .fh-media-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--fh-ink);
+  isolation: isolate;
+  width: 100%;
+}
+.fh-theme .fh-media-frame video::-webkit-media-controls { display: none !important; }
+.fh-theme .fh-media-frame { transition: transform 0.5s var(--fh-ease), box-shadow 0.5s var(--fh-ease); }
+
+.fh-theme .fh-placeholder {
+  background:
+    linear-gradient(155deg, rgba(184, 112, 63, 0.16), transparent 55%),
+    linear-gradient(325deg, rgba(184, 112, 63, 0.1), transparent 60%),
+    linear-gradient(160deg, #101a2c 0%, #182440 48%, #0d1420 100%);
+  border: 1px solid rgba(250, 246, 238, 0.08);
+}
+.fh-theme .fh-placeholder::before,
+.fh-theme .fh-placeholder::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--fh-copper-line);
+  pointer-events: none;
+}
+.fh-theme .fh-placeholder::before { top: 14px; left: 14px; border-right: 0; border-bottom: 0; }
+.fh-theme .fh-placeholder::after { bottom: 14px; right: 14px; border-left: 0; border-top: 0; }
+.fh-theme .fh-placeholder-inner {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 26px; gap: 8px;
+}
+.fh-theme .fh-placeholder-eyebrow {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fh-copper-soft); font-weight: 600;
+}
+.fh-theme .fh-placeholder-property {
+  font-family: var(--font-luxury-serif), serif; font-style: italic; font-size: clamp(15px, 2vw, 19px);
+  color: var(--fh-paper); margin: 0; max-width: 30ch;
+}
+.fh-theme .fh-placeholder-category {
+  font-size: 12.5px; line-height: 1.6; color: var(--fh-ink-faint); max-width: 34ch; margin: 0;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.fh-theme .fh-hero-cinematic { width: 100%; background: var(--fh-ink); padding: clamp(28px, 4vw, 56px) 0; }
+.fh-theme .fh-hero-shell { width: min(94vw, 2200px); margin: 0 auto; }
+.fh-theme .fh-hero-media-box {
+  position: relative;
+  width: 100%;
+  height: clamp(560px, 85vh, 1080px);
+  border-radius: 10px;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  box-shadow: 0 60px 120px -60px rgba(7, 11, 18, 0.75);
+}
+@media (min-width: 900px) { .fh-theme .fh-hero-media-box { height: clamp(600px, 90vh, 1120px); } }
+@media (min-width: 1400px) { .fh-theme .fh-hero-media-box { height: clamp(640px, 95vh, 1180px); } }
+.fh-theme .fh-hero-media-box .fh-media-frame { position: absolute; inset: 0; border-radius: 0; }
+.fh-theme .fh-hero-overlay {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(7, 11, 18, 0.1) 0%, rgba(7, 11, 18, 0.3) 45%, rgba(7, 11, 18, 0.88) 100%);
+}
+.fh-theme .fh-hero-copy {
+  position: relative; z-index: 2; width: 100%;
+  padding: clamp(28px, 4vw, 48px) clamp(24px, 4vw, 56px) clamp(32px, 5vw, 56px);
+}
+.fh-theme .fh-hero-copy .fh-eyebrow { color: var(--fh-copper); margin-bottom: 18px; display: block; font-size: 13px; letter-spacing: 0.24em; font-weight: 700; }
+.fh-theme .fh-hero-copy h1 {
+  margin: 0 0 20px;
+  color: var(--fh-paper);
+  font-size: clamp(2.1rem, 4.8vw, 3.9rem);
+  line-height: 1.1;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  max-width: 18ch;
+}
+.fh-theme .fh-hero-copy p.fh-sub {
+  color: rgba(250, 246, 238, 0.84);
+  font-size: clamp(15px, 1.4vw, 17.5px);
+  max-width: 640px;
+  line-height: 1.7;
+  margin: 0 0 20px;
+}
+.fh-theme .fh-hero-note {
+  display: flex; align-items: flex-start; gap: 8px; max-width: 560px;
+  font-size: 12px; line-height: 1.6; font-style: italic;
+  color: rgba(250, 246, 238, 0.56); margin: 0 0 26px;
+}
+.fh-theme .fh-hero-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+@media (max-width: 640px) {
+  .fh-theme .fh-hero-shell { width: 100%; }
+  .fh-theme .fh-hero-media-box { height: 78vh; border-radius: 0; }
+}
+
+.fh-theme .fh-notice-bar {
+  background: var(--fh-paper); border-bottom: 1px solid var(--fh-line-on-white);
+  padding: 18px 0;
+}
+.fh-theme .fh-notice-bar p {
+  margin: 0; font-size: 12px; line-height: 1.6; font-style: italic;
+  color: var(--fh-slate-faint); max-width: 760px;
+}
+
+/* ============================================================
+   THE OPPORTUNITY — two-column intro (headline + glass list panel)
+   plus the First Hospitality portfolio-context stats row.
+   ============================================================ */
+.fh-theme .fh-opportunity-shell { width: min(90vw, 1550px); margin: 0 auto; }
+.fh-theme .fh-opportunity-grid {
+  display: grid;
+  grid-template-columns: 43% 1fr;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+.fh-theme .fh-opportunity-left h2 {
+  font-size: clamp(1.9rem, 2.9vw, 2.7rem);
+  line-height: 1.22;
+  margin: 0 0 16px;
+}
+.fh-theme .fh-opportunity-left p { font-size: 15.5px; line-height: 1.75; color: var(--fh-slate-soft); margin: 0; max-width: 46ch; }
+.fh-theme .fh-opportunity-panel { padding: clamp(28px, 3.4vw, 40px); }
+.fh-theme .fh-opportunity-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+.fh-theme .fh-opportunity-list li {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 15px; line-height: 1.65; color: var(--fh-slate);
+}
+.fh-theme .fh-opportunity-list li svg { color: var(--fh-copper); flex-shrink: 0; margin-top: 3px; }
+@media (max-width: 900px) {
+  .fh-theme .fh-opportunity-grid { grid-template-columns: 1fr; }
+  .fh-theme .fh-opportunity-left h2 { max-width: 34ch; }
+  .fh-theme .fh-opportunity-left p { max-width: none; }
+}
+
+.fh-theme .fh-portfolio-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 2vw, 24px);
+  margin-top: clamp(56px, 6vw, 80px);
+}
+.fh-theme .fh-portfolio-stat { text-align: center; padding: clamp(20px, 2.2vw, 28px) 12px; border-left: 1px solid var(--fh-line-on-white); }
+.fh-theme .fh-portfolio-stat:first-child { border-left: none; }
+.fh-theme .fh-portfolio-stat .fh-num { display: block; font-size: clamp(1.9rem, 3.4vw, 2.7rem); color: var(--fh-slate); margin-bottom: 6px; }
+.fh-theme .fh-portfolio-stat .fh-lbl { font-size: 12.5px; letter-spacing: 0.04em; color: var(--fh-slate-soft); }
+.fh-theme .fh-portfolio-support { max-width: 760px; margin: clamp(28px, 3vw, 40px) auto 0; font-size: 15px; line-height: 1.75; color: var(--fh-slate-soft); text-align: center; }
+.fh-theme .fh-portfolio-source { max-width: 640px; margin: 14px auto 0; font-size: 12px; line-height: 1.6; color: var(--fh-slate-faint); text-align: center; font-style: italic; }
+@media (max-width: 720px) {
+  .fh-theme .fh-portfolio-stats { grid-template-columns: repeat(2, 1fr); }
+  .fh-theme .fh-portfolio-stat:nth-child(3) { border-left: none; }
+}
+
+/* ============================================================
+   EXISTING ARCHER DESIGN WORK — one slideshow of real, already-delivered
+   client work (not the five First Hospitality custom concepts, which are
+   distributed as large editorial features throughout the page instead --
+   see the FEATURE system further below).
+   ============================================================ */
+.fh-theme .fh-concept-disclaimer { font-size: 12.5px; line-height: 1.6; color: var(--fh-ink-faint); max-width: 70ch; margin: 10px 0 0; font-style: italic; }
+.fh-theme .fh-existing-work-intro { max-width: 760px; margin: clamp(18px, 2vw, 26px) 0 0; font-size: 14.5px; line-height: 1.75; color: var(--fh-ink-soft); }
+.fh-theme .fh-existing-work-note { max-width: 760px; margin: clamp(18px, 2vw, 24px) 0 0; font-size: 12.5px; line-height: 1.65; color: var(--fh-ink-faint); font-style: italic; }
+
+/* ── Filters ── */
+.fh-theme .fh-gallery-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: clamp(20px, 2.4vw, 28px); }
+.fh-theme .fh-gallery-filter {
+  border: 1px solid var(--fh-line-on-ink);
+  background: transparent;
+  color: var(--fh-ink-soft);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s var(--fh-ease), color 0.2s var(--fh-ease), background 0.2s var(--fh-ease);
+}
+.fh-theme .fh-gallery-filter:hover { border-color: var(--fh-copper); color: var(--fh-paper); }
+.fh-theme .fh-gallery-filter.is-active { background: var(--fh-copper); border-color: var(--fh-copper); color: var(--fh-ink); }
+
+/* ── Primary stage ── */
+.fh-theme .fh-gallery-stage-wrap { position: relative; }
+.fh-theme .fh-gallery-stage {
+  margin: 0 auto;
+  max-height: min(66vh, 640px);
+  max-width: 100%;
+}
+.fh-theme .fh-gallery-stage--portrait { max-width: min(88vw, 440px); }
+.fh-theme .fh-gallery-stage video,
+.fh-theme .fh-gallery-stage img { transition: opacity 0.35s var(--fh-ease); }
+@media (prefers-reduced-motion: reduce) {
+  .fh-theme .fh-gallery-stage video,
+  .fh-theme .fh-gallery-stage img { transition: none; }
+}
+
+.fh-theme .fh-gallery-caption {
+  position: absolute; inset-inline: 0; bottom: 0;
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 18px clamp(16px, 2.4vw, 26px);
+  background: linear-gradient(0deg, rgba(11, 15, 23, 0.86) 0%, rgba(11, 15, 23, 0) 100%);
+  pointer-events: none;
+}
+.fh-theme .fh-gallery-caption-title { font-size: 14.5px; font-weight: 600; color: var(--fh-paper); }
+.fh-theme .fh-gallery-caption-subtitle { font-size: 12px; color: var(--fh-copper-soft); letter-spacing: 0.03em; }
+
+.fh-theme .fh-gallery-counter {
+  position: absolute; top: 14px; right: 16px;
+  font-size: 11px; letter-spacing: 0.1em; font-variant-numeric: tabular-nums;
+  color: rgba(250, 246, 238, 0.85);
+  background: rgba(11, 15, 23, 0.55);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.fh-theme .fh-gallery-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  display: grid; place-items: center;
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(250, 246, 238, 0.28);
+  background: rgba(11, 15, 23, 0.55);
+  color: var(--fh-paper);
+  cursor: pointer;
+  transition: border-color 0.2s var(--fh-ease), background 0.2s var(--fh-ease);
+}
+.fh-theme .fh-gallery-arrow:hover:not(:disabled) { border-color: var(--fh-copper); background: rgba(11, 15, 23, 0.78); }
+.fh-theme .fh-gallery-arrow:disabled { opacity: 0.35; cursor: default; }
+.fh-theme .fh-gallery-arrow--prev { left: 10px; }
+.fh-theme .fh-gallery-arrow--next { right: 10px; }
+@media (max-width: 560px) {
+  .fh-theme .fh-gallery-arrow { width: 34px; height: 34px; }
+}
+
+.fh-theme .fh-gallery-live {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+.fh-theme .fh-gallery-disclaimer { margin-top: clamp(14px, 1.6vw, 18px); }
+
+/* ── Thumbnail strip ── */
+.fh-theme .fh-gallery-strip {
+  display: flex; gap: 10px;
+  margin-top: clamp(16px, 1.8vw, 22px);
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+.fh-theme .fh-gallery-thumb {
+  position: relative;
+  flex: 0 0 auto;
+  width: 84px; height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  background: rgba(250, 246, 238, 0.06);
+  opacity: 0.65;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s var(--fh-ease), border-color 0.2s var(--fh-ease);
+}
+.fh-theme .fh-gallery-thumb:hover { opacity: 0.9; }
+.fh-theme .fh-gallery-thumb.is-active { opacity: 1; border-color: var(--fh-copper); }
+.fh-theme .fh-gallery-thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fh-theme .fh-gallery-thumb-fallback { display: block; width: 100%; height: 100%; background: rgba(250, 246, 238, 0.08); }
+
+.fh-theme .fh-existing-logos { display: flex; align-items: center; gap: clamp(14px, 2vw, 22px); flex-wrap: wrap; margin-top: clamp(28px, 3vw, 36px); }
+.fh-theme .fh-existing-logo-chip {
+  display: flex; align-items: center; justify-content: center;
+  height: 56px; padding: 0 20px; border-radius: 10px;
+}
+.fh-theme .fh-existing-logo-chip img { height: 34px; width: auto; max-width: 140px; object-fit: contain; }
+/* "light" = color/black marks on a pale chip. */
+.fh-theme .fh-existing-logo-chip--light { background: var(--fh-paper); border: 1px solid rgba(250, 246, 238, 0.12); }
+/* "dark" = white-only marks (no color/black variant available) on a deep chip, so they stay visible. */
+.fh-theme .fh-existing-logo-chip--dark { background: rgba(250, 246, 238, 0.06); border: 1px solid rgba(250, 246, 238, 0.16); }
+
+/* ============================================================
+   CUSTOM VIDEO FEATURE SECTIONS — one reusable structure (media + copy),
+   three CSS-driven variants, so the five First Hospitality custom concepts
+   read as large, distinct editorial moments distributed through the page
+   rather than one uniform carousel. See components/FirstHospitalityFeature.tsx.
+   ============================================================ */
+.fh-theme .fh-feature-pad { padding: clamp(56px, 6vw, 88px) 0; }
+.fh-theme .fh-feature { position: relative; }
+
+.fh-theme .fh-feature-media { position: relative; }
+.fh-theme .fh-feature-frame { width: 100%; }
+.fh-theme .fh-feature-media-caption {
+  position: absolute; top: 16px; left: 16px;
+  font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
+  color: rgba(250, 246, 238, 0.92);
+  background: rgba(11, 15, 23, 0.5);
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+.fh-theme .fh-feature-number {
+  display: block;
+  font-family: var(--font-luxury-serif), serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--fh-copper);
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+.fh-theme .fh-feature-property {
+  display: block;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--fh-copper-soft);
+  margin-bottom: 8px;
+}
+.fh-theme .fh-feature-copy h3 { font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.24; margin: 0 0 14px; }
+.fh-theme .fh-feature-copy p { font-size: 15.5px; line-height: 1.75; margin: 0; }
+.fh-theme .fh-feature-disclaimer { margin-top: 16px; }
+
+/* ── "split": classic two-column video-and-copy layout ── */
+.fh-theme .fh-feature--split {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(32px, 4vw, 56px);
+  align-items: center;
+}
+.fh-theme .fh-feature--split.fh-feature--asymmetric { grid-template-columns: 0.82fr 1.18fr; }
+.fh-theme .fh-feature--split.fh-feature--reversed { grid-template-columns: 0.95fr 1.05fr; }
+.fh-theme .fh-feature--split.fh-feature--reversed.fh-feature--asymmetric { grid-template-columns: 1.18fr 0.82fr; }
+.fh-theme .fh-feature--split.fh-feature--reversed .fh-feature-media { order: 2; }
+.fh-theme .fh-feature--split.fh-feature--reversed .fh-feature-copy { order: 1; }
+/* Portrait clips in the narrower asymmetric column (the cocktail feature)
+   were growing too tall at wide viewports since the frame filled 100% of
+   its grid column; cap it to a sensible width instead of letting it scale
+   with the column. */
+.fh-theme .fh-feature--split.fh-feature--asymmetric .fh-feature-media { max-width: 320px; }
+.fh-theme .fh-feature--split.fh-feature--reversed.fh-feature--asymmetric .fh-feature-media { margin-left: auto; }
+@media (max-width: 860px) {
+  .fh-theme .fh-feature--split { grid-template-columns: 1fr; }
+  .fh-theme .fh-feature--split .fh-feature-media,
+  .fh-theme .fh-feature--split .fh-feature-copy { order: initial; }
+  .fh-theme .fh-feature--split.fh-feature--asymmetric .fh-feature-media { max-width: 280px; margin-left: auto; margin-right: auto; }
+}
+
+/* ── "full": near-full-width cinematic video, copy layered over a bottom
+   gradient so the media itself stays the dominant element ── */
+.fh-theme .fh-feature--full .fh-feature-media { width: 100%; }
+.fh-theme .fh-feature--full .fh-feature-copy {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  max-width: 640px;
+  padding: clamp(24px, 4vw, 48px);
+  background: linear-gradient(0deg, rgba(11, 15, 23, 0.94) 0%, rgba(11, 15, 23, 0.55) 55%, rgba(11, 15, 23, 0) 100%);
+}
+.fh-theme .fh-feature--full .fh-feature-copy h3 { color: var(--fh-paper); }
+.fh-theme .fh-feature--full .fh-feature-copy p { color: rgba(250, 246, 238, 0.82); }
+.fh-theme .fh-feature--full .fh-feature-copy .fh-concept-disclaimer { color: rgba(250, 246, 238, 0.55); }
+@media (max-width: 720px) {
+  .fh-theme .fh-feature--full .fh-feature-copy { position: static; max-width: none; background: none; padding-top: 20px; }
+}
+
+/* ── "portrait": centered, generously-sized portrait frame with copy
+   alongside on desktop -- built for the vertical clips ── */
+.fh-theme .fh-feature--portrait {
+  display: grid;
+  grid-template-columns: minmax(0, 300px) 1fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+  max-width: 820px;
+  margin: 0 auto;
+}
+.fh-theme .fh-feature--portrait .fh-feature-media { max-width: 300px; margin: 0 auto; }
+@media (max-width: 720px) {
+  .fh-theme .fh-feature--portrait { grid-template-columns: 1fr; max-width: 300px; }
+  .fh-theme .fh-feature--portrait .fh-feature-media { max-width: 260px; }
+}
+
+/* ============================================================
+   WHAT ARCHER PROVIDES — capability grid
+   ============================================================ */
+.fh-theme .fh-service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: clamp(32px, 3.6vw, 44px);
+}
+.fh-theme .fh-service-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 16px 18px;
+  border: 1px solid var(--fh-line-on-white);
+  border-radius: 10px;
+  font-size: 13.5px;
+  color: var(--fh-slate);
+  background: var(--fh-ivory);
+}
+.fh-theme .fh-service-item svg { color: var(--fh-copper); flex-shrink: 0; }
+@media (max-width: 900px) { .fh-theme .fh-service-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .fh-theme .fh-service-grid { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   PARTNERSHIP WORKFLOW
+   ============================================================ */
+.fh-theme .fh-workflow-cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 2vw, 24px);
+  margin-top: clamp(32px, 3.6vw, 44px);
+}
+.fh-theme .fh-workflow-col { position: relative; padding: clamp(22px, 2.4vw, 28px); display: flex; flex-direction: column; gap: 8px; }
+.fh-theme .fh-idx { font-size: clamp(1.15rem, 1.6vw, 1.4rem); color: var(--fh-copper); font-family: var(--font-luxury-serif), serif; }
+.fh-theme .fh-workflow-col h3 { font-size: 16px; font-weight: 400; color: var(--fh-slate); margin: 0; line-height: 1.3; }
+.fh-theme .fh-workflow-col p { font-size: 13px; line-height: 1.6; color: var(--fh-slate-soft); margin: 0; }
+.fh-theme .fh-workflow-col:not(:last-child)::after {
+  content: "\2192"; position: absolute; top: 50%; right: clamp(-20px, -2.2vw, -16px); transform: translateY(-50%);
+  color: var(--fh-copper-soft); font-size: 15px; z-index: 1;
+}
+.fh-theme .fh-workflow-summary { text-align: center; font-size: 14px; font-weight: 600; letter-spacing: 0.02em; color: var(--fh-slate); margin-top: clamp(28px, 3vw, 40px); }
+@media (max-width: 900px) {
+  .fh-theme .fh-workflow-cols { grid-template-columns: repeat(2, 1fr); }
+  .fh-theme .fh-workflow-col:nth-child(2)::after { display: none; }
+}
+@media (max-width: 560px) {
+  .fh-theme .fh-workflow-cols { grid-template-columns: 1fr; }
+  .fh-theme .fh-workflow-col::after { content: "\2193" !important; top: auto !important; right: auto !important; bottom: -18px !important; left: 50% !important; transform: translateX(-50%) !important; }
+}
+
+/* ============================================================
+   COMMERCIAL PARTNERSHIP MODELS
+   ============================================================ */
+.fh-theme .fh-partnership-models {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(18px, 2.2vw, 26px);
+  margin-top: clamp(32px, 3.6vw, 44px);
+}
+.fh-theme .fh-partnership-model { padding: clamp(26px, 2.8vw, 32px); display: flex; flex-direction: column; gap: 10px; }
+.fh-theme .fh-partnership-model h3 { font-size: 17px; color: var(--fh-slate); margin: 0; }
+.fh-theme .fh-partnership-model p { font-size: 13.5px; line-height: 1.7; color: var(--fh-slate-soft); margin: 0; }
+.fh-theme .fh-partnership-qualification {
+  display: inline-block; margin-top: clamp(28px, 3vw, 36px);
+  padding: 10px 18px; border-radius: 999px;
+  border: 1px solid var(--fh-copper-line); color: var(--fh-copper);
+  font-size: 12.5px; font-weight: 600; letter-spacing: 0.02em;
+}
+.fh-theme .fh-partnership-transparency { margin-top: 16px; font-size: 13px; line-height: 1.65; color: var(--fh-slate-soft); max-width: 70ch; }
+.fh-theme .fh-partnership-emphasis { margin-top: 4px; font-size: 13.5px; line-height: 1.6; color: var(--fh-slate); font-weight: 600; }
+.fh-theme .fh-partnership-quote {
+  margin: clamp(28px, 3vw, 36px) 0 0; padding: 18px 22px; max-width: 70ch;
+  border-left: 3px solid var(--fh-copper-line); font-size: 14px; line-height: 1.65;
+  color: var(--fh-slate); font-style: italic;
+}
+@media (max-width: 900px) { .fh-theme .fh-partnership-models { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   PROOF — metrics row + Hotel Indigo qualified callout
+   ============================================================ */
+.fh-theme .fh-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 2vw, 24px);
+}
+.fh-theme .fh-metric { text-align: center; padding: clamp(18px, 2vw, 26px) 10px; border-left: 1px solid var(--fh-line-on-ink); }
+.fh-theme .fh-metric:first-child { border-left: none; }
+.fh-theme .fh-metrics-ink .fh-metric { border-left-color: var(--fh-line-on-ink); }
+.fh-theme .fh-metric .fh-num { display: block; font-size: clamp(1.8rem, 3.2vw, 2.5rem); color: var(--fh-paper); margin-bottom: 6px; }
+.fh-theme .fh-metric .fh-lbl { font-size: 12px; letter-spacing: 0.04em; color: rgba(250, 246, 238, 0.6); }
+.fh-theme .fh-proof-note { max-width: 760px; margin: clamp(20px, 2.4vw, 28px) auto 0; font-size: 12.5px; line-height: 1.65; color: rgba(250, 246, 238, 0.5); text-align: center; font-style: italic; }
+@media (max-width: 720px) { .fh-theme .fh-metrics { grid-template-columns: repeat(2, 1fr); } }
+
+.fh-theme .fh-indigo-card { margin-top: clamp(48px, 5vw, 64px); padding: clamp(30px, 3.4vw, 44px); text-align: center; max-width: 820px; margin-left: auto; margin-right: auto; }
+.fh-theme .fh-indigo-quote { font-size: clamp(1.15rem, 1.8vw, 1.5rem); line-height: 1.4; color: var(--fh-paper); margin: 0 0 18px; }
+.fh-theme .fh-indigo-support { font-size: 13.5px; line-height: 1.7; color: rgba(250, 246, 238, 0.68); margin: 0 0 14px; }
+.fh-theme .fh-indigo-name { font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fh-copper); font-weight: 600; margin: 0 0 12px; }
+.fh-theme .fh-indigo-qualification { font-size: 11.5px; line-height: 1.6; color: rgba(250, 246, 238, 0.42); margin: 0; font-style: italic; }
+
+/* ============================================================
+   PILOT
+   ============================================================ */
+.fh-theme .fh-pilot-structure {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(14px, 1.6vw, 20px);
+  margin-top: clamp(32px, 3.6vw, 44px);
+}
+.fh-theme .fh-pilot-struct-item { text-align: center; padding: clamp(18px, 2vw, 24px) 10px; }
+.fh-theme .fh-pilot-struct-item .fh-num { display: block; font-family: var(--font-luxury-serif), serif; font-size: clamp(1.3rem, 2vw, 1.7rem); color: var(--fh-copper); margin-bottom: 4px; }
+.fh-theme .fh-pilot-struct-item .fh-lbl { font-size: 12px; color: var(--fh-slate-soft); }
+.fh-theme .fh-pilot-items { list-style: none; margin: clamp(28px, 3vw, 36px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 24px; }
+.fh-theme .fh-pilot-items li { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; line-height: 1.6; color: var(--fh-slate); }
+.fh-theme .fh-pilot-items li svg { color: var(--fh-copper); flex-shrink: 0; margin-top: 3px; }
+.fh-theme .fh-pilot-scope-note { margin-top: clamp(24px, 2.6vw, 32px); font-size: 13px; color: var(--fh-slate-soft); font-style: italic; }
+.fh-theme .fh-pilot-cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; margin-top: clamp(28px, 3vw, 36px); }
+.fh-theme .fh-pilot-review-heading { margin: clamp(28px, 3vw, 36px) 0 14px; font-size: 12.5px; font-weight: 600; letter-spacing: 0.04em; color: var(--fh-slate); }
+.fh-theme .fh-pilot-review-grid {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px 18px;
+}
+.fh-theme .fh-pilot-review-grid li {
+  font-size: 13px; color: var(--fh-slate-soft); padding: 8px 12px;
+  border: 1px solid var(--fh-line-on-white); border-radius: 8px; text-align: center;
+}
+.fh-theme .fh-pilot-review-inline { margin: 0; font-size: 13.5px; line-height: 1.8; color: var(--fh-slate-soft); max-width: 70ch; }
+.fh-theme .fh-pilot-closing-copy { margin-top: clamp(20px, 2.2vw, 26px); font-size: 14.5px; line-height: 1.7; color: var(--fh-slate-soft); max-width: 70ch; }
+@media (max-width: 720px) {
+  .fh-theme .fh-pilot-structure { grid-template-columns: repeat(2, 1fr); }
+  .fh-theme .fh-pilot-items { grid-template-columns: 1fr; }
+  .fh-theme .fh-pilot-review-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ============================================================
+   HERO — second supporting line ("First Hospitality packages the
+   service...") set slightly smaller/softer than the primary fh-sub line so
+   the hierarchy stays: headline, primary value copy, then the compact
+   service/produce/receive/retain summary line.
+   ============================================================ */
+.fh-theme .fh-hero-copy p.fh-sub-line { font-size: clamp(13.5px, 1.1vw, 15px); color: rgba(250, 246, 238, 0.68); max-width: 620px; }
+
+/* ============================================================
+   THE SHARED OPPORTUNITY — 3-column value grid + commercial flow diagram
+   ============================================================ */
+.fh-theme .fh-value-columns {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: clamp(18px, 2.2vw, 26px); margin-top: clamp(32px, 3.6vw, 44px);
+}
+.fh-theme .fh-value-column { padding: clamp(24px, 2.6vw, 30px); }
+.fh-theme .fh-value-column h3 { font-size: 15px; letter-spacing: 0.02em; color: var(--fh-slate); margin: 0 0 16px; }
+.fh-theme .fh-value-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.fh-theme .fh-value-list li { display: flex; gap: 9px; align-items: flex-start; font-size: 13.5px; line-height: 1.6; color: var(--fh-slate-soft); }
+.fh-theme .fh-value-list li svg { color: var(--fh-copper); flex-shrink: 0; margin-top: 3px; }
+@media (max-width: 900px) { .fh-theme .fh-value-columns { grid-template-columns: 1fr; } }
+
+.fh-theme .fh-flow-diagram {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: clamp(14px, 1.6vw, 20px); margin-top: clamp(56px, 6vw, 76px);
+}
+.fh-theme .fh-flow-step { position: relative; padding: clamp(20px, 2.2vw, 26px); text-align: center; }
+.fh-theme .fh-flow-step h4 { font-size: 14.5px; color: var(--fh-slate); margin: 0 0 8px; }
+.fh-theme .fh-flow-step p { font-size: 12.5px; line-height: 1.55; color: var(--fh-slate-soft); margin: 0; }
+.fh-theme .fh-flow-step:not(:last-child)::after {
+  content: "\2192"; position: absolute; top: 50%; right: clamp(-18px, -2vw, -14px); transform: translateY(-50%);
+  color: var(--fh-copper-soft); font-size: 14px; z-index: 1;
+}
+.fh-theme .fh-flow-heading { font-size: 13px; letter-spacing: 0.03em; text-transform: uppercase; color: var(--fh-slate); margin: clamp(40px, 4.4vw, 56px) 0 -8px; }
+.fh-theme .fh-flow-note { margin-top: clamp(20px, 2.2vw, 28px); font-size: 12.5px; line-height: 1.6; color: var(--fh-slate-faint); font-style: italic; max-width: 70ch; }
+@media (max-width: 860px) {
+  .fh-theme .fh-flow-diagram { grid-template-columns: repeat(2, 1fr); }
+  .fh-theme .fh-flow-step:nth-child(2)::after { display: none; }
+  .fh-theme .fh-flow-step:not(:last-child)::after { content: "\2193"; top: auto; right: auto; bottom: -16px; left: 50%; transform: translateX(-50%); }
+}
+@media (max-width: 480px) { .fh-theme .fh-flow-diagram { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   COMMERCIAL MODELS — recommended badge on the white-label owner-service
+   card, restrained (a thin copper border + small pill), not a loud banner.
+   ============================================================ */
+.fh-theme .fh-partnership-model { position: relative; }
+.fh-theme .fh-partnership-model--recommended { border-color: var(--fh-copper-line) !important; }
+.fh-theme .fh-partnership-badge {
+  display: inline-block; margin-bottom: 12px; padding: 5px 12px; border-radius: 999px;
+  background: rgba(184, 112, 63, 0.12); border: 1px solid var(--fh-copper-line);
+  color: var(--fh-copper); font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+}
+
+/* ============================================================
+   PARTNER ECONOMICS — package cards (owner-facing price / Archer
+   production rate / First Hospitality retains)
+   ============================================================ */
+.fh-theme .fh-econ-cards {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: clamp(20px, 2.4vw, 30px); margin-top: clamp(32px, 3.6vw, 44px);
+}
+.fh-theme .fh-econ-card { padding: clamp(28px, 3vw, 36px); display: flex; flex-direction: column; gap: 4px; }
+.fh-theme .fh-econ-card h3 { font-size: 19px; color: var(--fh-slate); margin: 0 0 8px; }
+.fh-theme .fh-econ-positioning { font-size: 13px; line-height: 1.6; color: var(--fh-slate-soft); margin: 0 0 20px; }
+.fh-theme .fh-econ-rows { display: flex; flex-direction: column; gap: 10px; padding: 18px 0; border-top: 1px solid var(--fh-line-on-white); border-bottom: 1px solid var(--fh-line-on-white); }
+.fh-theme .fh-econ-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 13.5px; color: var(--fh-slate-soft); }
+.fh-theme .fh-econ-row span:last-child { font-weight: 600; color: var(--fh-slate); font-variant-numeric: tabular-nums; }
+.fh-theme .fh-econ-row--highlight span:first-child { color: var(--fh-slate); font-weight: 600; }
+.fh-theme .fh-econ-row--highlight span:last-child { color: var(--fh-copper); font-size: 15px; }
+.fh-theme .fh-calc-margin-figure { display: inline-flex; align-items: baseline; gap: 6px; }
+.fh-theme .fh-calc-margin-pct { font-size: 11.5px; font-weight: 500; color: var(--fh-copper-soft); }
+.fh-theme .fh-econ-includes-heading { margin: 18px 0 0; font-size: 12px; font-weight: 600; letter-spacing: 0.02em; color: var(--fh-slate); }
+.fh-theme .fh-econ-includes { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.fh-theme .fh-econ-includes:first-of-type { margin-top: 18px; }
+.fh-theme .fh-econ-includes li { display: flex; gap: 8px; align-items: flex-start; font-size: 12.5px; line-height: 1.55; color: var(--fh-slate-soft); }
+.fh-theme .fh-econ-includes li svg { color: var(--fh-copper); flex-shrink: 0; margin-top: 3px; }
+.fh-theme .fh-econ-footnote { margin-top: 10px; font-size: 11px; line-height: 1.55; color: var(--fh-slate-faint); font-style: italic; }
+.fh-theme .fh-econ-annual { margin-top: 16px; font-size: 11.5px; color: var(--fh-slate-faint); font-style: italic; }
+@media (max-width: 860px) { .fh-theme .fh-econ-cards { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   PORTFOLIO REVENUE CALCULATOR
+   ============================================================ */
+.fh-theme .fh-calc-shell { margin-top: clamp(36px, 4vw, 48px); padding: clamp(28px, 3.2vw, 40px); }
+.fh-theme .fh-calc-scenario-label {
+  display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--fh-copper); margin-bottom: 18px;
+}
+.fh-theme .fh-calc-count-row { display: flex; justify-content: center; }
+.fh-theme .fh-calc-count { font-size: 15px; color: var(--fh-slate); margin: 0; }
+.fh-theme .fh-calc-count-num { font-family: var(--font-luxury-serif), serif; font-size: clamp(1.6rem, 2.4vw, 2rem); color: var(--fh-copper); margin-right: 6px; }
+.fh-theme .fh-calc-slider-row { display: flex; align-items: center; gap: 14px; margin-top: 22px; }
+.fh-theme .fh-calc-stepper-btn {
+  flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--fh-line-on-white);
+  display: flex; align-items: center; justify-content: center; background: transparent; color: var(--fh-slate);
+  transition: border-color 0.25s var(--fh-ease), color 0.25s var(--fh-ease);
+}
+.fh-theme .fh-calc-stepper-btn:hover:not(:disabled) { border-color: var(--fh-copper); color: var(--fh-copper); }
+.fh-theme .fh-calc-stepper-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.fh-theme .fh-calc-slider-wrap { position: relative; flex: 1; padding-bottom: 22px; }
+.fh-theme .fh-calc-slider { width: 100%; accent-color: var(--fh-copper); cursor: pointer; }
+.fh-theme .fh-calc-slider-labels { position: relative; margin-top: 6px; height: 14px; }
+.fh-theme .fh-calc-slider-label { position: absolute; font-size: 10.5px; color: var(--fh-slate-faint); white-space: nowrap; }
+.fh-theme .fh-calc-num-input {
+  flex-shrink: 0; width: 64px; text-align: center; padding: 7px 6px; border-radius: 8px;
+  border: 1px solid var(--fh-line-on-white); background: var(--fh-ivory); color: var(--fh-slate); font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.fh-theme .fh-calc-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; justify-content: center; }
+.fh-theme .fh-calc-tab {
+  padding: 9px 18px; border-radius: 999px; border: 1px solid var(--fh-line-on-white); background: transparent;
+  color: var(--fh-slate-soft); font-size: 12.5px; font-weight: 600; cursor: pointer;
+  transition: border-color 0.25s var(--fh-ease), color 0.25s var(--fh-ease), background 0.25s var(--fh-ease);
+}
+.fh-theme .fh-calc-tab.is-active { border-color: var(--fh-copper); color: var(--fh-copper); background: rgba(184, 112, 63, 0.1); }
+.fh-theme .fh-calc-results { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 26px; }
+.fh-theme .fh-calc-results--compare { grid-template-columns: repeat(2, 1fr); }
+.fh-theme .fh-calc-result-card {
+  padding: clamp(22px, 2.4vw, 28px);
+  background: var(--fh-paper);
+  border: 1px solid rgba(54, 47, 39, 0.12);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 20px 46px -30px rgba(13, 20, 32, 0.4);
+}
+.fh-theme .fh-calc-result-title { font-family: var(--font-luxury-serif), serif; font-size: 16px; color: var(--fh-slate); margin: 0 0 14px; }
+.fh-theme .fh-calc-result-rows { display: flex; flex-direction: column; gap: 10px; }
+.fh-theme .fh-calc-result-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--fh-slate-soft); }
+.fh-theme .fh-calc-result-row span:last-child { font-weight: 600; color: var(--fh-slate); font-variant-numeric: tabular-nums; }
+.fh-theme .fh-calc-result-row--highlight { padding-top: 10px; border-top: 1px solid var(--fh-line-on-white); }
+.fh-theme .fh-calc-result-row--highlight span:first-child { color: var(--fh-slate); font-weight: 600; }
+.fh-theme .fh-calc-result-row--highlight span:last-child { color: var(--fh-copper); font-size: 15px; }
+.fh-theme .fh-calc-result-row--assets span:last-child { color: var(--fh-slate-soft); font-weight: 500; }
+.fh-theme .fh-calc-disclaimer { margin-top: 24px; font-size: 12px; line-height: 1.65; color: var(--fh-slate-faint); font-style: italic; max-width: 76ch; }
+@media (max-width: 720px) {
+  .fh-theme .fh-calc-slider-row { flex-wrap: wrap; }
+  .fh-theme .fh-calc-slider-wrap { order: 3; flex-basis: 100%; }
+  .fh-theme .fh-calc-results--compare { grid-template-columns: 1fr; }
+}
+
+.fh-theme .fh-legal-disclaimer {
+  display: flex; align-items: flex-start; gap: 4px;
+  margin-top: 20px; font-size: 12px; line-height: 1.65; color: var(--fh-slate-faint); max-width: 80ch;
+}
+
+/* ============================================================
+   WHY OWNERS / WHY FIRST HOSPITALITY — simple two-column reason checklists
+   ============================================================ */
+.fh-theme .fh-reason-grid {
+  list-style: none; margin: clamp(28px, 3vw, 36px) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 28px;
+}
+.fh-theme .fh-reason-item { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; line-height: 1.6; color: var(--fh-slate); }
+.fh-theme .fh-reason-item svg { color: var(--fh-copper); flex-shrink: 0; margin-top: 3px; }
+@media (max-width: 720px) { .fh-theme .fh-reason-grid { grid-template-columns: 1fr; } }
+
+/* Why each side says yes — two subsections (owner / platform), each with
+   its own single-column reason checklist so the page doesn't need two
+   separate sections for what's now one merged section. */
+.fh-theme .fh-why-columns {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: clamp(32px, 4vw, 56px); margin-top: clamp(28px, 3vw, 36px);
+}
+.fh-theme .fh-why-column h3 { font-size: 16px; color: var(--fh-slate); margin: 0; }
+.fh-theme .fh-why-column .fh-reason-grid { grid-template-columns: 1fr; margin-top: 18px; gap: 12px; }
+.fh-theme .fh-why-column .fh-reason-item { font-size: 13.5px; }
+@media (max-width: 720px) { .fh-theme .fh-why-columns { grid-template-columns: 1fr; gap: 32px; } }
+
+/* ============================================================
+   FINAL CTA
+   ============================================================ */
+.fh-theme .fh-cta-inner { display: flex; justify-content: center; }
+.fh-theme .fh-cta-panel { max-width: 820px; padding: clamp(36px, 5vw, 64px); text-align: center; }
+.fh-theme .fh-cta-panel h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); margin: 0 0 16px; }
+.fh-theme .fh-cta-panel p { font-size: 15px; line-height: 1.75; color: var(--fh-ink-soft); margin: 0 0 30px; max-width: 640px; margin-left: auto; margin-right: auto; }
+.fh-theme .fh-cta-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.fh-theme .fh-footer { padding: clamp(40px, 5vw, 56px) 0; }
+.fh-theme .fh-footer-inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; }
+.fh-theme .fh-footer-lockup { font-family: var(--font-luxury-serif), serif; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fh-paper); }
+.fh-theme .fh-footer-note { margin: 0; font-size: 12px; line-height: 1.7; color: rgba(250, 246, 238, 0.5); max-width: 620px; }
+.fh-theme .fh-footer-legal { margin: 0; font-size: 11px; line-height: 1.6; color: rgba(250, 246, 238, 0.34); max-width: 640px; }
+.fh-theme .fh-footer-link { color: rgba(250, 246, 238, 0.6); border-bottom: 1px solid rgba(250, 246, 238, 0.3); }
+
+/* ============================================================
+   RESPONSIVE — general overrides
+   ============================================================ */
+@media (max-width: 900px) {
+  .fh-theme .fh-portfolio-stats,
+  .fh-theme .fh-metrics { gap: 14px; }
+}
+@media (max-width: 640px) {
+  .fh-theme .fh-shell { width: min(100%, calc(100% - 32px)); }
+  .fh-theme .fh-section-pad { padding: clamp(44px, 9vw, 64px) 0; }
+  .fh-theme .fh-hero-copy h1 { max-width: none; }
+}

@@ -1,0 +1,7 @@
+Drop custom First Hospitality concept clips here:
+  hutton-evelyns.mp4
+  drake-coa.mp4
+  tempo-high-stakes.mp4
+The route (app/first-hospitality/first-hospitality-media.ts) checks for these
+files at build/render time and automatically swaps from placeholder to real
+video with no code change once they exist.

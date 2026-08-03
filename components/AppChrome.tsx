@@ -62,6 +62,7 @@ const PUBLIC_PREFIXES = [
   "/review",
   "/topline",
   "/oxford",
+  "/first-hospitality",
 ];
 
 function isPublic(pathname: string): boolean {
