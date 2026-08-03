@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 import { fraunces } from "@/components/marketing/studioFont";
 import { absoluteUrl, CALENDLY_URL } from "@/lib/seo";
-import { PROOF } from "@/lib/proof-stats";
 import { oxfordVideoByKey, oxfordVideosByPresentation } from "./oxford-media";
 import { Reveal } from "./components/Reveal";
 import { OxfordHeader } from "./components/OxfordHeader";
@@ -185,17 +184,24 @@ const WORKFLOW_STEPS = [
 const ROLLOUT_CHOICES = ["Initial property cluster", "15+ property activation", "Full participating portfolio"];
 
 /* ── Proof section ────────────────────────────────────────────────────────
-   Reuses lib/proof-stats.ts, this project's single source of truth for all
-   public-facing proof numbers (also used by the homepage MetricsStrip and
-   /social-media-work). Nothing here is invented or Oxford-specific. */
-const PROOF_STATS = [
-  { value: PROOF.posts_tracked, label: "Creative pieces delivered", icon: Layers },
-  { value: PROOF.impressions, label: "Impressions generated", icon: Sparkles },
-  { value: PROOF.reach, label: "People reached", icon: Building2 },
-  { value: PROOF.engagements, label: "Engagements generated", icon: Heart },
+   Oxford-specific proof figures, sourced directly from Devon's current
+   social analytics dashboard for the reporting period Jan 1, 2021 - Aug 3,
+   2026 (verified dashboard totals: 2.64K posts / 16.05M impressions / 5.2M
+   reach / 596.43K engagements / 14.8K followers / 3.72% engagement rate --
+   only the first four are shown here). Deliberately a local constant, not
+   lib/proof-stats.ts (PROOF), because that file's rounded aggregate figures
+   are shared with the homepage MetricsStrip and /social-media-work and are
+   from a different reporting period -- changing it would alter unrelated
+   routes. The 2.64K figure reflects posts published, not verified unique
+   creative pieces, so it is labeled accordingly. */
+const OXFORD_PROOF_STATS = [
+  { value: "2.64K", label: "Social posts published", icon: Layers },
+  { value: "16.05M", label: "Impressions generated", icon: Sparkles },
+  { value: "5.2M", label: "People reached", icon: Building2 },
+  { value: "596.43K", label: "Engagements generated", icon: Heart },
 ];
 const PROOF_DISCLAIMER =
-  "Tracked across supported hospitality campaigns. Presented as evidence of existing Archer Design work, not as a guarantee of future performance for Oxford.";
+  "Tracked across supported hospitality social campaigns from January 1, 2021 through August 3, 2026. Presented as evidence of existing Archer Design-supported work and not as a guarantee of future performance for Oxford.";
 
 // Exact approved wording, reused verbatim from app/social-media-work/page.tsx
 // (HOTEL_INDIGO_QUOTE / HOTEL_INDIGO_SUPPORTING_COPY / HOTEL_INDIGO_QUALIFICATION).
@@ -431,7 +437,7 @@ export default function OxfordPage() {
           {/* ── Proof ────────────────────────────────────────────── */}
           <Reveal delay={3}>
             <div className="ox-metrics ox-metrics-ink">
-              {PROOF_STATS.map((stat) => (
+              {OXFORD_PROOF_STATS.map((stat) => (
                 <div key={stat.label} className="ox-metric">
                   <span className="ox-num ox-serif">{stat.value}</span>
                   <span className="ox-lbl">{stat.label}</span>
