@@ -1,36 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// first-hospitality-existing-work.ts — real, already-produced Archer Design
-// client work shown in the "Existing Archer Design Work" gallery on
-// /first-hospitality. Every item below is real client creative (Hotel Indigo
-// Pittsburgh University-Oakland, Eliza Hot Metal Bistro, Hampton Inn
-// Johnstown, Hampton Inn Greensburg, plus unbranded F&B/hospitality motion),
-// never the Oxford or First-Hospitality speculative concept work.
-//
-// Source files physically live under public/work-page/ (lowercase, hyphenated
-// -- confirmed correct and already used by /social-media-work) and, for a
-// handful of items, under public/"Work page/" (capitalized, literal space).
-// That second folder is real and on disk, but components/marketing/media.ts
-// and components/marketing/work-page-media.ts both reference several of
-// these same source images/clips via bare public-root paths (e.g. "/Image
-// 2.png", "/Poolside.mp4", "/Bartender.mp4") that do NOT exist at the public
-// root in this project -- confirmed missing via direct filesystem check.
-// That pre-existing path mismatch was not introduced here and is not fixed
-// here (out of scope: /social-media-work and components/marketing/media.ts
-// are not modified by this file), but this gallery does not reuse those
-// broken root-level paths. Every src below points at the verified, real,
-// on-disk location instead, so nothing in this gallery can render as a
-// broken image or black video box.
-//
-// Poster frames for the 5 motion clips below were extracted directly from
-// each real source clip via ffmpeg (public/first-hospitality/posters/
-// existing-work/*.jpg), the same pre-extraction approach already used for
-// the 5 custom First Hospitality concept clips in first-hospitality-media.ts,
-// so the gallery filmstrip/dots never need to mount a second live <video>
-// just to show a thumbnail.
+// Existing Archer Design client work shown on /first-hospitality.
+// Media lives under public/ and is referenced by URL. Do not use node:fs/path
+// existence checks here: Next/Vercel file tracing can pull the entire public
+// directory into the route function bundle.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import fs from "node:fs";
-import path from "node:path";
 import type { GallerySlide } from "./components/FirstHospitalityGallery";
 
 export type ExistingWorkCategory = "hotels" | "fb" | "events" | "campaigns" | "motion";
@@ -39,35 +13,21 @@ export type ExistingWorkItem = {
   id: string;
   kind: "video" | "image";
   title: string;
-  /** Real, verified client/property name. */
   client: string;
   categories: ExistingWorkCategory[];
   src: string;
-  /** Poster frame -- required for video items, unused for image items. */
   poster?: string;
   width: number;
   height: number;
   alt: string;
-  /** Explicit display order, independent of array position. */
   order: number;
   available: boolean;
   posterAvailable: boolean;
 };
 
-function fileExists(publicPath: string): boolean {
-  try {
-    const cleaned = publicPath.startsWith("/") ? publicPath.slice(1) : publicPath;
-    const fullPath = path.join(process.cwd(), "public", decodeURIComponent(cleaned));
-    return fs.existsSync(fullPath);
-  } catch {
-    return false;
-  }
-}
-
 type ItemInput = Omit<ExistingWorkItem, "available" | "posterAvailable">;
 
 const ITEMS_INPUT: ItemInput[] = [
-  // ── Stills ──────────────────────────────────────────────────────────────
   {
     id: "indigo-room-collage",
     kind: "image",
@@ -152,8 +112,6 @@ const ITEMS_INPUT: ItemInput[] = [
     alt: "Eliza Hot Metal Bistro burgers promo graphic, 15% off all burgers",
     order: 12,
   },
-
-  // ── Motion ──────────────────────────────────────────────────────────────
   {
     id: "hotel-arrival-vintage-car",
     kind: "video",
@@ -223,8 +181,8 @@ const ITEMS_INPUT: ItemInput[] = [
 
 export const EXISTING_WORK_ITEMS: ExistingWorkItem[] = ITEMS_INPUT.map((item) => ({
   ...item,
-  available: fileExists(item.src),
-  posterAvailable: item.poster ? fileExists(item.poster) : false,
+  available: true,
+  posterAvailable: Boolean(item.poster),
 })).sort((a, b) => a.order - b.order);
 
 export const EXISTING_WORK_FILTERS: { key: ExistingWorkCategory | "all"; label: string }[] = [
@@ -236,7 +194,6 @@ export const EXISTING_WORK_FILTERS: { key: ExistingWorkCategory | "all"; label: 
   { key: "motion", label: "Motion from Stills" },
 ];
 
-/** Adapted into the shared FirstHospitalityGallery slide shape for the "Existing Archer Design Work" slideshow. */
 export const EXISTING_WORK_SLIDES: GallerySlide[] = EXISTING_WORK_ITEMS.map((item) => ({
   id: item.id,
   kind: item.kind,
@@ -253,23 +210,9 @@ export const EXISTING_WORK_SLIDES: GallerySlide[] = EXISTING_WORK_ITEMS.map((ite
   order: item.order,
 }));
 
-// ── Brand proof logo strip ───────────────────────────────────────────────
-// Full 7-brand set Devon asked to match from archerdesign.shop's own logo
-// strip, sourced from real on-disk brand assets (verified below), and kept
-// local to /first-hospitality rather than added to the shared
-// components/marketing/media.ts BRAND_PROOF_LOGOS (which /social-media-work
-// and /promo-rescue also render) -- so this change can never affect those
-// other pages.
-//
-// Each logo file is either an opaque/color mark on a light or transparent
-// ground ("light" tone -- reads correctly on a pale chip) or a white mark on
-// a transparent ground ("dark" tone -- needs a dark chip, or it's invisible).
-// Verified per-file via a pixel-alpha/color check before wiring in, so
-// nothing here can render as a blank or illegible logo.
 export type BrandProofLogo = {
   src: string;
   alt: string;
-  /** "light" = color/black mark, needs a pale chip. "dark" = white mark, needs a dark chip. */
   tone: "light" | "dark";
 };
 
@@ -288,4 +231,4 @@ const BRAND_PROOF_LOGOS_INPUT: BrandProofLogo[] = [
 ];
 
 export const FIRST_HOSPITALITY_PROOF_LOGOS: (BrandProofLogo & { available: boolean })[] =
-  BRAND_PROOF_LOGOS_INPUT.map((logo) => ({ ...logo, available: fileExists(logo.src) }));
+  BRAND_PROOF_LOGOS_INPUT.map((logo) => ({ ...logo, available: true }));
