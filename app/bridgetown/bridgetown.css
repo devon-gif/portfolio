@@ -1,0 +1,487 @@
+/* ============================================================================
+   BRIDGETOWN REVENUE MANAGEMENT SOLUTIONS, private partnership concept
+   (/bridgetown)
+
+   Architecturally modeled on app/tcrm/tcrm.css (same section rhythm, glass
+   panel system, reveal-on-scroll, calculator interaction pattern) but with
+   its own palette, its own class prefix (bt-), and its own visual mood, so
+   this never reads as "TCRM with a different logo." Scoped entirely under
+   .bridgetown-theme, imported by app/bridgetown/layout.tsx only.
+
+   PALETTE SOURCE: colors below were extracted directly from bridgetownrms.com's
+   live stylesheet (fetched 2026-08-05): deep navy #0f1f4b (headings, ink),
+   brand blue #1d78d4 (primary accent, buttons, eyebrows), teal/cyan #0ec4d4
+   (secondary accent, gradients), soft blue #e8f3ff (callout backgrounds).
+   Not guessed from the company name. Where TCRM uses a warm ivory/cream/gold
+   editorial system, Bridgetown uses a cool white/soft-blue/navy/teal system,
+   reflecting Bridgetown's own data-forward, analytical brand identity.
+   ============================================================================ */
+
+.bridgetown-theme {
+  --bridgetown-primary: #1d78d4;
+  --bridgetown-primary-deep: #0f1f4b;
+  --bridgetown-secondary: #0ec4d4;
+  --bridgetown-accent: #1a6fd4;
+  --bridgetown-accent-soft: #e8f3ff;
+  --bridgetown-ink: #0f1f4b;
+  --bridgetown-ink-soft: #3d4a63;
+  --bridgetown-muted: #6b7280;
+  --bridgetown-surface: #f8faff;
+  --bridgetown-glass: rgba(15, 31, 75, 0.045);
+  --bridgetown-border: rgba(15, 31, 75, 0.12);
+  --bridgetown-border-strong: rgba(29, 120, 212, 0.32);
+
+  --bt-white: #ffffff;
+  --bt-panel: rgba(255, 255, 255, 0.86);
+  --bt-panel-strong: #ffffff;
+  --bt-glass-hi: rgba(255, 255, 255, 0.65);
+  --bt-shadow: 0 26px 64px -30px rgba(15, 31, 75, 0.28);
+  --bt-shadow-soft: 0 14px 34px -20px rgba(15, 31, 75, 0.2);
+  --bt-ease: cubic-bezier(0.22, 0.61, 0.19, 0.99);
+
+  position: relative;
+  background: linear-gradient(180deg, var(--bt-white) 0%, var(--bridgetown-surface) 100%);
+  color: var(--bridgetown-ink);
+  font-family: var(--font-geist-sans, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+.bridgetown-theme img,
+.bridgetown-theme video { max-width: 100%; display: block; }
+.bridgetown-theme a { color: inherit; }
+
+.bridgetown-theme a:focus-visible,
+.bridgetown-theme button:focus-visible,
+.bridgetown-theme [tabindex]:focus-visible {
+  outline: 2px solid var(--bridgetown-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.bridgetown-theme .bt-serif,
+.bridgetown-theme h1,
+.bridgetown-theme h2,
+.bridgetown-theme h3 {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.bridgetown-theme .bt-shell { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
+@media (min-width: 640px) { .bridgetown-theme .bt-shell { width: min(1180px, calc(100% - 64px)); } }
+
+.bridgetown-theme .bt-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--bridgetown-primary);
+}
+
+.bridgetown-theme .bt-section { position: relative; border-top: 1px solid var(--bridgetown-border); padding-block: 76px; scroll-margin-top: 88px; }
+@media (min-width: 768px) { .bridgetown-theme .bt-section { padding-block: 104px; } }
+
+.bridgetown-theme .bt-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(48% 42% at 72% 6%, rgba(14, 196, 212, 0.06), transparent 70%);
+}
+.bridgetown-theme .bt-grid-field {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(15, 31, 75, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 31, 75, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(70% 60% at 50% 35%, black, transparent 78%);
+  mask-image: radial-gradient(70% 60% at 50% 35%, black, transparent 78%);
+}
+
+/* ---------- reveal-on-scroll ---------- */
+.bridgetown-theme .bt-reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.95s var(--bt-ease), transform 0.95s var(--bt-ease); }
+.bridgetown-theme .bt-reveal.is-visible { opacity: 1; transform: none; }
+.bridgetown-theme .bt-reveal-d1 { transition-delay: 0.08s; }
+.bridgetown-theme .bt-reveal-d2 { transition-delay: 0.16s; }
+.bridgetown-theme .bt-reveal-d3 { transition-delay: 0.24s; }
+.bridgetown-theme .bt-reveal-d4 { transition-delay: 0.32s; }
+@media (prefers-reduced-motion: reduce) {
+  .bridgetown-theme .bt-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* ---------- buttons ---------- */
+.bridgetown-theme .bt-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  border-radius: 9999px; background: linear-gradient(120deg, var(--bridgetown-primary-deep) 0%, var(--bridgetown-primary) 55%, var(--bridgetown-secondary) 130%);
+  color: #f7fbff; font-size: 13.5px; font-weight: 650; letter-spacing: 0.02em;
+  padding: 0.9rem 1.6rem; border: 1px solid rgba(29, 120, 212, 0.55);
+  box-shadow: 0 16px 34px -16px rgba(29, 120, 212, 0.4);
+  transition: transform 0.3s var(--bt-ease), box-shadow 0.3s var(--bt-ease), filter 0.3s var(--bt-ease);
+}
+.bridgetown-theme .bt-btn:hover { transform: translateY(-2px); filter: brightness(1.06); box-shadow: 0 20px 42px -16px rgba(29, 120, 212, 0.5); }
+.bridgetown-theme .bt-btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  border-radius: 9999px; border: 1px solid var(--bridgetown-border); background: rgba(255, 255, 255, 0.55);
+  color: var(--bridgetown-ink); font-size: 13.5px; font-weight: 600; padding: 0.9rem 1.6rem;
+  transition: border-color 0.3s var(--bt-ease), background 0.3s var(--bt-ease), transform 0.3s var(--bt-ease);
+}
+.bridgetown-theme .bt-btn-ghost:hover { border-color: var(--bridgetown-secondary); background: rgba(14, 196, 212, 0.08); transform: translateY(-2px); }
+.bridgetown-theme .bt-btn-ghost--on-dark { border-color: rgba(247, 251, 255, 0.35); background: rgba(247, 251, 255, 0.08); color: #f7fbff; }
+.bridgetown-theme .bt-btn-ghost--on-dark:hover { border-color: var(--bridgetown-secondary); background: rgba(14, 196, 212, 0.16); }
+
+/* ---------- header ---------- */
+.bridgetown-theme .bt-header {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--bridgetown-primary-deep);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 14px 32px -22px rgba(0, 0, 0, 0.55);
+}
+.bridgetown-theme .bt-header-nav-link { color: rgba(255, 255, 255, 0.82); transition: color 0.2s var(--bt-ease); }
+.bridgetown-theme .bt-header-nav-link:hover, .bridgetown-theme .bt-header-nav-link:focus-visible { color: var(--bridgetown-secondary); }
+.bridgetown-theme .bt-header-menu-btn { border-color: rgba(255, 255, 255, 0.28); color: rgba(255, 255, 255, 0.9); }
+.bridgetown-theme .bt-mobile-nav { background: var(--bridgetown-primary-deep); }
+.bridgetown-theme .bt-progress {
+  position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%;
+  transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--bridgetown-secondary), var(--bridgetown-primary));
+  will-change: transform;
+}
+.bridgetown-theme .bt-logo-group { display: flex; min-width: 0; align-items: center; gap: 10px; }
+.bridgetown-theme .bt-logo-bridgetown { height: 30px; width: auto; flex-shrink: 0; }
+.bridgetown-theme .bt-logo-sep { height: 18px; width: 1px; flex-shrink: 0; background: rgba(255, 255, 255, 0.28); }
+.bridgetown-theme .bt-logo-archer { height: 22px; width: auto; flex-shrink: 0; object-fit: contain; }
+.bridgetown-theme .bt-logo-microcopy { font-size: 9.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255, 255, 255, 0.58); white-space: nowrap; }
+@media (max-width: 480px) {
+  .bridgetown-theme .bt-logo-group { gap: 7px; }
+  .bridgetown-theme .bt-logo-bridgetown { height: 24px; }
+  .bridgetown-theme .bt-logo-archer { height: 18px; }
+  .bridgetown-theme .bt-logo-microcopy { display: none; }
+}
+
+/* ---------- private-concept label bar ---------- */
+.bridgetown-theme .bt-private-bar { padding: 12px 0; border-bottom: 1px solid var(--bridgetown-border); background: var(--bridgetown-accent-soft); }
+.bridgetown-theme .bt-private-bar-inner { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
+.bridgetown-theme .bt-private-label { font-size: 11.5px; font-weight: 700; letter-spacing: 0.03em; color: var(--bridgetown-primary-deep); }
+.bridgetown-theme .bt-private-label span { color: var(--bridgetown-primary); font-weight: 600; margin-left: 8px; }
+
+/* ---------- hero (video background) ---------- */
+.bridgetown-theme .bt-hero--video { position: relative; overflow: hidden; min-height: 82vh; display: flex; align-items: center; padding-block: 88px 56px; }
+@media (max-width: 640px) { .bridgetown-theme .bt-hero--video { min-height: auto; padding-block: 96px 64px; } }
+.bridgetown-theme .bt-hero-video { position: absolute; inset: 0; z-index: 0; height: 100%; width: 100%; object-fit: cover; }
+.bridgetown-theme .bt-hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(100deg, rgba(6, 14, 38, 0.88) 0%, rgba(8, 18, 46, 0.66) 42%, rgba(10, 22, 52, 0.4) 72%, rgba(10, 22, 52, 0.28) 100%),
+    linear-gradient(0deg, rgba(6, 12, 30, 0.55) 0%, transparent 38%);
+}
+.bridgetown-theme .bt-hero-fade { position: absolute; inset-inline: 0; bottom: 0; z-index: 2; height: 140px; background: linear-gradient(180deg, transparent, var(--bt-white)); pointer-events: none; }
+.bridgetown-theme .bt-hero-content { position: relative; z-index: 3; max-width: 620px; }
+.bridgetown-theme .bt-hero--video .bt-eyebrow { color: var(--bridgetown-secondary); }
+.bridgetown-theme .bt-hero--video h1 { color: #f7fbff; }
+.bridgetown-theme .bt-hero-copy { color: rgba(247, 251, 255, 0.86); }
+
+.bridgetown-theme .bt-partnership-card {
+  border-radius: 14px; border: 1px solid rgba(247, 251, 255, 0.2); background: rgba(8, 18, 46, 0.45);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
+}
+.bridgetown-theme .bt-partnership-logo-chip { display: inline-flex; align-items: center; flex-shrink: 0; border-radius: 9px; background: #fbfdff; padding: 7px 11px; }
+.bridgetown-theme .bt-partnership-logo { display: block; height: 26px; width: auto; object-fit: contain; }
+.bridgetown-theme .bt-partnership-card-text { font-size: 11.5px; line-height: 1.5; color: rgba(247, 251, 255, 0.82); max-width: 34ch; }
+
+.bridgetown-theme .bt-hero-disclosure {
+  margin-top: 22px; max-width: 56ch; border-left: 2px solid var(--bridgetown-secondary);
+  padding-left: 14px; font-size: 11.5px; line-height: 1.6; color: rgba(247, 251, 255, 0.72); font-style: italic;
+}
+
+/* ---------- note panel (personalized intro + final note, to Vicki) ------ */
+.bridgetown-theme .bt-note-panel {
+  border-radius: 24px; border: 1px solid var(--bridgetown-border); border-left: 4px solid var(--bridgetown-primary);
+  background: var(--bt-panel-strong); box-shadow: var(--bt-shadow-soft); padding: clamp(28px, 4vw, 48px);
+  max-width: 720px;
+}
+.bridgetown-theme .bt-note-salutation { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: clamp(1.25rem, 2vw, 1.5rem); color: var(--bridgetown-primary-deep); margin: 0 0 18px; }
+.bridgetown-theme .bt-note-body { font-size: 14.5px; line-height: 1.8; color: var(--bridgetown-ink-soft); margin: 0 0 16px; }
+.bridgetown-theme .bt-note-signature { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: 14.5px; color: var(--bridgetown-primary); margin: 0; }
+
+/* ---------- stat band (company scale + proof) ---------- */
+.bridgetown-theme .bt-stat-band { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--bridgetown-border); border: 1px solid var(--bridgetown-border); border-radius: 20px; overflow: hidden; box-shadow: var(--bt-shadow-soft); }
+@media (min-width: 768px) { .bridgetown-theme .bt-stat-band { grid-template-columns: repeat(5, 1fr); } }
+.bridgetown-theme .bt-stat-band--proof { grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 768px) { .bridgetown-theme .bt-stat-band--proof { grid-template-columns: repeat(4, 1fr); } }
+.bridgetown-theme .bt-stat { background: var(--bt-panel-strong); padding: 26px 18px; text-align: center; }
+.bridgetown-theme .bt-stat-value { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: clamp(1.6rem, 3vw, 2.1rem); color: var(--bridgetown-primary); line-height: 1; }
+.bridgetown-theme .bt-stat-label { margin-top: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; color: var(--bridgetown-muted); }
+
+.bridgetown-theme .bt-qualifier { max-width: 78ch; font-size: 11.5px; line-height: 1.65; color: var(--bridgetown-muted); font-style: italic; }
+
+/* ---------- glass panels & cards ---------- */
+.bridgetown-theme .bt-panel {
+  position: relative; background: var(--bt-panel); border: 1px solid var(--bridgetown-border); border-radius: 20px;
+  backdrop-filter: blur(14px) saturate(125%); -webkit-backdrop-filter: blur(14px) saturate(125%);
+  box-shadow: var(--bt-shadow-soft), inset 0 1px 0 var(--bt-glass-hi);
+  transition: transform 0.35s var(--bt-ease), border-color 0.35s var(--bt-ease), box-shadow 0.35s var(--bt-ease);
+}
+.bridgetown-theme .bt-panel:hover { transform: translateY(-3px); border-color: var(--bridgetown-border-strong); box-shadow: var(--bt-shadow); }
+.bridgetown-theme .bt-panel--solid { background: var(--bt-panel-strong); }
+.bridgetown-theme .bt-panel--featured { border-color: rgba(29, 120, 212, 0.55); box-shadow: 0 30px 70px -28px rgba(29, 120, 212, 0.3), inset 0 1px 0 var(--bt-glass-hi); }
+.bridgetown-theme .bt-panel--featured:hover { border-color: rgba(29, 120, 212, 0.7); }
+.bridgetown-theme .bt-panel-badge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--bridgetown-primary-deep); color: #f7fbff; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 9999px; box-shadow: var(--bt-shadow-soft); white-space: nowrap;
+}
+.bridgetown-theme .bt-hline { display: block; height: 1px; width: 100%; background: linear-gradient(90deg, transparent, var(--bridgetown-border-strong), transparent); }
+
+/* ---------- gallery module frame (Motion library / Stills & campaigns) --
+   Cosmetic outer card only -- MotionPortfolioGallery / WorkPageStillsGallery
+   are shared, theme-agnostic components (app/globals.css .archer-studio);
+   this just matches Bridgetown's own card rhythm around them. */
+.bridgetown-theme .bt-gallery-frame {
+  border-radius: 24px;
+  border: 1px solid var(--bridgetown-border);
+  background: var(--bt-panel-strong);
+  box-shadow: var(--bt-shadow-soft);
+  padding: clamp(20px, 3vw, 36px);
+}
+
+/* ---------- disciplines grid ---------- */
+.bridgetown-theme .bt-discipline-grid { display: grid; gap: 18px; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 900px) { .bridgetown-theme .bt-discipline-grid { grid-template-columns: repeat(3, 1fr); } }
+.bridgetown-theme .bt-discipline-card { padding: 22px 22px 24px; }
+.bridgetown-theme .bt-discipline-card h3 { font-size: 15.5px; color: var(--bridgetown-primary-deep); margin: 0 0 12px; }
+.bridgetown-theme .bt-discipline-list { display: flex; flex-direction: column; gap: 7px; }
+.bridgetown-theme .bt-discipline-list li { font-size: 12.5px; line-height: 1.5; color: var(--bridgetown-ink-soft); padding-left: 14px; position: relative; }
+.bridgetown-theme .bt-discipline-list li::before { content: ""; position: absolute; left: 0; top: 7px; width: 5px; height: 5px; border-radius: 9999px; background: var(--bridgetown-secondary); }
+
+/* ---------- strategic fit paired rows ---------- */
+.bridgetown-theme .bt-fit-pairs { display: flex; flex-direction: column; gap: 14px; }
+.bridgetown-theme .bt-fit-pair {
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: center;
+  border: 1px solid var(--bridgetown-border); border-radius: 18px; background: var(--bt-panel-strong);
+  box-shadow: var(--bt-shadow-soft); padding: 20px 22px;
+}
+@media (max-width: 760px) { .bridgetown-theme .bt-fit-pair { grid-template-columns: 1fr; gap: 10px; } }
+.bridgetown-theme .bt-fit-col-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; display: block; }
+.bridgetown-theme .bt-fit-col--identifies .bt-fit-col-label { color: var(--bridgetown-primary); }
+.bridgetown-theme .bt-fit-col--produces .bt-fit-col-label { color: var(--bridgetown-secondary); }
+.bridgetown-theme .bt-fit-col p { font-size: 13.5px; line-height: 1.55; color: var(--bridgetown-ink-soft); margin: 0; }
+.bridgetown-theme .bt-fit-arrow { color: var(--bridgetown-border-strong); font-size: 18px; flex-shrink: 0; }
+@media (max-width: 760px) { .bridgetown-theme .bt-fit-arrow { transform: rotate(90deg); width: fit-content; } }
+
+/* ---------- selected work grid ---------- */
+.bridgetown-theme .bt-work-grid { display: grid; gap: 20px; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 768px) { .bridgetown-theme .bt-work-grid { grid-template-columns: repeat(3, 1fr); } }
+.bridgetown-theme .bt-work-card { position: relative; overflow: hidden; border-radius: 20px; border: 1px solid var(--bridgetown-border); background: var(--bt-panel-strong); box-shadow: var(--bt-shadow-soft); transition: transform 0.35s var(--bt-ease), box-shadow 0.35s var(--bt-ease); }
+.bridgetown-theme .bt-work-card:hover { transform: translateY(-4px); box-shadow: var(--bt-shadow); }
+.bridgetown-theme .bt-work-media { position: relative; aspect-ratio: 4 / 3; background: var(--bridgetown-accent-soft); overflow: hidden; }
+.bridgetown-theme .bt-work-media img, .bridgetown-theme .bt-work-media video { height: 100%; width: 100%; object-fit: cover; transition: transform 0.6s var(--bt-ease); }
+.bridgetown-theme .bt-work-card:hover .bt-work-media img, .bridgetown-theme .bt-work-card:hover .bt-work-media video { transform: scale(1.045); }
+.bridgetown-theme .bt-work-media-badge { position: absolute; top: 10px; left: 10px; display: inline-flex; align-items: center; gap: 5px; border-radius: 9999px; background: rgba(8, 18, 46, 0.6); color: #fff; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 9px; backdrop-filter: blur(4px); }
+.bridgetown-theme .bt-work-body { padding: 16px 18px 20px; }
+.bridgetown-theme .bt-work-label { font-size: 15px; color: var(--bridgetown-primary-deep); }
+.bridgetown-theme .bt-work-desc { margin-top: 6px; font-size: 12.5px; line-height: 1.55; color: var(--bridgetown-muted); }
+
+/* ---------- connected workflow ---------- */
+.bridgetown-theme .bt-workflow-steps { display: grid; gap: 12px; grid-template-columns: repeat(5, 1fr); }
+@media (max-width: 900px) { .bridgetown-theme .bt-workflow-steps { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .bridgetown-theme .bt-workflow-steps { grid-template-columns: 1fr; } }
+.bridgetown-theme .bt-workflow-step { display: flex; flex-direction: column; gap: 8px; border-radius: 16px; border: 1px solid var(--bridgetown-border); background: var(--bt-panel-strong); padding: 16px 16px 18px; box-shadow: var(--bt-shadow-soft); }
+.bridgetown-theme .bt-workflow-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 9999px; background: var(--bridgetown-accent-soft); color: var(--bridgetown-primary); font-size: 12px; font-weight: 700; }
+.bridgetown-theme .bt-workflow-step h4 { font-size: 13.5px; color: var(--bridgetown-primary-deep); margin: 0; }
+.bridgetown-theme .bt-workflow-step p { font-size: 12px; line-height: 1.55; color: var(--bridgetown-ink-soft); margin: 0; }
+
+/* ---------- control / responsibilities columns ---------- */
+.bridgetown-theme .bt-columns { display: grid; gap: 18px; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 900px) { .bridgetown-theme .bt-columns { grid-template-columns: 1fr 1fr 0.8fr; } }
+.bridgetown-theme .bt-column { padding: 24px 24px 26px; }
+.bridgetown-theme .bt-column--bridgetown { border-top: 2px solid rgba(29, 120, 212, 0.5); }
+.bridgetown-theme .bt-column--archer { border-top: 2px solid rgba(14, 196, 212, 0.55); }
+.bridgetown-theme .bt-column--shared { border-top: 2px solid rgba(15, 31, 75, 0.3); }
+.bridgetown-theme .bt-column h3 { font-size: 15px; color: var(--bridgetown-primary-deep); margin: 0 0 14px; }
+.bridgetown-theme .bt-column-list { display: flex; flex-direction: column; gap: 9px; }
+.bridgetown-theme .bt-column-list li { display: flex; gap: 9px; align-items: flex-start; font-size: 13px; line-height: 1.5; color: var(--bridgetown-ink-soft); }
+.bridgetown-theme .bt-dot { width: 5px; height: 5px; border-radius: 9999px; flex-shrink: 0; margin-top: 7px; background: var(--bridgetown-primary); }
+.bridgetown-theme .bt-dot--archer { background: var(--bridgetown-secondary); }
+.bridgetown-theme .bt-dot--shared { background: var(--bridgetown-primary-deep); }
+@media (max-width: 640px) { .bridgetown-theme .bt-columns { grid-template-columns: 1fr; } }
+
+/* ---------- operating models ---------- */
+.bridgetown-theme .bt-models-grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .bridgetown-theme .bt-models-grid { grid-template-columns: repeat(3, 1fr); } }
+.bridgetown-theme .bt-model-card { padding: 26px 24px; display: flex; flex-direction: column; gap: 4px; }
+.bridgetown-theme .bt-model-subtitle { font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bridgetown-secondary); margin-bottom: 4px; }
+.bridgetown-theme .bt-model-card h3 { font-size: 17px; color: var(--bridgetown-primary-deep); margin: 0 0 10px; }
+.bridgetown-theme .bt-model-intro { font-size: 12.5px; line-height: 1.6; color: var(--bridgetown-ink-soft); margin: 0 0 14px; }
+.bridgetown-theme .bt-model-list { display: flex; flex-direction: column; gap: 8px; }
+.bridgetown-theme .bt-model-list li { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; line-height: 1.55; color: var(--bridgetown-ink-soft); }
+.bridgetown-theme .bt-model-list li::before { content: ""; width: 5px; height: 5px; border-radius: 9999px; background: var(--bridgetown-primary); flex-shrink: 0; margin-top: 6px; }
+
+/* ---------- partner economics ---------- */
+.bridgetown-theme .bt-econ-highlight-line {
+  margin-top: 18px; padding: 13px 18px; display: inline-block; border-radius: 0 10px 10px 0;
+  font-size: 13px; font-weight: 700; color: var(--bridgetown-primary-deep);
+  background: linear-gradient(90deg, rgba(29, 120, 212, 0.14), rgba(29, 120, 212, 0.03));
+  border-left: 3px solid var(--bridgetown-primary);
+}
+.bridgetown-theme .bt-econ-cards { display: grid; gap: 22px; grid-template-columns: 1fr; margin-top: 34px; }
+@media (min-width: 900px) { .bridgetown-theme .bt-econ-cards { grid-template-columns: repeat(3, 1fr); } }
+.bridgetown-theme .bt-econ-card { padding: 26px 24px; display: flex; flex-direction: column; gap: 4px; }
+.bridgetown-theme .bt-econ-card h3 { font-size: 18px; color: var(--bridgetown-primary-deep); margin: 0 0 6px; }
+.bridgetown-theme .bt-econ-price { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: 1.15rem; color: var(--bridgetown-primary); margin: 10px 0 12px; }
+.bridgetown-theme .bt-econ-rows { display: flex; flex-direction: column; gap: 8px; padding: 14px 12px; border-radius: 10px; background: rgba(15, 31, 75, 0.03); }
+.bridgetown-theme .bt-econ-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-size: 12.5px; color: var(--bridgetown-ink-soft); }
+.bridgetown-theme .bt-econ-row span:last-child { font-weight: 600; color: var(--bridgetown-primary-deep); white-space: nowrap; }
+.bridgetown-theme .bt-econ-row--highlight { border-radius: 8px; background: rgba(29, 120, 212, 0.1); padding: 8px 10px; margin-inline: -8px; }
+.bridgetown-theme .bt-econ-row--highlight span:last-child { color: var(--bridgetown-primary); }
+.bridgetown-theme .bt-econ-includes { display: flex; flex-direction: column; gap: 7px; margin-top: 14px; }
+.bridgetown-theme .bt-econ-includes li { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; line-height: 1.5; color: var(--bridgetown-ink-soft); }
+.bridgetown-theme .bt-econ-includes li svg { color: var(--bridgetown-primary); flex-shrink: 0; margin-top: 2px; }
+.bridgetown-theme .bt-econ-annual { margin-top: 14px; padding: 10px 14px; border-radius: 8px; background: rgba(29, 120, 212, 0.08); border: 1px solid rgba(29, 120, 212, 0.18); font-size: 12px; font-weight: 600; color: var(--bridgetown-primary-deep); }
+.bridgetown-theme .bt-econ-bestfor { margin-top: 14px; font-size: 11.5px; font-style: italic; line-height: 1.55; color: var(--bridgetown-muted); }
+
+/* ---------- calculator ---------- */
+.bridgetown-theme .bt-calc { border-radius: 22px; border: 1px solid var(--bridgetown-border); background: var(--bt-panel-strong); box-shadow: var(--bt-shadow); padding: clamp(20px, 3.5vw, 32px); }
+.bridgetown-theme .bt-calc-scenario-label { display: table; margin: 0 auto; font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bridgetown-primary); padding: 6px 16px; border-radius: 9999px; background: rgba(29, 120, 212, 0.1); border: 1px solid rgba(29, 120, 212, 0.24); }
+.bridgetown-theme .bt-calc-count-row { display: flex; justify-content: center; margin-top: 14px; }
+.bridgetown-theme .bt-calc-count { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: clamp(1.3rem, 3vw, 1.6rem); color: var(--bridgetown-primary-deep); }
+.bridgetown-theme .bt-calc-count-num { color: var(--bridgetown-primary); }
+.bridgetown-theme .bt-calc-slider-row { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 12px; margin-top: 24px; }
+.bridgetown-theme .bt-calc-stepper-btn { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; flex-shrink: 0; border-radius: 9999px; border: 1px solid var(--bridgetown-border); background: var(--bt-panel-strong); color: var(--bridgetown-primary-deep); cursor: pointer; transition: background 0.15s var(--bt-ease), border-color 0.15s var(--bt-ease); }
+.bridgetown-theme .bt-calc-stepper-btn:hover:not(:disabled) { background: rgba(29, 120, 212, 0.1); border-color: rgba(29, 120, 212, 0.35); }
+.bridgetown-theme .bt-calc-stepper-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.bridgetown-theme .bt-calc-slider-wrap { position: relative; padding-bottom: 20px; }
+.bridgetown-theme .bt-calc-slider { width: 100%; height: 6px; border-radius: 9999px; background: var(--bridgetown-accent-soft); appearance: none; -webkit-appearance: none; cursor: pointer; accent-color: var(--bridgetown-primary); }
+.bridgetown-theme .bt-calc-slider::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; border-radius: 9999px; background: var(--bridgetown-primary); border: 3px solid var(--bt-panel-strong); box-shadow: 0 1px 4px rgba(29, 120, 212, 0.4); cursor: pointer; }
+.bridgetown-theme .bt-calc-slider::-moz-range-thumb { width: 20px; height: 20px; border-radius: 9999px; background: var(--bridgetown-primary); border: 3px solid var(--bt-panel-strong); box-shadow: 0 1px 4px rgba(29, 120, 212, 0.4); cursor: pointer; }
+.bridgetown-theme .bt-calc-slider-labels { position: relative; height: 14px; margin-top: 8px; }
+.bridgetown-theme .bt-calc-slider-label { position: absolute; font-size: 10px; font-weight: 600; color: var(--bridgetown-muted); white-space: nowrap; }
+.bridgetown-theme .bt-calc-num-input { width: 68px; flex-shrink: 0; border-radius: 10px; border: 1px solid var(--bridgetown-border); background: var(--bridgetown-surface); padding: 7px 8px; text-align: center; font-size: 14px; font-weight: 650; color: var(--bridgetown-primary-deep); }
+.bridgetown-theme .bt-calc-stepper-btn:focus-visible, .bridgetown-theme .bt-calc-slider:focus-visible, .bridgetown-theme .bt-calc-num-input:focus-visible, .bridgetown-theme .bt-calc-tab:focus-visible { outline: 2px solid var(--bridgetown-primary); outline-offset: 2px; }
+
+.bridgetown-theme .bt-calc-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; justify-content: center; }
+.bridgetown-theme .bt-calc-tab { border-radius: 9999px; border: 1px solid var(--bridgetown-border); background: var(--bt-panel-strong); padding: 9px 18px; font-size: 12px; font-weight: 600; color: var(--bridgetown-ink-soft); cursor: pointer; transition: background 0.15s var(--bt-ease), color 0.15s var(--bt-ease), border-color 0.15s var(--bt-ease); }
+.bridgetown-theme .bt-calc-tab.is-active { background: var(--bridgetown-primary-deep); border-color: var(--bridgetown-primary-deep); color: #f7fbff; }
+.bridgetown-theme .bt-calc-tab:hover:not(.is-active) { background: rgba(29, 120, 212, 0.1); }
+.bridgetown-theme .bt-calc-tab-badge { font-weight: 700; opacity: 0.85; }
+
+.bridgetown-theme .bt-calc-results { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: 26px; }
+.bridgetown-theme .bt-calc-result-card { border-radius: 16px; border: 1px solid var(--bridgetown-border); background: var(--bridgetown-surface); padding: 18px 20px 20px; }
+.bridgetown-theme .bt-calc-result-title { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: 15px; color: var(--bridgetown-primary-deep); margin: 0 0 12px; }
+.bridgetown-theme .bt-calc-result-rows { display: flex; flex-direction: column; gap: 8px; }
+.bridgetown-theme .bt-calc-result-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 12.5px; color: var(--bridgetown-ink-soft); }
+.bridgetown-theme .bt-calc-result-row span:last-child { font-weight: 600; color: var(--bridgetown-primary-deep); white-space: nowrap; }
+.bridgetown-theme .bt-calc-result-row--highlight { border-radius: 10px; background: rgba(29, 120, 212, 0.1); padding: 8px 10px; margin-inline: -10px; }
+.bridgetown-theme .bt-calc-result-row--highlight span:last-child { color: var(--bridgetown-primary); }
+.bridgetown-theme .bt-calc-disclaimer { max-width: 68ch; font-size: 11px; line-height: 1.6; color: var(--bridgetown-muted); margin-top: 12px; }
+.bridgetown-theme .bt-calc-disclaimer:first-of-type { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--bridgetown-border); }
+@media (max-width: 560px) {
+  .bridgetown-theme .bt-calc-slider-row { grid-template-columns: auto 1fr auto; }
+  .bridgetown-theme .bt-calc-num-input { grid-column: 1 / -1; width: 100%; margin-top: 10px; }
+}
+
+/* ---------- value summary ---------- */
+.bridgetown-theme .bt-value-columns { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .bridgetown-theme .bt-value-columns { grid-template-columns: repeat(3, 1fr); } }
+.bridgetown-theme .bt-value-column { padding: 22px 22px 24px; }
+.bridgetown-theme .bt-value-column h4 { font-size: 14px; color: var(--bridgetown-primary-deep); margin: 0 0 14px; }
+.bridgetown-theme .bt-value-list { display: flex; flex-direction: column; gap: 8px; }
+.bridgetown-theme .bt-value-list li { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; line-height: 1.5; color: var(--bridgetown-ink-soft); }
+.bridgetown-theme .bt-value-list li::before { content: ""; width: 5px; height: 5px; border-radius: 9999px; background: var(--bridgetown-primary); flex-shrink: 0; margin-top: 6px; }
+
+/* ---------- ideal client profile ---------- */
+.bridgetown-theme .bt-ideal-grid { display: grid; gap: 10px 24px; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 768px) { .bridgetown-theme .bt-ideal-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 560px) { .bridgetown-theme .bt-ideal-grid { grid-template-columns: 1fr; } }
+.bridgetown-theme .bt-ideal-item { display: flex; gap: 9px; align-items: flex-start; font-size: 13px; line-height: 1.55; color: var(--bridgetown-ink-soft); }
+.bridgetown-theme .bt-ideal-item svg { color: var(--bridgetown-primary); flex-shrink: 0; margin-top: 2px; }
+
+/* ---------- pilot ---------- */
+.bridgetown-theme .bt-pilot-frame { border-radius: 26px; border: 1px solid var(--bridgetown-border); background: var(--bt-panel-strong); box-shadow: var(--bt-shadow); padding: clamp(24px, 4vw, 40px); }
+.bridgetown-theme .bt-pilot-recommend { display: inline-flex; align-items: center; gap: 12px; margin-top: 18px; padding: 14px 20px; border-radius: 12px; background: var(--bridgetown-primary-deep); color: #f7fbff; font-size: 15px; font-weight: 600; }
+.bridgetown-theme .bt-pilot-recommend span { width: 8px; height: 8px; flex-shrink: 0; background: var(--bridgetown-secondary); border-radius: 9999px; }
+.bridgetown-theme .bt-pilot-mix-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.bridgetown-theme .bt-pilot-mix-item { display: inline-flex; align-items: center; gap: 7px; border-radius: 9999px; border: 1px solid var(--bridgetown-border); background: var(--bt-panel-strong); padding: 8px 14px; font-size: 12.5px; color: var(--bridgetown-ink-soft); }
+.bridgetown-theme .bt-pilot-mix-icon { color: var(--bridgetown-primary); flex-shrink: 0; }
+.bridgetown-theme .bt-pilot-questions-grid { display: grid; gap: 10px 24px; grid-template-columns: repeat(2, 1fr); margin-top: 14px; }
+@media (max-width: 640px) { .bridgetown-theme .bt-pilot-questions-grid { grid-template-columns: 1fr; } }
+.bridgetown-theme .bt-check { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.55; color: var(--bridgetown-ink-soft); }
+.bridgetown-theme .bt-check-icon { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; border-radius: 9999px; border: 1px solid rgba(29, 120, 212, 0.35); background: rgba(29, 120, 212, 0.1); color: var(--bridgetown-primary); }
+.bridgetown-theme .bt-pilot-note { margin-top: 18px; font-size: 12.5px; line-height: 1.6; font-style: italic; color: var(--bridgetown-muted); max-width: 70ch; }
+
+/* ---------- proof / confidence quote ---------- */
+.bridgetown-theme .bt-quote-panel { border-radius: 24px; border: 1px solid var(--bridgetown-border); border-left: 4px solid var(--bridgetown-secondary); background: var(--bt-panel-strong); box-shadow: var(--bt-shadow-soft); padding: clamp(28px, 4vw, 44px); }
+.bridgetown-theme .bt-quote-mark { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: clamp(1.2rem, 2.6vw, 1.5rem); line-height: 1.4; color: var(--bridgetown-primary-deep); margin: 0; }
+
+/* ---------- final CTA ---------- */
+.bridgetown-theme .bt-final-panel { text-align: center; }
+.bridgetown-theme .bt-final-actions { margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+/* ---------- footer ---------- */
+.bridgetown-theme .bt-footer { border-top: 1px solid var(--bridgetown-border); padding-block: 40px 48px; }
+.bridgetown-theme .bt-footer-wordmark { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: 15px; letter-spacing: 0.1em; color: var(--bridgetown-primary-deep); }
+.bridgetown-theme .bt-footer-legal { max-width: 720px; font-size: 11.5px; line-height: 1.65; color: var(--bridgetown-muted); }
+.bridgetown-theme .bt-footer-legal-lead { font-weight: 700; color: var(--bridgetown-ink-soft); }
+
+/* ---------- The Craft ---------- */
+.bridgetown-theme .bt-craft-intro { max-width: 74ch; font-size: 14.5px; line-height: 1.7; color: var(--bridgetown-ink-soft); }
+.bridgetown-theme .bt-craft-disciplines { display: flex; flex-direction: column; gap: 20px; margin-top: 34px; }
+.bridgetown-theme .bt-craft-discipline { padding: 26px 28px 28px; }
+.bridgetown-theme .bt-craft-discipline h3 { font-size: 1.15rem; color: var(--bridgetown-primary-deep); margin: 0 0 12px; }
+.bridgetown-theme .bt-craft-discipline p { font-size: 13.5px; line-height: 1.7; color: var(--bridgetown-ink-soft); margin: 0 0 12px; }
+.bridgetown-theme .bt-craft-discipline p:last-of-type { margin-bottom: 0; }
+.bridgetown-theme .bt-craft-list { display: flex; flex-direction: column; gap: 9px; margin: 4px 0 14px; }
+.bridgetown-theme .bt-craft-list li { display: flex; gap: 9px; align-items: flex-start; font-size: 13px; line-height: 1.6; color: var(--bridgetown-ink-soft); }
+.bridgetown-theme .bt-craft-list li::before { content: ""; width: 5px; height: 5px; border-radius: 9999px; background: var(--bridgetown-secondary); flex-shrink: 0; margin-top: 7px; }
+.bridgetown-theme .bt-craft-closing { font-style: italic; font-size: 12.5px; color: var(--bridgetown-muted); }
+
+.bridgetown-theme .bt-case {
+  margin-top: 40px; border-radius: 22px; padding: clamp(26px, 4vw, 40px);
+  background: linear-gradient(150deg, var(--bridgetown-primary-deep) 0%, #142352 60%, var(--bridgetown-primary) 130%);
+  box-shadow: 0 30px 70px -30px rgba(15, 31, 75, 0.5);
+  color: #f7fbff;
+}
+.bridgetown-theme .bt-case-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bridgetown-secondary); margin: 0 0 16px; }
+.bridgetown-theme .bt-case-quote { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: clamp(1.05rem, 2.2vw, 1.4rem); line-height: 1.5; margin: 0 0 8px; color: #f7fbff; }
+.bridgetown-theme .bt-case-quote--emph { color: var(--bridgetown-secondary); }
+.bridgetown-theme .bt-case-body { margin-top: 18px; font-size: 13.5px; line-height: 1.7; color: rgba(247, 251, 255, 0.86); max-width: 68ch; }
+.bridgetown-theme .bt-case-closing { margin-top: 12px; font-size: 12.5px; font-style: italic; color: rgba(247, 251, 255, 0.62); max-width: 68ch; }
+
+/* ---------- generic data table ---------- */
+.bridgetown-theme .bt-table-wrap { margin-top: 24px; overflow-x: auto; border-radius: 18px; border: 1px solid var(--bridgetown-border); box-shadow: var(--bt-shadow-soft); }
+.bridgetown-theme .bt-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--bt-panel-strong); min-width: 480px; }
+.bridgetown-theme .bt-table th, .bridgetown-theme .bt-table td { padding: 12px 16px; text-align: left; white-space: nowrap; }
+.bridgetown-theme .bt-table th { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--bridgetown-muted); background: var(--bridgetown-accent-soft); border-bottom: 1px solid var(--bridgetown-border); }
+.bridgetown-theme .bt-table td { color: var(--bridgetown-ink-soft); border-bottom: 1px solid var(--bridgetown-border); }
+.bridgetown-theme .bt-table tr:last-child td { border-bottom: none; }
+.bridgetown-theme .bt-table td:first-child, .bridgetown-theme .bt-table th:first-child { white-space: normal; font-weight: 600; color: var(--bridgetown-ink); }
+.bridgetown-theme .bt-table tr.bt-table-row--highlight td { background: rgba(29, 120, 212, 0.07); font-weight: 600; color: var(--bridgetown-primary-deep); }
+.bridgetown-theme .bt-table-check { color: var(--bridgetown-primary); font-weight: 700; }
+.bridgetown-theme .bt-table-dash { color: var(--bridgetown-border-strong); }
+
+.bridgetown-theme .bt-adoption-callout {
+  margin-top: 22px; padding: 16px 20px; border-radius: 14px;
+  background: linear-gradient(90deg, rgba(29, 120, 212, 0.12), rgba(14, 196, 212, 0.05));
+  border: 1px solid rgba(29, 120, 212, 0.22);
+  font-size: 14px; font-weight: 650; color: var(--bridgetown-primary-deep); line-height: 1.5;
+}
+.bridgetown-theme .bt-adoption-supporting { margin-top: 12px; font-size: 12.5px; line-height: 1.6; color: var(--bridgetown-muted); max-width: 68ch; }
+
+/* ---------- inline dot-separated lists (value / ideal-client / pilot mix) ---------- */
+.bridgetown-theme .bt-inline-heading { font-size: 13.5px; font-weight: 700; color: var(--bridgetown-primary); margin: 0 0 8px; }
+.bridgetown-theme .bt-inline-list { font-size: 13.5px; line-height: 1.75; color: var(--bridgetown-ink-soft); }
+.bridgetown-theme .bt-inline-list .bt-inline-sep { color: var(--bridgetown-border-strong); margin: 0 8px; }
+
+.bridgetown-theme .bt-value-inline-grid { display: grid; gap: 20px; grid-template-columns: 1fr; margin-top: 28px; }
+@media (min-width: 900px) { .bridgetown-theme .bt-value-inline-grid { grid-template-columns: repeat(3, 1fr); } }
+.bridgetown-theme .bt-value-inline-card { padding: 22px 24px; }
+
+.bridgetown-theme .bt-packages-includes { margin-top: 16px; font-size: 12.5px; line-height: 1.75; color: var(--bridgetown-muted); max-width: 84ch; }
+.bridgetown-theme .bt-packages-bestfor-grid { display: grid; gap: 14px; grid-template-columns: 1fr; margin-top: 20px; }
+@media (min-width: 768px) { .bridgetown-theme .bt-packages-bestfor-grid { grid-template-columns: repeat(3, 1fr); } }
+.bridgetown-theme .bt-packages-bestfor-item { padding: 16px 18px; border-radius: 14px; background: var(--bridgetown-surface); border: 1px solid var(--bridgetown-border); font-size: 12.5px; line-height: 1.55; color: var(--bridgetown-ink-soft); }
+.bridgetown-theme .bt-packages-bestfor-item strong { display: block; font-size: 12.5px; color: var(--bridgetown-primary-deep); margin-bottom: 4px; }
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .bridgetown-theme .bt-panel, .bridgetown-theme .bt-work-card, .bridgetown-theme .bt-btn, .bridgetown-theme .bt-btn-ghost { transition: none !important; }
+  .bridgetown-theme .bt-panel:hover, .bridgetown-theme .bt-work-card:hover, .bridgetown-theme .bt-btn:hover, .bridgetown-theme .bt-btn-ghost:hover { transform: none !important; }
+  .bridgetown-theme .bt-work-card:hover .bt-work-media img, .bridgetown-theme .bt-work-card:hover .bt-work-media video { transform: none !important; }
+}

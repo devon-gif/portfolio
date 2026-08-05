@@ -6,6 +6,7 @@ import { OwnerAuthGuard } from "@/components/OwnerAuthGuard";
 
 // Public marketing routes: render full-bleed, NO sidebar, NO auth guard.
 const PUBLIC_ROUTES = [
+  "/bridgetown",
   "/",
   "/hotel-groups",
   "/contact",
