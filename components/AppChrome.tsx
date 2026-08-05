@@ -55,6 +55,9 @@ const AUTH_ROUTES = ["/login", "/auth/callback"];
 // "/oxford" is the Oxford Hotels & Resorts private concept microsite —
 // noindex and direct-URL only, but intentionally accessible without the
 // owner CRM login guard.
+// "/pyramid" is the Pyramid Global Hospitality × Archer Design private
+// creative-production concept — same treatment: noindex, never linked from
+// nav/sitemap/footer, direct URL only.
 const PUBLIC_PREFIXES = [
   "/tcrm",
   "/unsubscribe",
@@ -63,6 +66,7 @@ const PUBLIC_PREFIXES = [
   "/topline",
   "/oxford",
   "/first-hospitality",
+  "/pyramid",
 ];
 
 function isPublic(pathname: string): boolean {

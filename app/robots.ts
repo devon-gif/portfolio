@@ -28,6 +28,10 @@ export default function robots(): MetadataRoute.Robots {
           "/messages",
           "/outreach",
           "/partners",
+          // Private Pyramid Global Hospitality creative-production concept.
+          // Per-page noindex/nofollow metadata already blocks it
+          // (app/pyramid/page.tsx); listed here too, belt-and-suspenders.
+          "/pyramid",
           "/settings",
           "/suppression",
           "/templates",
