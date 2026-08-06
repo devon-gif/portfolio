@@ -15,19 +15,55 @@ export default function robots(): MetadataRoute.Robots {
           "/admin",
           "/api/",
           "/auth/",
+          // Private, speculative Bridgetown Revenue Management Solutions
+          // partnership concept. Per-page noindex/nofollow metadata already
+          // blocks it (app/bridgetown/page.tsx); listed here too,
+          // belt-and-suspenders, same as /coraltree, /emma, /oxford, and
+          // /pyramid above.
+          "/bridgetown",
           "/candidates",
           "/companies",
           "/contact-candidates",
           "/contacts",
+          // Private, personalized sales proposal — per-page noindex/nofollow
+          // metadata already blocks it (app/coraltree/page.tsx); listed here
+          // too, belt-and-suspenders, same as /revstudio's approach.
+          "/coraltree",
           "/daily",
           "/dashboard",
+          // Private Valencia review portal. /emma and /review/admin also
+          // carry per-page noindex metadata; listed here too, same
+          // belt-and-suspenders treatment as /coraltree above.
+          "/emma",
           "/followups",
+          // Private, speculative GRANT Hospitality × Archer Design
+          // partnership concept. Per-page noindex/nofollow metadata already
+          // blocks it (app/grant-hospitality/page.tsx); listed here too,
+          // belt-and-suspenders, same as /bridgetown above.
+          "/grant-hospitality",
           "/hiring-signals",
+          // Private HSC × The RevStudio × Archer Design joint partner-review
+          // page. Per-page noindex/nofollow metadata already blocks it
+          // (app/hotel-commercial-growth/page.tsx and .../one-page/page.tsx);
+          // listed here too, belt-and-suspenders, same as /bridgetown,
+          // /coraltree, /emma, /oxford, and /pyramid above.
+          "/hotel-commercial-growth",
           "/intake",
           "/login",
           "/messages",
           "/outreach",
+          // Private Oxford Hotels & Resorts outreach page. Per-page
+          // noindex/nofollow metadata already blocks it
+          // (app/oxford/page.tsx); listed here too, belt-and-suspenders,
+          // same as /coraltree and /emma above.
+          "/oxford",
           "/partners",
+          // Private Pyramid Global Hospitality creative-production concept.
+          // Per-page noindex/nofollow metadata already blocks it
+          // (app/pyramid/page.tsx); listed here too, belt-and-suspenders,
+          // same as /coraltree, /emma, and /oxford above.
+          "/pyramid",
+          "/review",
           "/settings",
           "/suppression",
           "/templates",
