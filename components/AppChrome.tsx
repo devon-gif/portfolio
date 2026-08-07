@@ -80,7 +80,11 @@ const AUTH_ROUTES = ["/login", "/auth/callback"];
 // "/grant-hospitality" is the GRANT Hospitality × Archer Design private,
 // speculative partnership concept — same treatment as /bridgetown:
 // noindex, never linked from nav/sitemap/footer, direct URL only.
-const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/review", "/topline", "/george", "/emma", "/vision", "/tcrm", "/oxford", "/first-hospitality", "/pyramid", "/bridgetown", "/hotel-commercial-growth", "/grant-hospitality"];
+// "/jacaruso" is the Jacaruso Enterprises × Archer Design private,
+// speculative partnership concept — same treatment as /bridgetown and
+// /grant-hospitality: noindex, never linked from nav/sitemap/footer,
+// direct URL only.
+const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/review", "/topline", "/george", "/emma", "/vision", "/tcrm", "/oxford", "/first-hospitality", "/pyramid", "/bridgetown", "/hotel-commercial-growth", "/grant-hospitality", "/jacaruso"];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;

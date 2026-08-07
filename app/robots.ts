@@ -49,6 +49,12 @@ export default function robots(): MetadataRoute.Robots {
           // /coraltree, /emma, /oxford, and /pyramid above.
           "/hotel-commercial-growth",
           "/intake",
+          // Private, speculative Jacaruso Enterprises × Archer Design
+          // partnership concept. Per-page noindex/nofollow metadata already
+          // blocks it (app/jacaruso/page.tsx); listed here too,
+          // belt-and-suspenders, same as /bridgetown and /grant-hospitality
+          // above.
+          "/jacaruso",
           "/login",
           "/messages",
           "/outreach",
