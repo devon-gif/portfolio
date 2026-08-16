@@ -1,0 +1,384 @@
+.section {
+  position: relative;
+
+  padding:
+    clamp(78px, 9vw, 130px) 0;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 70% 15%,
+      rgba(54, 115, 87, .22),
+      transparent 32%
+    ),
+    linear-gradient(
+      145deg,
+      #071b14 0%,
+      #0a241b 55%,
+      #06140f 100%
+    );
+
+  color: #f4f0e7;
+}
+
+.inner {
+  width:
+    min(1180px, calc(100% - 40px));
+
+  margin: 0 auto;
+}
+
+.heading {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.25fr)
+    minmax(260px, .75fr);
+
+  gap: 60px;
+
+  align-items: end;
+
+  margin-bottom: 38px;
+}
+
+.eyebrow {
+  display: block;
+
+  margin-bottom: 13px;
+
+  color: #b9d292;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: .22em;
+}
+
+.heading h2 {
+  max-width: 720px;
+
+  margin: 0;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(38px, 5vw, 68px);
+
+  font-weight: 400;
+
+  line-height: .98;
+
+  letter-spacing: -.035em;
+}
+
+.heading p {
+  margin: 0;
+
+  color:
+    rgba(240, 238, 227, .62);
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+.slideshow {
+  width: 100%;
+}
+
+.stage {
+  position: relative;
+
+  width: 100%;
+  height:
+    clamp(520px, 66vw, 790px);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(255,255,255,.13);
+
+  border-radius: 28px;
+
+  background:
+    radial-gradient(
+      circle at 50% 42%,
+      rgba(44, 90, 70, .32),
+      transparent 46%
+    ),
+    #030b08;
+
+  box-shadow:
+    0 35px 100px
+    rgba(0,0,0,.30);
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  background: #030b08;
+}
+
+.arrow {
+  position: absolute;
+
+  z-index: 4;
+
+  top: 50%;
+
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  transform:
+    translateY(-50%);
+
+  border:
+    1px solid
+    rgba(255,255,255,.18);
+
+  border-radius: 999px;
+
+  background:
+    rgba(4,17,12,.72);
+
+  backdrop-filter:
+    blur(14px);
+
+  -webkit-backdrop-filter:
+    blur(14px);
+
+  color: #f6f0e6;
+
+  font-size: 20px;
+
+  cursor: pointer;
+}
+
+.left {
+  left: 20px;
+}
+
+.right {
+  right: 20px;
+}
+
+.counter {
+  position: absolute;
+
+  z-index: 4;
+
+  right: 22px;
+  bottom: 22px;
+
+  display: flex;
+
+  gap: 7px;
+
+  padding: 8px 13px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.15);
+
+  border-radius: 999px;
+
+  background:
+    rgba(3,12,8,.72);
+
+  backdrop-filter:
+    blur(12px);
+
+  color:
+    rgba(245,240,231,.88);
+
+  font-size: 10px;
+
+  letter-spacing: .14em;
+}
+
+.counter span {
+  opacity: .35;
+}
+
+.meta {
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items: center;
+
+  gap: 30px;
+
+  padding: 20px 4px 0;
+}
+
+.meta > div:first-child {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.group {
+  color: #a9c387;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: .17em;
+
+  text-transform: uppercase;
+}
+
+.meta strong {
+  color:
+    rgba(246,241,232,.92);
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 17px;
+
+  font-weight: 400;
+}
+
+.navigation {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: flex-end;
+
+  gap: 6px;
+
+  max-width: 520px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+
+  padding: 0;
+
+  border: 0;
+
+  border-radius: 999px;
+
+  background:
+    rgba(205,220,185,.26);
+
+  cursor: pointer;
+
+  transition:
+    width .25s ease,
+    background .25s ease;
+}
+
+.dotActive {
+  width: 27px;
+
+  background: #bfd59c;
+}
+
+.footer {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 11px;
+
+  margin-top: 35px;
+}
+
+.footer span {
+  padding: 8px 11px;
+
+  border:
+    1px solid
+    rgba(198,216,176,.13);
+
+  border-radius: 999px;
+
+  color:
+    rgba(218,226,205,.48);
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  letter-spacing: .15em;
+}
+
+@media (max-width: 760px) {
+  .heading {
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+  .stage {
+    height: 580px;
+
+    border-radius: 20px;
+  }
+
+  .arrow {
+    width: 43px;
+    height: 43px;
+  }
+
+  .left {
+    left: 10px;
+  }
+
+  .right {
+    right: 10px;
+  }
+
+  .counter {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .meta {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .navigation {
+    justify-content: flex-start;
+  }
+}
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+  .dot {
+    transition: none;
+  }
+}

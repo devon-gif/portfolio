@@ -1,17 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const NAV = [
-  { href: "#motion", label: "Our work" },
-  { href: "#packages", label: "Packages" },
-  { href: "#capacity", label: "Capacity" },
-  { href: "#gap", label: "The gap" },
-  { href: "#model", label: "The model" },
-  { href: "#pilot", label: "The pilot" },
-  { href: "#expansion", label: "Expansion" },
+  { href: "#how-it-works", label: "How it works" },
+  { href: "#creative-types", label: "Motion vs. static" },
+  { href: "#plans", label: "Creative plans" },
+  { href: "#compare", label: "Compare plans" },
+  { href: "#work", label: "Our work" },
 ];
 
 /**
@@ -55,7 +52,7 @@ export function TcrmHeader() {
     <header className="tl-header">
       <div className="tl-shell flex items-center justify-between gap-4 py-4">
         <div className="flex min-w-0 shrink-0 flex-col gap-1.5">
-          <a href="#top" className="tl-logo-group" aria-label="Proposal prepared for Total Customized Revenue Management, delivered by Archer Design, top of page">
+          <a href="#top" className="tl-logo-group" aria-label="TCRM Creative Activation, powered by Archer Design, top of page">
             <Image
               src="/tcrm/logos/tcrm-logo.png"
               alt="Total Customized Revenue Management"
@@ -76,26 +73,26 @@ export function TcrmHeader() {
               className="tl-logo-archer"
             />
           </a>
-          <p className="tl-logo-microcopy">Proposed delivery model</p>
+          <p className="tl-logo-microcopy">Creative activation for hotel clients</p>
         </div>
 
         <nav className="hidden items-center gap-6 text-[12.5px] lg:flex" aria-label="Page sections">
           {NAV.map((item) => (
-            <a key={item.href} href={item.href} className="whitespace-nowrap text-[var(--tl-ink-soft)] transition hover:text-[var(--tl-ink)]">
+            <a key={item.href} href={item.href} className="tl-header-nav-link whitespace-nowrap">
               {item.label}
             </a>
           ))}
         </nav>
 
         <div className="hidden items-center lg:flex">
-          <Link href="/tcrm/schedule" className="tl-btn px-5 py-2.5 text-[12.5px]">
-            Review the pilot
-          </Link>
+          <a href="#plans" className="tl-btn px-5 py-2.5 text-[12.5px]">
+            Choose Your Creative Plan
+          </a>
         </div>
 
         <button
           type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--tl-line)] text-[var(--tl-ink)] lg:hidden"
+          className="tl-header-menu-btn flex h-9 w-9 items-center justify-center rounded-md border lg:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="tcrm-mobile-nav"
@@ -106,23 +103,23 @@ export function TcrmHeader() {
       </div>
 
       {open && (
-        <nav id="tcrm-mobile-nav" aria-label="Page sections" className="tl-mobile-nav border-t border-[var(--tl-line)] px-6 py-5 lg:hidden">
+        <nav id="tcrm-mobile-nav" aria-label="Page sections" className="tl-mobile-nav border-t border-[rgba(255,255,255,0.08)] px-6 py-5 lg:hidden">
           <ul className="flex flex-col gap-4 text-[15px]">
             {NAV.map((item) => (
               <li key={item.href}>
-                <a href={item.href} className="text-[var(--tl-ink-soft)]" onClick={() => setOpen(false)}>
+                <a href={item.href} className="tl-header-nav-link" onClick={() => setOpen(false)}>
                   {item.label}
                 </a>
               </li>
             ))}
             <li>
-              <Link
-                href="/tcrm/schedule"
+              <a
+                href="#plans"
                 className="tl-btn mt-1 px-5 py-2.5 text-[13px]"
                 onClick={() => setOpen(false)}
               >
-                Review the pilot
-              </Link>
+                Choose Your Creative Plan
+              </a>
             </li>
           </ul>
         </nav>

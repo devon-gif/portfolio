@@ -84,7 +84,16 @@ const AUTH_ROUTES = ["/login", "/auth/callback"];
 // speculative partnership concept — same treatment as /bridgetown and
 // /grant-hospitality: noindex, never linked from nav/sitemap/footer,
 // direct URL only.
-const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/review", "/topline", "/george", "/emma", "/vision", "/tcrm", "/oxford", "/first-hospitality", "/pyramid", "/bridgetown", "/hotel-commercial-growth", "/grant-hospitality", "/jacaruso"];
+// "/clientconcierge" is the Client Concierge Sales Management Group
+// (CCSMG) × Archer Design partnership concept — same treatment as
+// /jacaruso: noindex, never linked from nav/sitemap/footer, direct URL
+// only.
+// "/commercial-growth" is a second, separate HSC × The Revstudio × Archer
+// Design "Hotel Commercial Growth System" concept page — same treatment as
+// /hotel-commercial-growth: noindex, never linked from nav/sitemap/footer,
+// direct URL only, until approved. Distinct route, distinct files; does not
+// touch /hotel-commercial-growth.
+const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/review", "/topline", "/george", "/emma", "/vision", "/tcrm", "/oxford", "/first-hospitality", "/pyramid", "/bridgetown", "/hotel-commercial-growth", "/grant-hospitality", "/jacaruso", "/clientconcierge", "/commercial-growth"];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;

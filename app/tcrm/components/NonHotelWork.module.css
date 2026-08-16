@@ -1,0 +1,358 @@
+.section,
+.testimonials {
+  position: relative;
+  overflow: hidden;
+}
+
+.section {
+  padding: 112px 0;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(110, 151, 74, 0.16), transparent 32%),
+    linear-gradient(180deg, #10251d 0%, #0b1c16 100%);
+  color: #f5f0e7;
+}
+
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.12;
+  background-image:
+    linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.shell {
+  width: min(1240px, calc(100% - 48px));
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #b7c99d;
+  font-size: 11px;
+  letter-spacing: .22em;
+  font-weight: 700;
+}
+
+.eyebrow i {
+  display: block;
+  height: 1px;
+  width: 70px;
+  background: linear-gradient(90deg, #cdbd8b, transparent);
+}
+
+.headingRow,
+.testimonialHeading {
+  display: grid;
+  grid-template-columns: 1.25fr .75fr;
+  gap: 70px;
+  align-items: end;
+  margin-top: 24px;
+  margin-bottom: 58px;
+}
+
+.headingRow h2,
+.testimonialHeading h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(44px, 5vw, 76px);
+  line-height: .98;
+  letter-spacing: -.045em;
+  font-weight: 400;
+}
+
+.headingRow h2 em,
+.testimonialHeading h2 em {
+  font-weight: 400;
+  color: #c8d9ad;
+}
+
+.headingRow p,
+.testimonialHeading p {
+  margin: 0;
+  max-width: 520px;
+  font-size: 16px;
+  line-height: 1.75;
+  opacity: .75;
+}
+
+.artGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-flow: dense;
+  gap: 16px;
+}
+
+.artCard {
+  grid-column: span 4;
+  position: relative;
+  min-height: 330px;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.05);
+  box-shadow: 0 24px 80px rgba(0,0,0,.22);
+}
+
+.artCardWide {
+  grid-column: span 8;
+}
+
+.artCard img {
+  width: 100%;
+  height: 100%;
+  min-height: 330px;
+  display: block;
+  object-fit: cover;
+  transition: transform .7s cubic-bezier(.2,.7,.2,1);
+}
+
+.artCard:hover img {
+  transform: scale(1.025);
+}
+
+.localVideoBlock,
+.youtubeBlock {
+  margin-top: 90px;
+}
+
+.subhead {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  margin-bottom: 26px;
+}
+
+.subhead span {
+  font-size: 12px;
+  letter-spacing: .18em;
+  font-weight: 700;
+  color: #c8d9ad;
+}
+
+.subhead p {
+  margin: 0;
+  font-size: 14px;
+  opacity: .62;
+}
+
+.localVideos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.videoFrame,
+.youtubeFrame {
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: #06110d;
+  box-shadow: 0 25px 90px rgba(0,0,0,.25);
+}
+
+.videoFrame video {
+  width: 100%;
+  max-height: 680px;
+  display: block;
+  background: #06110d;
+}
+
+.youtubeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.youtubeCard {
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 22px;
+  padding: 10px;
+  background: rgba(255,255,255,.045);
+  backdrop-filter: blur(16px);
+}
+
+.youtubeFrame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 15px;
+}
+
+.youtubeFrame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.youtubeCard a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 8px 6px;
+  color: #f5f0e7;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.youtubeCard a span {
+  color: #c8d9ad;
+}
+
+.testimonials {
+  padding: 110px 0 120px;
+  color: #163126;
+  background:
+    radial-gradient(circle at 10% 15%, rgba(140, 171, 104, .13), transparent 28%),
+    linear-gradient(180deg, #f3eee5 0%, #eee7db 100%);
+}
+
+.testimonials .eyebrow {
+  color: #54704e;
+}
+
+.testimonials .eyebrow i {
+  background: linear-gradient(90deg, #aa9160, transparent);
+}
+
+.testimonialHeading h2 em {
+  color: #527148;
+}
+
+.testimonialHeading p {
+  color: #52635a;
+}
+
+.testimonialGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.quoteCard {
+  position: relative;
+  min-height: 310px;
+  padding: 30px;
+  border-radius: 24px;
+  border: 1px solid rgba(30, 70, 51, .12);
+  background: rgba(255,255,255,.55);
+  box-shadow: 0 24px 70px rgba(45, 54, 39, .07);
+}
+
+.placeholder {
+  display: inline-flex;
+  padding: 6px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(139, 97, 39, .22);
+  background: rgba(193, 156, 94, .09);
+  color: #8b6b3f;
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: .13em;
+  font-weight: 700;
+}
+
+.quoteMark {
+  margin-top: 22px;
+  height: 45px;
+  font-family: Georgia, serif;
+  font-size: 70px;
+  line-height: 1;
+  color: #7c9a68;
+}
+
+.quoteCard blockquote {
+  margin: 8px 0 35px;
+  max-width: 560px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  line-height: 1.4;
+  letter-spacing: -.018em;
+  color: #183328;
+}
+
+.quoteCard footer {
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.quoteCard footer strong {
+  font-size: 13px;
+  color: #1a382b;
+}
+
+.quoteCard footer span {
+  font-size: 11px;
+  color: #6c776f;
+  letter-spacing: .04em;
+}
+
+@media (max-width: 900px) {
+  .headingRow,
+  .testimonialHeading {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .artCard,
+  .artCardWide {
+    grid-column: span 6;
+  }
+
+  .youtubeGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .localVideos,
+  .testimonialGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .section,
+  .testimonials {
+    padding: 80px 0;
+  }
+
+  .shell {
+    width: min(100% - 28px, 1240px);
+  }
+
+  .artCard,
+  .artCardWide {
+    grid-column: 1 / -1;
+    min-height: 290px;
+  }
+
+  .artCard img {
+    min-height: 290px;
+  }
+
+  .subhead {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .quoteCard blockquote {
+    font-size: 21px;
+  }
+}
