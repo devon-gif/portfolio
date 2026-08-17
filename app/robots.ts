@@ -69,6 +69,11 @@ export default function robots(): MetadataRoute.Robots {
           // (app/pyramid/page.tsx); listed here too, belt-and-suspenders,
           // same as /coraltree, /emma, and /oxford above.
           "/pyramid",
+          // Private, speculative Rebel Hotel Company × Archer Design
+          // partnership concept. Per-page noindex/nofollow metadata already
+          // blocks it (app/rebel/page.tsx); listed here too,
+          // belt-and-suspenders, same as /jacaruso above.
+          "/rebel",
           "/review",
           "/settings",
           "/suppression",

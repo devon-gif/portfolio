@@ -1,0 +1,516 @@
+/* ============================================================================
+   REBEL HOTEL COMPANY, private partnership concept (/rebel)
+
+   Structurally cloned from app/jacaruso/jacaruso.css (same section rhythm,
+   same glass-panel system, same reveal-on-scroll and calculator
+   interaction pattern), but deliberately NOT a Jacaruso reskin: per
+   Devon's brief this page should read as more premium/editorial than
+   /jacaruso -- larger cinematic media, more breathing room, and real
+   dark/light contrast between sections, while still sharing the same
+   underlying design system. Scoped entirely under .rebel-theme, imported
+   by app/rebel/layout.tsx only.
+
+   PALETTE SOURCE: Rebel Hotel Company's own logo file was intentionally
+   NOT downloaded or color-sampled for this page (see
+   app/rebel/components/RebelHeader.tsx's comment -- no Rebel logo asset
+   exists in this project, and none was fetched, to avoid any trademark
+   misuse on a page Rebel has not approved). This palette is instead an
+   editorial hospitality palette: a warm near-black ink (matching the dark,
+   minimal aesthetic of Rebel's own live site, independently verified at
+   rebelhotelcompany.com on 2026-08-17 -- dark hero, white wordmark, black
+   nav) paired with a brass/gold accent from Archer's own existing
+   "archer-studio" identity (app/globals.css --st-gold family), so the page
+   reads as distinctly Archer while still feeling at home next to Rebel's
+   own editorial, dark-forward site. Not a claim to reproduce Rebel's
+   actual brand colors.
+   ============================================================================ */
+
+.rebel-theme {
+  --rb-ink: #15120e;
+  --rb-ink-deep: #0a0806;
+  --rb-ink-soft: #4a4239;
+  --rb-muted: #948a7c;
+  --rb-gold: #b08d4f;
+  --rb-gold-soft: #d9c08f;
+  --rb-gold-deep: #8a6c38;
+  --rb-ivory: #f8f5ef;
+  --rb-cream: #efe8d9;
+  --rb-white: #ffffff;
+  --rb-border: rgba(248, 245, 239, 0.14);
+  --rb-border-on-light: rgba(21, 18, 14, 0.12);
+  --rb-border-strong: rgba(176, 141, 79, 0.45);
+  --rb-glass: rgba(248, 245, 239, 0.04);
+  --rb-panel-dark: rgba(248, 245, 239, 0.05);
+  --rb-panel-dark-strong: rgba(248, 245, 239, 0.08);
+  --rb-panel-light: #ffffff;
+  --rb-shadow: 0 30px 80px -32px rgba(0, 0, 0, 0.6);
+  --rb-shadow-soft: 0 16px 44px -24px rgba(0, 0, 0, 0.5);
+  --rb-ease: cubic-bezier(0.22, 0.61, 0.19, 0.99);
+
+  position: relative;
+  background: linear-gradient(180deg, var(--rb-ink) 0%, var(--rb-ink-deep) 100%);
+  color: var(--rb-ivory);
+  font-family: var(--font-geist-sans, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+.rebel-theme img,
+.rebel-theme video { max-width: 100%; display: block; }
+.rebel-theme a { color: inherit; }
+
+.rebel-theme a:focus-visible,
+.rebel-theme button:focus-visible,
+.rebel-theme [tabindex]:focus-visible {
+  outline: 2px solid var(--rb-gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.rebel-theme .rb-serif,
+.rebel-theme h1,
+.rebel-theme h2,
+.rebel-theme h3 {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.rebel-theme .rb-shell { width: min(1240px, calc(100% - 48px)); margin-inline: auto; }
+@media (min-width: 640px) { .rebel-theme .rb-shell { width: min(1240px, calc(100% - 72px)); } }
+
+.rebel-theme .rb-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--rb-gold-soft);
+}
+.rebel-theme .rb-eyebrow--on-light { color: var(--rb-gold-deep); }
+
+.rebel-theme .rb-section { position: relative; border-top: 1px solid var(--rb-border); padding-block: 88px; scroll-margin-top: 88px; }
+@media (min-width: 768px) { .rebel-theme .rb-section { padding-block: 128px; } }
+.rebel-theme .rb-section--light {
+  background: linear-gradient(180deg, var(--rb-ivory) 0%, var(--rb-cream) 100%);
+  color: var(--rb-ink);
+  border-top-color: var(--rb-border-on-light);
+}
+
+/* ---------- reveal-on-scroll ---------- */
+.rebel-theme .rb-reveal { opacity: 0; transform: translateY(28px); transition: opacity 1s var(--rb-ease), transform 1s var(--rb-ease); }
+.rebel-theme .rb-reveal.is-visible { opacity: 1; transform: none; }
+.rebel-theme .rb-reveal-d1 { transition-delay: 0.08s; }
+.rebel-theme .rb-reveal-d2 { transition-delay: 0.16s; }
+.rebel-theme .rb-reveal-d3 { transition-delay: 0.24s; }
+.rebel-theme .rb-reveal-d4 { transition-delay: 0.32s; }
+@media (prefers-reduced-motion: reduce) {
+  .rebel-theme .rb-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* ---------- buttons ---------- */
+.rebel-theme .rb-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  border-radius: 9999px; background: linear-gradient(120deg, var(--rb-gold-deep) 0%, var(--rb-gold) 55%, var(--rb-gold-soft) 130%);
+  color: #1a1409; font-size: 13.5px; font-weight: 650; letter-spacing: 0.02em;
+  padding: 0.9rem 1.7rem; border: 1px solid rgba(176, 141, 79, 0.6);
+  box-shadow: 0 16px 34px -16px rgba(176, 141, 79, 0.5);
+  transition: transform 0.3s var(--rb-ease), box-shadow 0.3s var(--rb-ease), filter 0.3s var(--rb-ease);
+}
+.rebel-theme .rb-btn:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 20px 42px -16px rgba(176, 141, 79, 0.6); }
+.rebel-theme .rb-btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  border-radius: 9999px; border: 1px solid var(--rb-border); background: rgba(248, 245, 239, 0.05);
+  color: var(--rb-ivory); font-size: 13.5px; font-weight: 600; padding: 0.9rem 1.7rem;
+  transition: border-color 0.3s var(--rb-ease), background 0.3s var(--rb-ease), transform 0.3s var(--rb-ease);
+}
+.rebel-theme .rb-btn-ghost:hover { border-color: var(--rb-gold); background: rgba(176, 141, 79, 0.12); transform: translateY(-2px); }
+.rebel-theme .rb-btn-ghost--on-light { border-color: var(--rb-border-on-light); background: rgba(21, 18, 14, 0.03); color: var(--rb-ink); }
+.rebel-theme .rb-btn-ghost--on-light:hover { border-color: var(--rb-gold); background: rgba(176, 141, 79, 0.08); }
+
+/* ---------- header ---------- */
+.rebel-theme .rb-header {
+  position: sticky; top: 0; z-index: 40;
+  background: rgba(10, 8, 6, 0.92);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--rb-border);
+  box-shadow: 0 14px 32px -22px rgba(0, 0, 0, 0.6);
+}
+.rebel-theme .rb-header-nav-link { color: rgba(248, 245, 239, 0.78); transition: color 0.2s var(--rb-ease); }
+.rebel-theme .rb-header-nav-link:hover, .rebel-theme .rb-header-nav-link:focus-visible { color: var(--rb-gold-soft); }
+.rebel-theme .rb-header-menu-btn { border-color: rgba(248, 245, 239, 0.28); color: rgba(248, 245, 239, 0.9); }
+.rebel-theme .rb-mobile-nav { background: var(--rb-ink-deep); }
+.rebel-theme .rb-progress {
+  position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%;
+  transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--rb-gold-soft), var(--rb-gold));
+  will-change: transform;
+}
+.rebel-theme .rb-logo-group { display: flex; min-width: 0; align-items: center; gap: 12px; }
+.rebel-theme .rb-logo-rebel {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 15px; letter-spacing: 0.12em; color: var(--rb-ivory); white-space: nowrap;
+}
+.rebel-theme .rb-logo-sep { height: 18px; width: 1px; flex-shrink: 0; background: rgba(248, 245, 239, 0.28); }
+.rebel-theme .rb-logo-archer { height: 22px; width: auto; flex-shrink: 0; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.92; }
+.rebel-theme .rb-logo-microcopy { font-size: 9.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(248, 245, 239, 0.5); white-space: nowrap; }
+@media (max-width: 480px) {
+  .rebel-theme .rb-logo-group { gap: 8px; }
+  .rebel-theme .rb-logo-rebel { font-size: 12px; }
+  .rebel-theme .rb-logo-archer { height: 18px; }
+  .rebel-theme .rb-logo-microcopy { display: none; }
+}
+
+/* ---------- private-concept label bar ---------- */
+.rebel-theme .rb-private-bar { padding: 12px 0; border-bottom: 1px solid var(--rb-border); background: rgba(176, 141, 79, 0.08); }
+.rebel-theme .rb-private-bar-inner { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
+.rebel-theme .rb-private-label { font-size: 11.5px; font-weight: 700; letter-spacing: 0.03em; color: var(--rb-gold-soft); }
+.rebel-theme .rb-private-label span { color: rgba(248, 245, 239, 0.66); font-weight: 600; margin-left: 8px; }
+
+/* ---------- hero (video is the dominant visual -- minimal chrome, ────────
+   localized left-side scrim only, everything right of ~55% left mostly
+   unobstructed) ------------------------------------------------------- */
+.rebel-theme .rb-hero--video { position: relative; overflow: hidden; min-height: 82vh; display: flex; align-items: center; padding-block: 96px 56px; }
+@media (max-width: 640px) { .rebel-theme .rb-hero--video { min-height: 78vh; padding-block: 104px 48px; } }
+.rebel-theme .rb-hero-video { position: absolute; inset: 0; z-index: 0; height: 100%; width: 100%; object-fit: cover; }
+.rebel-theme .rb-hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  /* Dark only on the left, where the headline/body sit; fully clear by ~58%
+     so the right side of HERO.mp4 stays unobstructed. */
+  background: linear-gradient(100deg, rgba(8, 6, 4, 0.8) 0%, rgba(8, 6, 4, 0.5) 24%, rgba(8, 6, 4, 0.16) 44%, transparent 58%);
+}
+@media (max-width: 640px) {
+  .rebel-theme .rb-hero-overlay {
+    /* Mobile stacks full-width, so the scrim runs top/bottom instead of
+       left/right -- still localized to where the text sits. */
+    background: linear-gradient(180deg, rgba(8, 6, 4, 0.72) 0%, rgba(8, 6, 4, 0.34) 46%, rgba(8, 6, 4, 0.55) 100%);
+  }
+}
+.rebel-theme .rb-hero-fade { position: absolute; inset-inline: 0; bottom: 0; z-index: 2; height: 120px; background: linear-gradient(180deg, transparent, var(--rb-ink)); pointer-events: none; }
+/* ~35-40% of the hero width on desktop; full width once stacked on mobile. */
+.rebel-theme .rb-hero-content { position: relative; z-index: 3; max-width: min(520px, 40vw); }
+@media (max-width: 900px) { .rebel-theme .rb-hero-content { max-width: 100%; } }
+.rebel-theme .rb-hero--video h1 { color: #fbf9f4; }
+.rebel-theme .rb-hero-copy { color: rgba(248, 245, 239, 0.9); }
+
+/* ---------- single-line disclosure bar, directly below the hero ------- */
+.rebel-theme .rb-hero-disclosure-bar { padding: 10px 0; border-bottom: 1px solid var(--rb-border); background: var(--rb-ink); }
+.rebel-theme .rb-hero-disclosure-line { margin: 0; font-size: 11px; line-height: 1.5; color: rgba(248, 245, 239, 0.5); font-style: italic; }
+
+/* ---------- note panel (personal note, near end) ---------- */
+.rebel-theme .rb-note-panel {
+  border-radius: 26px; border: 1px solid var(--rb-border-on-light); border-left: 4px solid var(--rb-gold);
+  background: var(--rb-panel-light); box-shadow: var(--rb-shadow-soft); padding: clamp(30px, 4.5vw, 52px);
+  max-width: 740px;
+}
+.rebel-theme .rb-note-salutation { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: clamp(1.3rem, 2.1vw, 1.55rem); color: var(--rb-ink); margin: 0 0 18px; }
+.rebel-theme .rb-note-body { font-size: 14.5px; line-height: 1.82; color: var(--rb-ink-soft); margin: 0 0 16px; }
+.rebel-theme .rb-note-signature { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: 14.5px; color: var(--rb-gold-deep); margin: 0; }
+
+/* ---------- stat band (company facts + proof) ---------- */
+.rebel-theme .rb-stat-band { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rb-border); border: 1px solid var(--rb-border); border-radius: 22px; overflow: hidden; box-shadow: var(--rb-shadow-soft); }
+@media (min-width: 768px) { .rebel-theme .rb-stat-band { grid-template-columns: repeat(5, 1fr); } }
+.rebel-theme .rb-stat-band--proof { grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 768px) { .rebel-theme .rb-stat-band--proof { grid-template-columns: repeat(4, 1fr); } }
+.rebel-theme .rb-stat { background: var(--rb-panel-dark); padding: 28px 18px; text-align: center; }
+.rebel-theme .rb-stat-value { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: clamp(1.05rem, 2vw, 1.5rem); color: var(--rb-gold-soft); line-height: 1.2; }
+.rebel-theme .rb-stat-label { margin-top: 9px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.04em; color: var(--rb-muted); line-height: 1.4; }
+
+/* stat band variant for use on light sections */
+.rebel-theme .rb-section--light .rb-stat-band { background: var(--rb-border-on-light); border-color: var(--rb-border-on-light); }
+.rebel-theme .rb-section--light .rb-stat { background: var(--rb-panel-light); }
+.rebel-theme .rb-section--light .rb-stat-value { color: var(--rb-gold-deep); }
+.rebel-theme .rb-section--light .rb-stat-label { color: var(--rb-ink-soft); }
+
+.rebel-theme .rb-qualifier { max-width: 80ch; font-size: 11.5px; line-height: 1.68; color: var(--rb-muted); font-style: italic; }
+.rebel-theme .rb-section--light .rb-qualifier { color: var(--rb-ink-soft); opacity: 0.85; }
+
+/* ---------- glass panels & cards ---------- */
+.rebel-theme .rb-panel {
+  position: relative; background: var(--rb-panel-dark); border: 1px solid var(--rb-border); border-radius: 22px;
+  backdrop-filter: blur(16px) saturate(120%); -webkit-backdrop-filter: blur(16px) saturate(120%);
+  box-shadow: var(--rb-shadow-soft), inset 0 1px 0 rgba(248, 245, 239, 0.06);
+  transition: transform 0.35s var(--rb-ease), border-color 0.35s var(--rb-ease), box-shadow 0.35s var(--rb-ease);
+}
+.rebel-theme .rb-panel:hover { transform: translateY(-3px); border-color: var(--rb-border-strong); box-shadow: var(--rb-shadow); }
+.rebel-theme .rb-panel--light { background: var(--rb-panel-light); border-color: var(--rb-border-on-light); box-shadow: var(--rb-shadow-soft), inset 0 1px 0 rgba(255,255,255,0.6); }
+.rebel-theme .rb-panel--featured { border-color: var(--rb-border-strong); box-shadow: 0 32px 74px -28px rgba(176, 141, 79, 0.35), inset 0 1px 0 rgba(248, 245, 239, 0.08); }
+.rebel-theme .rb-panel--featured:hover { border-color: var(--rb-gold); }
+.rebel-theme .rb-panel-badge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(120deg, var(--rb-gold-deep), var(--rb-gold)); color: #1a1409; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 9999px; box-shadow: var(--rb-shadow-soft); white-space: nowrap;
+}
+
+/* ---------- gallery module frame (Motion library / Stills & campaigns) -- */
+.rebel-theme .rb-gallery-frame {
+  border-radius: 28px;
+  border: 1px solid var(--rb-border-on-light);
+  background: var(--rb-panel-light);
+  box-shadow: var(--rb-shadow-soft);
+  padding: clamp(22px, 3.5vw, 44px);
+}
+
+/* ---------- graceful motion frame (RebelMotion.tsx) ---------- */
+.rebel-theme .rb-motion-frame { position: relative; width: 100%; aspect-ratio: 16 / 10; border-radius: 20px; overflow: hidden; background: var(--rb-ink-deep); box-shadow: var(--rb-shadow-soft); }
+.rebel-theme .rb-motion-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.rebel-theme .rb-motion-skeleton { position: absolute; inset: 0; background: linear-gradient(120deg, rgba(248,245,239,0.04), rgba(176,141,79,0.08), rgba(248,245,239,0.04)); background-size: 200% 100%; animation: rb-shimmer 1.8s ease-in-out infinite; }
+@keyframes rb-shimmer { 0% { background-position: 0% 0; } 100% { background-position: -200% 0; } }
+.rebel-theme .rb-motion-fallback {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  background: linear-gradient(150deg, rgba(176, 141, 79, 0.14), rgba(21, 18, 14, 0.92));
+  padding: 20px; text-align: center;
+}
+.rebel-theme .rb-motion-fallback-mark { display: inline-flex; gap: 5px; }
+.rebel-theme .rb-motion-fallback-mark span { width: 7px; height: 7px; border-radius: 9999px; background: var(--rb-gold-soft); opacity: 0.85; }
+.rebel-theme .rb-motion-fallback-mark span:nth-child(2) { opacity: 0.6; }
+.rebel-theme .rb-motion-fallback-mark span:nth-child(3) { opacity: 0.4; }
+.rebel-theme .rb-motion-fallback-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rb-gold-soft); }
+.rebel-theme .rb-motion-fallback-caption { font-size: 12px; line-height: 1.5; color: rgba(248, 245, 239, 0.72); max-width: 30ch; }
+.rebel-theme .rb-motion-caption {
+  position: absolute; left: 14px; right: 14px; bottom: 14px; z-index: 2;
+  font-size: 11.5px; line-height: 1.5; color: #fbf9f4; font-weight: 550;
+  padding: 8px 12px; border-radius: 10px; background: rgba(10, 8, 6, 0.55); backdrop-filter: blur(6px);
+}
+
+/* large single motion feature (moments 1 and 4) */
+.rebel-theme .rb-motion-feature { border-radius: 28px; overflow: hidden; box-shadow: var(--rb-shadow); }
+.rebel-theme .rb-motion-feature .rb-motion-frame { aspect-ratio: 21 / 10; border-radius: 28px; }
+@media (max-width: 640px) { .rebel-theme .rb-motion-feature .rb-motion-frame { aspect-ratio: 4 / 5; } }
+
+/* three-property motion grid (moment 2) */
+.rebel-theme .rb-motion-grid { display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); margin-top: 32px; }
+@media (max-width: 860px) { .rebel-theme .rb-motion-grid { grid-template-columns: 1fr; } }
+.rebel-theme .rb-motion-grid-item .rb-motion-frame { aspect-ratio: 3 / 4; }
+
+/* inline motion swatch used inside "Where Rebel + Archer connect" pairs (moment 3) */
+.rebel-theme .rb-fit-motion { width: 100%; }
+.rebel-theme .rb-fit-motion .rb-motion-frame { aspect-ratio: 16 / 9; border-radius: 14px; }
+
+/* ---------- one portfolio / many stories ---------- */
+.rebel-theme .rb-portfolio-copy { max-width: 74ch; }
+
+/* ---------- creative capacity ---------- */
+.rebel-theme .rb-capacity-points { display: grid; gap: 14px; grid-template-columns: repeat(3, 1fr); margin-top: 26px; }
+@media (max-width: 760px) { .rebel-theme .rb-capacity-points { grid-template-columns: 1fr; } }
+.rebel-theme .rb-capacity-point { border-radius: 16px; border: 1px solid var(--rb-border); background: var(--rb-panel-dark); padding: 18px 20px; font-size: 13px; line-height: 1.55; color: rgba(248, 245, 239, 0.86); display: flex; gap: 10px; align-items: flex-start; }
+.rebel-theme .rb-capacity-point .rb-dot { margin-top: 6px; }
+
+/* ---------- service modes ---------- */
+.rebel-theme .rb-service-modes { display: grid; gap: 18px; grid-template-columns: repeat(2, 1fr); margin-top: 20px; }
+@media (max-width: 760px) { .rebel-theme .rb-service-modes { grid-template-columns: 1fr; } }
+.rebel-theme .rb-service-mode { padding: 24px 26px; }
+.rebel-theme .rb-service-mode h4 { font-size: 15px; color: var(--rb-ink); margin: 0 0 8px; font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; }
+.rebel-theme .rb-service-mode p { font-size: 13px; line-height: 1.6; color: var(--rb-ink-soft); margin: 0; }
+
+/* ---------- partnership fit: paired rows, with motion swatch ---------- */
+.rebel-theme .rb-fit-pairs { display: flex; flex-direction: column; gap: 16px; }
+.rebel-theme .rb-fit-pair {
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center;
+  border: 1px solid var(--rb-border-on-light); border-radius: 20px; background: var(--rb-panel-light);
+  box-shadow: var(--rb-shadow-soft); padding: 22px 24px;
+}
+@media (max-width: 900px) { .rebel-theme .rb-fit-pair { grid-template-columns: 1fr; gap: 14px; } }
+.rebel-theme .rb-fit-col-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; display: block; }
+.rebel-theme .rb-fit-col--identifies .rb-fit-col-label { color: var(--rb-gold-deep); }
+.rebel-theme .rb-fit-col--produces .rb-fit-col-label { color: var(--rb-ink-soft); }
+.rebel-theme .rb-fit-col p { font-size: 13.5px; line-height: 1.55; color: var(--rb-ink-soft); margin: 0; }
+.rebel-theme .rb-fit-arrow { color: var(--rb-gold); font-size: 18px; flex-shrink: 0; }
+@media (max-width: 900px) { .rebel-theme .rb-fit-arrow { transform: rotate(90deg); width: fit-content; } }
+
+/* ---------- connected workflow (5 steps) ---------- */
+.rebel-theme .rb-workflow-steps { display: grid; gap: 14px; grid-template-columns: repeat(5, 1fr); }
+@media (max-width: 1080px) { .rebel-theme .rb-workflow-steps { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 640px) { .rebel-theme .rb-workflow-steps { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 420px) { .rebel-theme .rb-workflow-steps { grid-template-columns: 1fr; } }
+.rebel-theme .rb-workflow-step { display: flex; flex-direction: column; gap: 9px; border-radius: 18px; border: 1px solid var(--rb-border); background: var(--rb-panel-dark); padding: 18px 18px 20px; box-shadow: var(--rb-shadow-soft); }
+.rebel-theme .rb-workflow-num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 9999px; background: rgba(176, 141, 79, 0.16); color: var(--rb-gold-soft); font-size: 12px; font-weight: 700; }
+.rebel-theme .rb-workflow-step h4 { font-size: 13.5px; color: var(--rb-ivory); margin: 0; font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; }
+.rebel-theme .rb-workflow-step p { font-size: 11.5px; line-height: 1.55; color: rgba(248, 245, 239, 0.72); margin: 0; }
+.rebel-theme .rb-workflow-closing { margin-top: 14px; font-size: 14px; line-height: 1.65; color: var(--rb-gold-soft); max-width: 68ch; font-style: italic; }
+
+/* ---------- control / responsibilities columns ---------- */
+.rebel-theme .rb-columns { display: grid; gap: 18px; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 900px) { .rebel-theme .rb-columns { grid-template-columns: 1fr 1fr 0.8fr; } }
+.rebel-theme .rb-column { padding: 26px 26px 28px; }
+.rebel-theme .rb-column--rebel { border-top: 2px solid rgba(176, 141, 79, 0.6); }
+.rebel-theme .rb-column--archer { border-top: 2px solid rgba(248, 245, 239, 0.35); }
+.rebel-theme .rb-column--shared { border-top: 2px solid rgba(176, 141, 79, 0.3); }
+.rebel-theme .rb-column h3 { font-size: 15px; color: var(--rb-ivory); margin: 0 0 14px; }
+.rebel-theme .rb-column-list { display: flex; flex-direction: column; gap: 9px; }
+.rebel-theme .rb-column-list li { display: flex; gap: 9px; align-items: flex-start; font-size: 13px; line-height: 1.5; color: rgba(248, 245, 239, 0.8); }
+.rebel-theme .rb-dot { width: 5px; height: 5px; border-radius: 9999px; flex-shrink: 0; margin-top: 7px; background: var(--rb-gold); }
+.rebel-theme .rb-dot--archer { background: rgba(248, 245, 239, 0.6); }
+.rebel-theme .rb-dot--shared { background: var(--rb-gold-soft); }
+@media (max-width: 640px) { .rebel-theme .rb-columns { grid-template-columns: 1fr; } }
+
+/* ---------- operating / partnership models ---------- */
+.rebel-theme .rb-models-grid { display: grid; gap: 22px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .rebel-theme .rb-models-grid { grid-template-columns: repeat(3, 1fr); } }
+.rebel-theme .rb-model-card { padding: 28px 26px; display: flex; flex-direction: column; gap: 4px; }
+.rebel-theme .rb-model-subtitle { font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--rb-gold-soft); margin-bottom: 4px; }
+.rebel-theme .rb-model-card h3 { font-size: 18px; color: var(--rb-ivory); margin: 0 0 10px; }
+.rebel-theme .rb-model-intro { font-size: 12.5px; line-height: 1.62; color: rgba(248, 245, 239, 0.78); margin: 0 0 14px; }
+
+/* ---------- partner economics ---------- */
+.rebel-theme .rb-econ-highlight-line {
+  margin-top: 18px; padding: 13px 18px; display: inline-block; border-radius: 0 10px 10px 0;
+  font-size: 13px; font-weight: 700; color: var(--rb-ink);
+  background: linear-gradient(90deg, rgba(176, 141, 79, 0.18), rgba(176, 141, 79, 0.04));
+  border-left: 3px solid var(--rb-gold);
+}
+.rebel-theme .rb-econ-alt-model {
+  margin-top: 18px; padding: 16px 20px; border-radius: 14px; border: 1px dashed var(--rb-border-on-light);
+  font-size: 12.5px; line-height: 1.65; color: var(--rb-ink-soft); max-width: 78ch; font-style: italic;
+}
+
+/* ---------- calculator ---------- */
+.rebel-theme .rb-calc { border-radius: 24px; border: 1px solid var(--rb-border-on-light); background: var(--rb-panel-light); box-shadow: var(--rb-shadow); padding: clamp(22px, 3.6vw, 36px); }
+.rebel-theme .rb-calc-scenario-label { display: table; margin: 0 auto; font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rb-gold-deep); padding: 6px 16px; border-radius: 9999px; background: rgba(176, 141, 79, 0.12); border: 1px solid rgba(176, 141, 79, 0.3); }
+.rebel-theme .rb-calc-count-row { display: flex; justify-content: center; margin-top: 14px; }
+.rebel-theme .rb-calc-count { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: clamp(1.3rem, 3vw, 1.6rem); color: var(--rb-ink); }
+.rebel-theme .rb-calc-count-num { color: var(--rb-gold-deep); }
+.rebel-theme .rb-calc-slider-row { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 12px; margin-top: 24px; }
+.rebel-theme .rb-calc-stepper-btn { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; flex-shrink: 0; border-radius: 9999px; border: 1px solid var(--rb-border-on-light); background: var(--rb-panel-light); color: var(--rb-ink); cursor: pointer; transition: background 0.15s var(--rb-ease), border-color 0.15s var(--rb-ease); }
+.rebel-theme .rb-calc-stepper-btn:hover:not(:disabled) { background: rgba(176, 141, 79, 0.12); border-color: rgba(176, 141, 79, 0.4); }
+.rebel-theme .rb-calc-stepper-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.rebel-theme .rb-calc-slider-wrap { position: relative; padding-bottom: 20px; }
+.rebel-theme .rb-calc-slider { width: 100%; height: 6px; border-radius: 9999px; background: rgba(176, 141, 79, 0.16); appearance: none; -webkit-appearance: none; cursor: pointer; accent-color: var(--rb-gold); }
+.rebel-theme .rb-calc-slider::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; border-radius: 9999px; background: var(--rb-gold); border: 3px solid var(--rb-panel-light); box-shadow: 0 1px 4px rgba(176, 141, 79, 0.5); cursor: pointer; }
+.rebel-theme .rb-calc-slider::-moz-range-thumb { width: 20px; height: 20px; border-radius: 9999px; background: var(--rb-gold); border: 3px solid var(--rb-panel-light); box-shadow: 0 1px 4px rgba(176, 141, 79, 0.5); cursor: pointer; }
+.rebel-theme .rb-calc-slider-labels { position: relative; height: 14px; margin-top: 8px; }
+.rebel-theme .rb-calc-slider-label { position: absolute; font-size: 10px; font-weight: 600; color: var(--rb-muted); white-space: nowrap; }
+.rebel-theme .rb-calc-num-input { width: 68px; flex-shrink: 0; border-radius: 10px; border: 1px solid var(--rb-border-on-light); background: var(--rb-cream); padding: 7px 8px; text-align: center; font-size: 14px; font-weight: 650; color: var(--rb-ink); }
+.rebel-theme .rb-calc-stepper-btn:focus-visible, .rebel-theme .rb-calc-slider:focus-visible, .rebel-theme .rb-calc-num-input:focus-visible, .rebel-theme .rb-calc-tab:focus-visible { outline: 2px solid var(--rb-gold-deep); outline-offset: 2px; }
+
+.rebel-theme .rb-calc-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; justify-content: center; }
+.rebel-theme .rb-calc-tab { border-radius: 9999px; border: 1px solid var(--rb-border-on-light); background: var(--rb-panel-light); padding: 9px 18px; font-size: 12px; font-weight: 600; color: var(--rb-ink-soft); cursor: pointer; transition: background 0.15s var(--rb-ease), color 0.15s var(--rb-ease), border-color 0.15s var(--rb-ease); }
+.rebel-theme .rb-calc-tab.is-active { background: var(--rb-ink); border-color: var(--rb-ink); color: var(--rb-gold-soft); }
+.rebel-theme .rb-calc-tab:hover:not(.is-active) { background: rgba(176, 141, 79, 0.1); }
+.rebel-theme .rb-calc-tab-badge { font-weight: 700; opacity: 0.85; }
+
+.rebel-theme .rb-calc-results { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: 26px; }
+.rebel-theme .rb-calc-result-card { border-radius: 18px; border: 1px solid var(--rb-border-on-light); background: var(--rb-cream); padding: 20px 22px 22px; }
+.rebel-theme .rb-calc-result-title { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: 15px; color: var(--rb-ink); margin: 0 0 12px; }
+.rebel-theme .rb-calc-result-rows { display: flex; flex-direction: column; gap: 8px; }
+.rebel-theme .rb-calc-result-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 12.5px; color: var(--rb-ink-soft); }
+.rebel-theme .rb-calc-result-row span:last-child { font-weight: 600; color: var(--rb-ink); white-space: nowrap; }
+.rebel-theme .rb-calc-result-row--highlight { border-radius: 10px; background: rgba(176, 141, 79, 0.14); padding: 8px 10px; margin-inline: -10px; }
+.rebel-theme .rb-calc-result-row--highlight span:last-child { color: var(--rb-gold-deep); }
+.rebel-theme .rb-calc-disclaimer { max-width: 68ch; font-size: 11px; line-height: 1.6; color: var(--rb-muted); margin-top: 12px; }
+.rebel-theme .rb-calc-disclaimer:first-of-type { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--rb-border-on-light); }
+@media (max-width: 560px) {
+  .rebel-theme .rb-calc-slider-row { grid-template-columns: auto 1fr auto; }
+  .rebel-theme .rb-calc-num-input { grid-column: 1 / -1; width: 100%; margin-top: 10px; }
+}
+
+/* ---------- value summary (inline, dot-separated) ---------- */
+.rebel-theme .rb-value-inline-grid { display: grid; gap: 20px; grid-template-columns: 1fr; margin-top: 28px; }
+@media (min-width: 900px) { .rebel-theme .rb-value-inline-grid { grid-template-columns: repeat(3, 1fr); } }
+.rebel-theme .rb-value-inline-card { padding: 24px 26px; }
+
+/* ---------- inline heading + list ---------- */
+.rebel-theme .rb-inline-heading { font-size: 13.5px; font-weight: 700; color: var(--rb-gold-soft); margin: 0 0 8px; }
+.rebel-theme .rb-inline-list { font-size: 13.5px; line-height: 1.78; color: rgba(248, 245, 239, 0.82); }
+.rebel-theme .rb-section--light .rb-inline-heading { color: var(--rb-gold-deep); }
+.rebel-theme .rb-section--light .rb-inline-list { color: var(--rb-ink-soft); }
+
+/* ---------- pilot ---------- */
+.rebel-theme .rb-pilot-frame { border-radius: 28px; border: 1px solid var(--rb-border-on-light); background: var(--rb-panel-light); box-shadow: var(--rb-shadow); padding: clamp(26px, 4.5vw, 48px); }
+.rebel-theme .rb-pilot-phases { display: grid; gap: 18px; grid-template-columns: repeat(4, 1fr); margin-top: 24px; }
+@media (max-width: 900px) { .rebel-theme .rb-pilot-phases { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .rebel-theme .rb-pilot-phases { grid-template-columns: 1fr; } }
+.rebel-theme .rb-pilot-phase { border-radius: 18px; border: 1px solid var(--rb-border-on-light); background: var(--rb-cream); padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 10px; }
+.rebel-theme .rb-pilot-phase-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 9999px; background: var(--rb-ink); color: var(--rb-gold-soft); font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.rebel-theme .rb-pilot-phase h4 { font-size: 14.5px; color: var(--rb-ink); margin: 0; font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; }
+.rebel-theme .rb-pilot-phase ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.rebel-theme .rb-pilot-phase li { font-size: 12px; line-height: 1.5; color: var(--rb-ink-soft); padding-left: 12px; position: relative; }
+.rebel-theme .rb-pilot-phase li::before { content: ""; position: absolute; left: 0; top: 7px; width: 4px; height: 4px; border-radius: 9999px; background: var(--rb-gold); }
+.rebel-theme .rb-pilot-note { margin-top: 20px; font-size: 12.5px; line-height: 1.6; font-style: italic; color: var(--rb-muted); max-width: 72ch; }
+
+/* ---------- proof / confidence quote ---------- */
+.rebel-theme .rb-quote-panel { border-radius: 26px; border: 1px solid var(--rb-border); border-left: 4px solid var(--rb-gold); background: var(--rb-panel-dark); box-shadow: var(--rb-shadow-soft); padding: clamp(30px, 4.5vw, 48px); }
+.rebel-theme .rb-quote-mark { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: clamp(1.25rem, 2.7vw, 1.6rem); line-height: 1.42; color: var(--rb-ivory); margin: 0; }
+
+/* ---------- final CTA ---------- */
+.rebel-theme .rb-final-panel { text-align: center; }
+.rebel-theme .rb-final-actions { margin-top: 34px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+/* ---------- footer ---------- */
+.rebel-theme .rb-footer { border-top: 1px solid var(--rb-border); padding-block: 44px 52px; }
+.rebel-theme .rb-footer-wordmark { font-family: var(--font-luxury-serif), ui-serif, Georgia, serif; font-size: 15px; letter-spacing: 0.1em; color: var(--rb-gold-soft); }
+.rebel-theme .rb-footer-legal { max-width: 740px; font-size: 11.5px; line-height: 1.65; color: var(--rb-muted); }
+
+/* ---------- generic data table ---------- */
+.rebel-theme .rb-table-wrap { margin-top: 26px; overflow-x: auto; border-radius: 20px; border: 1px solid var(--rb-border-on-light); box-shadow: var(--rb-shadow-soft); }
+.rebel-theme .rb-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--rb-panel-light); min-width: 500px; }
+.rebel-theme .rb-table th, .rebel-theme .rb-table td { padding: 13px 17px; text-align: left; white-space: nowrap; }
+.rebel-theme .rb-table th { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--rb-ink-soft); background: var(--rb-cream); border-bottom: 1px solid var(--rb-border-on-light); }
+.rebel-theme .rb-table td { color: var(--rb-ink-soft); border-bottom: 1px solid var(--rb-border-on-light); }
+.rebel-theme .rb-table tr:last-child td { border-bottom: none; }
+.rebel-theme .rb-table td:first-child, .rebel-theme .rb-table th:first-child { white-space: normal; font-weight: 600; color: var(--rb-ink); }
+.rebel-theme .rb-table tr.rb-table-row--highlight td { background: rgba(176, 141, 79, 0.1); font-weight: 600; color: var(--rb-ink); }
+.rebel-theme .rb-table-check { color: var(--rb-gold-deep); font-weight: 700; }
+.rebel-theme .rb-table-dash { color: var(--rb-border-strong); }
+
+.rebel-theme .rb-adoption-callout {
+  margin-top: 24px; padding: 18px 22px; border-radius: 16px;
+  background: linear-gradient(90deg, rgba(176, 141, 79, 0.16), rgba(176, 141, 79, 0.04));
+  border: 1px solid rgba(176, 141, 79, 0.28);
+  font-size: 14.5px; font-weight: 650; color: var(--rb-ink); line-height: 1.5;
+}
+.rebel-theme .rb-adoption-supporting { margin-top: 12px; font-size: 12.5px; line-height: 1.6; color: var(--rb-muted); max-width: 68ch; }
+
+.rebel-theme .rb-packages-includes { margin-top: 16px; font-size: 12.5px; line-height: 1.78; color: var(--rb-ink-soft); max-width: 86ch; }
+.rebel-theme .rb-packages-bestfor-grid { display: grid; gap: 14px; grid-template-columns: 1fr; margin-top: 20px; }
+@media (min-width: 768px) { .rebel-theme .rb-packages-bestfor-grid { grid-template-columns: repeat(3, 1fr); } }
+.rebel-theme .rb-packages-bestfor-item { padding: 16px 18px; border-radius: 16px; background: var(--rb-cream); border: 1px solid var(--rb-border-on-light); font-size: 12.5px; line-height: 1.55; color: var(--rb-ink-soft); }
+.rebel-theme .rb-packages-bestfor-item strong { display: block; font-size: 12.5px; color: var(--rb-ink); margin-bottom: 4px; }
+
+/* ---------- MORE ARCHER WORK: bottom portfolio slideshows (RebelWorkCarousel.tsx) ----------
+   Faithful port of the homepage's centered "[data-carousel]" behavior from
+   public/archer-preview/index.html (.work-carousel / .work-slide / .work-arrow),
+   rb-prefixed and scoped to .rebel-theme so it never leaks into other pages. */
+.rebel-theme .rb-work-carousel { position: relative; width: min(100%, 1400px); margin: 0 auto; }
+.rebel-theme .rb-work-carousel-viewport { width: 100%; overflow: hidden; padding: 18px 0 34px; }
+.rebel-theme .rb-work-carousel-track { display: flex; align-items: center; gap: 22px; transition: transform 520ms cubic-bezier(.2,.8,.2,1); will-change: transform; }
+.rebel-theme .rb-work-slide {
+  border-radius: 22px; overflow: hidden; background: var(--rb-ink-deep);
+  border: 1px solid var(--rb-border); box-shadow: var(--rb-shadow-soft);
+  transform: scale(0.8); opacity: 0.38; cursor: pointer;
+  transition: transform 520ms cubic-bezier(.2,.8,.2,1), opacity 520ms cubic-bezier(.2,.8,.2,1), box-shadow 520ms cubic-bezier(.2,.8,.2,1);
+}
+.rebel-theme .rb-work-slide.is-active { transform: scale(1); opacity: 1; box-shadow: var(--rb-shadow); }
+.rebel-theme .rb-work-slide:not(.is-active):hover { opacity: 0.6; }
+.rebel-theme .rb-work-slide.is-landscape { flex: 0 0 min(760px, 72vw); }
+.rebel-theme .rb-work-slide.is-landscape .rb-work-slide-media { aspect-ratio: 16 / 9; }
+.rebel-theme .rb-work-slide.is-portrait { flex: 0 0 min(320px, 40vw); }
+.rebel-theme .rb-work-slide.is-portrait .rb-work-slide-media { aspect-ratio: 9 / 16; }
+.rebel-theme .rb-work-slide-media {
+  width: 100%; max-height: 60vh; min-height: 240px;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+  background: var(--rb-ink-deep);
+}
+.rebel-theme .rb-work-slide-media img,
+.rebel-theme .rb-work-slide-media video { width: 100%; height: 100%; object-fit: contain; display: block; background: var(--rb-ink-deep); }
+.rebel-theme .rb-work-arrow {
+  position: absolute; z-index: 8; top: 50%; width: 46px; height: 46px; border-radius: 9999px;
+  border: 1px solid var(--rb-border); background: rgba(10, 8, 6, 0.78); color: var(--rb-ivory);
+  box-shadow: var(--rb-shadow-soft); display: grid; place-items: center; font-size: 28px; line-height: 1;
+  cursor: pointer; transform: translateY(-50%);
+  transition: background 220ms ease, color 220ms ease, transform 220ms ease;
+}
+.rebel-theme .rb-work-arrow:hover { background: var(--rb-gold-soft); color: var(--rb-ink-deep); transform: translateY(-50%) scale(1.06); }
+.rebel-theme .rb-work-arrow-left { left: 4px; }
+.rebel-theme .rb-work-arrow-right { right: 4px; }
+.rebel-theme .rb-work-carousel-count { margin-top: 10px; text-align: center; font-size: 11px; letter-spacing: 0.08em; color: rgba(248, 245, 239, 0.55); }
+@media (max-width: 640px) {
+  .rebel-theme .rb-work-slide.is-landscape { flex: 0 0 86vw; }
+  .rebel-theme .rb-work-slide.is-portrait { flex: 0 0 62vw; }
+  .rebel-theme .rb-work-slide-media { min-height: 200px; max-height: 52vh; }
+  .rebel-theme .rb-work-arrow { width: 38px; height: 38px; font-size: 22px; }
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .rebel-theme .rb-panel, .rebel-theme .rb-btn, .rebel-theme .rb-btn-ghost, .rebel-theme .rb-motion-skeleton, .rebel-theme .rb-work-carousel-track, .rebel-theme .rb-work-slide, .rebel-theme .rb-work-arrow { transition: none !important; animation: none !important; }
+  .rebel-theme .rb-panel:hover, .rebel-theme .rb-btn:hover, .rebel-theme .rb-btn-ghost:hover { transform: none !important; }
+}
