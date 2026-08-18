@@ -139,7 +139,7 @@ function getVideos(): MotionSlide[] {
         Boolean(item),
     );
 
-  const pinnedSet = new Set(PINNED_LOCALS);
+  const pinnedSet = new Set<string>(PINNED_LOCALS);
 
   /*
    * Everything else follows in a stable curated order.
