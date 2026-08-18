@@ -13,11 +13,12 @@ import {
 } from "lucide-react";
 import { absoluteUrl, CALENDLY_URL } from "@/lib/seo";
 import { fraunces } from "@/components/marketing/studioFont";
-import { MotionPortfolioGallery } from "@/components/marketing/MotionPortfolioGallery";
+import { HawkinsMotionDesignShowcase } from "./components/HawkinsMotionDesignShowcase";
 import { WorkPageStillsGallery } from "@/components/marketing/WorkPageStillsGallery";
-import { TCRM_IMAGES, TCRM_VIDEOS } from "../tcrm/tcrm-media";
+import { TCRM_IMAGES } from "../tcrm/tcrm-media";
 import { Reveal } from "../tcrm/components/Reveal";
 import { HawkinsHeader } from "./components/HawkinsHeader";
+import { HawkinsProfitCalculator } from "./components/HawkinsProfitCalculator";
 
 const PAGE_TITLE = "Hawkins Hospitality × Archer Design";
 const PAGE_DESCRIPTION =
@@ -36,10 +37,10 @@ export const metadata: Metadata = {
 };
 
 const HAWKINS_STATS = [
-  { value: "50+", label: "Luxury hotels & resorts under management", icon: Building2 },
-  { value: "$600M+", label: "Annual revenue managed", icon: TrendingUp },
-  { value: "25+", label: "Hotels opened", icon: Rocket },
-  { value: "100%", label: "Luxury & lifestyle focus", icon: Sparkles },
+  { value: "18.6M+", label: "Hospitality creative impressions", icon: TrendingUp },
+  { value: "4.9M+", label: "Reach generated", icon: Building2 },
+  { value: "612K+", label: "Engagements", icon: Sparkles },
+  { value: "2.7K+", label: "Creative pieces produced", icon: Rocket },
 ];
 
 const CONNECT = [
@@ -93,7 +94,34 @@ const TIERS = [
   { name: "Full", property: 1395, archer: 950, hawkins: 445, note: "Higher-volume property support" },
 ];
 
-const HAWKINS_MOTION = TCRM_VIDEOS.slice(0, 12);
+
+
+const RESEARCH_QUOTES = [
+  {
+    category: "Luxury perception",
+    quote: "Consumers perceive the featured product or brand as more luxurious.",
+    source: "Journal of Marketing Research · Jung & Dubois, 2023",
+    evidence: "12 experiments · 27,227 participants",
+  },
+  {
+    category: "Destination pacing",
+    quote: "Slow motion is better suited for nature-based destinations, whereas fast motion is more effective for urban destinations.",
+    source: "Journal of Hospitality & Tourism Research · Huang et al., 2026",
+    evidence: "Research included a field study totaling 33,080 video plays",
+  },
+  {
+    category: "Travel imagination",
+    quote: "Successful destination marketing depends on whether visual materials can evoke tourists' vivid fantasies of their future travel experiences.",
+    source: "Tourism Management · 2025",
+    evidence: "Research focused on travel mental simulation and destination attractiveness",
+  },
+  {
+    category: "Motion + visit intention",
+    quote: "Travel photographs depicting implied motion can increase tourists’ visit intention and that mental imagery is the mediator.",
+    source: "Tourism Management · Li & Ma, 2024",
+    evidence: "Finding supported across four experiments",
+  },
+];
 
 function money(value: number) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
@@ -159,9 +187,85 @@ export default function HawkinsPage() {
                 ))}
               </div>
               <p className="mt-3 text-[10.5px] leading-relaxed text-white/45">
-                Public Hawkins Hospitality figures, accessed August 2026. Shown only to frame the scale of the opportunity.
+                Archer Design hospitality creative performance and production totals.
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* FULL MOTION LIBRARY — same large slideshow used on /tcrm */}
+        <div id="work">
+          <HawkinsMotionDesignShowcase />
+        </div>
+
+        {/* RESEARCH / CREATIVE METHOD */}
+        <section id="research" className="tl-section">
+          <div className="tl-grid-field" aria-hidden="true" />
+          <div className="tl-glow-cyan" aria-hidden="true" />
+          <div className="tl-shell relative">
+            <Reveal className="max-w-3xl">
+              <p className="tl-eyebrow">Why motion matters</p>
+              <h2 className="mt-4 text-[clamp(2rem,4vw,3.35rem)] leading-[1.04]">
+                Don&apos;t just show the stay. Let them feel it.
+              </h2>
+              <p className="mt-6 max-w-[72ch] text-[15px] leading-[1.8] text-[var(--tl-ink-soft)]">
+                The goal is not motion for motion&apos;s sake. Pace, movement, atmosphere, and visual immersion can
+                change how hospitality imagery is perceived — from luxury and destination fit to the guest&apos;s ability
+                to imagine the experience before arriving.
+              </p>
+            </Reveal>
+
+            <div className="mt-10 grid gap-5 md:grid-cols-2">
+              {RESEARCH_QUOTES.map((item, index) => (
+                <Reveal
+                  key={item.category}
+                  className="tl-panel p-7 sm:p-8"
+                  delay={((index % 4) + 1) as 1 | 2 | 3 | 4}
+                >
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--tl-teal-deep)]">
+                    {item.category}
+                  </p>
+                  <blockquote className="mt-5 text-[clamp(1.3rem,2.3vw,1.75rem)] leading-[1.3] text-[var(--tl-ink)]">
+                    “{item.quote}”
+                  </blockquote>
+                  <span className="tl-hline my-6" aria-hidden="true" />
+                  <p className="text-[12px] font-medium leading-relaxed text-[var(--tl-ink-soft)]">
+                    {item.source}
+                  </p>
+                  <p className="mt-2 text-[11px] leading-relaxed text-[var(--tl-ink-muted)]">
+                    {item.evidence}
+                  </p>
+                </Reveal>
+              ))}
+            </div>
+
+            <Reveal delay={2}>
+              <p className="mt-7 max-w-[82ch] text-[10.5px] leading-[1.7] text-[var(--tl-ink-muted)]">
+                Independent published research shown as creative context. These studies do not test Archer Design&apos;s
+                specific production workflow and do not imply guaranteed campaign, booking, or revenue performance.
+              </p>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* DESIGN WORK */}
+        <section className="tl-section">
+          <div className="tl-glow-teal" aria-hidden="true" />
+          <div className="tl-shell relative">
+            <Reveal className="max-w-3xl">
+              <p className="tl-eyebrow">Design work</p>
+              <h2 className="mt-4 text-[clamp(2rem,4vw,3.2rem)] leading-[1.05]">
+                Property-level creative built to move quickly.
+              </h2>
+              <p className="mt-5 max-w-[68ch] text-[15px] leading-[1.8] text-[var(--tl-ink-soft)]">
+                Real hotel, restaurant, event, package, and seasonal creative from Archer&apos;s existing portfolio.
+              </p>
+            </Reveal>
+            <Reveal delay={1} className="tl-gallery-frame mt-10">
+              <div className="archer-studio">
+                <WorkPageStillsGallery items={TCRM_IMAGES} />
+              </div>
+            </Reveal>
           </div>
         </section>
 
@@ -306,38 +410,31 @@ export default function HawkinsPage() {
           </div>
         </section>
 
-        {/* WORK */}
-        <section id="work" className="tl-section">
-          <div className="tl-shell relative">
-            <Reveal className="max-w-3xl">
-              <p className="tl-eyebrow">Motion work</p>
-              <h2 className="mt-4 text-[clamp(2rem,4vw,3.2rem)] leading-[1.05]">Hospitality imagery, turned into movement.</h2>
-              <p className="mt-5 max-w-[68ch] text-[15px] leading-[1.8] text-[var(--tl-ink-soft)]">
-                Examples of Archer motion and hospitality production. Shown as capability examples only — not work commissioned by Hawkins Hospitality.
-              </p>
-            </Reveal>
-            <Reveal delay={1} className="tl-gallery-frame mt-10">
-              <div className="archer-studio">
-                <MotionPortfolioGallery items={HAWKINS_MOTION} />
-              </div>
-            </Reveal>
-          </div>
-        </section>
 
-        <section className="tl-section">
+        {/* PORTFOLIO PROFIT CALCULATOR */}
+        <section id="calculator" className="tl-section">
+          <div className="tl-grid-field" aria-hidden="true" />
           <div className="tl-glow-teal" aria-hidden="true" />
+
           <div className="tl-shell relative">
             <Reveal className="max-w-3xl">
-              <p className="tl-eyebrow">Design work</p>
-              <h2 className="mt-4 text-[clamp(2rem,4vw,3.2rem)] leading-[1.05]">Property-level creative built to move quickly.</h2>
-              <p className="mt-5 max-w-[68ch] text-[15px] leading-[1.8] text-[var(--tl-ink-soft)]">
-                Real hotel, restaurant, event, package, and seasonal creative from Archer&apos;s existing portfolio.
+              <p className="tl-eyebrow">Portfolio upside</p>
+
+              <h2 className="mt-4 text-[clamp(2rem,4vw,3.2rem)] leading-[1.05]">
+                See what the creative layer could add to Hawkins.
+              </h2>
+
+              <p className="mt-5 max-w-[70ch] text-[15px] leading-[1.8] text-[var(--tl-ink-soft)]">
+                Move the slider from one participating hotel to fifty and
+                compare the illustrative economics across each creative
+                program. Hawkins keeps the client relationship and commercial
+                strategy while Archer operates as the wholesale production
+                layer.
               </p>
             </Reveal>
-            <Reveal delay={1} className="tl-gallery-frame mt-10">
-              <div className="archer-studio">
-                <WorkPageStillsGallery items={TCRM_IMAGES} />
-              </div>
+
+            <Reveal delay={1} className="tl-panel mt-10 p-6 sm:p-8 lg:p-10">
+              <HawkinsProfitCalculator />
             </Reveal>
           </div>
         </section>
