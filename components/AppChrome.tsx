@@ -34,8 +34,10 @@ const PUBLIC_ROUTES = [
   // CoralTree Hospitality × Archer Design private sales proposal — noindex,
   // not linked from any nav, accessible only via direct URL, but still
   // needs to render full-bleed like the other marketing pages, not the
-  // CRM sidebar/auth guard.
+  // CRM sidebar/auth guard. Keep the legacy hyphenated alias public too so
+  // it can redirect to /coraltree before the owner auth guard ever runs.
   "/coraltree",
+  "/coral-tree",
 ];
 // Auth routes: full-bleed, no sidebar, no guard (these ARE the login flow).
 const AUTH_ROUTES = ["/login", "/auth/callback"];
