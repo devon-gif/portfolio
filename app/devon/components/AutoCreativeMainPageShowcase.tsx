@@ -16,7 +16,21 @@ export function AutoCreativeMainPageShowcase() {
       setTarget(null);
       return;
     }
-    setTarget(document.querySelector<HTMLElement>("#systems"));
+
+    const section = document.querySelector<HTMLElement>("#systems");
+    setTarget(section);
+
+    const sourceLink = section?.querySelector<HTMLAnchorElement>(
+      'a[href="https://github.com/devon-gif/portfolio/tree/auto-creative-os/app/auto"]',
+    );
+
+    if (sourceLink) {
+      sourceLink.href = "/devon/auto";
+      sourceLink.removeAttribute("target");
+      sourceLink.removeAttribute("rel");
+      const textNode = Array.from(sourceLink.childNodes).find((node) => node.nodeType === Node.TEXT_NODE);
+      if (textNode) textNode.textContent = "Open interactive Auto Creative OS demo ";
+    }
   }, [pathname]);
 
   if (pathname !== "/devon" || !target) return null;
@@ -26,13 +40,13 @@ export function AutoCreativeMainPageShowcase() {
       <div className={styles.intro}>
         <div>
           <span>WORKING DEMO / RESPONSIVE RECOMPOSITION</span>
-          <h3>One approved creative becomes multiple placement-specific compositions.</h3>
+          <h3>One approved automotive campaign becomes multiple placement-specific compositions.</h3>
         </div>
         <div>
           <p>
-            The system maps vehicle, headline, offer, logo, legal, and background as separate roles. Those roles
-            can then recompose for square, story, portrait, and banner placements instead of blindly scaling a
-            finished flat image.
+            Vehicle imagery, headline, offer, logo and legal stay as separate semantic roles. The live demo shows
+            the same source campaign recomposed for square, story, portrait and banner placements while preserving
+            hierarchy and approval constraints.
           </p>
           <a href="/devon/auto">
             Open interactive Auto Creative OS demo <ArrowUpRight size={14} />
