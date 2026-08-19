@@ -93,7 +93,7 @@ const AUTH_ROUTES = ["/login", "/auth/callback"];
 // /hotel-commercial-growth: noindex, never linked from nav/sitemap/footer,
 // direct URL only, until approved. Distinct route, distinct files; does not
 // touch /hotel-commercial-growth.
-const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/review", "/topline", "/george", "/emma", "/vision", "/tcrm", "/oxford", "/first-hospitality", "/pyramid", "/bridgetown", "/hotel-commercial-growth", "/grant-hospitality", "/jacaruso", "/clientconcierge", "/commercial-growth", "/rebel"];
+const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/review", "/topline", "/george", "/emma", "/vision", "/tcrm", "/oxford", "/first-hospitality", "/pyramid", "/bridgetown", "/hotel-commercial-growth", "/grant-hospitality", "/jacaruso", "/clientconcierge", "/commercial-growth", "/rebel", "/devon"];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;
