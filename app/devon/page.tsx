@@ -6,16 +6,16 @@ import {
   Cpu,
   ExternalLink,
   Film,
-  Layers3,
   Mail,
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
 import { absoluteUrl } from "@/lib/seo";
+import { DevonMotionSlideshow } from "./components/DevonMotionSlideshow";
 
 const PAGE_TITLE = "Devon Archer — Creative Technologist";
 const PAGE_DESCRIPTION =
-  "Creative technology portfolio spanning generative motion, AI-assisted production systems, product prototyping, and hospitality creative.";
+  "Creative technology portfolio spanning generative motion, AI-assisted production systems, product prototyping, filmmaking, and shipped creative.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -28,34 +28,6 @@ export const metadata: Metadata = {
     googleBot: { index: false, follow: false },
   },
 };
-
-const motionWork = [
-  {
-    src: "/tcrm/videos/luxury-bedroom-sequence.mp4",
-    title: "Luxury bedroom sequence",
-    type: "Generative motion / hospitality",
-  },
-  {
-    src: "/tcrm/videos/cinematic-timelapse-transition.mp4",
-    title: "Cinematic timelapse",
-    type: "AI transition study",
-  },
-  {
-    src: "/tcrm/videos/couple-orbit-shot.mp4",
-    title: "Orbit shot",
-    type: "Camera movement / people",
-  },
-  {
-    src: "/tcrm/videos/image-to-image-transition.mp4",
-    title: "Image-to-image transition",
-    type: "Continuity experiment",
-  },
-  {
-    src: "/tcrm/videos/environment-transition.mp4",
-    title: "Environment transition",
-    type: "Scene transformation",
-  },
-];
 
 const archerWork = [
   {
@@ -78,6 +50,16 @@ const archerWork = [
     alt: "Minty Fresh beverage art direction",
     label: "Art direction / experiment",
   },
+  {
+    src: "/tcrm/images/hotel-indigo-pittsburgh-wedding-room-block.png",
+    alt: "Hotel Indigo Pittsburgh wedding room block campaign",
+    label: "Wedding / group-sales creative",
+  },
+  {
+    src: "/tcrm/images/eliza-hot-metal-bistro-holiday-billboard.png",
+    alt: "Eliza Hot Metal Bistro holiday billboard",
+    label: "Campaign adaptation",
+  },
 ];
 
 const tools = [
@@ -92,6 +74,7 @@ const tools = [
   "TypeScript",
   "JavaScript",
   "Canvas",
+  "OpenAI APIs",
   "Supabase",
   "Vercel",
   "Git",
@@ -111,6 +94,46 @@ function LoopVideo({ src, label }: { src: string; label: string }) {
   );
 }
 
+function YouTubeCard({
+  id,
+  eyebrow,
+  title,
+  description,
+}: {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <article className="ct-story-card">
+      <div className="ct-youtube-frame">
+        <iframe
+          src={`https://www.youtube.com/embed/${id}?rel=0`}
+          title={title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="strict-origin-when-cross-origin"
+        />
+      </div>
+      <div className="ct-story-body">
+        <p className="ct-eyebrow"><Film size={13} aria-hidden="true" /> {eyebrow}</p>
+        <h3>{title}</h3>
+        <p>{description}</p>
+        <a
+          href={`https://www.youtube.com/watch?v=${id}`}
+          target="_blank"
+          rel="noreferrer"
+          className="ct-story-link"
+        >
+          Watch on YouTube <ExternalLink size={12} aria-hidden="true" />
+        </a>
+      </div>
+    </article>
+  );
+}
+
 export default function DevonCreativeTechnologistPage() {
   return (
     <div className="devon-ct">
@@ -121,8 +144,10 @@ export default function DevonCreativeTechnologistPage() {
             Devon Archer / Creative Technologist
           </a>
           <nav className="ct-nav-links" aria-label="Portfolio sections">
-            <a href="#motion">AI Motion</a>
+            <a href="#motion">Motion</a>
             <a href="#systems">Systems</a>
+            <a href="#products">AI Products</a>
+            <a href="#story">Film</a>
             <a href="#work">Creative</a>
             <a href="mailto:heydevon@gmail.com">Contact</a>
           </nav>
@@ -141,12 +166,12 @@ export default function DevonCreativeTechnologistPage() {
               </h1>
               <p className="ct-hero-copy">
                 I build creative systems where generative AI, design, motion, and production meet —
-                from experimental image-to-video workflows to working internal tools with explicit
-                guardrails, evaluation, and human review.
+                from image-to-video workflows and narrative editing to working AI products and production
+                tools with explicit guardrails, evaluation, and human review.
               </p>
               <div className="ct-actions">
                 <a href="#motion" className="ct-btn">
-                  See AI motion
+                  See motion work
                   <ArrowDownRight size={15} aria-hidden="true" />
                 </a>
                 <a href="https://checkray.app" target="_blank" rel="noreferrer" className="ct-btn-ghost">
@@ -176,16 +201,16 @@ export default function DevonCreativeTechnologistPage() {
         <section className="ct-proof-strip" aria-label="Selected proof points">
           <div className="ct-shell ct-proof-grid">
             <div className="ct-proof-item">
-              <div className="ct-proof-num">30+</div>
-              <div className="ct-proof-label">AI motion experiments</div>
+              <div className="ct-proof-num">32</div>
+              <div className="ct-proof-label">Motion / generative studies</div>
             </div>
             <div className="ct-proof-item">
               <div className="ct-proof-num">14.8M+</div>
               <div className="ct-proof-label">Tracked campaign impressions</div>
             </div>
             <div className="ct-proof-item">
-              <div className="ct-proof-num">2</div>
-              <div className="ct-proof-label">Working AI / systems products</div>
+              <div className="ct-proof-num">3</div>
+              <div className="ct-proof-label">Working AI / systems builds</div>
             </div>
             <div className="ct-proof-item">
               <div className="ct-proof-num">Human</div>
@@ -215,7 +240,7 @@ export default function DevonCreativeTechnologistPage() {
                 <h3>AI motion &amp; image-to-video workflows</h3>
                 <p>
                   Shot-first experiments across camera movement, environmental motion, scene transitions,
-                  continuity, and cinematic hospitality/lifestyle imagery.
+                  continuity, people, food, hospitality, and cinematic lifestyle imagery.
                 </p>
                 <div className="ct-card-tag">Seedance · Runway · Flux · Adobe</div>
               </article>
@@ -245,27 +270,17 @@ export default function DevonCreativeTechnologistPage() {
           <div className="ct-shell">
             <div className="ct-section-head">
               <div>
-                <p className="ct-eyebrow">Generative motion R&amp;D</p>
+                <p className="ct-eyebrow">Motion library / generative R&amp;D</p>
                 <h2>Start with the shot, not the model.</h2>
               </div>
               <p className="ct-section-intro">
-                I use generative video as a production tool rather than a novelty. The process starts with
-                the intended shot — movement, timing, continuity, what must remain visually consistent — then
-                moves through model testing, variation, artifact review, selection, and traditional finishing.
+                The full motion library is here, not a five-clip highlight reel. I use generative video as a
+                production tool: define the intended shot, test motion and continuity, compare outputs, inspect
+                artifacts, select the strongest result, then finish with traditional editing and design tools.
               </p>
             </div>
 
-            <div className="ct-motion-grid">
-              {motionWork.map((item) => (
-                <article className="ct-motion-tile" key={item.src}>
-                  <LoopVideo src={item.src} label={item.title} />
-                  <div className="ct-motion-meta">
-                    <div className="ct-motion-title">{item.title}</div>
-                    <div className="ct-motion-type">{item.type}</div>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <DevonMotionSlideshow />
           </div>
         </section>
 
@@ -275,20 +290,31 @@ export default function DevonCreativeTechnologistPage() {
               <p className="ct-eyebrow">Case study / Auto Creative OS</p>
               <h3>From one approved campaign to a repeatable production system.</h3>
               <p>
-                Auto Creative OS started with a manual production problem: one approved automotive campaign
-                being rebuilt again and again across portrait, square, landscape, display, billboard, and
-                micro-banner placements. Instead of treating the ad as one flat picture, I modeled the
-                creative as semantic roles — vehicle, headline, offer, logo, legal, background — and built a
+                Auto Creative OS is a self-initiated prototype built around a real production problem: one
+                approved automotive campaign being rebuilt across portrait, square, landscape, display,
+                billboard, and micro-banner placements. Instead of treating the ad as one flat image, I modeled
+                the creative as semantic roles — vehicle, headline, offer, logo, legal, background — and built a
                 Source → Map → Compose → Review → Export workflow around them.
               </p>
               <div className="ct-case-list">
                 <div><b>01</b><span>Recomposition instead of blind resizing, so hierarchy and intent can survive format changes.</span></div>
                 <div><b>02</b><span>Pass / Warning / Blocked validation for crop safety, legal readability, source fidelity, and brand constraints.</span></div>
                 <div><b>03</b><span>Real PSD and rendering failures used to improve the abstraction instead of hiding symptoms with one-off fixes.</span></div>
-                <div><b>04</b><span>AI can assist ambiguous interpretation; deterministic code protects guarantees; humans own final creative judgment.</span></div>
+                <div><b>04</b><span>Preview and export share the same rendering path; a reviewed artifact should match what actually ships.</span></div>
               </div>
               <div className="ct-tools">
-                <span>Next.js</span><span>TypeScript</span><span>Canvas</span><span>PSD ingestion</span><span>validation</span><span>regression tests</span>
+                <span>Next.js</span><span>TypeScript</span><span>Canvas</span><span>PSD ingestion</span><span>validation</span><span>42 tests</span>
+              </div>
+              <div className="ct-case-actions">
+                <a
+                  href="https://github.com/devon-gif/portfolio/tree/auto-creative-os/app/auto"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="ct-btn"
+                >
+                  View Auto Creative OS source
+                  <ExternalLink size={14} aria-hidden="true" />
+                </a>
               </div>
             </div>
 
@@ -330,31 +356,33 @@ export default function DevonCreativeTechnologistPage() {
           </div>
         </section>
 
-        <section className="ct-section">
+        <section id="products" className="ct-section">
           <div className="ct-shell">
             <div className="ct-section-head">
               <div>
-                <p className="ct-eyebrow">Products + storytelling</p>
-                <h2>Systems thinking is only useful if the output still has taste.</h2>
+                <p className="ct-eyebrow">AI products in practice</p>
+                <h2>Not just prompts. Working systems around the model.</h2>
               </div>
               <p className="ct-section-intro">
-                The technical layer matters, but so do pacing, visual hierarchy, narrative clarity, and the
-                judgment to know what should stay human. These projects show both sides of that practice.
+                The common thread is turning probabilistic AI behavior into a product somebody can actually
+                operate: structured input, constrained output, visible confidence, deterministic rules, and a
+                clear fallback when the model or source evidence is not good enough.
               </p>
             </div>
 
-            <div className="ct-two-col">
-              <article className="ct-live-card">
+            <div className="ct-ai-grid">
+              <article className="ct-ai-card">
                 <div>
                   <p className="ct-eyebrow"><ShieldCheck size={13} aria-hidden="true" /> Live AI product</p>
                   <h3>CheckRay</h3>
                   <p>
                     A personal risk assistant for suspicious messages, links, bills, job offers, rental
-                    listings, and marketplace conversations. The model interprets context while deterministic
-                    rules, structured output, and a shared policy layer make the result safer and more testable.
+                    listings, and marketplace conversations. The model interprets context while structured
+                    outputs, deterministic risk floors, evaluation cases, and a shared policy layer make the
+                    result safer and more testable.
                   </p>
-                  <div className="ct-checkray-flow" aria-label="CheckRay processing flow">
-                    <span>Input</span><span>AI</span><span>Floors</span><span>Policy</span><span>Report</span>
+                  <div className="ct-ai-flow" aria-label="CheckRay processing flow">
+                    <span>Input</span><span>AI interpretation</span><span>Risk floors</span><span>Policy</span><span>Report</span>
                   </div>
                 </div>
                 <a href="https://checkray.app" target="_blank" rel="noreferrer" className="ct-btn">
@@ -363,50 +391,56 @@ export default function DevonCreativeTechnologistPage() {
                 </a>
               </article>
 
-              <article className="ct-trailer-card" style={{ display: "block", padding: 0 }}>
-                <div
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    aspectRatio: "16 / 9",
-                    background: "#000",
-                  }}
-                >
-                  <iframe
-                    src="https://www.youtube.com/embed/I2uEgWTkNSg?rel=0"
-                    title="Selected narrative trailer edited by Devon Archer"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      width: "100%",
-                      height: "100%",
-                      border: 0,
-                    }}
-                  />
-                </div>
-                <div style={{ padding: 32 }}>
-                  <p className="ct-eyebrow"><Film size={13} aria-hidden="true" /> Narrative storytelling</p>
-                  <h3>TV trailer / selected narrative edit</h3>
+              <article className="ct-ai-card">
+                <div>
+                  <p className="ct-eyebrow"><Cpu size={13} aria-hidden="true" /> AI website analysis</p>
+                  <h3>Hotel Creative Scorecard</h3>
                   <p>
-                    Narrative editing built around pacing, music, tone, escalation, and story. This work shows
-                    the craft side of my creative technology practice: technical systems matter, but the final
-                    output still has to create tension, clarity, and an emotional response.
+                    A working hospitality website-audit flow that fetches public pages, extracts usable text
+                    and social signals, sends a bounded evidence set through the OpenAI Responses API, and
+                    returns a strict structured scorecard. Confidence and fallback states stay explicit when a
+                    site blocks scanning or the evidence is incomplete.
                   </p>
-                  <a
-                    href="https://www.youtube.com/watch?v=I2uEgWTkNSg"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ct-trailer-note"
-                    style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
-                  >
-                    Watch on YouTube <ExternalLink size={12} aria-hidden="true" />
-                  </a>
+                  <div className="ct-ai-flow" aria-label="Hotel Creative Scorecard processing flow">
+                    <span>Website</span><span>Extraction</span><span>AI analysis</span><span>JSON schema</span><span>Scorecard</span>
+                  </div>
                 </div>
+                <a href="/hotel-creative-scorecard" target="_blank" rel="noreferrer" className="ct-btn-ghost">
+                  Open the live scorecard
+                  <ArrowUpRight size={14} aria-hidden="true" />
+                </a>
               </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="story" className="ct-section">
+          <div className="ct-shell">
+            <div className="ct-section-head">
+              <div>
+                <p className="ct-eyebrow">Narrative + commercial editing</p>
+                <h2>The output still has to make somebody feel something.</h2>
+              </div>
+              <p className="ct-section-intro">
+                Creative technology is useful because it expands what can be made, not because it replaces
+                taste. These edits show the other side of the work: pacing, music, escalation, brand tone,
+                visual selection, and shaping raw material into a story.
+              </p>
+            </div>
+
+            <div className="ct-story-grid">
+              <YouTubeCard
+                id="I2uEgWTkNSg"
+                eyebrow="Narrative storytelling"
+                title="TV trailer / selected narrative edit"
+                description="A narrative trailer built around pacing, music, tension, tone, and escalation — evidence of the filmmaking instincts behind the systems and generative-media work."
+              />
+              <YouTubeCard
+                id="7gIJCHNmFts"
+                eyebrow="Commercial work"
+                title="Commercial / branded edit"
+                description="Commercial editing and visual storytelling built to communicate a message quickly, control pacing, and make a polished branded piece feel intentional from the first frame to the last."
+              />
             </div>
           </div>
         </section>
@@ -419,9 +453,9 @@ export default function DevonCreativeTechnologistPage() {
                 <h2>Real creative, shipped into real campaigns.</h2>
               </div>
               <p className="ct-section-intro">
-                Archer Design is where the production side stays grounded: hospitality campaigns, short-form
-                motion, social systems, F&amp;B, events, and property-level creative. Across tracked hospitality
-                work, campaigns have generated 14.8M+ impressions and 565K+ direct engagements.
+                Archer Design keeps the technical work grounded in production reality: hospitality campaigns,
+                short-form motion, social systems, F&amp;B, events, weddings, and property-level creative. Across
+                tracked hospitality work, campaigns have generated 14.8M+ impressions and 565K+ direct engagements.
               </p>
             </div>
 
@@ -466,6 +500,10 @@ export default function DevonCreativeTechnologistPage() {
                 creative ownership from the people doing the work.
               </p>
               <div className="ct-card-tag"><Sparkles size={13} aria-hidden="true" /> Creative R&amp;D</div>
+              <div className="ct-rd-note">
+                Current R&amp;D direction: deeper node-based generative workflows, model conditioning, and more
+                repeatable character / shot consistency across multi-shot sequences.
+              </div>
             </div>
           </div>
         </section>
@@ -488,8 +526,8 @@ export default function DevonCreativeTechnologistPage() {
           </div>
           <p className="ct-footer-note">
             Devon Archer · Utah / Remote · Creative technology, generative motion, design systems, AI product
-            prototyping, and production workflows. This preview page is intentionally noindex while the
-            project reel and final case-study media are being connected.
+            prototyping, filmmaking, and production workflows. This page is intentionally noindex while the
+            portfolio is being refined for creative-technology applications.
           </p>
         </div>
       </footer>
