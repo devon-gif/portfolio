@@ -363,16 +363,48 @@ export default function DevonCreativeTechnologistPage() {
                 </a>
               </article>
 
-              <article className="ct-trailer-card">
-                <div className="ct-trailer-grid" aria-hidden="true" />
-                <div>
+              <article className="ct-trailer-card" style={{ display: "block", padding: 0 }}>
+                <div
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    aspectRatio: "16 / 9",
+                    background: "#000",
+                  }}
+                >
+                  <iframe
+                    src="https://www.youtube.com/embed/I2uEgWTkNSg?rel=0"
+                    title="Selected narrative trailer edited by Devon Archer"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      border: 0,
+                    }}
+                  />
+                </div>
+                <div style={{ padding: 32 }}>
                   <p className="ct-eyebrow"><Film size={13} aria-hidden="true" /> Narrative storytelling</p>
                   <h3>TV trailer / selected narrative edit</h3>
                   <p>
-                    A dedicated trailer slot is reserved here for the final video asset. This section will
-                    showcase editing, pacing, music, tone, and story — the craft layer behind the systems work.
+                    Narrative editing built around pacing, music, tone, escalation, and story. This work shows
+                    the craft side of my creative technology practice: technical systems matter, but the final
+                    output still has to create tension, clarity, and an emotional response.
                   </p>
-                  <div className="ct-trailer-note">Trailer media to connect in the next pass</div>
+                  <a
+                    href="https://www.youtube.com/watch?v=I2uEgWTkNSg"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ct-trailer-note"
+                    style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
+                  >
+                    Watch on YouTube <ExternalLink size={12} aria-hidden="true" />
+                  </a>
                 </div>
               </article>
             </div>
