@@ -1,5 +1,7 @@
 import styles from "./AutoCreativeMiniShowcase.module.css";
 
+const CAR_IMAGE = "https://raw.githubusercontent.com/devon-gif/portfolio/auto-creative-os/public/auto/orlando-glc.webp";
+
 const outputs = [
   { label: "1:1", kind: "square" },
   { label: "9:16", kind: "story" },
@@ -10,14 +12,15 @@ const outputs = [
 function MiniCreative({ kind }: { kind: string }) {
   return (
     <div className={`${styles.creative} ${styles[kind]}`}>
-      <span className={styles.brand}>ATELIER</span>
-      <div className={styles.car} aria-hidden="true" />
+      <img className={styles.photo} src={CAR_IMAGE} alt="" />
+      <div className={styles.shade} />
+      <span className={styles.brand}>ORLANDO MOTOR ATELIER</span>
       <div className={styles.copy}>
-        <small>MODEL X / NEW SEASON</small>
-        <strong>BUILT FOR WHAT&apos;S NEXT</strong>
-        <em>0.9% APR</em>
+        <small>GLC SPRING ARRIVAL</small>
+        <strong>DESIGNED FOR EVERY ARRIVAL</strong>
+        <em>FROM $699/MO</em>
       </div>
-      <span className={styles.legal}>Legal copy locked</span>
+      <span className={styles.legal}>Concept offer · legal copy locked</span>
     </div>
   );
 }
@@ -48,7 +51,7 @@ export function AutoCreativeMiniShowcase() {
               </div>
             ))}
           </div>
-          <p>One semantic source → format-specific composition → validation → human review.</p>
+          <p>Same approved campaign → placement-specific composition → validation → human review.</p>
         </div>
       </div>
     </div>
