@@ -5,12 +5,24 @@ import { Check, Layers3, RefreshCw, Sparkles } from "lucide-react";
 import styles from "./AutoCreativeDemo.module.css";
 
 type FormatId = "square" | "story" | "portrait" | "leaderboard";
+type DealerId = "orlando" | "new-york" | "los-angeles";
 
 type Format = {
   id: FormatId;
   label: string;
   size: string;
   ratio: string;
+};
+
+type Dealer = {
+  id: DealerId;
+  short: string;
+  name: string;
+  vehicle: string;
+  image: string;
+  headline: string;
+  offer: string;
+  kicker: string;
 };
 
 const formats: Format[] = [
@@ -20,32 +32,75 @@ const formats: Format[] = [
   { id: "leaderboard", label: "Leaderboard", size: "728 × 90", ratio: "728 / 90" },
 ];
 
-function Creative({ format, headline, offer }: { format: Format; headline: string; offer: string }) {
+const dealers: Dealer[] = [
+  {
+    id: "orlando",
+    short: "Orlando",
+    name: "Orlando Motor Atelier",
+    vehicle: "Mercedes-Benz GLC",
+    image: "https://raw.githubusercontent.com/devon-gif/portfolio/auto-creative-os/public/auto/orlando-glc.webp",
+    headline: "DESIGNED FOR EVERY ARRIVAL",
+    offer: "FROM $699/MO",
+    kicker: "GLC SPRING ARRIVAL",
+  },
+  {
+    id: "new-york",
+    short: "New York",
+    name: "New York Auto House",
+    vehicle: "BMW iX",
+    image: "https://raw.githubusercontent.com/devon-gif/portfolio/auto-creative-os/public/auto/new-york-ix.webp",
+    headline: "MOVE THE CITY",
+    offer: "FROM $749/MO",
+    kicker: "IX ELECTRIC CITY",
+  },
+  {
+    id: "los-angeles",
+    short: "Los Angeles",
+    name: "Los Angeles Motor Gallery",
+    vehicle: "Lexus RX",
+    image: "https://raw.githubusercontent.com/devon-gif/portfolio/auto-creative-os/public/auto/los-angeles-rx.webp",
+    headline: "OWN THE MOMENT",
+    offer: "FROM $679/MO",
+    kicker: "RX GOLDEN HOUR",
+  },
+];
+
+function Creative({
+  format,
+  dealer,
+  headline,
+  offer,
+}: {
+  format: Format;
+  dealer: Dealer;
+  headline: string;
+  offer: string;
+}) {
   return (
     <div
       className={`${styles.creative} ${styles[format.id]}`}
       style={{ aspectRatio: format.ratio }}
-      aria-label={`${format.label} creative preview`}
+      aria-label={`${format.label} creative preview for ${dealer.vehicle}`}
     >
-      <div className={styles.texture} />
-      <div className={styles.vehicleShape} aria-hidden="true">
-        <span />
-        <i />
-      </div>
-      <div className={styles.brand}>ATELIER MOTORS</div>
+      <img className={styles.creativeImage} src={dealer.image} alt="" />
+      <div className={styles.imageShade} />
+      <div className={styles.safeZone} aria-hidden="true" />
+      <div className={styles.brand}>{dealer.name}</div>
       <div className={styles.copy}>
-        <span className={styles.kicker}>NEW SEASON / MODEL X</span>
+        <span className={styles.kicker}>{dealer.kicker}</span>
         <strong>{headline}</strong>
         <em>{offer}</em>
       </div>
-      <div className={styles.legal}>Concept creative · offer and legal copy require final approval.</div>
+      <div className={styles.legal}>Concept creative · offer, legal, inventory and eligibility require final approval.</div>
     </div>
   );
 }
 
 export function AutoCreativeDemo() {
-  const [headline, setHeadline] = useState("BUILT FOR WHAT'S NEXT");
-  const [offer, setOffer] = useState("0.9% APR · 36 MONTHS");
+  const [dealerId, setDealerId] = useState<DealerId>("orlando");
+  const dealer = dealers.find((item) => item.id === dealerId) ?? dealers[0];
+  const [headline, setHeadline] = useState(dealer.headline);
+  const [offer, setOffer] = useState(dealer.offer);
   const [selected, setSelected] = useState<FormatId[]>(["square", "story", "portrait", "leaderboard"]);
   const [status, setStatus] = useState<"idle" | "building" | "ready">("idle");
 
@@ -53,6 +108,14 @@ export function AutoCreativeDemo() {
     () => formats.filter((format) => selected.includes(format.id)),
     [selected],
   );
+
+  function changeDealer(id: DealerId) {
+    const next = dealers.find((item) => item.id === id) ?? dealers[0];
+    setDealerId(next.id);
+    setHeadline(next.headline);
+    setOffer(next.offer);
+    setStatus("idle");
+  }
 
   function toggleFormat(id: FormatId) {
     setSelected((current) =>
@@ -84,12 +147,12 @@ export function AutoCreativeDemo() {
       <section className={styles.hero}>
         <div>
           <p className={styles.eyebrow}>Creative systems / production automation</p>
-          <h1>Build the campaign once. Recompose it for every placement.</h1>
+          <h1>Build one approved campaign. Recompose it for every placement.</h1>
         </div>
         <p>
-          This working browser demo shows the core idea behind Auto Creative OS: preserve semantic creative roles,
-          select the placement families you need, then generate responsive previews without treating every size as
-          a blind resize.
+          This working demo uses real automotive campaign imagery from the original prototype. Pick a dealer,
+          edit the semantic copy fields, choose the placement families, then generate responsive compositions
+          without blindly shrinking one flat design.
         </p>
       </section>
 
@@ -100,7 +163,21 @@ export function AutoCreativeDemo() {
               <span>01 / SOURCE</span>
               <h2>Approved master</h2>
             </div>
-            <span className={styles.readyDot}>Ready</span>
+            <span className={styles.readyDot}>Mapped</span>
+          </div>
+
+          <div className={styles.dealerPicker} aria-label="Demo campaign source">
+            {dealers.map((item) => (
+              <button
+                type="button"
+                key={item.id}
+                className={item.id === dealer.id ? styles.dealerActive : ""}
+                onClick={() => changeDealer(item.id)}
+              >
+                <strong>{item.short}</strong>
+                <small>{item.vehicle}</small>
+              </button>
+            ))}
           </div>
 
           <label className={styles.field}>
@@ -115,14 +192,14 @@ export function AutoCreativeDemo() {
           <div className={styles.roles}>
             <span>Mapped semantic roles</span>
             <div>
-              {['background', 'vehicle', 'headline', 'offer', 'logo', 'legal'].map((role) => (
+              {["background", "vehicle", "headline", "offer", "logo", "legal"].map((role) => (
                 <i key={role}><Check size={11} /> {role}</i>
               ))}
             </div>
           </div>
 
           <div className={styles.masterPreview}>
-            <Creative format={formats[2]} headline={headline} offer={offer} />
+            <Creative format={formats[2]} dealer={dealer} headline={headline} offer={offer} />
           </div>
         </aside>
 
@@ -157,7 +234,7 @@ export function AutoCreativeDemo() {
 
           <button type="button" className={styles.generate} onClick={build} disabled={status === "building"}>
             {status === "building" ? <RefreshCw size={18} className={styles.spin} /> : <Sparkles size={18} />}
-            {status === "building" ? "Recomposing placements…" : "Generate placement previews"}
+            {status === "building" ? "Recomposing placements…" : `Generate ${selectedFormats.length} placement previews`}
           </button>
 
           <div className={`${styles.outputs} ${status === "ready" ? styles.outputsReady : ""}`}>
@@ -168,7 +245,7 @@ export function AutoCreativeDemo() {
                   <small>{format.size}</small>
                 </div>
                 <div className={styles.outputCreativeWrap}>
-                  <Creative format={format} headline={headline} offer={offer} />
+                  <Creative format={format} dealer={dealer} headline={headline} offer={offer} />
                 </div>
                 <div className={styles.validation}>
                   <span><Check size={12} /> hierarchy</span>
@@ -180,11 +257,11 @@ export function AutoCreativeDemo() {
           </div>
 
           <div className={styles.truth}>
-            <strong>Prototype boundary</strong>
+            <strong>What is actually working here</strong>
             <p>
-              The placement selection, responsive compositions, editable semantic fields, and preview generation
-              are working in-browser. Final PSD ingestion, automated compliance checks, and downloadable production
-              exports are the documented next layer rather than simulated here.
+              Dealer switching, editable semantic fields, placement selection and responsive compositions all run
+              in the browser. The original prototype also documents PSD ingestion, automated QA and final export as
+              the production layer rather than pretending those services are already connected.
             </p>
           </div>
         </section>
