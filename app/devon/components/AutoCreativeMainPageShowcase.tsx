@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArrowUpRight } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { AutoCreativeMiniShowcase } from "./AutoCreativeMiniShowcase";
 import styles from "./AutoCreativeMainPageShowcase.module.css";
+
+const LIVE_DEMO = "https://auto-creative-os.vercel.app/auto";
+const LIVE_MATRIX = "https://auto-creative-os.vercel.app/auto/visual-regression";
 
 export function AutoCreativeMainPageShowcase() {
   const pathname = usePathname();
@@ -25,11 +27,11 @@ export function AutoCreativeMainPageShowcase() {
     );
 
     if (sourceLink) {
-      sourceLink.href = "/devon/auto";
-      sourceLink.removeAttribute("target");
-      sourceLink.removeAttribute("rel");
+      sourceLink.href = LIVE_DEMO;
+      sourceLink.target = "_blank";
+      sourceLink.rel = "noreferrer";
       const textNode = Array.from(sourceLink.childNodes).find((node) => node.nodeType === Node.TEXT_NODE);
-      if (textNode) textNode.textContent = "Open interactive Auto Creative OS demo ";
+      if (textNode) textNode.textContent = "Open live Auto Creative OS ";
     }
   }, [pathname]);
 
@@ -39,21 +41,40 @@ export function AutoCreativeMainPageShowcase() {
     <div className={styles.shell}>
       <div className={styles.intro}>
         <div>
-          <span>WORKING DEMO / RESPONSIVE RECOMPOSITION</span>
-          <h3>One approved automotive campaign becomes multiple placement-specific compositions.</h3>
+          <span>ACTUAL WORKING SYSTEM / AUTO CREATIVE OS</span>
+          <h3>The real production prototype — not a recreated portfolio mockup.</h3>
         </div>
         <div>
           <p>
-            Vehicle imagery, headline, offer, logo and legal stay as separate semantic roles. The live demo shows
-            the same source campaign recomposed for square, story, portrait and banner placements while preserving
-            hierarchy and approval constraints.
+            This is the Auto Creative OS I built: bring in a layered PSD, separate assets, or a reference image;
+            map semantic roles; choose placement families; generate responsive compositions; validate crop, legal,
+            source fidelity, and overflow; then review, approve, and export.
           </p>
-          <a href="/devon/auto">
-            Open interactive Auto Creative OS demo <ArrowUpRight size={14} />
+          <a href={LIVE_DEMO} target="_blank" rel="noreferrer">
+            Open the live Auto Creative OS <ArrowUpRight size={14} />
           </a>
         </div>
       </div>
-      <AutoCreativeMiniShowcase />
+
+      <div className={styles.liveFrame}>
+        <div className={styles.frameBar}>
+          <span>LIVE OUTPUT MATRIX / ACTUAL RENDERER</span>
+          <a href={LIVE_MATRIX} target="_blank" rel="noreferrer">
+            Open matrix <ArrowUpRight size={12} />
+          </a>
+        </div>
+        <iframe
+          src={LIVE_MATRIX}
+          title="Auto Creative OS live placement matrix"
+          loading="lazy"
+          allow="clipboard-write"
+        />
+      </div>
+
+      <p className={styles.note}>
+        The embedded matrix is served directly from the deployed Auto Creative OS project. Open the full demo to
+        walk through Source → Map → Compose → Review, including the sample automotive campaign and placement QA.
+      </p>
     </div>,
     target,
   );
