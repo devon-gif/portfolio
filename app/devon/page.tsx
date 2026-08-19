@@ -424,7 +424,8 @@ export default function DevonCreativeTechnologistPage() {
               <p className="ct-section-intro">
                 Creative technology is useful because it expands what can be made, not because it replaces
                 taste. These edits show the other side of the work: pacing, music, escalation, brand tone,
-                visual selection, and shaping raw material into a story.
+                visual selection, and shaping raw material into a story. I also pulled in the remaining video
+                work already featured on the TCRM portfolio so the Vigilant piece is represented here too.
               </p>
             </div>
 
@@ -440,6 +441,18 @@ export default function DevonCreativeTechnologistPage() {
                 eyebrow="Commercial work"
                 title="Commercial / branded edit"
                 description="Commercial editing and visual storytelling built to communicate a message quickly, control pacing, and make a polished branded piece feel intentional from the first frame to the last."
+              />
+              <YouTubeCard
+                id="q-FAWqOdBFM"
+                eyebrow="Additional branded video"
+                title="Selected video work / TCRM portfolio"
+                description="Additional branded video work already featured in the Archer Design TCRM portfolio, included here to show more range across commercial storytelling and motion-led editing."
+              />
+              <YouTubeCard
+                id="-y1ZDJq33HY"
+                eyebrow="Additional branded video"
+                title="Selected video work / TCRM portfolio"
+                description="Additional video work from the existing Archer Design portfolio, expanding the reel beyond hospitality motion into broader branded storytelling and campaign editing."
               />
             </div>
           </div>
