@@ -2,18 +2,32 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
-import { TCRM_VIDEOS } from "@/app/tcrm/tcrm-media";
+import {
+  DEVON_MOTION_HIGHLIGHTS,
+  type DevonMotionItem,
+} from "../motion-data";
 
-export function DevonMotionSlideshow() {
+type Props = {
+  items?: readonly DevonMotionItem[];
+  showFullLibraryLink?: boolean;
+};
+
+export function DevonMotionSlideshow({
+  items = DEVON_MOTION_HIGHLIGHTS,
+  showFullLibraryLink = true,
+}: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const filmstripRef = useRef<HTMLDivElement | null>(null);
-  const items = TCRM_VIDEOS;
   const active = items[activeIndex] ?? items[0];
 
   const goTo = useCallback((direction: number) => {
     setActiveIndex((current) => (current + direction + items.length) % items.length);
   }, [items.length]);
+
+  useEffect(() => {
+    if (activeIndex >= items.length) setActiveIndex(0);
+  }, [activeIndex, items.length]);
 
   useEffect(() => {
     const selected = filmstripRef.current?.querySelector(`[data-motion-index="${activeIndex}"]`);
@@ -81,13 +95,17 @@ export function DevonMotionSlideshow() {
           <div className="ct-motion-stage-overlay">
             <div className="ct-motion-stage-copy">
               <div className="ct-motion-stage-title">{active.title}</div>
-              <div className="ct-motion-stage-meta">{active.category.replace("motion", "").trim() || "motion study"}</div>
+              <div className="ct-motion-stage-meta">
+                {active.category.replace("motion", "").trim() || "motion study"}
+              </div>
             </div>
-            <div className="ct-motion-counter">{String(activeIndex + 1).padStart(2, "0")} / {items.length}</div>
+            <div className="ct-motion-counter">
+              {String(activeIndex + 1).padStart(2, "0")} / {items.length}
+            </div>
           </div>
         </div>
 
-        <div className="ct-motion-filmstrip" ref={filmstripRef} aria-label="All motion work">
+        <div className="ct-motion-filmstrip" ref={filmstripRef} aria-label="Motion work">
           {items.map((item, index) => (
             <button
               type="button"
@@ -98,15 +116,31 @@ export function DevonMotionSlideshow() {
               aria-label={`Show ${item.title}`}
               aria-current={index === activeIndex}
             >
-              <video src={item.src} muted playsInline preload="metadata" aria-hidden="true" />
-              <span className="ct-motion-thumb-index">{String(index + 1).padStart(2, "0")}</span>
+              <video src={item.src} muted playsInline preload="none" aria-hidden="true" />
+              <span className="ct-motion-thumb-index">
+                {String(index + 1).padStart(2, "0")}
+              </span>
             </button>
           ))}
         </div>
+
+        {showFullLibraryLink && (
+          <div style={{ display: "flex", justifyContent: "center", marginTop: 22 }}>
+            <a href="/devon/motion" className="ct-btn-ghost">
+              View the full motion library
+              <ChevronRight size={15} aria-hidden="true" />
+            </a>
+          </div>
+        )}
       </div>
 
       {lightboxOpen && (
-        <div className="ct-motion-lightbox" role="dialog" aria-modal="true" aria-label={`${active.title} full screen`}>
+        <div
+          className="ct-motion-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${active.title} full screen`}
+        >
           <button
             type="button"
             className="ct-motion-lightbox-close"
