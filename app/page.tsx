@@ -7,6 +7,7 @@ import { StudioGallery, type StudioGalleryItem } from "@/components/marketing/St
 import { StudioHeader } from "@/components/marketing/StudioHeader";
 import { StudioFooter } from "@/components/marketing/StudioFooter";
 import { StudioCTA } from "@/components/marketing/StudioCTA";
+import { HomepagePricingSection } from "@/components/marketing/HomepagePricingSection";
 import { fraunces } from "@/components/marketing/studioFont";
 import { HERO_ROTATION } from "@/components/marketing/media";
 import { faqJsonLd, serviceJsonLd } from "@/lib/seo";
@@ -108,33 +109,6 @@ const ARCHER_WAY = [
   "Scalable support for one property or many",
 ];
 
-const START_OPTIONS = [
-  {
-    label: "No contract",
-    title: "On-Demand Creative",
-    price: "$75 static · $95 motion",
-    body: "Build a one-off pack with exactly the mix of graphics and motion you need right now.",
-    href: "/packages#on-demand",
-    cta: "Build a pack",
-  },
-  {
-    label: "One-time",
-    title: "30-Day Creative Starter",
-    price: "$895",
-    body: "Try a full 30-day production cycle on your real property with no ongoing commitment required.",
-    href: "/packages#starter",
-    cta: "See the starter",
-  },
-  {
-    label: "Ongoing",
-    title: "Monthly Creative Support",
-    price: "From $895/mo",
-    body: "Higher-volume creative for properties with a steady calendar of offers, events, F&B, meetings, and campaigns.",
-    href: "/packages#monthly",
-    cta: "Compare monthly plans",
-  },
-] as const;
-
 const FAQ = [
   {
     q: "Do I need a monthly contract?",
@@ -192,9 +166,9 @@ export default function ArcherStudioHome() {
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link href="/packages#on-demand" className="st-btn">
+                <a href="#pricing" className="st-btn">
                   See pricing & build a pack <span aria-hidden>→</span>
-                </Link>
+                </a>
                 <a href="#work" className="st-btn-ghost">
                   View hospitality work
                 </a>
@@ -373,30 +347,7 @@ export default function ArcherStudioHome() {
           </div>
         </section>
 
-        <section id="pricing" className="scroll-mt-24 px-6 py-20">
-          <div className="mx-auto max-w-6xl">
-            <div className="max-w-2xl">
-              <span className="st-kicker">Flexible pricing</span>
-              <h2 className="mt-4 font-serif text-[clamp(26px,3.6vw,44px)] leading-[1.1] text-[var(--st-ink)]">
-                Start small. Scale only when it makes sense.
-              </h2>
-              <p className="mt-4 text-[16px] leading-relaxed text-[var(--st-ink-soft)]">
-                You do not have to sign up for ongoing support just to get good creative. Choose a few assets, a focused 30-day starter, or an ongoing monthly plan.
-              </p>
-            </div>
-            <div className="mt-12 grid gap-6 lg:grid-cols-3">
-              {START_OPTIONS.map((option) => (
-                <Link key={option.title} href={option.href} className="st-card group p-7 transition duration-300 hover:-translate-y-0.5">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--st-gold)]">{option.label}</span>
-                  <h3 className="mt-4 font-serif text-[23px] text-[var(--st-ink)]">{option.title}</h3>
-                  <p className="mt-4 font-serif text-[26px] text-[var(--st-ink)]">{option.price}</p>
-                  <p className="mt-3 text-[13.5px] leading-relaxed text-[var(--st-ink-soft)]">{option.body}</p>
-                  <span className="mt-6 inline-flex text-[13px] font-semibold text-[var(--st-gold)]">{option.cta} →</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
+        <HomepagePricingSection />
 
         <section id="value" className="scroll-mt-24 bg-[var(--st-cream)] px-6 py-20">
           <div className="mx-auto max-w-6xl">
@@ -457,7 +408,7 @@ export default function ArcherStudioHome() {
         heading="Start with the amount of creative you actually need."
         body="Build a one-off pack with no monthly contract, try a 30-day starter, or move into ongoing support when the volume makes sense."
         primaryLabel="See pricing & options"
-        primaryHref="/packages"
+        primaryHref="#pricing"
       />
 
       <StudioFooter />
