@@ -11,6 +11,7 @@ export const MONTHLY_PLANS = [
   {
     key: "essential",
     name: "Essential",
+    badge: null,
     price: ARCHER_PRICING.essential,
     motion: 6,
     static: 6,
@@ -32,6 +33,7 @@ export const MONTHLY_PLANS = [
   {
     key: "full-campaign",
     name: "Full Campaign",
+    badge: null,
     price: ARCHER_PRICING.fullCampaign,
     motion: 12,
     static: 12,
