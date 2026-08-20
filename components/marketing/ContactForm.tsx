@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const INITIAL_STATE = {
+const EMPTY_STATE = {
   firstName: "",
   lastName: "",
   company: "",
@@ -10,8 +10,8 @@ const INITIAL_STATE = {
   message: "",
 };
 
-export function ContactForm() {
-  const [form, setForm] = useState(INITIAL_STATE);
+export function ContactForm({ initialMessage = "" }: { initialMessage?: string }) {
+  const [form, setForm] = useState(() => ({ ...EMPTY_STATE, message: initialMessage }));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<{ kind: "idle" | "success" | "error"; message: string }>({
     kind: "idle",
@@ -37,7 +37,7 @@ export function ContactForm() {
       }
 
       setStatus({ kind: "success", message: "Thanks. Your message has been sent." });
-      setForm(INITIAL_STATE);
+      setForm(EMPTY_STATE);
     } catch {
       setStatus({ kind: "error", message: "Something went wrong. Please try again." });
     } finally {
