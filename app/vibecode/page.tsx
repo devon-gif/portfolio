@@ -5,7 +5,6 @@ import {
   Bot,
   Braces,
   GitBranch,
-  Github,
   Radar,
   ShieldCheck,
   Sparkles,
@@ -92,7 +91,7 @@ export default function VibeCodePage() {
               catches fatal logic errors, and prepares the fix for GitHub review while you sleep.
             </p>
             <a href="#workflow" className="vc-primary-button">
-              <Github size={19} /> Explore the GitHub workflow
+              <GitBranch size={19} /> Explore the GitHub workflow
             </a>
           </div>
 
