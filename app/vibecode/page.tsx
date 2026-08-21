@@ -87,11 +87,11 @@ export default function VibeCodePage() {
             <div className="vc-pill"><Sparkles size={15} /> Works while you sleep</div>
             <h1>Makes your codebase<br /><span>self-healing</span></h1>
             <p>
-              The AI engineering concept that actively monitors your Next.js app,
-              catches fatal logic errors, and prepares the fix for GitHub review while you sleep.
+              The first AI co-founder that actively monitors your Next.js app, catches fatal logic errors,
+              and automatically submits the fix to your GitHub while you sleep.
             </p>
             <a href="#workflow" className="vc-primary-button">
-              <GitBranch size={19} /> Explore the GitHub workflow
+              Install on GitHub
             </a>
           </div>
 
@@ -108,8 +108,7 @@ export default function VibeCodePage() {
 
         <section className="vc-statement" id="about">
           <div className="vc-mini-pill"><span /> VibeCode+</div>
-          <h2>No manual work.<span>*</span></h2>
-          <p>*The system prepares focused fixes automatically. A human still reviews what gets merged.</p>
+          <h2>Pull request ready.</h2>
         </section>
 
         <section className="vc-section" id="workflow">
