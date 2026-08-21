@@ -21,6 +21,10 @@ export default function robots(): MetadataRoute.Robots {
           // belt-and-suspenders, same as /coraltree, /emma, /oxford, and
           // /pyramid above.
           "/bridgetown",
+          // Private, speculative Cana Development × Archer Design
+          // collaboration concept. Per-page noindex/nofollow metadata also
+          // blocks it; listed here too as a belt-and-suspenders safeguard.
+          "/cana",
           "/candidates",
           "/companies",
           "/contact-candidates",
