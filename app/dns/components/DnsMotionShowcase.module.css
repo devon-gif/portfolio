@@ -1,0 +1,204 @@
+/* Ported from app/tcrm/components/MotionDesignShowcase.module.css (read-only
+   reference, not edited), recolored from TCRM's dark forest-green to /dns's
+   near-black + DNS red accent. Route-local CSS module — cannot leak to or
+   be affected by /tcrm. */
+
+.section {
+  position: relative;
+  padding: clamp(78px, 9vw, 130px) 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 70% 15%, rgba(209, 34, 31, 0.16), transparent 32%),
+    linear-gradient(145deg, #0f0e0c 0%, #161513 55%, #0a0a09 100%);
+  color: #f4f2ee;
+}
+
+.inner {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+  gap: 60px;
+  align-items: end;
+  margin-bottom: 38px;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 13px;
+  color: #e8817e;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.heading h2 {
+  max-width: 720px;
+  margin: 0;
+  font-family: var(--font-luxury-serif), Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 5vw, 68px);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.heading p {
+  margin: 0;
+  color: rgba(244, 242, 238, 0.62);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.slideshow {
+  width: 100%;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  height: clamp(520px, 66vw, 790px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(209, 34, 31, 0.16), transparent 46%),
+    #030302;
+  box-shadow: 0 35px 100px rgba(0, 0, 0, 0.35);
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #030302;
+}
+
+.arrow {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(17, 12, 11, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #f6f0e6;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.left { left: 20px; }
+.right { right: 20px; }
+
+.counter {
+  position: absolute;
+  z-index: 4;
+  right: 22px;
+  bottom: 22px;
+  display: flex;
+  gap: 7px;
+  padding: 8px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  background: rgba(12, 8, 7, 0.72);
+  backdrop-filter: blur(12px);
+  color: rgba(244, 240, 231, 0.88);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+.counter span { opacity: 0.35; }
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  padding: 20px 4px 0;
+}
+.meta > div:first-child { display: flex; flex-direction: column; gap: 5px; }
+
+.group {
+  color: #e8a7a5;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.meta strong {
+  color: rgba(246, 241, 232, 0.92);
+  font-family: var(--font-luxury-serif), Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.navigation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+  max-width: 520px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(220, 190, 188, 0.26);
+  cursor: pointer;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+.dotActive { width: 27px; background: #d1221f; }
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px;
+  margin-top: 35px;
+}
+.footer span {
+  padding: 8px 11px;
+  border: 1px solid rgba(216, 176, 174, 0.15);
+  border-radius: 999px;
+  color: rgba(226, 205, 203, 0.48);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.note {
+  margin: 18px 0 0;
+  font-size: 11.5px;
+  font-style: italic;
+  color: rgba(244, 242, 238, 0.45);
+}
+
+@media (max-width: 760px) {
+  .heading { grid-template-columns: 1fr; gap: 18px; }
+  .stage { height: 580px; border-radius: 20px; }
+  .arrow { width: 43px; height: 43px; }
+  .left { left: 10px; }
+  .right { right: 10px; }
+  .counter { right: 12px; bottom: 12px; }
+  .meta { align-items: flex-start; flex-direction: column; }
+  .navigation { justify-content: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot { transition: none; }
+}
