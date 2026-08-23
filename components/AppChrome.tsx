@@ -93,7 +93,10 @@ const AUTH_ROUTES = ["/login", "/auth/callback"];
 // /hotel-commercial-growth: noindex, never linked from nav/sitemap/footer,
 // direct URL only, until approved. Distinct route, distinct files; does not
 // touch /hotel-commercial-growth.
-const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/review", "/topline", "/george", "/emma", "/vision", "/tcrm", "/oxford", "/first-hospitality", "/pyramid", "/bridgetown", "/hotel-commercial-growth", "/grant-hospitality", "/jacaruso", "/clientconcierge", "/commercial-growth", "/rebel", "/devon"];
+// "/dns" is the DNS Industries × Archer Design private hospitality
+// partnership concept — noindex, direct URL only, and must render without
+// the CRM owner auth guard/sidebar.
+const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/review", "/topline", "/george", "/emma", "/vision", "/tcrm", "/oxford", "/first-hospitality", "/pyramid", "/bridgetown", "/hotel-commercial-growth", "/grant-hospitality", "/jacaruso", "/clientconcierge", "/commercial-growth", "/rebel", "/devon", "/dns"];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;
