@@ -13,9 +13,9 @@ import {
 import { absoluteUrl } from "@/lib/seo";
 import { DevonMotionSlideshow } from "./components/DevonMotionSlideshow";
 
-const PAGE_TITLE = "Devon Archer — Creative Technologist";
+const PAGE_TITLE = "Devon Archer — Design Technologist";
 const PAGE_DESCRIPTION =
-  "Creative technology portfolio spanning generative motion, AI-assisted production systems, product prototyping, filmmaking, and shipped creative.";
+  "Design technologist portfolio spanning AI prototyping, product UI, frontend systems, internal tools, design-to-code workflows, and shipped creative.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -63,36 +63,22 @@ const archerWork = [
 ];
 
 const tools = [
-  "Seedance",
-  "Runway",
-  "Flux",
-  "Adobe After Effects",
-  "Premiere Pro",
-  "Photoshop",
   "Figma",
   "Next.js",
   "TypeScript",
   "JavaScript",
-  "Canvas",
   "OpenAI APIs",
   "Supabase",
   "Vercel",
   "Git",
+  "Canvas",
+  "Photoshop",
+  "After Effects",
+  "Premiere Pro",
+  "Runway",
+  "Seedance",
+  "Flux",
 ];
-
-function LoopVideo({ src, label }: { src: string; label: string }) {
-  return (
-    <video
-      src={src}
-      aria-label={label}
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="metadata"
-    />
-  );
-}
 
 function YouTubeCard({
   id,
@@ -118,7 +104,9 @@ function YouTubeCard({
         />
       </div>
       <div className="ct-story-body">
-        <p className="ct-eyebrow"><Film size={13} aria-hidden="true" /> {eyebrow}</p>
+        <p className="ct-eyebrow">
+          <Film size={13} aria-hidden="true" /> {eyebrow}
+        </p>
         <h3>{title}</h3>
         <p>{description}</p>
         <a
@@ -134,21 +122,21 @@ function YouTubeCard({
   );
 }
 
-export default function DevonCreativeTechnologistPage() {
+export default function DevonDesignTechnologistPage() {
   return (
     <div className="devon-ct">
       <header className="ct-nav">
         <div className="ct-shell ct-nav-inner">
-          <a href="#top" className="ct-brand" aria-label="Devon Archer, Creative Technologist">
+          <a href="#top" className="ct-brand" aria-label="Devon Archer, Design Technologist">
             <span className="ct-brand-dot" aria-hidden="true" />
-            Devon Archer / Creative Technologist
+            Devon Archer / Design Technologist
           </a>
           <nav className="ct-nav-links" aria-label="Portfolio sections">
-            <a href="#motion">Motion</a>
             <a href="#systems">Systems</a>
             <a href="#products">AI Products</a>
-            <a href="#story">Film</a>
-            <a href="#work">Creative</a>
+            <a href="#bridge">Design ↔ Code</a>
+            <a href="#motion">Motion</a>
+            <a href="#work">Craft</a>
             <a href="mailto:heydevon@gmail.com">Contact</a>
           </nav>
         </div>
@@ -159,19 +147,21 @@ export default function DevonCreativeTechnologistPage() {
           <div className="ct-grid-bg" aria-hidden="true" />
           <div className="ct-shell ct-hero-grid">
             <div>
-              <p className="ct-kicker">AI × design × motion × production</p>
+              <p className="ct-kicker">Product design × AI prototyping × frontend systems</p>
               <h1>
-                Creative
+                Design
                 <em>technologist.</em>
               </h1>
               <p className="ct-hero-copy">
-                I build creative systems where generative AI, design, motion, and production meet —
-                from image-to-video workflows and narrative editing to working AI products and production
-                tools with explicit guardrails, evaluation, and human review.
+                I work between design and implementation — turning product ideas, Figma direction, AI
+                workflows, and production problems into working prototypes, reusable interface patterns,
+                internal tools, and shipped experiences. My background is rooted in visual design and creative
+                production; the work now extends through Next.js, TypeScript, APIs, evaluation, and AI-assisted
+                development.
               </p>
               <div className="ct-actions">
-                <a href="#motion" className="ct-btn">
-                  See motion work
+                <a href="#systems" className="ct-btn">
+                  See product systems
                   <ArrowDownRight size={15} aria-hidden="true" />
                 </a>
                 <a href="https://checkray.app" target="_blank" rel="noreferrer" className="ct-btn-ghost">
@@ -181,18 +171,60 @@ export default function DevonCreativeTechnologistPage() {
               </div>
             </div>
 
-            <div className="ct-hero-media" aria-label="Selected generative motion work">
-              <div className="ct-media-frame ct-media-a">
-                <LoopVideo src="/tcrm/videos/luxury-hotel-entrance-night-concept.mp4" label="Luxury hotel entrance motion concept" />
-                <span className="ct-media-label">AI motion R&amp;D</span>
-              </div>
-              <div className="ct-media-frame ct-media-b">
-                <LoopVideo src="/tcrm/videos/courtyard-couple.mp4" label="Courtyard couple generative motion clip" />
-                <span className="ct-media-label">Motion</span>
-              </div>
-              <div className="ct-media-frame ct-media-c">
-                <LoopVideo src="/tcrm/videos/fall-to-winter-timelapse.mp4" label="Fall to winter generative transition" />
-                <span className="ct-media-label">Transition study</span>
+            <div className="ct-hero-media" aria-label="Design-to-code workflow">
+              <div className="ct-os">
+                <div className="ct-os-window">
+                  <div className="ct-os-bar">
+                    <span>DESIGN TECHNOLOGY / WORKFLOW</span>
+                    <div className="ct-dots" aria-hidden="true">
+                      <span />
+                      <span />
+                      <span />
+                    </div>
+                  </div>
+                  <div className="ct-os-flow">
+                    <div className="ct-stage">
+                      <span className="ct-stage-code">01 DESIGN</span>
+                      <div>
+                        <div className="ct-stage-title">Define hierarchy, interaction, and states</div>
+                        <div className="ct-stage-desc">visual direction · flows · edge cases</div>
+                      </div>
+                      <span className="ct-status">Figma</span>
+                    </div>
+                    <div className="ct-stage">
+                      <span className="ct-stage-code">02 PROTOTYPE</span>
+                      <div>
+                        <div className="ct-stage-title">Turn concepts into working UI</div>
+                        <div className="ct-stage-desc">responsive behavior · real data · APIs</div>
+                      </div>
+                      <span className="ct-status">Build</span>
+                    </div>
+                    <div className="ct-stage">
+                      <span className="ct-stage-code">03 SYSTEMIZE</span>
+                      <div>
+                        <div className="ct-stage-title">Find the reusable pattern</div>
+                        <div className="ct-stage-desc">shared states · conventions · components</div>
+                      </div>
+                      <span className="ct-status">System</span>
+                    </div>
+                    <div className="ct-stage">
+                      <span className="ct-stage-code">04 EVALUATE</span>
+                      <div>
+                        <div className="ct-stage-title">Let edge cases challenge the abstraction</div>
+                        <div className="ct-stage-desc">validation · failure states · regression tests</div>
+                      </div>
+                      <span className="ct-status warn">Test</span>
+                    </div>
+                    <div className="ct-stage">
+                      <span className="ct-stage-code">05 SHIP</span>
+                      <div>
+                        <div className="ct-stage-title">Make the implementation hold up</div>
+                        <div className="ct-stage-desc">production behavior · iteration · human judgment</div>
+                      </div>
+                      <span className="ct-status">Live</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -201,20 +233,20 @@ export default function DevonCreativeTechnologistPage() {
         <section className="ct-proof-strip" aria-label="Selected proof points">
           <div className="ct-shell ct-proof-grid">
             <div className="ct-proof-item">
-              <div className="ct-proof-num">32</div>
-              <div className="ct-proof-label">Motion / generative studies</div>
-            </div>
-            <div className="ct-proof-item">
-              <div className="ct-proof-num">14.8M+</div>
-              <div className="ct-proof-label">Tracked campaign impressions</div>
+              <div className="ct-proof-num">Figma → UI</div>
+              <div className="ct-proof-label">Design through implementation</div>
             </div>
             <div className="ct-proof-item">
               <div className="ct-proof-num">3</div>
               <div className="ct-proof-label">Working AI / systems builds</div>
             </div>
             <div className="ct-proof-item">
-              <div className="ct-proof-num">Human</div>
-              <div className="ct-proof-label">Final judgment stays in the loop</div>
+              <div className="ct-proof-num">42</div>
+              <div className="ct-proof-label">Auto Creative OS regression tests</div>
+            </div>
+            <div className="ct-proof-item">
+              <div className="ct-proof-num">14.8M+</div>
+              <div className="ct-proof-label">Tracked campaign impressions</div>
             </div>
           </div>
         </section>
@@ -224,86 +256,84 @@ export default function DevonCreativeTechnologistPage() {
             <div className="ct-section-head">
               <div>
                 <p className="ct-eyebrow">What I build</p>
-                <h2>Creative craft with systems underneath it.</h2>
+                <h2>Design decisions that survive contact with code.</h2>
               </div>
               <p className="ct-section-intro">
-                My background started in design, social creative, editing, and client delivery. The work has
-                increasingly moved toward the layer underneath production: repeatable workflows, generative
-                media experiments, internal tools, structured outputs, validation, and better ways for creative
-                teams to move from an idea to something shippable.
+                I am most useful in the space between a polished concept and a production system: making the
+                interaction tangible, understanding what breaks, turning repeated decisions into reusable
+                patterns, and using AI where it makes the workflow faster or the product more capable.
               </p>
             </div>
 
             <div className="ct-project-grid">
               <article className="ct-card">
-                <div className="ct-card-index">01 / GENERATIVE MEDIA</div>
-                <h3>AI motion &amp; image-to-video workflows</h3>
+                <div className="ct-card-index">01 / DESIGN ↔ CODE</div>
+                <h3>Product interfaces that survive implementation.</h3>
                 <p>
-                  Shot-first experiments across camera movement, environmental motion, scene transitions,
-                  continuity, people, food, hospitality, and cinematic lifestyle imagery.
+                  Explore hierarchy and interaction in design tools, then validate the responsive states,
+                  behavior, constraints, and details in frontend code.
                 </p>
-                <div className="ct-card-tag">Seedance · Runway · Flux · Adobe</div>
+                <div className="ct-card-tag">Figma · Next.js · TypeScript</div>
               </article>
               <article className="ct-card">
-                <div className="ct-card-index">02 / CREATIVE SYSTEMS</div>
-                <h3>Tools that turn repetitive production into a system</h3>
+                <div className="ct-card-index">02 / AI PROTOTYPING</div>
+                <h3>Working AI flows, not static concepts.</h3>
                 <p>
-                  Structured creative roles, deterministic validation, approval states, regression tests,
-                  and workflows designed around what a production team actually has to ship.
+                  Connect models, APIs, structured outputs, interface states, and evaluation into prototypes
+                  that expose what the experience can actually do.
                 </p>
-                <div className="ct-card-tag">Next.js · TypeScript · Canvas · Git</div>
+                <div className="ct-card-tag">OpenAI APIs · structured outputs · evals</div>
               </article>
               <article className="ct-card">
-                <div className="ct-card-index">03 / AI RELIABILITY</div>
-                <h3>Useful AI with explicit failure states</h3>
+                <div className="ct-card-index">03 / SYSTEMS & TOOLING</div>
+                <h3>Reusable patterns instead of one-off fixes.</h3>
                 <p>
-                  I use models for ambiguity and interpretation, then add deterministic rules, structured
-                  outputs, evals, and human review where the system needs guarantees.
+                  Build conventions, validation, approval states, shared behaviors, and repeatable workflows
+                  around the decisions a team has to make more than once.
                 </p>
-                <div className="ct-card-tag">Structured outputs · evals · guardrails</div>
+                <div className="ct-card-tag">Components · states · automation · Git</div>
               </article>
             </div>
-          </div>
-        </section>
-
-        <section id="motion" className="ct-section">
-          <div className="ct-shell">
-            <div className="ct-section-head">
-              <div>
-                <p className="ct-eyebrow">Motion library / generative R&amp;D</p>
-                <h2>Start with the shot, not the model.</h2>
-              </div>
-              <p className="ct-section-intro">
-                The full motion library is here, not a five-clip highlight reel. I use generative video as a
-                production tool: define the intended shot, test motion and continuity, compare outputs, inspect
-                artifacts, select the strongest result, then finish with traditional editing and design tools.
-              </p>
-            </div>
-
-            <DevonMotionSlideshow />
           </div>
         </section>
 
         <section id="systems" className="ct-section">
           <div className="ct-shell ct-case">
             <div className="ct-case-copy">
-              <p className="ct-eyebrow">Case study / Auto Creative OS</p>
-              <h3>From one approved campaign to a repeatable production system.</h3>
+              <p className="ct-eyebrow">Case study / system design + frontend</p>
+              <h3>Turn one approved campaign into a repeatable production system.</h3>
               <p>
                 Auto Creative OS is a self-initiated prototype built around a real production problem: one
                 approved automotive campaign being rebuilt across portrait, square, landscape, display,
-                billboard, and micro-banner placements. Instead of treating the ad as one flat image, I modeled
-                the creative as semantic roles — vehicle, headline, offer, logo, legal, background — and built a
-                Source → Map → Compose → Review → Export workflow around them.
+                billboard, and micro-banner placements. I modeled the creative as semantic roles — vehicle,
+                headline, offer, logo, legal, background — then designed and built the interface and rendering
+                workflow around Source → Map → Compose → Review → Export.
               </p>
               <div className="ct-case-list">
-                <div><b>01</b><span>Recomposition instead of blind resizing, so hierarchy and intent can survive format changes.</span></div>
-                <div><b>02</b><span>Pass / Warning / Blocked validation for crop safety, legal readability, source fidelity, and brand constraints.</span></div>
-                <div><b>03</b><span>Real PSD and rendering failures used to improve the abstraction instead of hiding symptoms with one-off fixes.</span></div>
-                <div><b>04</b><span>Preview and export share the same rendering path; a reviewed artifact should match what actually ships.</span></div>
+                <div>
+                  <b>01</b>
+                  <span>Recomposition instead of blind resizing, so hierarchy and intent survive format changes.</span>
+                </div>
+                <div>
+                  <b>02</b>
+                  <span>Pass / Warning / Blocked states make crop safety, legal readability, fidelity, and brand constraints visible in the UI.</span>
+                </div>
+                <div>
+                  <b>03</b>
+                  <span>Real PSD and rendering failures were used to improve the underlying abstraction instead of accumulating local fixes.</span>
+                </div>
+                <div>
+                  <b>04</b>
+                  <span>Preview and export share the same rendering path, so the reviewed experience matches what actually ships.</span>
+                </div>
               </div>
               <div className="ct-tools">
-                <span>Next.js</span><span>TypeScript</span><span>Canvas</span><span>PSD ingestion</span><span>validation</span><span>42 tests</span>
+                <span>Next.js</span>
+                <span>TypeScript</span>
+                <span>Canvas</span>
+                <span>PSD ingestion</span>
+                <span>validation</span>
+                <span>42 tests</span>
               </div>
               <div className="ct-case-actions">
                 <a
@@ -322,32 +352,51 @@ export default function DevonCreativeTechnologistPage() {
               <div className="ct-os-window">
                 <div className="ct-os-bar">
                   <span>AUTO CREATIVE OS / PRODUCTION PIPELINE</span>
-                  <div className="ct-dots" aria-hidden="true"><span /><span /><span /></div>
+                  <div className="ct-dots" aria-hidden="true">
+                    <span />
+                    <span />
+                    <span />
+                  </div>
                 </div>
                 <div className="ct-os-flow">
                   <div className="ct-stage">
                     <span className="ct-stage-code">01 SOURCE</span>
-                    <div><div className="ct-stage-title">Ingest the approved master</div><div className="ct-stage-desc">PSD / raster / copy / brand data</div></div>
+                    <div>
+                      <div className="ct-stage-title">Ingest the approved master</div>
+                      <div className="ct-stage-desc">PSD / raster / copy / brand data</div>
+                    </div>
                     <span className="ct-status">Ready</span>
                   </div>
                   <div className="ct-stage">
                     <span className="ct-stage-code">02 MAP</span>
-                    <div><div className="ct-stage-title">Assign semantic creative roles</div><div className="ct-stage-desc">vehicle · headline · offer · logo · legal</div></div>
+                    <div>
+                      <div className="ct-stage-title">Assign semantic creative roles</div>
+                      <div className="ct-stage-desc">vehicle · headline · offer · logo · legal</div>
+                    </div>
                     <span className="ct-status">Mapped</span>
                   </div>
                   <div className="ct-stage">
                     <span className="ct-stage-code">03 COMPOSE</span>
-                    <div><div className="ct-stage-title">Recompose for placement families</div><div className="ct-stage-desc">portrait · square · landscape · display</div></div>
+                    <div>
+                      <div className="ct-stage-title">Recompose for placement families</div>
+                      <div className="ct-stage-desc">portrait · square · landscape · display</div>
+                    </div>
                     <span className="ct-status">Built</span>
                   </div>
                   <div className="ct-stage">
                     <span className="ct-stage-code">04 REVIEW</span>
-                    <div><div className="ct-stage-title">Run production constraints</div><div className="ct-stage-desc">crop · legal · fidelity · brand language</div></div>
+                    <div>
+                      <div className="ct-stage-title">Run production constraints</div>
+                      <div className="ct-stage-desc">crop · legal · fidelity · brand language</div>
+                    </div>
                     <span className="ct-status warn">Warning</span>
                   </div>
                   <div className="ct-stage">
                     <span className="ct-stage-code">05 EXPORT</span>
-                    <div><div className="ct-stage-title">Ship only what survives review</div><div className="ct-stage-desc">preview and export share one rendering path</div></div>
+                    <div>
+                      <div className="ct-stage-title">Ship only what survives review</div>
+                      <div className="ct-stage-desc">preview and export share one rendering path</div>
+                    </div>
                     <span className="ct-status">Human OK</span>
                   </div>
                 </div>
@@ -361,28 +410,35 @@ export default function DevonCreativeTechnologistPage() {
             <div className="ct-section-head">
               <div>
                 <p className="ct-eyebrow">AI products in practice</p>
-                <h2>Not just prompts. Working systems around the model.</h2>
+                <h2>Prototype the behavior, not just the screen.</h2>
               </div>
               <p className="ct-section-intro">
-                The common thread is turning probabilistic AI behavior into a product somebody can actually
-                operate: structured input, constrained output, visible confidence, deterministic rules, and a
-                clear fallback when the model or source evidence is not good enough.
+                AI product design is interaction design plus uncertainty. These builds connect the interface to
+                real model behavior, structured inputs and outputs, confidence, deterministic rules, fallback
+                states, and evaluation so a concept can be judged as a working experience.
               </p>
             </div>
 
             <div className="ct-ai-grid">
               <article className="ct-ai-card">
                 <div>
-                  <p className="ct-eyebrow"><ShieldCheck size={13} aria-hidden="true" /> Live AI product</p>
+                  <p className="ct-eyebrow">
+                    <ShieldCheck size={13} aria-hidden="true" /> Live AI product
+                  </p>
                   <h3>CheckRay</h3>
                   <p>
                     A personal risk assistant for suspicious messages, links, bills, job offers, rental
-                    listings, and marketplace conversations. The model interprets context while structured
-                    outputs, deterministic risk floors, evaluation cases, and a shared policy layer make the
-                    result safer and more testable.
+                    listings, and marketplace conversations. The product has to make a probabilistic model feel
+                    understandable: context comes in, AI interprets it, deterministic risk floors and a shared
+                    policy layer constrain the result, and the UI returns a plain-language report with visible
+                    reasoning and safer next steps.
                   </p>
                   <div className="ct-ai-flow" aria-label="CheckRay processing flow">
-                    <span>Input</span><span>AI interpretation</span><span>Risk floors</span><span>Policy</span><span>Report</span>
+                    <span>Input</span>
+                    <span>AI interpretation</span>
+                    <span>Risk floors</span>
+                    <span>Policy</span>
+                    <span>Report</span>
                   </div>
                 </div>
                 <a href="https://checkray.app" target="_blank" rel="noreferrer" className="ct-btn">
@@ -393,16 +449,22 @@ export default function DevonCreativeTechnologistPage() {
 
               <article className="ct-ai-card">
                 <div>
-                  <p className="ct-eyebrow"><Cpu size={13} aria-hidden="true" /> AI website analysis</p>
+                  <p className="ct-eyebrow">
+                    <Cpu size={13} aria-hidden="true" /> AI website analysis
+                  </p>
                   <h3>Hotel Creative Scorecard</h3>
                   <p>
-                    A working hospitality website-audit flow that fetches public pages, extracts usable text
-                    and social signals, sends a bounded evidence set through the OpenAI Responses API, and
-                    returns a strict structured scorecard. Confidence and fallback states stay explicit when a
-                    site blocks scanning or the evidence is incomplete.
+                    A working website-audit flow that fetches public pages, extracts usable evidence, sends a
+                    bounded evidence set through the OpenAI Responses API, and returns a strict structured
+                    scorecard. The interface keeps confidence and fallback states explicit when a site blocks
+                    scanning or the evidence is incomplete.
                   </p>
                   <div className="ct-ai-flow" aria-label="Hotel Creative Scorecard processing flow">
-                    <span>Website</span><span>Extraction</span><span>AI analysis</span><span>JSON schema</span><span>Scorecard</span>
+                    <span>Website</span>
+                    <span>Extraction</span>
+                    <span>AI analysis</span>
+                    <span>JSON schema</span>
+                    <span>Scorecard</span>
                   </div>
                 </div>
                 <a href="/hotel-creative-scorecard" target="_blank" rel="noreferrer" className="ct-btn-ghost">
@@ -410,6 +472,103 @@ export default function DevonCreativeTechnologistPage() {
                   <ArrowUpRight size={14} aria-hidden="true" />
                 </a>
               </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="bridge" className="ct-section">
+          <div className="ct-shell">
+            <div className="ct-section-head">
+              <div>
+                <p className="ct-eyebrow">Design ↔ engineering</p>
+                <h2>The mockup is not the finish line.</h2>
+              </div>
+              <p className="ct-section-intro">
+                A design system only matters if the decisions hold up in implementation. I use code as a design
+                material: responsive behavior, component states, data constraints, failure cases, and technical
+                limitations all become inputs to the experience instead of cleanup after handoff.
+              </p>
+            </div>
+
+            <div className="ct-project-grid">
+              <article className="ct-card">
+                <div className="ct-card-index">01 / FIGMA → FRONTEND</div>
+                <h3>Prototype the actual interaction.</h3>
+                <p>
+                  Use Figma for interface direction and hierarchy, then Next.js and TypeScript to test the
+                  behavior, responsive states, real content, and details a static frame cannot answer.
+                </p>
+                <div className="ct-card-tag">Figma · Next.js · TypeScript</div>
+              </article>
+              <article className="ct-card">
+                <div className="ct-card-index">02 / PATTERNS</div>
+                <h3>Look for the reusable rule.</h3>
+                <p>
+                  Repeated controls, states, layouts, and workflow decisions should become shared patterns.
+                  When an edge case breaks the pattern, improve the abstraction instead of patching one screen.
+                </p>
+                <div className="ct-card-tag">Components · interaction states · conventions</div>
+              </article>
+              <article className="ct-card">
+                <div className="ct-card-index">03 / AI WORKFLOWS</div>
+                <h3>Use AI where it improves the product.</h3>
+                <p>
+                  Models are useful for interpretation, exploration, and automation. Structured outputs,
+                  deterministic checks, and explicit failure states keep the experience legible and testable.
+                </p>
+                <div className="ct-card-tag">APIs · evals · guardrails · tooling</div>
+              </article>
+            </div>
+
+            <div className="ct-tools" aria-label="Selected tools">
+              {tools.map((tool) => (
+                <span key={tool}>{tool}</span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="motion" className="ct-section">
+          <div className="ct-shell">
+            <div className="ct-section-head">
+              <div>
+                <p className="ct-eyebrow">Generative R&D / motion systems</p>
+                <h2>Emerging tools are useful when they improve the work.</h2>
+              </div>
+              <p className="ct-section-intro">
+                Generative video is one part of the toolkit. I define the intended shot, test motion and
+                continuity, compare outputs, inspect artifacts, select the strongest result, and finish with
+                traditional editing and design tools. The focus is repeatability and creative control, not a
+                model demo for its own sake.
+              </p>
+            </div>
+
+            <DevonMotionSlideshow />
+          </div>
+        </section>
+
+        <section id="work" className="ct-section">
+          <div className="ct-shell">
+            <div className="ct-section-head">
+              <div>
+                <p className="ct-eyebrow">Visual craft / production proof</p>
+                <h2>Systems thinking still needs taste.</h2>
+              </div>
+              <p className="ct-section-intro">
+                My design background is the foundation underneath the technical work: hierarchy, typography,
+                composition, brand consistency, motion, campaign systems, and the judgment to know when a
+                technically possible idea is not a good creative idea. Across tracked hospitality work,
+                campaigns have generated 14.8M+ impressions and 565K+ direct engagements.
+              </p>
+            </div>
+
+            <div className="ct-work-grid">
+              {archerWork.map((item) => (
+                <article className="ct-work-item" key={item.src}>
+                  <Image src={item.src} alt={item.alt} fill sizes="(min-width: 980px) 25vw, 50vw" />
+                  <div className="ct-work-label">{item.label}</div>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -422,10 +581,9 @@ export default function DevonCreativeTechnologistPage() {
                 <h2>The output still has to make somebody feel something.</h2>
               </div>
               <p className="ct-section-intro">
-                Creative technology is useful because it expands what can be made, not because it replaces
-                taste. These edits show the other side of the work: pacing, music, escalation, brand tone,
-                visual selection, and shaping raw material into a story. I also pulled in the remaining video
-                work already featured on the TCRM portfolio so the Vigilant piece is represented here too.
+                Creative technology expands what can be made; it does not replace taste. These edits show the
+                other side of the work: pacing, music, escalation, brand tone, visual selection, and shaping raw
+                material into an intentional story.
               </p>
             </div>
 
@@ -446,43 +604,14 @@ export default function DevonCreativeTechnologistPage() {
                 id="q-FAWqOdBFM"
                 eyebrow="Additional branded video"
                 title="Selected video work / TCRM portfolio"
-                description="Additional branded video work already featured in the Archer Design TCRM portfolio, included here to show more range across commercial storytelling and motion-led editing."
+                description="Additional branded video work from the Archer Design portfolio, showing range across commercial storytelling and motion-led editing."
               />
               <YouTubeCard
                 id="-y1ZDJq33HY"
                 eyebrow="Additional branded video"
                 title="Selected video work / TCRM portfolio"
-                description="Additional video work from the existing Archer Design portfolio, expanding the reel beyond hospitality motion into broader branded storytelling and campaign editing."
+                description="Additional video work expanding the reel beyond hospitality motion into broader branded storytelling and campaign editing."
               />
-            </div>
-          </div>
-        </section>
-
-        <section id="work" className="ct-section">
-          <div className="ct-shell">
-            <div className="ct-section-head">
-              <div>
-                <p className="ct-eyebrow">Archer Design / production proof</p>
-                <h2>Real creative, shipped into real campaigns.</h2>
-              </div>
-              <p className="ct-section-intro">
-                Archer Design keeps the technical work grounded in production reality: hospitality campaigns,
-                short-form motion, social systems, F&amp;B, events, weddings, and property-level creative. Across
-                tracked hospitality work, campaigns have generated 14.8M+ impressions and 565K+ direct engagements.
-              </p>
-            </div>
-
-            <div className="ct-work-grid">
-              {archerWork.map((item) => (
-                <article className="ct-work-item" key={item.src}>
-                  <Image src={item.src} alt={item.alt} fill sizes="(min-width: 980px) 25vw, 50vw" />
-                  <div className="ct-work-label">{item.label}</div>
-                </article>
-              ))}
-            </div>
-
-            <div className="ct-tools" aria-label="Selected tools">
-              {tools.map((tool) => <span key={tool}>{tool}</span>)}
             </div>
           </div>
         </section>
@@ -490,32 +619,49 @@ export default function DevonCreativeTechnologistPage() {
         <section className="ct-section">
           <div className="ct-shell ct-case">
             <div className="ct-case-copy">
-              <p className="ct-eyebrow"><Cpu size={13} aria-hidden="true" /> Working philosophy</p>
-              <h3>Use AI for ambiguity. Use code for guarantees.</h3>
+              <p className="ct-eyebrow">
+                <Cpu size={13} aria-hidden="true" /> Working philosophy
+              </p>
+              <h3>Use design for intent. Use code to make it hold.</h3>
               <p>
-                My strongest projects follow the same pattern: start from the actual workflow problem, model
-                intent as structured data, prototype the smallest useful system, let edge cases break the
-                assumptions, make failures visible, and keep a human decision point where judgment matters.
+                My strongest projects start from the actual workflow problem, make the interaction and state
+                model explicit, prototype the smallest useful system, let edge cases challenge the assumptions,
+                and turn repeated decisions into reusable rules. AI handles ambiguity where it is useful; code
+                protects the things the experience needs to guarantee.
               </p>
               <div className="ct-case-list">
-                <div><b>A</b><span>Creative intent becomes structured enough for a system to reason about.</span></div>
-                <div><b>B</b><span>Models handle interpretation, variation, and ambiguous inputs.</span></div>
-                <div><b>C</b><span>Deterministic rules protect known constraints and production guarantees.</span></div>
-                <div><b>D</b><span>Evaluation and visible failure states are part of the product, not an afterthought.</span></div>
+                <div>
+                  <b>A</b>
+                  <span>Start with the user, workflow, hierarchy, and the decision the interface needs to support.</span>
+                </div>
+                <div>
+                  <b>B</b>
+                  <span>Make interaction states and system behavior explicit instead of leaving them implied in a mockup.</span>
+                </div>
+                <div>
+                  <b>C</b>
+                  <span>Encode repeated decisions and known constraints as reusable patterns and rules.</span>
+                </div>
+                <div>
+                  <b>D</b>
+                  <span>Treat evaluation, edge cases, accessibility, and visible failure states as part of the design.</span>
+                </div>
               </div>
             </div>
             <div className="ct-card" style={{ minHeight: 0 }}>
               <div className="ct-card-index">CURRENT FOCUS</div>
-              <h3 style={{ marginTop: 120 }}>Generative media pipelines that creatives can actually use.</h3>
+              <h3 style={{ marginTop: 120 }}>AI-native interfaces and design systems that stay useful in code.</h3>
               <p>
-                I am especially interested in AI filmmaking, repeatable shot workflows, model evaluation,
-                creative automation, and tools that increase production capacity without removing taste or
-                creative ownership from the people doing the work.
+                I am especially interested in AI-assisted prototyping, reusable UI conventions, agent-driven
+                experiences, and practical ways to reduce drift between design intent and production
+                implementation.
               </p>
-              <div className="ct-card-tag"><Sparkles size={13} aria-hidden="true" /> Creative R&amp;D</div>
+              <div className="ct-card-tag">
+                <Sparkles size={13} aria-hidden="true" /> Product / design systems R&amp;D
+              </div>
               <div className="ct-rd-note">
-                Current R&amp;D direction: deeper node-based generative workflows, model conditioning, and more
-                repeatable character / shot consistency across multi-shot sequences.
+                Current R&amp;D direction: AI prototyping workflows, agentic UI patterns, component conventions,
+                and practical design ↔ engineering convergence.
               </div>
             </div>
           </div>
@@ -538,9 +684,9 @@ export default function DevonCreativeTechnologistPage() {
             </div>
           </div>
           <p className="ct-footer-note">
-            Devon Archer · Utah / Remote · Creative technology, generative motion, design systems, AI product
-            prototyping, filmmaking, and production workflows. This page is intentionally noindex while the
-            portfolio is being refined for creative-technology applications.
+            Devon Archer · Utah / Remote · Design technology, AI product prototyping, frontend systems,
+            interaction design, generative media, and production workflows. This page is intentionally noindex
+            while the portfolio is being refined for design-technology applications.
           </p>
         </div>
       </footer>
