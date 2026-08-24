@@ -10,7 +10,17 @@ const money = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
-export function CheckoutClient({ offer, canceled = false }: { offer: CheckoutOffer; canceled?: boolean }) {
+type BusyState = "stripe" | "test" | null;
+
+export function CheckoutClient({
+  offer,
+  canceled = false,
+  allowTestOnboarding = false,
+}: {
+  offer: CheckoutOffer;
+  canceled?: boolean;
+  allowTestOnboarding?: boolean;
+}) {
   const [planId, setPlanId] = useState(offer.plans[0]?.id ?? "");
   const selectedPlan = useMemo(
     () => offer.plans.find((plan) => plan.id === planId) ?? offer.plans[0],
@@ -21,7 +31,7 @@ export function CheckoutClient({ offer, canceled = false }: { offer: CheckoutOff
   const [contactName, setContactName] = useState("");
   const [email, setEmail] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState<BusyState>(null);
   const [error, setError] = useState<string | null>(null);
 
   if (!selectedPlan) return null;
@@ -39,31 +49,39 @@ export function CheckoutClient({ offer, canceled = false }: { offer: CheckoutOff
     setError(null);
   }
 
-  async function checkout() {
+  function validate() {
     setError(null);
     if (!companyName.trim() || !contactName.trim() || !email.trim()) {
       setError("Please add your company, name, and email before continuing.");
-      return;
+      return false;
     }
     if (!acceptedTerms) {
       setError("Please accept the monthly service and recurring billing terms before continuing.");
-      return;
+      return false;
     }
+    return true;
+  }
 
-    setBusy(true);
+  function requestBody() {
+    return {
+      offer_id: offer.id,
+      plan_id: selectedPlan.id,
+      property_count: normalizedCount,
+      company_name: companyName,
+      contact_name: contactName,
+      contact_email: email,
+      accepted_terms: acceptedTerms,
+    };
+  }
+
+  async function checkout() {
+    if (!validate()) return;
+    setBusy("stripe");
     try {
       const response = await fetch("/api/stripe/public-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          offer_id: offer.id,
-          plan_id: selectedPlan.id,
-          property_count: normalizedCount,
-          company_name: companyName,
-          contact_name: contactName,
-          contact_email: email,
-          accepted_terms: acceptedTerms,
-        }),
+        body: JSON.stringify(requestBody()),
       });
       const json = (await response.json()) as { ok?: boolean; url?: string; error?: string };
       if (!response.ok || !json.ok || !json.url) {
@@ -72,7 +90,27 @@ export function CheckoutClient({ offer, canceled = false }: { offer: CheckoutOff
       window.location.assign(json.url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not start checkout.");
-      setBusy(false);
+      setBusy(null);
+    }
+  }
+
+  async function testOnboarding() {
+    if (!validate()) return;
+    setBusy("test");
+    try {
+      const response = await fetch("/api/onboarding/test-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody()),
+      });
+      const json = (await response.json()) as { ok?: boolean; url?: string; error?: string };
+      if (!response.ok || !json.ok || !json.url) {
+        throw new Error(json.error ?? "Could not run the onboarding test.");
+      }
+      window.location.assign(json.url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not run the onboarding test.");
+      setBusy(null);
     }
   }
 
@@ -241,12 +279,29 @@ export function CheckoutClient({ offer, canceled = false }: { offer: CheckoutOff
 
           <button
             type="button"
-            disabled={busy}
+            disabled={busy !== null}
             onClick={() => void checkout()}
             className="mt-5 flex w-full items-center justify-center rounded-xl bg-[#C9A44C] px-5 py-4 text-sm font-bold text-[#161006] transition hover:bg-[#D9BA68] disabled:cursor-wait disabled:opacity-60"
           >
-            {busy ? "Opening secure checkout…" : `Continue to Stripe — ${money.format(total / 100)}/mo`}
+            {busy === "stripe" ? "Opening secure checkout…" : `Continue to Stripe — ${money.format(total / 100)}/mo`}
           </button>
+
+          {allowTestOnboarding && (
+            <div className="mt-3 rounded-2xl border border-violet-400/20 bg-violet-400/[0.06] p-3">
+              <button
+                type="button"
+                disabled={busy !== null}
+                onClick={() => void testOnboarding()}
+                className="flex w-full items-center justify-center rounded-xl border border-violet-300/20 bg-violet-300/10 px-5 py-3.5 text-sm font-semibold text-violet-100 transition hover:bg-violet-300/15 disabled:cursor-wait disabled:opacity-60"
+              >
+                {busy === "test" ? "Creating test onboarding…" : "Run no-charge onboarding test"}
+              </button>
+              <p className="mt-2 text-center text-[11px] leading-relaxed text-violet-200/60">
+                Local development only. Creates a clearly marked test onboarding record and skips Stripe completely — no card and no charge.
+              </p>
+            </div>
+          )}
+
           <p className="mt-3 text-center text-xs text-[#777066]">
             Secure checkout is hosted by Stripe. Archer Design does not store your card number.
           </p>
