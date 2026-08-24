@@ -2,7 +2,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 import { getAdminClient, isAdminConfigured } from "@/lib/supabase-admin";
-import { ensureCustomer, isStripeConfigured, stripePost } from "@/lib/stripe";
+import { ensureCustomer, isStripeConfigured, stripeGet, stripePost } from "@/lib/stripe";
 import { KICKOFF_CHECKLIST } from "@/lib/onboarding";
 import {
   getCheckoutPlan,
@@ -21,10 +21,23 @@ type CheckoutBody = {
   website?: string;
 };
 
+type StripePrice = {
+  id: string;
+  active: boolean;
+  unit_amount: number | null;
+  recurring?: { interval?: string } | null;
+};
+
+type StripeList<T> = { data: T[] };
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function clean(value?: string, max = 180): string {
   return (value ?? "").trim().slice(0, max);
+}
+
+function stripeLookupKey(offerId: string, planId: string) {
+  return `archer_${offerId}_${planId.replace(/-/g, "_")}_monthly`;
 }
 
 export async function POST(req: Request) {
@@ -42,7 +55,6 @@ export async function POST(req: Request) {
     return Response.json({ ok: false, error: "Invalid request." }, { status: 400 });
   }
 
-  // Honeypot for basic bot noise.
   if (body.website) return Response.json({ ok: true, url: "/" });
 
   const offerId = clean(body.offer_id, 60);
@@ -116,15 +128,19 @@ export async function POST(req: Request) {
 
     const requestUrl = new URL(req.url);
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? process.env.PUBLIC_APP_URL ?? requestUrl.origin;
+    const lookupKey = stripeLookupKey(offerId, plan.id);
+    const priceResult = await stripeGet<StripeList<StripePrice>>("prices", {
+      "lookup_keys[0]": lookupKey,
+      active: true,
+      limit: 10,
+    });
+    const catalogPrice = priceResult.data.find(
+      (price) => price.unit_amount === plan.monthlyUnitAmount && price.recurring?.interval === "month"
+    );
 
     const params: Record<string, string | number | boolean | undefined> = {
       mode: "subscription",
       customer: customerId,
-      "line_items[0][price_data][currency]": "usd",
-      "line_items[0][price_data][product_data][name]": `Archer Design — ${plan.name}`,
-      "line_items[0][price_data][product_data][description]": `${propertyCount} ${propertyCount === 1 ? "property / brand" : "properties / brands"} in scope`,
-      "line_items[0][price_data][recurring][interval]": "month",
-      "line_items[0][price_data][unit_amount]": plan.monthlyUnitAmount,
       "line_items[0][quantity]": quantity,
       client_reference_id: record.id,
       success_url: `${appUrl}/start/success?offer=${encodeURIComponent(offerId)}`,
@@ -138,6 +154,16 @@ export async function POST(req: Request) {
       "subscription_data[metadata][plan_id]": plan.id,
       "subscription_data[metadata][property_count]": propertyCount,
     };
+
+    if (catalogPrice) {
+      params["line_items[0][price]"] = catalogPrice.id;
+    } else {
+      params["line_items[0][price_data][currency]"] = "usd";
+      params["line_items[0][price_data][product_data][name]"] = `Archer Design — ${plan.name}`;
+      params["line_items[0][price_data][product_data][description]"] = `${propertyCount} ${propertyCount === 1 ? "property / brand" : "properties / brands"} in scope`;
+      params["line_items[0][price_data][recurring][interval]"] = "month";
+      params["line_items[0][price_data][unit_amount]"] = plan.monthlyUnitAmount;
+    }
 
     const session = await stripePost<{ id: string; url: string }>("checkout/sessions", params);
 
