@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { isOwnerEmail } from "@/lib/owner";
@@ -19,8 +19,6 @@ function safeNext(value: string | null): string {
  */
 export default function AuthCallbackPage() {
   const router = useRouter();
-  const params = useSearchParams();
-  const nextPath = useMemo(() => safeNext(params.get("next")), [params]);
   const [message, setMessage] = useState("Signing you in…");
 
   useEffect(() => {
@@ -28,6 +26,7 @@ export default function AuthCallbackPage() {
 
     async function finish() {
       const url = new URL(window.location.href);
+      const nextPath = safeNext(url.searchParams.get("next"));
       const code = url.searchParams.get("code");
       if (code) {
         try {
@@ -58,7 +57,7 @@ export default function AuthCallbackPage() {
     return () => {
       active = false;
     };
-  }, [nextPath, router]);
+  }, [router]);
 
   return (
     <div className="flex min-h-screen items-center justify-center gap-3 bg-zinc-950 text-zinc-400">
