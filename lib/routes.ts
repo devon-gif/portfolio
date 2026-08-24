@@ -3,11 +3,11 @@
 // belong to the owner CRM, and which belong to the client portal.
 //
 // This used to live only inside components/AppChrome.tsx, which meant the
-// browser was the only thing that knew a route was private. middleware.ts now
+// browser was the only thing that knew a route was private. proxy.ts now
 // enforces the same lists server-side, so the two can never disagree: if you
 // add a page, you add it here once.
 //
-// IMPORTANT: this module is imported by middleware.ts and therefore runs on the
+// IMPORTANT: this module is imported by proxy.ts and therefore runs on the
 // Edge runtime. Keep it free of Node APIs, React, and any Supabase import.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -42,12 +42,6 @@ export const PUBLIC_PREFIXES = ["/unsubscribe", "/start", "/terms/service"] as c
 /** The client-facing portal. Requires a session, but NOT an owner session. */
 export const PORTAL_PREFIX = "/portal";
 
-/**
- * Owner-only pages rendered without the CRM sidebar, so they read as a
- * client-facing experience while still being owner-gated.
- */
-export const OWNER_FULL_BLEED_PREFIXES = ["/client-preview"] as const;
-
 export function isAuthRoute(pathname: string): boolean {
   return (AUTH_ROUTES as readonly string[]).includes(pathname);
 }
@@ -55,16 +49,23 @@ export function isAuthRoute(pathname: string): boolean {
 export function isPublicRoute(pathname: string): boolean {
   if ((PUBLIC_ROUTES as readonly string[]).includes(pathname)) return true;
   if (isAuthRoute(pathname)) return true;
-  return (PUBLIC_PREFIXES as readonly string[]).some((p) => pathname === p || pathname.startsWith(`${p}/`) || pathname.startsWith(`${p}?`));
+  return (PUBLIC_PREFIXES as readonly string[]).some(
+    (p) => pathname === p || pathname.startsWith(`${p}/`) || pathname.startsWith(`${p}?`)
+  );
 }
 
 export function isPortalRoute(pathname: string): boolean {
   return pathname === PORTAL_PREFIX || pathname.startsWith(`${PORTAL_PREFIX}/`);
 }
 
-/** Owner-only, but rendered full-bleed so it reads as the client experience. */
+/**
+ * Owner-only pages rendered without the CRM sidebar so Devon can inspect the
+ * exact client-facing experience. The legacy /client-preview route remains
+ * full-bleed while it redirects to the canonical nested preview route.
+ */
 export function isOwnerFullBleed(pathname: string): boolean {
-  return (OWNER_FULL_BLEED_PREFIXES as readonly string[]).some((p) => pathname.startsWith(p));
+  if (pathname.startsWith("/client-preview")) return true;
+  return /^\/client-accounts\/[^/]+\/preview\/?$/.test(pathname);
 }
 
 /** Anything not public and not the client portal is owner-only CRM. */
