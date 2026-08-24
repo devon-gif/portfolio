@@ -2,104 +2,81 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { AlertTriangle, Loader2 } from "lucide-react";
-import { getSupabaseClient } from "@/lib/supabase";
+import { Loader2 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 import { isOwnerEmail } from "@/lib/owner";
 
 export function OwnerAuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname() || "/dashboard";
-  const [status, setStatus] = useState<"loading" | "authed" | "error">("loading");
-  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<"loading" | "authed" | "denied">("loading");
 
   useEffect(() => {
     let active = true;
-    const client = getSupabaseClient();
     const loginUrl = `/login?next=${encodeURIComponent(pathname)}`;
     const privateLoginUrl = `/login?error=private&next=${encodeURIComponent(pathname)}`;
 
-    if (!client) {
-      setError("Supabase is not configured in this local environment.");
-      setStatus("error");
-      return () => {
-        active = false;
-      };
-    }
+    // Never leave the private shell spinning forever. If auth cannot resolve,
+    // return to the password login page and preserve the requested route.
+    const fallback = window.setTimeout(() => {
+      if (!active) return;
+      setStatus("denied");
+      router.replace(loginUrl);
+    }, 4000);
 
-    async function checkSession() {
+    async function evaluate() {
       try {
-        const { data, error: sessionError } = await client.auth.getSession();
+        const { data, error } = await supabase.auth.getSession();
         if (!active) return;
 
-        if (sessionError) {
-          setError(sessionError.message);
-          setStatus("error");
+        if (error) {
+          window.clearTimeout(fallback);
+          setStatus("denied");
+          router.replace(loginUrl);
           return;
         }
 
         const email = data.session?.user?.email ?? null;
         if (data.session && isOwnerEmail(email)) {
+          window.clearTimeout(fallback);
           setStatus("authed");
           return;
         }
 
         if (data.session && !isOwnerEmail(email)) {
-          await client.auth.signOut();
+          await supabase.auth.signOut();
           if (!active) return;
+          window.clearTimeout(fallback);
+          setStatus("denied");
           router.replace(privateLoginUrl);
           return;
         }
 
+        window.clearTimeout(fallback);
+        setStatus("denied");
         router.replace(loginUrl);
-      } catch (err) {
+      } catch {
         if (!active) return;
-        setError(err instanceof Error ? err.message : "Could not verify your login session.");
-        setStatus("error");
+        window.clearTimeout(fallback);
+        setStatus("denied");
+        router.replace(loginUrl);
       }
     }
 
-    void checkSession();
+    void evaluate();
 
-    const { data: authListener } = client.auth.onAuthStateChange((_event, session) => {
-      if (!active) return;
-      const email = session?.user?.email ?? null;
-      if (session && isOwnerEmail(email)) {
-        setStatus("authed");
-      } else if (!session) {
-        router.replace(loginUrl);
-      }
+    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      void evaluate();
     });
 
     return () => {
       active = false;
-      authListener.subscription.unsubscribe();
+      window.clearTimeout(fallback);
+      sub.subscription.unsubscribe();
     };
   }, [pathname, router]);
 
   if (status === "authed") return <>{children}</>;
-
-  if (status === "error") {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-zinc-950 px-6 text-zinc-100">
-        <div className="w-full max-w-md rounded-2xl border border-amber-500/20 bg-zinc-900/70 p-6">
-          <div className="flex items-start gap-3">
-            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" />
-            <div>
-              <h1 className="text-sm font-semibold">Could not verify your login</h1>
-              <p className="mt-1 text-sm text-zinc-400">{error}</p>
-              <button
-                type="button"
-                onClick={() => router.replace(`/login?next=${encodeURIComponent(pathname)}`)}
-                className="mt-4 rounded-lg bg-emerald-500 px-3 py-2 text-sm font-medium text-zinc-950"
-              >
-                Go to login
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-500">
