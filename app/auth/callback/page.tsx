@@ -6,10 +6,16 @@ import { Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { isOwnerEmail } from "@/lib/owner";
 
+function safeNext(value: string | null): string {
+  if (!value || !value.startsWith("/") || value.startsWith("//")) return "/dashboard";
+  if (value.startsWith("/login") || value.startsWith("/auth/")) return "/dashboard";
+  return value;
+}
+
 /**
  * Magic-link / OAuth callback. supabase-js (detectSessionInUrl) auto-parses the
  * token from the URL hash on load; for PKCE we exchange the ?code. We then
- * verify the owner email and route into the CRM, or back to /login.
+ * verify the owner email and return to the CRM route that initiated login.
  */
 export default function AuthCallbackPage() {
   const router = useRouter();
@@ -19,14 +25,15 @@ export default function AuthCallbackPage() {
     let active = true;
 
     async function finish() {
-      // PKCE flow: exchange ?code for a session if present.
       const url = new URL(window.location.href);
+      const nextPath = safeNext(url.searchParams.get("next"));
       const code = url.searchParams.get("code");
       if (code) {
         try {
           await supabase.auth.exchangeCodeForSession(code);
         } catch {
-          /* fall through to getSession */
+          // fall through to getSession; implicit magic-link flows are parsed by
+          // supabase-js automatically from the URL hash.
         }
       }
 
@@ -35,7 +42,7 @@ export default function AuthCallbackPage() {
       const email = data.session?.user?.email ?? null;
 
       if (data.session && isOwnerEmail(email)) {
-        router.replace("/dashboard");
+        router.replace(nextPath);
         return;
       }
       if (data.session && !isOwnerEmail(email)) {
@@ -43,10 +50,10 @@ export default function AuthCallbackPage() {
       }
       if (!active) return;
       setMessage("This CRM is private. Redirecting…");
-      router.replace("/login?error=private");
+      router.replace(`/login?error=private&next=${encodeURIComponent(nextPath)}`);
     }
 
-    finish();
+    void finish();
     return () => {
       active = false;
     };

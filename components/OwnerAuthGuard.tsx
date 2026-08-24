@@ -1,62 +1,97 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseClient } from "@/lib/supabase";
 import { isOwnerEmail } from "@/lib/owner";
 
-/**
- * Client-side owner-only guard for the private CRM. Checks the Supabase session
- * (stored client-side by supabase-js). Only devonavich0@gmail.com is allowed;
- * anyone else is signed out and sent to /login. Suitable for a local/private,
- * single-user CRM. (For a public deployment, add @supabase/ssr + middleware and
- * tighten RLS — see README.)
- */
 export function OwnerAuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [status, setStatus] = useState<"loading" | "authed" | "denied">("loading");
+  const pathname = usePathname() || "/dashboard";
+  const [status, setStatus] = useState<"loading" | "authed">("loading");
 
   useEffect(() => {
     let active = true;
+    const loginUrl = `/login?next=${encodeURIComponent(pathname)}`;
+    const privateLoginUrl = `/login?error=private&next=${encodeURIComponent(pathname)}`;
+
+    const fallback = window.setTimeout(() => {
+      if (active) router.replace(loginUrl);
+    }, 4000);
 
     async function evaluate() {
-      const { data } = await supabase.auth.getSession();
-      const email = data.session?.user?.email ?? null;
-      if (!active) return;
+      try {
+        const client = getSupabaseClient();
+        if (!client) {
+          window.clearTimeout(fallback);
+          if (active) router.replace(loginUrl);
+          return;
+        }
 
-      if (data.session && isOwnerEmail(email)) {
-        setStatus("authed");
-        return;
-      }
-      if (data.session && !isOwnerEmail(email)) {
-        // Wrong account — sign out and bounce to login.
-        await supabase.auth.signOut();
+        const { data, error } = await client.auth.getSession();
         if (!active) return;
-        setStatus("denied");
-        router.replace("/login?error=private");
-        return;
+
+        if (error) {
+          window.clearTimeout(fallback);
+          router.replace(loginUrl);
+          return;
+        }
+
+        const email = data.session?.user?.email ?? null;
+        if (data.session && isOwnerEmail(email)) {
+          window.clearTimeout(fallback);
+          setStatus("authed");
+          return;
+        }
+
+        if (data.session && !isOwnerEmail(email)) {
+          await client.auth.signOut();
+          if (!active) return;
+          window.clearTimeout(fallback);
+          router.replace(privateLoginUrl);
+          return;
+        }
+
+        window.clearTimeout(fallback);
+        router.replace(loginUrl);
+      } catch {
+        if (!active) return;
+        window.clearTimeout(fallback);
+        router.replace(loginUrl);
       }
-      setStatus("denied");
-      router.replace("/login");
     }
 
-    evaluate();
+    void evaluate();
 
-    const { data: sub } = supabase.auth.onAuthStateChange(() => {
-      evaluate();
-    });
+    const listenerClient = getSupabaseClient();
+    const subscription = listenerClient
+      ? listenerClient.auth.onAuthStateChange((_event, session) => {
+          if (!active) return;
+          const email = session?.user?.email ?? null;
+          if (session && isOwnerEmail(email)) {
+            window.clearTimeout(fallback);
+            setStatus("authed");
+          } else if (!session) {
+            router.replace(loginUrl);
+          }
+        }).data.subscription
+      : null;
+
     return () => {
       active = false;
-      sub.subscription.unsubscribe();
+      window.clearTimeout(fallback);
+      subscription?.unsubscribe();
     };
-  }, [router]);
+  }, [pathname, router]);
 
   if (status === "authed") return <>{children}</>;
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-500">
-      <Loader2 className="h-5 w-5 animate-spin" />
+      <div className="flex items-center gap-2 text-sm">
+        <Loader2 className="h-5 w-5 animate-spin" /> Checking login…
+      </div>
     </div>
   );
 }

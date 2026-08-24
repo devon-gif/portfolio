@@ -5,8 +5,20 @@ export const dynamic = "force-dynamic";
 
 import { getAdminClient, isAdminConfigured } from "@/lib/supabase-admin";
 import { isStripeConfigured, stripePost } from "@/lib/stripe";
+import { requireOwner } from "@/lib/api-auth";
 
 export async function POST(req: Request) {
+  // OWNER ONLY. This endpoint takes a caller-supplied record_id, so without an
+  // authorization check anyone holding a record UUID could mint a live Stripe
+  // Customer Portal session for that client — payment methods, invoice history,
+  // and subscription cancellation.
+  //
+  // When the client portal needs a billing link, it must NOT reuse this route.
+  // It gets its own endpoint that derives the record from the caller's
+  // membership and accepts no id at all.
+  const denied = await requireOwner(req);
+  if (denied) return denied;
+
   if (!isAdminConfigured) return Response.json({ ok: false, error: "Server not configured." }, { status: 500 });
   if (!isStripeConfigured) return Response.json({ ok: false, error: "STRIPE_SECRET_KEY is not set." }, { status: 500 });
 

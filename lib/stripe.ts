@@ -8,6 +8,7 @@ import { createHmac, timingSafeEqual } from "crypto";
 
 const KEY = process.env.STRIPE_SECRET_KEY ?? "";
 export const isStripeConfigured = !!KEY;
+export const stripeMode = KEY.startsWith("sk_test_") ? "test" : KEY.startsWith("sk_live_") ? "live" : KEY ? "unknown" : "unconfigured";
 
 type Params = Record<string, string | number | boolean | undefined>;
 
@@ -17,6 +18,20 @@ function encode(params: Params): URLSearchParams {
     if (v !== undefined) body.append(k, String(v));
   }
   return body;
+}
+
+/** GET a Stripe endpoint. Throws with Stripe's error message (no secrets). */
+export async function stripeGet<T = Record<string, unknown>>(path: string, params: Params = {}): Promise<T> {
+  if (!KEY) throw new Error("Stripe is not configured (STRIPE_SECRET_KEY missing).");
+  const query = encode(params).toString();
+  const res = await fetch(`https://api.stripe.com/v1/${path}${query ? `?${query}` : ""}`, {
+    method: "GET",
+    headers: { Authorization: `Bearer ${KEY}` },
+    cache: "no-store",
+  });
+  const json = (await res.json()) as T & { error?: { message?: string } };
+  if (!res.ok) throw new Error(json.error?.message ?? `Stripe error (${res.status})`);
+  return json;
 }
 
 /** POST to a Stripe endpoint. Throws with Stripe's error message (no secrets). */
