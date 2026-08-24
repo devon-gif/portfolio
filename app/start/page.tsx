@@ -24,6 +24,7 @@ export default async function StartPage({
   const params = await searchParams;
   const offer = getCheckoutOffer(params.offer);
   const canceled = params.canceled === "1";
+  const allowTestOnboarding = process.env.NODE_ENV !== "production";
 
   return (
     <main className={`${fraunces.variable} min-h-screen bg-[#050505] text-[#F6F1E7]`}>
@@ -64,10 +65,13 @@ export default async function StartPage({
             <span className="rounded-full border border-white/10 px-3 py-1.5">Month-to-month</span>
             <span className="rounded-full border border-white/10 px-3 py-1.5">Secure Stripe checkout</span>
             <span className="rounded-full border border-white/10 px-3 py-1.5">Cancel future renewals anytime</span>
+            {allowTestOnboarding && (
+              <span className="rounded-full border border-violet-400/20 bg-violet-400/10 px-3 py-1.5 text-violet-200">Local no-charge test available</span>
+            )}
           </div>
         </section>
 
-        <CheckoutClient offer={offer} canceled={canceled} />
+        <CheckoutClient offer={offer} canceled={canceled} allowTestOnboarding={allowTestOnboarding} />
 
         <footer className="mt-14 border-t border-white/10 pt-7 text-xs leading-relaxed text-[#69635A]">
           Archer Design LLC · Lehi, Utah · hello@archerdesign.shop
