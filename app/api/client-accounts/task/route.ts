@@ -1,16 +1,13 @@
 import { NextResponse } from "next/server";
 import { getSupabaseAdminClient } from "@/lib/supabase";
-import { isOwnerEmail } from "@/lib/owner";
+import { isOwnerRequest } from "@/lib/api-auth";
 
+// Shared with the update route and the Stripe routes — see lib/api-auth.ts.
+// Accepts the session cookie or a Bearer token, so the existing caller works.
 async function verifyOwner(request: Request) {
-  const auth = request.headers.get("authorization") ?? "";
-  const token = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
   const admin = getSupabaseAdminClient();
-  if (!admin || !token) return { admin, ok: false as const };
-
-  const { data, error } = await admin.auth.getUser(token);
-  if (error || !data.user || !isOwnerEmail(data.user.email)) return { admin, ok: false as const };
-  return { admin, ok: true as const };
+  const ok = await isOwnerRequest(request);
+  return { admin, ok };
 }
 
 export async function POST(request: Request) {

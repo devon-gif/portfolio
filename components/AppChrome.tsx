@@ -3,45 +3,25 @@
 import { usePathname } from "next/navigation";
 import { Sidebar } from "@/components/Sidebar";
 import { OwnerAuthGuard } from "@/components/OwnerAuthGuard";
+import { isOwnerFullBleed, isPortalRoute, isPublicRoute } from "@/lib/routes";
 
-// Public marketing routes: render full-bleed, NO sidebar, NO auth guard.
-const PUBLIC_ROUTES = [
-  "/",
-  "/contact",
-  "/packages",
-  "/case-studies",
-  "/hotel-social-media-management",
-  "/hotel-video-marketing",
-  "/hospitality-creative-support",
-  "/hotel-restaurant-event-promos",
-  "/hotel-marketing-cost-savings",
-  "/hotel-creative-scorecard",
-  "/hospitality-resource-vault",
-  "/creative-gap-review",
-  "/restaurant-creative-support",
-  "/spa-salon-creative-support",
-  "/hotel-creative-without-adding-headcount",
-];
-const AUTH_ROUTES = ["/login", "/auth/callback"];
-const PUBLIC_PREFIXES = ["/unsubscribe", "/start", "/terms/service"];
-
-// Owner-only pages that should look exactly like a client-facing experience,
-// without the internal CRM sidebar.
-const OWNER_FULL_BLEED_PREFIXES = ["/client-preview"];
-
-function isPublic(pathname: string): boolean {
-  if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;
-  return PUBLIC_PREFIXES.some((p) => pathname.startsWith(p));
-}
-
-function isOwnerFullBleed(pathname: string): boolean {
-  return OWNER_FULL_BLEED_PREFIXES.some((p) => pathname.startsWith(p));
-}
+// The route lists this file used to own now live in lib/routes.ts, so
+// middleware.ts enforces server-side exactly what this renders client-side.
+// Adding a page means editing one list, not two that silently drift apart.
+//
+// OwnerAuthGuard remains here for the signed-out flash and the redirect, but it
+// is no longer the security boundary — middleware.ts is, and RLS is underneath
+// that.
 
 export function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? "";
 
-  if (isPublic(pathname)) return <>{children}</>;
+  if (isPublicRoute(pathname)) return <>{children}</>;
+
+  // The client portal has its own chrome and its own non-owner auth. It must
+  // never be wrapped in OwnerAuthGuard, which would sign real clients out and
+  // bounce them to the CRM login.
+  if (isPortalRoute(pathname)) return <>{children}</>;
 
   if (isOwnerFullBleed(pathname)) {
     return <OwnerAuthGuard>{children}</OwnerAuthGuard>;

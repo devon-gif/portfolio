@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { createBrowserClient } from "@supabase/ssr";
 
 // Support both env naming patterns (NEXT_PUBLIC_* for client-exposed vars,
 // plain SUPABASE_* as a fallback for server-only contexts/tooling).
@@ -28,11 +29,24 @@ export const isSupabaseConfigured = hasSupabaseEnv();
 
 let _client: SupabaseClient | null = null;
 
-/** Returns a configured Supabase client, or null if env vars are missing/invalid. */
+/**
+ * Returns a configured Supabase client, or null if env vars are missing/invalid.
+ *
+ * Uses createBrowserClient from @supabase/ssr rather than the plain
+ * createClient. Same API surface — every existing `supabase.from(...)` /
+ * `supabase.auth...` call site is unaffected — but the session is persisted to
+ * COOKIES instead of localStorage. That is what lets middleware.ts and
+ * lib/auth/server.ts see the signed-in user at all; with localStorage the
+ * server had no way to know anyone was logged in, which is the root cause of
+ * this app having had no server-side route protection.
+ *
+ * One consequence worth knowing: existing localStorage sessions are not
+ * migrated, so everyone signs in once more after this ships.
+ */
 export function getSupabaseClient(): SupabaseClient | null {
   if (!hasSupabaseEnv()) return null;
   if (!_client) {
-    _client = createClient(supabaseUrl, supabaseAnonKey);
+    _client = createBrowserClient(supabaseUrl, supabaseAnonKey);
   }
   return _client;
 }

@@ -6,8 +6,16 @@ export const dynamic = "force-dynamic";
 
 import { getAdminClient, isAdminConfigured } from "@/lib/supabase-admin";
 import { ensureCustomer, isStripeConfigured, stripePost } from "@/lib/stripe";
+import { requireOwner } from "@/lib/api-auth";
 
 export async function POST(req: Request) {
+  // OWNER ONLY — this creates a Stripe Checkout session against an existing
+  // customer and mutates the onboarding record's billing state. Public
+  // self-serve checkout is a different route (/api/stripe/public-checkout),
+  // which validates its own input and is deliberately unauthenticated.
+  const denied = await requireOwner(req);
+  if (denied) return denied;
+
   if (!isAdminConfigured) return Response.json({ ok: false, error: "Server not configured." }, { status: 500 });
   if (!isStripeConfigured) return Response.json({ ok: false, error: "STRIPE_SECRET_KEY is not set." }, { status: 500 });
 

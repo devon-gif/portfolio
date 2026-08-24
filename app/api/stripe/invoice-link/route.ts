@@ -6,8 +6,15 @@ export const dynamic = "force-dynamic";
 
 import { getAdminClient, isAdminConfigured } from "@/lib/supabase-admin";
 import { ensureCustomer, isStripeConfigured, stripePost } from "@/lib/stripe";
+import { requireOwner } from "@/lib/api-auth";
 
 export async function POST(req: Request) {
+  // OWNER ONLY — and the most dangerous of the three: it finalizes an invoice
+  // for a caller-supplied amount against a real Stripe customer. Unauthenticated,
+  // that is an arbitrary charge request aimed at your clients.
+  const denied = await requireOwner(req);
+  if (denied) return denied;
+
   if (!isAdminConfigured) return Response.json({ ok: false, error: "Server not configured." }, { status: 500 });
   if (!isStripeConfigured) return Response.json({ ok: false, error: "STRIPE_SECRET_KEY is not set." }, { status: 500 });
 

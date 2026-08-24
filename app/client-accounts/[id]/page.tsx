@@ -232,10 +232,10 @@ export default function ClientWorkspacePage() {
           </Link>
           <div className="flex gap-2">
             <Link
-              href={`/client-preview/${account.id}`}
-              className="inline-flex items-center gap-2 rounded-xl border border-[#8e743a]/15 bg-white/55 px-4 py-2.5 text-sm font-semibold text-[#5e5038] backdrop-blur-lg transition hover:bg-white"
+              href={`/client-accounts/${account.id}/preview`}
+              className="inline-flex items-center gap-2 rounded-xl border border-[#b89446]/40 bg-[#e8d3a2] px-4 py-2.5 text-sm font-semibold text-[#3a2f18] transition hover:bg-[#e0c68d]"
             >
-              <Eye className="h-4 w-4" /> Preview client dashboard
+              <Eye className="h-4 w-4" /> View client dashboard
             </Link>
             <button
               type="button"
