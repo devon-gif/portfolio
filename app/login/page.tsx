@@ -18,7 +18,7 @@ function LoginInner() {
   const nextPath = useMemo(() => safeNext(params.get("next")), [params]);
   const [email, setEmail] = useState(OWNER_EMAIL);
   const [password, setPassword] = useState("");
-  const [mode, setMode] = useState<"magic" | "password">("magic");
+  const [mode, setMode] = useState<"magic" | "password">("password");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(
     params.get("error") === "private" ? "This CRM is private." : null
@@ -65,10 +65,14 @@ function LoginInner() {
         },
       });
       if (error) {
-        setError(error.message);
+        if (/rate limit/i.test(error.message)) {
+          setError("Magic-link email is temporarily rate-limited. Use your password instead.");
+        } else {
+          setError(error.message);
+        }
         return;
       }
-      setNotice("Check your email for a secure login link. It will return you to this local page.");
+      setNotice("Check your email for a secure login link. It will return you to this page.");
     } finally {
       setBusy(false);
     }
@@ -78,6 +82,10 @@ function LoginInner() {
     setError(null);
     setNotice(null);
     if (!guardOwner()) return;
+    if (!password) {
+      setError("Enter your password.");
+      return;
+    }
     setBusy(true);
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -135,6 +143,7 @@ function LoginInner() {
               onChange={(e) => setPassword(e.target.value)}
               className={`mt-1 ${inputCls}`}
               autoComplete="current-password"
+              autoFocus
               onKeyDown={(e) => {
                 if (e.key === "Enter") void signInWithPassword();
               }}
@@ -153,17 +162,7 @@ function LoginInner() {
           </p>
         )}
 
-        {mode === "magic" ? (
-          <button
-            type="button"
-            onClick={() => void sendMagicLink()}
-            disabled={busy}
-            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2.5 text-sm font-medium text-zinc-950 transition hover:bg-emerald-400 disabled:opacity-60"
-          >
-            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Mail className="h-4 w-4" />}
-            Send magic link
-          </button>
-        ) : (
+        {mode === "password" ? (
           <button
             type="button"
             onClick={() => void signInWithPassword()}
@@ -172,6 +171,16 @@ function LoginInner() {
           >
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <KeyRound className="h-4 w-4" />}
             Sign in
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => void sendMagicLink()}
+            disabled={busy}
+            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2.5 text-sm font-medium text-zinc-950 transition hover:bg-emerald-400 disabled:opacity-60"
+          >
+            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Mail className="h-4 w-4" />}
+            Send backup magic link
           </button>
         )}
 
@@ -184,11 +193,11 @@ function LoginInner() {
           }}
           className="mt-4 w-full text-center text-xs text-zinc-500 hover:text-zinc-300"
         >
-          {mode === "magic" ? "Use password instead" : "Use a magic link instead"}
+          {mode === "password" ? "Use a backup magic link" : "Use password instead"}
         </button>
 
         <p className="mt-5 text-center text-[11px] text-zinc-600">
-          Access is limited to the owner account.
+          Password sign-in does not send an email or use the magic-link email limit.
         </p>
       </div>
     </div>
