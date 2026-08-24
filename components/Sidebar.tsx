@@ -12,6 +12,7 @@ import {
   FileSearch,
   Share2,
   LogOut,
+  Users,
 } from "lucide-react";
 import clsx from "clsx";
 import { supabase } from "@/lib/supabase";
@@ -19,6 +20,7 @@ import { supabase } from "@/lib/supabase";
 // Simplified nav — full route list still exists, just hidden from sidebar.
 const NAV = [
   { href: "/dashboard",  label: "Dashboard",   icon: LayoutDashboard },
+  { href: "/client-accounts", label: "Client Accounts", icon: Users },
   { href: "/prospects",  label: "Prospects",   icon: Target },
   { href: "/messages",   label: "Messages",    icon: MessageSquare },
   { href: "/followups",  label: "Follow-ups",  icon: Bell },
