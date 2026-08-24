@@ -22,21 +22,29 @@ const PUBLIC_ROUTES = [
   "/spa-salon-creative-support",
   "/hotel-creative-without-adding-headcount",
 ];
-// Auth routes: full-bleed, no sidebar, no guard.
 const AUTH_ROUTES = ["/login", "/auth/callback"];
-// Public prefixes include checkout/success/terms and unsubscribe links.
 const PUBLIC_PREFIXES = ["/unsubscribe", "/start", "/terms/service"];
+
+// Owner-only pages that should look exactly like a client-facing experience,
+// without the internal CRM sidebar.
+const OWNER_FULL_BLEED_PREFIXES = ["/client-preview"];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;
   return PUBLIC_PREFIXES.some((p) => pathname.startsWith(p));
 }
 
+function isOwnerFullBleed(pathname: string): boolean {
+  return OWNER_FULL_BLEED_PREFIXES.some((p) => pathname.startsWith(p));
+}
+
 export function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? "";
 
-  if (isPublic(pathname)) {
-    return <>{children}</>;
+  if (isPublic(pathname)) return <>{children}</>;
+
+  if (isOwnerFullBleed(pathname)) {
+    return <OwnerAuthGuard>{children}</OwnerAuthGuard>;
   }
 
   return (
