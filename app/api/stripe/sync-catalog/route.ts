@@ -33,6 +33,17 @@ async function findPrice(key: string): Promise<StripePrice | null> {
   return result.data[0] ?? null;
 }
 
+function stripeFailure(error: unknown) {
+  return Response.json(
+    {
+      ok: false,
+      stripe_mode: stripeMode,
+      error: error instanceof Error ? error.message : "Stripe catalog request failed.",
+    },
+    { status: 502 }
+  );
+}
+
 export async function GET(req: Request) {
   if (!isLocal(req) && process.env.ALLOW_STRIPE_CATALOG_SYNC !== "1") {
     return Response.json({ ok: false, error: "Catalog sync is restricted to localhost." }, { status: 403 });
@@ -41,26 +52,30 @@ export async function GET(req: Request) {
     return Response.json({ ok: false, error: "Stripe is not configured." }, { status: 500 });
   }
 
-  const items = [];
-  for (const offerId of ["valencia", "elaine"] as const) {
-    const offer = CHECKOUT_OFFERS[offerId];
-    for (const plan of offer.plans) {
-      const key = lookupKey(offer.id, plan.id);
-      const price = await findPrice(key);
-      items.push({
-        offer_id: offer.id,
-        plan_id: plan.id,
-        plan_name: plan.name,
-        lookup_key: key,
-        expected_amount: plan.monthlyUnitAmount,
-        stripe_price_id: price?.id ?? null,
-        stripe_amount: price?.unit_amount ?? null,
-        ready: Boolean(price && price.unit_amount === plan.monthlyUnitAmount && price.recurring?.interval === "month"),
-      });
+  try {
+    const items = [];
+    for (const offerId of ["valencia", "elaine"] as const) {
+      const offer = CHECKOUT_OFFERS[offerId];
+      for (const plan of offer.plans) {
+        const key = lookupKey(offer.id, plan.id);
+        const price = await findPrice(key);
+        items.push({
+          offer_id: offer.id,
+          plan_id: plan.id,
+          plan_name: plan.name,
+          lookup_key: key,
+          expected_amount: plan.monthlyUnitAmount,
+          stripe_price_id: price?.id ?? null,
+          stripe_amount: price?.unit_amount ?? null,
+          ready: Boolean(price && price.unit_amount === plan.monthlyUnitAmount && price.recurring?.interval === "month"),
+        });
+      }
     }
-  }
 
-  return Response.json({ ok: true, stripe_mode: stripeMode, items });
+    return Response.json({ ok: true, stripe_mode: stripeMode, items });
+  } catch (error) {
+    return stripeFailure(error);
+  }
 }
 
 export async function POST(req: Request) {
@@ -71,34 +86,38 @@ export async function POST(req: Request) {
     return Response.json({ ok: false, error: "Stripe is not configured." }, { status: 500 });
   }
 
-  const items = [];
-  for (const offerId of ["valencia", "elaine"] as const) {
-    const offer = CHECKOUT_OFFERS[offerId];
-    for (const plan of offer.plans) {
-      const key = lookupKey(offer.id, plan.id);
-      const existing = await findPrice(key);
+  try {
+    const items = [];
+    for (const offerId of ["valencia", "elaine"] as const) {
+      const offer = CHECKOUT_OFFERS[offerId];
+      for (const plan of offer.plans) {
+        const key = lookupKey(offer.id, plan.id);
+        const existing = await findPrice(key);
 
-      if (existing && existing.unit_amount === plan.monthlyUnitAmount && existing.recurring?.interval === "month") {
-        items.push({ offer_id: offer.id, plan_id: plan.id, plan_name: plan.name, lookup_key: key, price_id: existing.id, action: "existing" });
-        continue;
+        if (existing && existing.unit_amount === plan.monthlyUnitAmount && existing.recurring?.interval === "month") {
+          items.push({ offer_id: offer.id, plan_id: plan.id, plan_name: plan.name, lookup_key: key, price_id: existing.id, action: "existing" });
+          continue;
+        }
+
+        const created = await stripePost<StripePrice>("prices", {
+          currency: "usd",
+          unit_amount: plan.monthlyUnitAmount,
+          "recurring[interval]": "month",
+          lookup_key: key,
+          transfer_lookup_key: true,
+          nickname: `${offer.id} · ${plan.name} · monthly`,
+          "product_data[name]": `Archer Design — ${plan.name}`,
+          "metadata[archer_offer_id]": offer.id,
+          "metadata[archer_plan_id]": plan.id,
+          "metadata[pricing_model]": plan.pricingModel,
+        });
+
+        items.push({ offer_id: offer.id, plan_id: plan.id, plan_name: plan.name, lookup_key: key, price_id: created.id, action: existing ? "replaced" : "created" });
       }
-
-      const created = await stripePost<StripePrice>("prices", {
-        currency: "usd",
-        unit_amount: plan.monthlyUnitAmount,
-        "recurring[interval]": "month",
-        lookup_key: key,
-        transfer_lookup_key: true,
-        nickname: `${offer.id} · ${plan.name} · monthly`,
-        "product_data[name]": `Archer Design — ${plan.name}`,
-        "metadata[archer_offer_id]": offer.id,
-        "metadata[archer_plan_id]": plan.id,
-        "metadata[pricing_model]": plan.pricingModel,
-      });
-
-      items.push({ offer_id: offer.id, plan_id: plan.id, plan_name: plan.name, lookup_key: key, price_id: created.id, action: existing ? "replaced" : "created" });
     }
-  }
 
-  return Response.json({ ok: true, stripe_mode: stripeMode, items });
+    return Response.json({ ok: true, stripe_mode: stripeMode, items });
+  } catch (error) {
+    return stripeFailure(error);
+  }
 }
