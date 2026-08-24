@@ -24,8 +24,10 @@ const PUBLIC_ROUTES = [
 ];
 // Auth routes: full-bleed, no sidebar, no guard (these ARE the login flow).
 const AUTH_ROUTES = ["/login", "/auth/callback"];
-// Public prefixes (e.g. email unsubscribe links).
-const PUBLIC_PREFIXES = ["/unsubscribe"];
+// Public prefixes (e.g. email unsubscribe links and private proposal microsites).
+// Cana is a direct-link, noindex collaboration concept and must never inherit
+// the owner-only CRM auth guard.
+const PUBLIC_PREFIXES = ["/unsubscribe", "/cana"];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;
