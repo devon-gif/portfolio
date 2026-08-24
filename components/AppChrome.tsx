@@ -22,21 +22,16 @@ const PUBLIC_ROUTES = [
   "/spa-salon-creative-support",
   "/hotel-creative-without-adding-headcount",
 ];
-// Auth routes: full-bleed, no sidebar, no guard (these ARE the login flow).
+// Auth routes: full-bleed, no sidebar, no guard.
 const AUTH_ROUTES = ["/login", "/auth/callback"];
-// Public prefixes (e.g. email unsubscribe links).
-const PUBLIC_PREFIXES = ["/unsubscribe"];
+// Public prefixes include checkout/success/terms and unsubscribe links.
+const PUBLIC_PREFIXES = ["/unsubscribe", "/start", "/terms/service"];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;
   return PUBLIC_PREFIXES.some((p) => pathname.startsWith(p));
 }
 
-/**
- * Chrome wrapper.
- *  - Public marketing + auth routes: full-bleed, no sidebar, no auth.
- *  - Every other (CRM) route: owner-only auth guard + Sidebar + main.
- */
 export function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? "";
 
@@ -48,7 +43,7 @@ export function AppChrome({ children }: { children: React.ReactNode }) {
     <OwnerAuthGuard>
       <div className="flex h-full min-h-screen">
         <Sidebar />
-        <main className="flex-1 ml-56 min-h-screen overflow-auto">{children}</main>
+        <main className="ml-56 min-h-screen flex-1 overflow-auto">{children}</main>
       </div>
     </OwnerAuthGuard>
   );
