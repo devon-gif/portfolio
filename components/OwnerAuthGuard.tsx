@@ -3,35 +3,37 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseClient } from "@/lib/supabase";
 import { isOwnerEmail } from "@/lib/owner";
 
 export function OwnerAuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname() || "/dashboard";
-  const [status, setStatus] = useState<"loading" | "authed" | "denied">("loading");
+  const [status, setStatus] = useState<"loading" | "authed">("loading");
 
   useEffect(() => {
     let active = true;
     const loginUrl = `/login?next=${encodeURIComponent(pathname)}`;
     const privateLoginUrl = `/login?error=private&next=${encodeURIComponent(pathname)}`;
 
-    // Never leave the private shell spinning forever. If auth cannot resolve,
-    // return to the password login page and preserve the requested route.
     const fallback = window.setTimeout(() => {
-      if (!active) return;
-      setStatus("denied");
-      router.replace(loginUrl);
+      if (active) router.replace(loginUrl);
     }, 4000);
 
     async function evaluate() {
       try {
-        const { data, error } = await supabase.auth.getSession();
+        const client = getSupabaseClient();
+        if (!client) {
+          window.clearTimeout(fallback);
+          if (active) router.replace(loginUrl);
+          return;
+        }
+
+        const { data, error } = await client.auth.getSession();
         if (!active) return;
 
         if (error) {
           window.clearTimeout(fallback);
-          setStatus("denied");
           router.replace(loginUrl);
           return;
         }
@@ -44,35 +46,42 @@ export function OwnerAuthGuard({ children }: { children: React.ReactNode }) {
         }
 
         if (data.session && !isOwnerEmail(email)) {
-          await supabase.auth.signOut();
+          await client.auth.signOut();
           if (!active) return;
           window.clearTimeout(fallback);
-          setStatus("denied");
           router.replace(privateLoginUrl);
           return;
         }
 
         window.clearTimeout(fallback);
-        setStatus("denied");
         router.replace(loginUrl);
       } catch {
         if (!active) return;
         window.clearTimeout(fallback);
-        setStatus("denied");
         router.replace(loginUrl);
       }
     }
 
     void evaluate();
 
-    const { data: sub } = supabase.auth.onAuthStateChange(() => {
-      void evaluate();
-    });
+    const listenerClient = getSupabaseClient();
+    const subscription = listenerClient
+      ? listenerClient.auth.onAuthStateChange((_event, session) => {
+          if (!active) return;
+          const email = session?.user?.email ?? null;
+          if (session && isOwnerEmail(email)) {
+            window.clearTimeout(fallback);
+            setStatus("authed");
+          } else if (!session) {
+            router.replace(loginUrl);
+          }
+        }).data.subscription
+      : null;
 
     return () => {
       active = false;
       window.clearTimeout(fallback);
-      sub.subscription.unsubscribe();
+      subscription?.unsubscribe();
     };
   }, [pathname, router]);
 
