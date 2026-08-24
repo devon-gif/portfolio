@@ -9,8 +9,18 @@ const supabaseAnonKey =
   process.env.SUPABASE_ANON_KEY ||
   "";
 
+function isValidHttpUrl(value: string): boolean {
+  if (!value) return false;
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 export function hasSupabaseEnv(): boolean {
-  return Boolean(supabaseUrl && supabaseAnonKey);
+  return Boolean(isValidHttpUrl(supabaseUrl) && supabaseAnonKey);
 }
 
 // Back-compat alias used throughout the app.
@@ -18,7 +28,7 @@ export const isSupabaseConfigured = hasSupabaseEnv();
 
 let _client: SupabaseClient | null = null;
 
-/** Returns a configured Supabase client, or null if env vars are missing. */
+/** Returns a configured Supabase client, or null if env vars are missing/invalid. */
 export function getSupabaseClient(): SupabaseClient | null {
   if (!hasSupabaseEnv()) return null;
   if (!_client) {
@@ -33,7 +43,7 @@ export function getSupabaseAdminClient(): SupabaseClient | null {
     process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || "";
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 
-  if (!url || !serviceKey) return null;
+  if (!isValidHttpUrl(url) || !serviceKey) return null;
 
   return createClient(url, serviceKey, {
     auth: { autoRefreshToken: false, persistSession: false },
@@ -57,7 +67,7 @@ export const supabase: SupabaseClient = new Proxy({} as SupabaseClient, {
     const client = getSupabaseClient();
     if (!client) {
       throw new Error(
-        "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL (or SUPABASE_URL) and NEXT_PUBLIC_SUPABASE_ANON_KEY (or SUPABASE_ANON_KEY)."
+        "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL (or SUPABASE_URL) to a valid http(s) URL and set NEXT_PUBLIC_SUPABASE_ANON_KEY (or SUPABASE_ANON_KEY)."
       );
     }
     return Reflect.get(client, prop, receiver);
