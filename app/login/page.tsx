@@ -1,14 +1,21 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2, Mail, KeyRound, ShieldCheck } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { OWNER_EMAIL, isOwnerEmail } from "@/lib/owner";
 
+function safeNext(value: string | null): string {
+  if (!value || !value.startsWith("/") || value.startsWith("//")) return "/dashboard";
+  if (value.startsWith("/login") || value.startsWith("/auth/")) return "/dashboard";
+  return value;
+}
+
 function LoginInner() {
   const router = useRouter();
   const params = useSearchParams();
+  const nextPath = useMemo(() => safeNext(params.get("next")), [params]);
   const [email, setEmail] = useState(OWNER_EMAIL);
   const [password, setPassword] = useState("");
   const [mode, setMode] = useState<"magic" | "password">("magic");
@@ -18,18 +25,19 @@ function LoginInner() {
   );
   const [notice, setNotice] = useState<string | null>(null);
 
-  // If already signed in as the owner, skip the login page.
+  // If already signed in as the owner, skip the login page and return to the
+  // originally requested CRM route.
   useEffect(() => {
     let active = true;
     supabase.auth.getSession().then(({ data }) => {
       if (active && data.session && isOwnerEmail(data.session.user?.email)) {
-        router.replace("/dashboard");
+        router.replace(nextPath);
       }
     });
     return () => {
       active = false;
     };
-  }, [router]);
+  }, [nextPath, router]);
 
   function guardOwner(): boolean {
     if (!isOwnerEmail(email)) {
@@ -46,15 +54,21 @@ function LoginInner() {
     if (!guardOwner()) return;
     setBusy(true);
     try {
+      const callback = new URL("/auth/callback", window.location.origin);
+      callback.searchParams.set("next", nextPath);
+
       const { error } = await supabase.auth.signInWithOtp({
         email: email.trim(),
-        options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+        options: {
+          emailRedirectTo: callback.toString(),
+          shouldCreateUser: false,
+        },
       });
       if (error) {
         setError(error.message);
         return;
       }
-      setNotice("Check your email for a secure login link.");
+      setNotice("Check your email for a secure login link. It will return you to this local page.");
     } finally {
       setBusy(false);
     }
@@ -79,7 +93,7 @@ function LoginInner() {
         setError("This CRM is private.");
         return;
       }
-      router.replace("/dashboard");
+      router.replace(nextPath);
     } finally {
       setBusy(false);
     }
@@ -122,7 +136,7 @@ function LoginInner() {
               className={`mt-1 ${inputCls}`}
               autoComplete="current-password"
               onKeyDown={(e) => {
-                if (e.key === "Enter") signInWithPassword();
+                if (e.key === "Enter") void signInWithPassword();
               }}
             />
           </label>
@@ -142,7 +156,7 @@ function LoginInner() {
         {mode === "magic" ? (
           <button
             type="button"
-            onClick={sendMagicLink}
+            onClick={() => void sendMagicLink()}
             disabled={busy}
             className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2.5 text-sm font-medium text-zinc-950 transition hover:bg-emerald-400 disabled:opacity-60"
           >
@@ -152,7 +166,7 @@ function LoginInner() {
         ) : (
           <button
             type="button"
-            onClick={signInWithPassword}
+            onClick={() => void signInWithPassword()}
             disabled={busy}
             className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2.5 text-sm font-medium text-zinc-950 transition hover:bg-emerald-400 disabled:opacity-60"
           >
