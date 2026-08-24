@@ -40,6 +40,26 @@ function stripeLookupKey(offerId: string, planId: string) {
   return `archer_${offerId}_${planId.replace(/-/g, "_")}_monthly`;
 }
 
+function validOrigin(value?: string | null): string | null {
+  const candidate = (value ?? "").trim();
+  if (!candidate) return null;
+  try {
+    const url = new URL(candidate);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+    return url.origin;
+  } catch {
+    return null;
+  }
+}
+
+function appOrigin(req: Request): string {
+  return (
+    validOrigin(process.env.NEXT_PUBLIC_APP_URL) ??
+    validOrigin(process.env.PUBLIC_APP_URL) ??
+    new URL(req.url).origin
+  );
+}
+
 export async function POST(req: Request) {
   if (!isAdminConfigured) {
     return Response.json({ ok: false, error: "Onboarding is not configured." }, { status: 500 });
@@ -126,8 +146,7 @@ export async function POST(req: Request) {
       recordId: record.id,
     });
 
-    const requestUrl = new URL(req.url);
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? process.env.PUBLIC_APP_URL ?? requestUrl.origin;
+    const origin = appOrigin(req);
     const lookupKey = stripeLookupKey(offerId, plan.id);
     const priceResult = await stripeGet<StripeList<StripePrice>>("prices", {
       "lookup_keys[0]": lookupKey,
@@ -143,8 +162,8 @@ export async function POST(req: Request) {
       customer: customerId,
       "line_items[0][quantity]": quantity,
       client_reference_id: record.id,
-      success_url: `${appUrl}/start/success?offer=${encodeURIComponent(offerId)}`,
-      cancel_url: `${appUrl}/start?offer=${encodeURIComponent(offerId)}&canceled=1`,
+      success_url: `${origin}/start/success?offer=${encodeURIComponent(offerId)}`,
+      cancel_url: `${origin}/start?offer=${encodeURIComponent(offerId)}&canceled=1`,
       "metadata[onboarding_record_id]": record.id,
       "metadata[offer_id]": offerId,
       "metadata[plan_id]": plan.id,
