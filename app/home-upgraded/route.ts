@@ -220,6 +220,7 @@ function buildMotionLibrarySection() {
     }
 
     .archer-motion-arrow:hover {
+      transform: translateY(-50%) scale(1.04);
       background: rgba(210, 164, 79, .18);
       color: #fff8ec;
     }
@@ -364,7 +365,7 @@ function buildMotionLibrarySection() {
         <h2>Motion that makes the property feel alive.</h2>
       </div>
       <p>
-        A broader look at Archer Design&apos;s motion skillset: hospitality campaigns, rooms, resorts, F&amp;B, weddings, brand storytelling, transitions, VFX, and AI-assisted animation. One piece plays at a time so you can actually watch the work instead of scanning a wall of duplicates.
+        A broader look at Archer Design&apos;s motion skillset: hospitality campaigns, rooms, resorts, F&amp;B, weddings, brand storytelling, transitions, VFX, and AI-assisted animation. One piece plays at a time so every edit can be watched at full size.
       </p>
     </div>
 
