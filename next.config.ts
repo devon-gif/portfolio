@@ -15,10 +15,9 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return {
-      // beforeFiles runs before Next.js route matching, so the static
-      // Archer preview page is served at / instead of app/page.tsx.
-      // (vercel.json rewrites run after the framework routes, so they
-      // cannot override the prerendered homepage.)
+      // Keep the standalone proposal / microsite rewrites below, but let the
+      // real Next.js homepage at app/page.tsx own `/`. The old Archer preview
+      // rewrite masked every homepage update made in the app router.
       beforeFiles: [
         {
           source: "/dovetail",
@@ -43,10 +42,6 @@ const nextConfig: NextConfig = {
         {
           source: "/revenue-activation/confirmed",
           destination: "/revenue-activation/confirmed/index.html",
-        },
-        {
-          source: "/",
-          destination: "/archer-preview/index.html",
         },
       ],
       afterFiles: [],
