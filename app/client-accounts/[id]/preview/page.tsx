@@ -39,7 +39,11 @@ export default async function ClientPreviewPage({ params }: { params: Promise<{ 
   const demo = buildDemoPortalData();
 
   if (!isAdminConfigured) {
-    return <PortalDashboard data={demo} backHref={`/client-accounts/${id}`} />;
+    return (
+      <div className="archer-portal">
+        <PortalDashboard data={demo} backHref={`/client-accounts/${id}`} />
+      </div>
+    );
   }
 
   // Explicit column list. `notes` is internal-only and must never be selected
@@ -53,7 +57,11 @@ export default async function ClientPreviewPage({ params }: { params: Promise<{ 
     .maybeSingle();
 
   if (!record) {
-    return <PortalDashboard data={demo} backHref={`/client-accounts/${id}`} />;
+    return (
+      <div className="archer-portal">
+        <PortalDashboard data={demo} backHref={`/client-accounts/${id}`} />
+      </div>
+    );
   }
 
   const { data: taskRows } = await admin
@@ -97,5 +105,9 @@ export default async function ClientPreviewPage({ params }: { params: Promise<{ 
     otherOrganizations: [],
   };
 
-  return <PortalDashboard data={data} backHref={`/client-accounts/${id}`} />;
+  return (
+    <div className="archer-portal">
+      <PortalDashboard data={data} backHref={`/client-accounts/${id}`} />
+    </div>
+  );
 }
