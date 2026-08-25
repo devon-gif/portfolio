@@ -15,9 +15,10 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return {
-      // Keep the standalone proposal / microsite rewrites below, but let the
-      // real Next.js homepage at app/page.tsx own `/`. The old Archer preview
-      // rewrite masked every homepage update made in the app router.
+      // Keep the established Archer homepage design at `/`, while the
+      // legacy-home route swaps only its pricing content to the current
+      // Archer pricing structure. The rest of the approved homepage remains
+      // unchanged.
       beforeFiles: [
         {
           source: "/dovetail",
@@ -42,6 +43,10 @@ const nextConfig: NextConfig = {
         {
           source: "/revenue-activation/confirmed",
           destination: "/revenue-activation/confirmed/index.html",
+        },
+        {
+          source: "/",
+          destination: "/legacy-home",
         },
       ],
       afterFiles: [],
