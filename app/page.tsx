@@ -7,6 +7,7 @@ import { StudioGallery, type StudioGalleryItem } from "@/components/marketing/St
 import { StudioHeader } from "@/components/marketing/StudioHeader";
 import { StudioFooter } from "@/components/marketing/StudioFooter";
 import { StudioCTA } from "@/components/marketing/StudioCTA";
+import { HomePricingSection } from "@/components/marketing/HomePricingSection";
 import { fraunces } from "@/components/marketing/studioFont";
 import { HERO_ROTATION } from "@/components/marketing/media";
 import { faqJsonLd, serviceJsonLd } from "@/lib/seo";
@@ -99,7 +100,7 @@ const AUDIENCES = [
   { t: "Multi-property & groups", d: "Scalable, on-brand creative across a portfolio — one studio, one rhythm." },
 ];
 
-// 9 — Comparison.
+// 10 — Comparison.
 const OLD_WAY = [
   "Freelance designer",
   "Video editor",
@@ -284,7 +285,6 @@ export default function ArcherStudioHome() {
               ))}
             </div>
 
-            {/* Objection block */}
             <div className="st-panel mt-8 p-8 md:p-10">
               <h3 className="font-serif text-[clamp(20px,2.6vw,28px)] text-[var(--st-ink)]">
                 &ldquo;But how do you handle photo and video if you&apos;re not on-site?&rdquo;
@@ -373,7 +373,10 @@ export default function ArcherStudioHome() {
           </div>
         </section>
 
-        {/* ── 9. Lower-overhead comparison ─────────────────────────────────── */}
+        {/* ── 9. Pricing ───────────────────────────────────────────────────── */}
+        <HomePricingSection />
+
+        {/* ── 10. Lower-overhead comparison ────────────────────────────────── */}
         <section id="value" className="scroll-mt-24 px-6 py-20">
           <div className="mx-auto max-w-6xl">
             <div className="max-w-2xl">
@@ -418,33 +421,30 @@ export default function ArcherStudioHome() {
           </div>
         </section>
 
-        {/* ── 10. Soft pilot options ───────────────────────────────────────── */}
+        {/* ── 11. Getting started ──────────────────────────────────────────── */}
         <section className="px-6 pb-4">
           <div className="mx-auto max-w-5xl">
             <div className="st-panel p-8 text-center md:p-12">
               <span className="st-kicker">Getting started</span>
               <p className="mx-auto mt-4 max-w-3xl font-serif text-[clamp(20px,2.6vw,28px)] leading-snug text-[var(--st-ink)]">
-                Monthly creative support is available for single properties, hotel
-                restaurants, resorts, and multi-property groups.
+                Start with one asset, a $299.99 monthly creative lane, or a fuller property-level partnership.
               </p>
               <p className="mx-auto mt-4 max-w-2xl text-[15.5px] leading-relaxed text-[var(--st-ink-soft)]">
-                Most clients begin with a focused pilot so we can prove the
-                workflow before expanding — lower overhead than hiring multiple
-                vendors, and scalable as you grow.
+                The goal is to match the amount of creative support to what your team actually needs now — then scale only when the workload and results justify it.
               </p>
               <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <Link href="/contact" className="st-btn">
-                  Send a property link <span aria-hidden>→</span>
-                </Link>
-                <Link href="/packages" className="st-btn-ghost">
-                  How packages work
+                <a href="#pricing" className="st-btn">
+                  See pricing <span aria-hidden>→</span>
+                </a>
+                <Link href="/contact" className="st-btn-ghost">
+                  Talk through the right fit
                 </Link>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── 11. FAQ ──────────────────────────────────────────────────────── */}
+        {/* ── 12. FAQ ──────────────────────────────────────────────────────── */}
         <section className="px-6 py-20">
           <div className="mx-auto max-w-3xl">
             <span className="st-kicker">Good questions</span>
@@ -466,7 +466,7 @@ export default function ArcherStudioHome() {
         </section>
       </main>
 
-      {/* ── 12. Final CTA ──────────────────────────────────────────────────── */}
+      {/* ── 13. Final CTA ──────────────────────────────────────────────────── */}
       <StudioCTA />
 
       <StudioFooter />
