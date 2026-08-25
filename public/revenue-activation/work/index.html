@@ -1,0 +1,933 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Archer Design — Selected Work | Hotel Sales Consultants × Archer Design</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Selected motion, hospitality, campaign, product, F&amp;B, event, and experimental work from Archer Design.">
+<script>document.documentElement.classList.add("js");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   ARCHER DESIGN — SELECTED WORK (Revenue Activation archive)
+   Shares the Revenue Activation visual system: near-black /
+   midnight-navy ground, restrained glass panels, electric-blue
+   reserved for CTAs and active states, cream editorial serif
+   headlines. Self-contained page.
+   ============================================================ */
+
+:root{
+  --bg:#030914;
+  --bg-2:#07101D;
+  --panel:rgba(10,20,35,0.72);
+  --panel-border:var(--line-subtle);
+  --navy-deep:#0A1728;
+  --blue-primary:#315BEF;
+  --blue-bright:#5484FF;
+  --blue-soft:#96B8FF;
+  --cream:#F3F0EA;
+  --muted:#9AA6B5;
+  --muted-faint:rgba(154,166,181,0.58);
+  --line-subtle:rgba(150,184,255,0.13);
+  --line-strong:rgba(150,184,255,0.24);
+  --ease:cubic-bezier(.22,.61,.19,.99);
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; background:var(--bg); }
+@media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--cream);
+  font-family:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  font-size:16px;
+  line-height:1.5;
+  overflow-x:hidden;
+}
+
+img, video{ max-width:100%; display:block; }
+
+.serif{
+  font-family:"Fraunces",ui-serif,Georgia,"Times New Roman",serif;
+  font-weight:340;
+  letter-spacing:-0.012em;
+}
+
+.eyebrow{
+  font-size:11px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  font-weight:600;
+  color:var(--blue-soft);
+}
+
+.shell{
+  width:min(1440px, calc(100% - clamp(64px,8vw,120px)));
+  margin:0 auto;
+}
+
+a{ color:inherit; }
+button{ font-family:inherit; }
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  font-size:12.5px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  font-weight:600;
+  text-decoration:none;
+  padding:14px 26px;
+  border-radius:7px;
+  border:none;
+  cursor:pointer;
+  transition:background .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease), transform .3s var(--ease);
+  white-space:nowrap;
+}
+.btn-primary{
+  position:relative; overflow:hidden;
+  color:var(--cream);
+  background:linear-gradient(180deg, #3d6cff 0%, #2854e8 45%, #163bbd 100%);
+  border:1px solid rgba(135,175,255,0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.2),
+    inset 0 -2px 4px rgba(0,20,80,0.36),
+    0 8px 18px rgba(0,18,65,0.4),
+    0 0 22px rgba(49,91,239,0.13);
+  transition:transform .28s var(--ease), box-shadow .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease);
+}
+.btn-primary::before{
+  content:""; position:absolute; inset:0 0 60% 0; z-index:0; pointer-events:none;
+  background:linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0));
+}
+.btn-primary .btn-arrow{ display:inline-block; transition:transform .3s var(--ease); }
+.btn-primary:hover{
+  transform:translateY(-2px);
+  background:linear-gradient(180deg, #4a77ff 0%, #3060f0 45%, #1a42c8 100%);
+  border-color:rgba(150,190,255,0.7);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.28),
+    inset 0 -2px 4px rgba(0,20,80,0.36),
+    0 12px 26px rgba(0,18,65,0.48),
+    0 0 30px rgba(49,91,239,0.2);
+}
+.btn-primary:hover .btn-arrow{ transform:translateX(4px); }
+.btn-primary:focus-visible{
+  outline:2px solid rgba(150,184,255,0.85);
+  outline-offset:3px;
+}
+.btn-outline{
+  border:1px solid var(--line-strong);
+  color:var(--cream);
+  background:rgba(150,184,255,0.04);
+}
+.btn-outline:hover{ background:rgba(150,184,255,0.09); border-color:var(--blue-soft); }
+@media (max-width:560px){ .btn{ width:100%; justify-content:center; } }
+
+/* ---------- reveal system ---------- */
+.reveal{ opacity:0; transform:translateY(20px); transition:opacity .95s var(--ease), transform .95s var(--ease); }
+.reveal.is-visible{ opacity:1; transform:translateY(0); }
+.reveal-d1{ transition-delay:.08s; }
+.reveal-d2{ transition-delay:.16s; }
+.reveal-d3{ transition-delay:.24s; }
+@media (prefers-reduced-motion:reduce){ .reveal{ opacity:1 !important; transform:none !important; transition:none !important; } }
+
+.section-pad{ padding:clamp(56px,7vw,96px) 0; }
+.panel{
+  background:var(--panel); border:1px solid var(--panel-border); border-radius:12px;
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+}
+.label-row{ display:flex; align-items:center; gap:13px; margin-bottom:20px; }
+.label-row .rule{ width:26px; height:1px; background:var(--blue-primary); }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav-float{ position:fixed; top:16px; left:0; right:0; z-index:100; display:flex; justify-content:center; padding:0 20px; pointer-events:none; }
+.nav{
+  pointer-events:auto; width:min(1440px, 100%);
+  display:flex; align-items:center; justify-content:space-between;
+  height:66px; padding:0 24px;
+  background:rgba(7,16,29,0.68); border:1px solid var(--line-subtle); border-radius:14px;
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  transition:background .4s var(--ease), border-color .4s var(--ease);
+}
+.nav.scrolled{ background:rgba(3,9,20,0.88); border-color:var(--line-strong); }
+.nav-brand{ display:flex; align-items:center; gap:11px; text-decoration:none; }
+.nav-mono{
+  flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center;
+  width:30px; height:30px; border-radius:50%; border:1px solid var(--line-strong);
+  background:rgba(84,132,255,0.06);
+  font-family:"Fraunces",serif; font-size:11px; font-weight:500; color:var(--blue-soft); line-height:1;
+}
+.nav-logo{ display:block; height:34px; width:auto; }
+.nav-brand-text{ display:flex; flex-direction:column; gap:2px; line-height:1.2; }
+.nav-wordmark{ font-family:"Fraunces",serif; font-size:13.5px; letter-spacing:0.06em; color:var(--cream); font-weight:400; }
+.nav-subline{ font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted-faint); font-weight:500; padding-left:14px; border-left:1px solid var(--line-subtle); }
+@media (max-width:900px){ .nav-subline{ display:none; } }
+.nav-links{ display:flex; align-items:center; gap:clamp(14px,2vw,26px); }
+.nav-links a{ font-size:11.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); text-decoration:none; font-weight:500; transition:color .3s var(--ease); white-space:nowrap; }
+.nav-links a:hover{ color:var(--blue-soft); }
+.nav-links a.nav-cta{ border-radius:7px; padding:10px 18px; color:var(--cream); background:linear-gradient(180deg, #3d6cff 0%, #2854e8 45%, #163bbd 100%); border:1px solid rgba(135,175,255,0.55); }
+.nav-links a.nav-cta:hover{ color:var(--cream); }
+.nav-toggle{ display:none; }
+@media (max-width:700px){
+  .nav-links{
+    position:fixed; inset:0 0 0 auto; width:min(300px,84vw); height:100vh;
+    background:var(--bg-2); flex-direction:column; align-items:flex-start;
+    justify-content:center; gap:26px; padding:0 40px;
+    transform:translateX(100%); transition:transform .5s var(--ease);
+    border-left:1px solid var(--line-subtle);
+  }
+  .nav-links.open{ transform:translateX(0); }
+  .nav-links a{ font-size:15px; }
+  .nav-toggle{
+    display:flex; flex-direction:column; gap:5px; width:24px; background:none;
+    border:0; cursor:pointer; padding:8px; z-index:110;
+  }
+  .nav-toggle span{ display:block; height:1px; background:var(--cream); width:100%; }
+}
+
+/* ============================================================
+   ARCHIVE HERO
+   ============================================================ */
+.arc-hero{
+  position:relative; width:100%; overflow:hidden;
+  padding:calc(66px + 64px) 0 clamp(40px,5vw,60px);
+  background:
+    radial-gradient(55% 55% at 80% 20%, rgba(49,91,239,0.16), transparent 68%),
+    #030914;
+}
+.arc-hero-inner{ position:relative; z-index:2; max-width:760px; }
+.arc-hero h1{ font-size:clamp(2.3rem,4.6vw,3.6rem); font-weight:330; line-height:1.14; color:var(--cream); margin:18px 0 20px; }
+.arc-hero p{ font-size:15.5px; line-height:1.75; color:var(--muted); margin:0; max-width:62ch; }
+
+/* ============================================================
+   FILTERS
+   ============================================================ */
+.arc-filters-wrap{ position:sticky; top:88px; z-index:40; background:linear-gradient(180deg, var(--bg) 70%, transparent); padding:10px 0 18px; }
+.arc-filters{ display:flex; flex-wrap:wrap; gap:9px; }
+.arc-filter{
+  font-size:11px; letter-spacing:0.08em; text-transform:uppercase; font-weight:600;
+  color:var(--muted); background:rgba(150,184,255,0.04); border:1px solid var(--line-subtle);
+  border-radius:20px; padding:9px 17px; cursor:pointer;
+  transition:color .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease);
+}
+.arc-filter:hover{ color:var(--cream); border-color:var(--line-strong); }
+.arc-filter.is-active{ color:var(--cream); background:rgba(84,132,255,0.16); border-color:var(--blue-primary); }
+.arc-filter:focus-visible{ outline:2px solid rgba(150,184,255,0.85); outline-offset:2px; }
+
+/* ============================================================
+   MASONRY GALLERY
+   ============================================================ */
+.arc-gallery{ column-count:4; column-gap:16px; }
+.arc-item{
+  display:block; width:100%; break-inside:avoid; margin:0 0 16px;
+  position:relative; text-align:left; background:var(--navy-deep);
+  border:1px solid var(--line-subtle); border-radius:10px; overflow:hidden;
+  cursor:pointer; padding:0; font-family:inherit; color:inherit;
+  transition:border-color .3s var(--ease), transform .3s var(--ease);
+}
+.arc-item:hover{ border-color:var(--line-strong); transform:translateY(-2px); }
+.arc-item:focus-visible{ outline:2px solid rgba(150,184,255,0.85); outline-offset:2px; }
+.arc-item.is-hidden{ display:none; }
+.arc-media{ position:relative; display:block; width:100%; background:var(--navy-deep); isolation:isolate; }
+.arc-media img, .arc-media video{ position:relative; z-index:0; width:100%; height:auto; display:block; object-fit:cover; }
+.arc-media::after{ content:""; position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(180deg, transparent 60%, rgba(3,9,20,0.7) 100%); }
+.arc-motion-badge{
+  position:absolute; top:10px; right:10px; z-index:2; width:26px; height:26px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(3,9,20,0.62); border:1px solid rgba(255,255,255,0.22); backdrop-filter:blur(4px);
+}
+.arc-motion-badge svg{ width:9px; height:9px; margin-left:1px; }
+.arc-meta{ position:absolute; left:14px; right:14px; bottom:12px; z-index:2; }
+.arc-title{ display:block; font-family:"Fraunces",serif; font-weight:400; font-size:13.5px; color:var(--cream); line-height:1.3; }
+.arc-cat{ display:block; margin-top:3px; font-size:9.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--blue-soft); font-weight:600; }
+@media (max-width:1100px){ .arc-gallery{ column-count:3; } }
+@media (max-width:760px){ .arc-gallery{ column-count:2; column-gap:12px; } .arc-item{ margin-bottom:12px; } }
+@media (max-width:480px){ .arc-gallery{ column-count:1; } }
+
+/* ============================================================
+   LIGHTBOX
+   ============================================================ */
+.lightbox{
+  position:fixed; inset:0; z-index:1000; display:none;
+  align-items:center; justify-content:center;
+  background:rgba(2,6,14,0.94); backdrop-filter:blur(6px);
+}
+.lightbox.is-open{ display:flex; }
+.lb-stage{ position:relative; width:min(1200px,92vw); height:min(84vh,900px); display:flex; align-items:center; justify-content:center; }
+.lb-media-wrap{ position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+.lb-media-wrap img{ max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; border-radius:6px; }
+.lb-media-wrap video{ max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; border-radius:6px; background:#000; }
+.lb-close{
+  position:absolute; top:-6px; right:-6px; z-index:5; width:40px; height:40px; border-radius:50%;
+  background:rgba(10,20,35,0.85); border:1px solid var(--line-strong); color:var(--cream);
+  display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; line-height:1;
+}
+.lb-close:hover{ background:rgba(84,132,255,0.22); border-color:var(--blue-soft); }
+.lb-arrow{
+  position:absolute; top:50%; transform:translateY(-50%); z-index:5; width:46px; height:46px; border-radius:50%;
+  background:rgba(10,20,35,0.72); border:1px solid var(--line-strong); color:var(--cream);
+  display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:20px;
+  transition:background .3s var(--ease), border-color .3s var(--ease);
+}
+.lb-arrow:hover{ background:rgba(84,132,255,0.22); border-color:var(--blue-soft); }
+.lb-prev{ left:clamp(-8px,-3vw,8px); }
+.lb-next{ right:clamp(-8px,-3vw,8px); }
+.lb-meta-bar{
+  position:absolute; left:0; right:0; bottom:-58px; z-index:4;
+  display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  padding:0 4px;
+}
+.lb-meta-left{ display:flex; flex-direction:column; gap:3px; }
+.lb-title{ font-family:"Fraunces",serif; font-weight:400; font-size:16px; color:var(--cream); }
+.lb-cat{ font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--blue-soft); font-weight:600; }
+.lb-count{ font-size:11px; letter-spacing:0.04em; color:var(--muted-faint); white-space:nowrap; }
+@media (max-width:700px){
+  .lb-stage{ width:94vw; height:72vh; }
+  .lb-arrow{ width:38px; height:38px; font-size:16px; }
+  .lb-prev{ left:2px; } .lb-next{ right:2px; }
+  .lb-meta-bar{ bottom:-70px; flex-direction:column; align-items:flex-start; gap:6px; }
+  .lb-close{ top:-46px; right:0; }
+}
+
+/* slideshow control (inline with filter bar) */
+.arc-slideshow-toggle{
+  margin-left:auto; display:inline-flex; align-items:center; gap:8px;
+  font-size:11px; letter-spacing:0.08em; text-transform:uppercase; font-weight:600;
+  color:var(--muted); background:transparent; border:1px solid var(--line-subtle);
+  border-radius:20px; padding:9px 16px 9px 14px; cursor:pointer;
+  transition:color .3s var(--ease), border-color .3s var(--ease);
+}
+.arc-slideshow-toggle:hover{ color:var(--cream); border-color:var(--blue-soft); }
+.arc-slideshow-toggle .dot{ width:6px; height:6px; border-radius:50%; background:var(--muted-faint); transition:background .3s var(--ease); }
+.arc-slideshow-toggle.is-playing .dot{ background:var(--blue-bright); box-shadow:0 0 6px rgba(84,132,255,0.7); }
+@media (max-width:640px){ .arc-slideshow-toggle{ margin-left:0; width:100%; justify-content:center; } }
+
+/* ============================================================
+   ARCHIVE CTA
+   ============================================================ */
+.arc-cta{ position:relative; padding:clamp(64px,8vw,110px) 0; text-align:center; overflow:hidden; }
+.arc-cta::before{
+  content:""; position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(58% 55% at 50% 10%, rgba(49,91,239,0.28), transparent 58%),
+    linear-gradient(180deg, #030914 0%, #07101D 55%, #030914 100%);
+}
+.arc-cta-inner{ position:relative; z-index:1; }
+.arc-cta h2{ font-size:clamp(1.9rem,3.6vw,2.7rem); font-weight:330; color:var(--cream); margin:0 auto 32px; max-width:22ch; line-height:1.24; }
+.arc-cta-actions{ display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{ background:var(--bg); border-top:1px solid var(--line-subtle); padding:28px 0; }
+.foot-inner{ display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; }
+.foot-mark{ display:flex; align-items:center; gap:8px; }
+.foot-mark .dot{ width:16px; height:16px; border-radius:50%; border:1px solid var(--line-strong); display:inline-flex; align-items:center; justify-content:center; font-family:"Fraunces",serif; font-size:6.5px; font-weight:600; color:var(--blue-soft); line-height:1; }
+.foot-mark-word{ font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted-faint); }
+.foot-logo{ display:block; height:26px; width:auto; opacity:0.9; }
+.foot-note{ font-size:11px; color:var(--muted-faint); letter-spacing:0.02em; text-align:right; }
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<div class="nav-float">
+  <nav class="nav" id="siteNav">
+    <a href="/revenue-activation" class="nav-brand">
+      <img class="nav-logo" src="/revenue-activation/logos/logo.png" alt="Hotel Sales Consultants × Archer Design" />
+      <span class="nav-subline">Selected work archive</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="/revenue-activation">← Back to Revenue Activation</a>
+      <a class="nav-cta" href="mailto:hello@archerdesign.shop?subject=Revenue%20Activation%20%E2%80%94%20HSC%20%C3%97%20Archer%20Design">Start a Conversation</a>
+    </div>
+  </nav>
+</div>
+
+<!-- ============================================================
+     ARCHIVE HERO
+     ============================================================ -->
+<section class="arc-hero">
+  <div class="shell arc-hero-inner">
+    <span class="eyebrow reveal">Archer Design — Selected Work</span>
+    <h1 class="serif reveal reveal-d1">A wider creative engine<br>behind every opportunity.</h1>
+    <p class="reveal reveal-d2">Selected motion, hospitality, campaign, product, F&amp;B, event, and experimental work from Archer Design.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     FILTERS
+     ============================================================ -->
+<div class="shell">
+  <div class="arc-filters-wrap reveal reveal-d1">
+    <div class="arc-filters" role="group" aria-label="Filter the archive by category">
+      <button type="button" class="arc-filter is-active" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" class="arc-filter" data-filter="motion" aria-pressed="false">Motion</button>
+      <button type="button" class="arc-filter" data-filter="hospitality" aria-pressed="false">Hospitality</button>
+      <button type="button" class="arc-filter" data-filter="fb" aria-pressed="false">F&amp;B</button>
+      <button type="button" class="arc-filter" data-filter="campaigns" aria-pressed="false">Campaigns</button>
+      <button type="button" class="arc-filter" data-filter="product" aria-pressed="false">Product</button>
+      <button type="button" class="arc-filter" data-filter="experimental" aria-pressed="false">Experimental</button>
+      <button type="button" class="arc-slideshow-toggle" id="slideshowToggle" aria-pressed="false">
+        <span class="dot" aria-hidden="true"></span>
+        <span class="slideshow-label">Play slideshow</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     ARCHIVE GALLERY
+     ============================================================ -->
+<section class="section-pad" style="padding-top:8px;">
+  <div class="shell">
+    <div class="arc-gallery reveal reveal-d2" id="archiveGallery">
+
+      <button type="button" class="arc-item" data-cat="motion hospitality" aria-label="Open: Boutique Hotel Entrance, Night (Concept), Property Motion">
+        <span class="arc-media" style="aspect-ratio:16/9;">
+          <video muted playsinline preload="metadata"><source src="/archer-preview/motion/pendry-hotel-entrance-night.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Boutique Hotel Entrance, Night (Concept)</span><span class="arc-cat">Property Motion</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion fb" aria-label="Open: Pancake Pour, F&amp;B Storytelling">
+        <span class="arc-media" style="aspect-ratio:3/4;">
+          <video muted playsinline preload="metadata"><source src="/pancakes.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Pancake Pour</span><span class="arc-cat">F&amp;B Storytelling</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion hospitality" aria-label="Open: Bar Social, Hospitality Social">
+        <span class="arc-media" style="aspect-ratio:16/9;">
+          <video muted playsinline preload="metadata"><source src="/Hopping%20Bar.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Bar Social</span><span class="arc-cat">Hospitality Social</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="hospitality" aria-label="Open: Hotel Indigo Pittsburgh — Room Collage, Hospitality Creative">
+        <span class="arc-media" style="aspect-ratio:4/5;">
+          <img src="/Image%202.png" alt="Hotel Indigo Pittsburgh room collage design" loading="lazy">
+        </span>
+        <span class="arc-meta"><span class="arc-title">Hotel Indigo Pittsburgh — Room Collage</span><span class="arc-cat">Hospitality Creative</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion fb experimental" aria-label="Open: Signature Cocktail, Experimental Direction">
+        <span class="arc-media" style="aspect-ratio:1/1;">
+          <video muted playsinline preload="metadata"><source src="/glass.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Signature Cocktail</span><span class="arc-cat">Experimental Direction</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="campaigns" aria-label="Open: Eliza Hot Metal Bistro — Holiday Billboard, Campaign Design">
+        <span class="arc-media" style="aspect-ratio:1.1/1;">
+          <img src="/Image%203.png" alt="Eliza Hot Metal Bistro holiday billboard campaign" loading="lazy">
+        </span>
+        <span class="arc-meta"><span class="arc-title">Eliza Hot Metal Bistro — Holiday Billboard</span><span class="arc-cat">Campaign Design</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion hospitality" aria-label="Open: Poolside Lounge, Local Demand Driver">
+        <span class="arc-media" style="aspect-ratio:16/9;">
+          <video muted playsinline preload="metadata"><source src="/poolside.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Poolside Lounge</span><span class="arc-cat">Local Demand Driver</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="campaigns hospitality" aria-label="Open: Hampton by Hilton — Flood City Music Festival, Campaign Design">
+        <span class="arc-media" style="aspect-ratio:0.73/1;">
+          <img src="/Image%204.png" alt="Hampton by Hilton Johnstown Flood City Music Festival campaign design" loading="lazy">
+        </span>
+        <span class="arc-meta"><span class="arc-title">Hampton by Hilton — Flood City Music Festival</span><span class="arc-cat">Campaign Design</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion hospitality" aria-label="Open: Fireside Common Area, Property Motion">
+        <span class="arc-media" style="aspect-ratio:16/9;">
+          <video muted playsinline preload="metadata"><source src="/timelapse.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Fireside Common Area</span><span class="arc-cat">Property Motion</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion hospitality" aria-label="Open: Coastal Aerial, Cinematic Property Footage">
+        <span class="arc-media" style="aspect-ratio:4/3;">
+          <video muted playsinline preload="metadata"><source src="/dovetail/media/01-hero-bermuda/hero-bermuda.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Coastal Aerial</span><span class="arc-cat">Cinematic Property Footage</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="fb campaigns" aria-label="Open: Eliza Hot Metal Bistro — Burgers Poster, F&amp;B Design">
+        <span class="arc-media" style="aspect-ratio:0.71/1;">
+          <img src="/Image%205.png" alt="Eliza Hot Metal Bistro burgers promotional poster" loading="lazy">
+        </span>
+        <span class="arc-meta"><span class="arc-title">Eliza Hot Metal Bistro — Burgers Poster</span><span class="arc-cat">F&amp;B Design</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion hospitality campaigns" aria-label="Open: Western-Theme Bar, Event Campaign">
+        <span class="arc-media" style="aspect-ratio:4/3;">
+          <video muted playsinline preload="metadata"><source src="/dovetail/media/02-urban-cowboy/urban-cowboy.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Western-Theme Bar</span><span class="arc-cat">Event Campaign</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion hospitality" aria-label="Open: Guest Room Experience, Property Motion">
+        <span class="arc-media" style="aspect-ratio:16/9;">
+          <video muted playsinline preload="metadata"><source src="/dovetail/media/03-guest-experience/experience.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Guest Room Experience</span><span class="arc-cat">Property Motion</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="campaigns experimental" aria-label="Open: Eliza Hot Metal Bistro — Live Music Series, Campaign Design">
+        <span class="arc-media" style="aspect-ratio:4/5;">
+          <img src="/Image%206.png" alt="Eliza Hot Metal Bistro live music series campaign design" loading="lazy">
+        </span>
+        <span class="arc-meta"><span class="arc-title">Eliza Hot Metal Bistro — Live Music Series</span><span class="arc-cat">Campaign Design</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion hospitality" aria-label="Open: Boutique Hotel Exterior (Concept), Property Motion">
+        <span class="arc-media" style="aspect-ratio:4/3;">
+          <video muted playsinline preload="metadata"><source src="/dovetail/media/05-wayfinder/wayfinder.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Boutique Hotel Exterior (Concept)</span><span class="arc-cat">Property Motion</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="product" aria-label="Open: Eliza Hot Metal Bistro — Takeout Packaging, Packaging &amp; Sales-Support">
+        <span class="arc-media" style="aspect-ratio:0.79/1;">
+          <img src="/Image%207.png" alt="Eliza Hot Metal Bistro takeout packaging design" loading="lazy">
+        </span>
+        <span class="arc-meta"><span class="arc-title">Eliza Hot Metal Bistro — Takeout Packaging</span><span class="arc-cat">Packaging &amp; Sales-Support</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion hospitality" aria-label="Open: A-Frame Reflection, Cinematic Property Footage">
+        <span class="arc-media" style="aspect-ratio:4/3;">
+          <video muted playsinline preload="metadata"><source src="/lark/media/01-hero/hero.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">A-Frame Reflection</span><span class="arc-cat">Cinematic Property Footage</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion hospitality campaigns" aria-label="Open: Sunset Fire Pit, Local Demand Driver">
+        <span class="arc-media" style="aspect-ratio:4/3;">
+          <video muted playsinline preload="metadata"><source src="/lark/media/02-destination/destination.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Sunset Fire Pit</span><span class="arc-cat">Local Demand Driver</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="product experimental fb" aria-label="Open: Minty Fresh, Beverage Art Direction">
+        <span class="arc-media" style="aspect-ratio:4/5;">
+          <img src="/image%2012.png" alt="Minty Fresh beverage art direction" loading="lazy">
+        </span>
+        <span class="arc-meta"><span class="arc-title">Minty Fresh — Beverage Art Direction</span><span class="arc-cat">Experimental Direction</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion hospitality" aria-label="Open: Lounge Interior, Property Motion">
+        <span class="arc-media" style="aspect-ratio:4/3;">
+          <video muted playsinline preload="metadata"><source src="/lark/media/03-property/property.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Lounge Interior</span><span class="arc-cat">Property Motion</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion campaigns" aria-label="Open: Beachside Wedding, Event Campaign">
+        <span class="arc-media" style="aspect-ratio:3/4;">
+          <video muted playsinline preload="metadata"><source src="/lark/media/04-experience/experience.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Beachside Wedding</span><span class="arc-cat">Event Campaign</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion fb" aria-label="Open: Oceanside Dining, F&amp;B Storytelling">
+        <span class="arc-media" style="aspect-ratio:3/4;">
+          <video muted playsinline preload="metadata"><source src="/lark/media/05-food-experience/food-experience.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Oceanside Dining</span><span class="arc-cat">F&amp;B Storytelling</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion hospitality" aria-label="Open: Rooftop Sunset, Hospitality Social">
+        <span class="arc-media" style="aspect-ratio:4/3;">
+          <video muted playsinline preload="metadata"><source src="/valencia/media/cielo-sunset.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Rooftop Sunset</span><span class="arc-cat">Hospitality Social</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion hospitality" aria-label="Open: Historic Property Exterior (Concept), Property Motion">
+        <span class="arc-media" style="aspect-ratio:4/3;">
+          <video muted playsinline preload="metadata"><source src="/valencia/media/george-exterior.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Historic Property Exterior (Concept)</span><span class="arc-cat">Property Motion</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion hospitality" aria-label="Open: Courtyard Architecture, Cinematic Property Footage">
+        <span class="arc-media" style="aspect-ratio:1/1;">
+          <video muted playsinline preload="metadata"><source src="/valencia/media/hero.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Courtyard Architecture</span><span class="arc-cat">Cinematic Property Footage</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion hospitality" aria-label="Open: Rooftop Pool, Local Demand Driver">
+        <span class="arc-media" style="aspect-ratio:1/1;">
+          <video muted playsinline preload="metadata"><source src="/valencia/media/pool-experience.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Rooftop Pool</span><span class="arc-cat">Local Demand Driver</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion fb" aria-label="Open: Texican Bar Spread, Restaurant Promotion">
+        <span class="arc-media" style="aspect-ratio:16/9;">
+          <video muted playsinline preload="metadata"><source src="/valencia/media/texican-bar.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Texican Bar Spread</span><span class="arc-cat">Restaurant Promotion</span></span>
+      </button>
+
+      <button type="button" class="arc-item" data-cat="motion fb" aria-label="Open: Bar &amp; Beverage, Restaurant Promotion">
+        <span class="arc-media" style="aspect-ratio:1/1;">
+          <video muted playsinline preload="metadata"><source src="/dovetail/media/04-food-beverage/food-beverage.mp4" type="video/mp4"></video>
+          <span class="arc-motion-badge" aria-hidden="true"><svg viewBox="0 0 10 12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg></span>
+        </span>
+        <span class="arc-meta"><span class="arc-title">Bar &amp; Beverage</span><span class="arc-cat">Restaurant Promotion</span></span>
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     LIGHTBOX
+     ============================================================ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Selected work viewer">
+  <div class="lb-stage">
+    <button type="button" class="lb-close" id="lbClose" aria-label="Close">✕</button>
+    <button type="button" class="lb-arrow lb-prev" id="lbPrev" aria-label="Previous item">‹</button>
+    <div class="lb-media-wrap" id="lbMediaWrap"></div>
+    <button type="button" class="lb-arrow lb-next" id="lbNext" aria-label="Next item">›</button>
+    <div class="lb-meta-bar">
+      <div class="lb-meta-left">
+        <span class="lb-title" id="lbTitle"></span>
+        <span class="lb-cat" id="lbCat"></span>
+      </div>
+      <span class="lb-count" id="lbCount"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     ARCHIVE CTA
+     ============================================================ -->
+<section class="arc-cta">
+  <div class="shell arc-cta-inner">
+    <h2 class="serif reveal">Ready to connect sales opportunity<br>with creative execution?</h2>
+    <div class="arc-cta-actions reveal reveal-d1">
+      <a href="/revenue-activation#model" class="btn btn-outline">Return to the Model</a>
+      <a href="mailto:hello@archerdesign.shop?subject=Revenue%20Activation%20%E2%80%94%20HSC%20%C3%97%20Archer%20Design" class="btn btn-primary">Start a Conversation</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell foot-inner">
+    <div class="foot-mark">
+      <img class="foot-logo" src="/revenue-activation/logos/logo.png" alt="Hotel Sales Consultants × Archer Design" />
+    </div>
+    <div class="foot-note">Prepared privately for Hotel Sales Consultants.<br>Archer Design © 2026</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* nav scroll state */
+  var nav = document.getElementById("siteNav");
+  function onScroll(){
+    if (window.scrollY > 30) nav.classList.add("scrolled");
+    else nav.classList.remove("scrolled");
+  }
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive:true });
+
+  /* mobile nav toggle */
+  var toggle = document.getElementById("navToggle");
+  var links = document.getElementById("navLinks");
+  if (toggle && links){
+    toggle.addEventListener("click", function(){
+      var open = links.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    links.querySelectorAll("a").forEach(function(a){
+      a.addEventListener("click", function(){ links.classList.remove("open"); });
+    });
+  }
+
+  /* reveal on scroll */
+  var revealEls = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window && !reducedMotion){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add("is-visible"); });
+  }
+
+  /* ----------------------------------------------------------
+     ARCHIVE DATA — read directly from the gallery DOM so the
+     markup is the single source of truth (no duplicated list).
+     ---------------------------------------------------------- */
+  var galleryEl = document.getElementById("archiveGallery");
+  var itemEls = Array.prototype.slice.call(galleryEl.querySelectorAll(".arc-item"));
+  var items = itemEls.map(function(el, i){
+    var media = el.querySelector(".arc-media");
+    var video = media.querySelector("video source");
+    var img = media.querySelector("img");
+    return {
+      index: i,
+      el: el,
+      type: video ? "video" : "image",
+      src: video ? video.getAttribute("src") : img.getAttribute("src"),
+      alt: img ? img.getAttribute("alt") : "",
+      title: el.querySelector(".arc-title").textContent,
+      cat: el.querySelector(".arc-cat").textContent,
+      categories: (el.getAttribute("data-cat") || "").split(/\s+/).filter(Boolean)
+    };
+  });
+
+  /* first-frame preview: nudge video preview elements to show a
+     representative frame without autoplaying them in the grid */
+  itemEls.forEach(function(el){
+    var v = el.querySelector(".arc-media video");
+    if (!v) return;
+    v.addEventListener("loadedmetadata", function(){
+      try { v.currentTime = Math.min(1.2, (v.duration || 2) / 3); } catch(e){}
+    }, { once:true });
+  });
+
+  /* ----------------------------------------------------------
+     FILTERS
+     ---------------------------------------------------------- */
+  var filterBtns = Array.prototype.slice.call(document.querySelectorAll(".arc-filter"));
+  var activeFilter = "all";
+  function applyFilter(filter){
+    activeFilter = filter;
+    itemEls.forEach(function(el, i){
+      var cats = items[i].categories;
+      var show = filter === "all" || cats.indexOf(filter) !== -1;
+      el.classList.toggle("is-hidden", !show);
+    });
+    filterBtns.forEach(function(b){
+      var on = b.getAttribute("data-filter") === filter;
+      b.classList.toggle("is-active", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  }
+  filterBtns.forEach(function(b){
+    b.addEventListener("click", function(){ applyFilter(b.getAttribute("data-filter")); stopSlideshow(); });
+  });
+
+  function visibleIndexes(){
+    var out = [];
+    items.forEach(function(it){
+      if (activeFilter === "all" || it.categories.indexOf(activeFilter) !== -1) out.push(it.index);
+    });
+    return out;
+  }
+
+  /* ----------------------------------------------------------
+     LIGHTBOX
+     ---------------------------------------------------------- */
+  var lightbox = document.getElementById("lightbox");
+  var lbMediaWrap = document.getElementById("lbMediaWrap");
+  var lbTitle = document.getElementById("lbTitle");
+  var lbCat = document.getElementById("lbCat");
+  var lbCount = document.getElementById("lbCount");
+  var lbClose = document.getElementById("lbClose");
+  var lbPrev = document.getElementById("lbPrev");
+  var lbNext = document.getElementById("lbNext");
+
+  var currentIndex = null;
+  var lastFocusedEl = null;
+  var currentVideoEl = null;
+
+  function renderLightboxItem(index){
+    var it = items[index];
+    lbMediaWrap.innerHTML = "";
+    if (it.type === "video"){
+      var v = document.createElement("video");
+      v.setAttribute("controls", "");
+      v.setAttribute("playsinline", "");
+      v.muted = true;
+      v.autoplay = !reducedMotion;
+      var src = document.createElement("source");
+      src.src = it.src; src.type = "video/mp4";
+      v.appendChild(src);
+      lbMediaWrap.appendChild(v);
+      currentVideoEl = v;
+      if (!reducedMotion){ v.play().catch(function(){}); }
+    } else {
+      var img = document.createElement("img");
+      img.src = it.src;
+      img.alt = it.alt || it.title;
+      lbMediaWrap.appendChild(img);
+      currentVideoEl = null;
+    }
+    lbTitle.textContent = it.title;
+    lbCat.textContent = it.cat;
+    var vis = visibleIndexes();
+    var pos = vis.indexOf(index) + 1;
+    lbCount.textContent = pos + " / " + vis.length;
+    currentIndex = index;
+  }
+
+  function stopCurrentVideo(){
+    if (currentVideoEl){
+      try { currentVideoEl.pause(); } catch(e){}
+      currentVideoEl = null;
+    }
+  }
+
+  function openLightbox(index, triggerEl){
+    lastFocusedEl = triggerEl || document.activeElement;
+    renderLightboxItem(index);
+    lightbox.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+    lbClose.focus();
+    document.addEventListener("keydown", onLbKeydown);
+  }
+
+  function closeLightbox(){
+    stopCurrentVideo();
+    lightbox.classList.remove("is-open");
+    lbMediaWrap.innerHTML = "";
+    document.body.style.overflow = "";
+    document.removeEventListener("keydown", onLbKeydown);
+    stopSlideshow();
+    if (lastFocusedEl && typeof lastFocusedEl.focus === "function") lastFocusedEl.focus();
+  }
+
+  function stepLightbox(dir){
+    var vis = visibleIndexes();
+    if (!vis.length) return;
+    var pos = vis.indexOf(currentIndex);
+    if (pos === -1) pos = 0;
+    var next = (pos + dir + vis.length) % vis.length;
+    stopCurrentVideo();
+    renderLightboxItem(vis[next]);
+  }
+
+  itemEls.forEach(function(el, i){
+    el.addEventListener("click", function(){ openLightbox(i, el); });
+  });
+  lbClose.addEventListener("click", closeLightbox);
+  lbPrev.addEventListener("click", function(){ stepLightbox(-1); });
+  lbNext.addEventListener("click", function(){ stepLightbox(1); });
+  lightbox.addEventListener("click", function(e){ if (e.target === lightbox) closeLightbox(); });
+
+  function onLbKeydown(e){
+    if (e.key === "Escape"){ closeLightbox(); return; }
+    if (e.key === "ArrowLeft"){ stopSlideshow(); stepLightbox(-1); return; }
+    if (e.key === "ArrowRight"){ stopSlideshow(); stepLightbox(1); return; }
+    if (e.key === "Tab"){
+      var focusable = lightbox.querySelectorAll("button, [href], video, input, [tabindex]:not([tabindex=\"-1\"])");
+      if (!focusable.length) return;
+      var first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    }
+  }
+
+  /* swipe support */
+  var touchStartX = null;
+  lightbox.addEventListener("touchstart", function(e){ touchStartX = e.changedTouches[0].clientX; }, { passive:true });
+  lightbox.addEventListener("touchend", function(e){
+    if (touchStartX === null) return;
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40){ stopSlideshow(); stepLightbox(dx > 0 ? -1 : 1); }
+    touchStartX = null;
+  }, { passive:true });
+
+  /* ----------------------------------------------------------
+     OPTIONAL AUTOPLAY SLIDESHOW — off by default, user-initiated
+     ---------------------------------------------------------- */
+  var slideshowToggle = document.getElementById("slideshowToggle");
+  var slideshowTimer = null;
+  var slideshowOn = false;
+
+  function startSlideshow(){
+    if (slideshowOn) return;
+    if (currentIndex === null){
+      var vis = visibleIndexes();
+      if (!vis.length) return;
+      openLightbox(vis[0], slideshowToggle);
+    }
+    slideshowOn = true;
+    slideshowToggle.classList.add("is-playing");
+    slideshowToggle.setAttribute("aria-pressed", "true");
+    slideshowToggle.querySelector(".slideshow-label").textContent = "Pause slideshow";
+    scheduleAdvance();
+  }
+  function stopSlideshow(){
+    if (!slideshowOn) return;
+    slideshowOn = false;
+    slideshowToggle.classList.remove("is-playing");
+    slideshowToggle.setAttribute("aria-pressed", "false");
+    slideshowToggle.querySelector(".slideshow-label").textContent = "Play slideshow";
+    if (slideshowTimer){ clearTimeout(slideshowTimer); slideshowTimer = null; }
+  }
+  function scheduleAdvance(){
+    if (slideshowTimer) clearTimeout(slideshowTimer);
+    slideshowTimer = setTimeout(function(){
+      if (!slideshowOn) return;
+      var isVideoPlaying = currentVideoEl && !currentVideoEl.paused && !currentVideoEl.ended;
+      if (isVideoPlaying){ scheduleAdvance(); return; }
+      stepLightbox(1);
+      scheduleAdvance();
+    }, 6000);
+  }
+  slideshowToggle.addEventListener("click", function(){
+    if (slideshowOn) stopSlideshow(); else startSlideshow();
+  });
+  /* manual prev/next arrow clicks also stop the auto-advance */
+  lbPrev.addEventListener("click", stopSlideshow);
+  lbNext.addEventListener("click", stopSlideshow);
+
+})();
+</script>
+</body>
+</html>

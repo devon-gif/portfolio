@@ -1,0 +1,296 @@
+
+/*
+  The Revstudio × Archer Design
+  Light editorial refresh
+  Primary brand color supplied by The Revstudio: #5B21F5
+*/
+
+.revstudio-refresh {
+  --rev-purple: #5b21f5;
+  --rev-purple-dark: #4315c7;
+  --rev-purple-soft: #eee8ff;
+  --rev-lavender: #f7f4ff;
+  --rev-lavender-2: #fbfaff;
+  --rev-ink: #17131d;
+  --rev-body: #5f5868;
+  --rev-muted: #89818f;
+  --rev-line: #e7e1ec;
+  --rev-paper: #ffffff;
+
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--rev-paper) !important;
+  color: var(--rev-ink) !important;
+}
+
+.revstudio-refresh,
+.revstudio-refresh * {
+  box-sizing: border-box;
+}
+
+/* Remove the original full-page dark treatment. */
+.revstudio-refresh > div,
+.revstudio-refresh main {
+  background-color: var(--rev-paper) !important;
+  color: var(--rev-ink) !important;
+}
+
+.revstudio-refresh
+  :is(main, section, article, aside, div)[class*="bg-black"],
+.revstudio-refresh
+  :is(main, section, article, aside, div)[class*="bg-[#0"],
+.revstudio-refresh
+  :is(main, section, article, aside, div)[class*="bg-neutral-9"],
+.revstudio-refresh
+  :is(main, section, article, aside, div)[class*="bg-zinc-9"],
+.revstudio-refresh
+  :is(main, section, article, aside, div)[class*="bg-slate-9"] {
+  background-color: transparent !important;
+}
+
+/* Navigation */
+.revstudio-refresh header,
+.revstudio-refresh nav {
+  border-color: var(--rev-line) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: var(--rev-ink) !important;
+  box-shadow: 0 1px 0 rgba(42, 25, 56, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+.revstudio-refresh header a,
+.revstudio-refresh nav a {
+  color: #49414f !important;
+}
+
+.revstudio-refresh header a:hover,
+.revstudio-refresh nav a:hover {
+  color: var(--rev-purple) !important;
+}
+
+/* The main navigation CTA remains purple. */
+.revstudio-refresh header a[class*="bg-"],
+.revstudio-refresh header button[class*="bg-"],
+.revstudio-refresh nav a[class*="bg-"],
+.revstudio-refresh nav button[class*="bg-"] {
+  border-color: var(--rev-purple) !important;
+  background: linear-gradient(
+    135deg,
+    var(--rev-purple),
+    #7447f8
+  ) !important;
+  color: white !important;
+  box-shadow: 0 10px 30px rgba(91, 33, 245, 0.2);
+}
+
+/* Primary page sections */
+.revstudio-refresh main > section {
+  position: relative;
+  border-color: var(--rev-line) !important;
+  background-color: var(--rev-paper) !important;
+  background-image: none !important;
+  color: var(--rev-ink) !important;
+}
+
+.revstudio-refresh main > section:nth-of-type(even) {
+  background:
+    radial-gradient(
+      circle at 86% 12%,
+      rgba(91, 33, 245, 0.085),
+      transparent 30%
+    ),
+    linear-gradient(
+      180deg,
+      var(--rev-lavender-2),
+      var(--rev-lavender)
+    ) !important;
+}
+
+/* Hero gets a subtle white-to-lavender atmosphere. */
+.revstudio-refresh main > section:first-of-type {
+  background:
+    radial-gradient(
+      circle at 75% 22%,
+      rgba(91, 33, 245, 0.11),
+      transparent 35%
+    ),
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #fcfaff 64%,
+      #f8f4ff 100%
+    ) !important;
+}
+
+/* Typography */
+.revstudio-refresh
+  :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--rev-ink) !important;
+  text-shadow: none !important;
+}
+
+.revstudio-refresh
+  :is(h1, h2, h3)
+  :is(span, em) {
+  color: var(--rev-purple) !important;
+}
+
+.revstudio-refresh p {
+  color: var(--rev-body) !important;
+}
+
+.revstudio-refresh
+  :is(small, figcaption) {
+  color: var(--rev-muted) !important;
+}
+
+.revstudio-refresh
+  [class*="uppercase"][class*="tracking"] {
+  color: var(--rev-purple) !important;
+}
+
+/* Cards and content panels */
+.revstudio-refresh main article,
+.revstudio-refresh main
+  :is(div, aside)[class*="rounded-"][class*="border-"] {
+  border-color: var(--rev-line) !important;
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  box-shadow:
+    0 18px 50px rgba(39, 23, 50, 0.07),
+    0 2px 10px rgba(39, 23, 50, 0.035);
+}
+
+/* Keep photography and motion media visually rich. */
+.revstudio-refresh
+  :is(figure, picture) {
+  overflow: hidden;
+  border-color: #ded5e8 !important;
+  background: #100d15 !important;
+}
+
+.revstudio-refresh
+  :is(img, video) {
+  max-width: 100%;
+}
+
+/* Buttons */
+.revstudio-refresh main
+  :is(a, button)[class*="bg-purple"],
+.revstudio-refresh main
+  :is(a, button)[class*="bg-violet"],
+.revstudio-refresh main
+  :is(a, button)[class*="bg-[#"] {
+  border-color: var(--rev-purple) !important;
+  background: linear-gradient(
+    135deg,
+    var(--rev-purple),
+    #7447f8
+  ) !important;
+  color: white !important;
+  box-shadow: 0 12px 34px rgba(91, 33, 245, 0.18);
+}
+
+.revstudio-refresh main
+  :is(a, button)[class*="border-"]:not([class*="bg-"]) {
+  border-color: #cbc0d8 !important;
+  background: white !important;
+  color: var(--rev-ink) !important;
+}
+
+.revstudio-refresh main
+  :is(a, button):hover {
+  transform: translateY(-1px);
+}
+
+/* Icons and accents */
+.revstudio-refresh
+  :is(svg, [class*="icon"])[class*="text-purple"],
+.revstudio-refresh
+  :is(svg, [class*="icon"])[class*="text-violet"] {
+  color: var(--rev-purple) !important;
+}
+
+.revstudio-refresh blockquote {
+  border-color: var(--rev-purple) !important;
+  background: var(--rev-purple-soft) !important;
+  color: #3d2853 !important;
+}
+
+/* Tables, dividers and metric rows */
+.revstudio-refresh
+  :is(hr, table, th, td) {
+  border-color: var(--rev-line) !important;
+}
+
+.revstudio-refresh
+  [class*="border-white"],
+.revstudio-refresh
+  [class*="border-zinc"],
+.revstudio-refresh
+  [class*="border-neutral"] {
+  border-color: var(--rev-line) !important;
+}
+
+/* Keep one premium dark closing band for contrast. */
+.revstudio-refresh main > section:last-of-type {
+  background:
+    radial-gradient(
+      circle at 80% 30%,
+      rgba(91, 33, 245, 0.34),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #17131d,
+      #21142d
+    ) !important;
+  color: white !important;
+}
+
+.revstudio-refresh main > section:last-of-type
+  :is(h1, h2, h3, h4, h5, h6) {
+  color: white !important;
+}
+
+.revstudio-refresh main > section:last-of-type p {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.revstudio-refresh main > section:last-of-type
+  :is(h1, h2, h3)
+  :is(span, em) {
+  color: #a98cff !important;
+}
+
+/* Footer */
+.revstudio-refresh footer {
+  border-color: var(--rev-line) !important;
+  background: white !important;
+  color: var(--rev-body) !important;
+}
+
+.revstudio-refresh footer a {
+  color: var(--rev-purple) !important;
+}
+
+/* Softer decorative background lines on white. */
+.revstudio-refresh
+  [class*="pointer-events-none"][class*="absolute"] {
+  opacity: 0.12 !important;
+}
+
+/* Mobile refinement */
+@media (max-width: 900px) {
+  .revstudio-refresh header,
+  .revstudio-refresh nav {
+    background: rgba(255, 255, 255, 0.98) !important;
+  }
+
+  .revstudio-refresh main > section {
+    background-color: white !important;
+  }
+
+  .revstudio-refresh main > section:nth-of-type(even) {
+    background: var(--rev-lavender) !important;
+  }
+}

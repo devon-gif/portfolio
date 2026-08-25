@@ -1,0 +1,14 @@
+import type { ReactNode } from "react";
+import "./revstudio-light.css";
+
+export default function RevstudioLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return (
+    <div className="revstudio-light-shell">
+      {children}
+    </div>
+  );
+}

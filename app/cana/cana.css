@@ -1,0 +1,295 @@
+.cana-theme {
+  --cana-ink: #171915;
+  --cana-ink-2: #22251f;
+  --cana-paper: #f3f0e8;
+  --cana-paper-2: #fbf8f1;
+  --cana-sand: #e7dfd1;
+  --cana-line: rgba(23, 25, 21, 0.16);
+  --cana-line-dark: rgba(255, 255, 255, 0.16);
+  --cana-soft: #655f55;
+  --cana-accent: #c85c3d;
+  --cana-accent-2: #df8a68;
+  --cana-warm: #b59b72;
+  --st-ink: #171915;
+  --st-ivory: #f7f2e8;
+  --st-line: rgba(23, 25, 21, 0.16);
+  --st-gold: #b59b72;
+  --st-gold-soft: #d9c39e;
+  --st-ink-soft: #655f55;
+  --st-ink-muted: #8b8479;
+  --st-sand: #eee7db;
+  --st-shadow: 0 26px 70px rgba(28, 24, 18, 0.13);
+  --st-shadow-soft: 0 12px 34px rgba(28, 24, 18, 0.1);
+  background: var(--cana-paper);
+  color: var(--cana-ink);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+.cana-theme *, .cana-theme *::before, .cana-theme *::after { box-sizing: border-box; }
+.cana-theme a { text-decoration: none; }
+.cana-theme h1, .cana-theme h2, .cana-theme h3, .cana-theme p { margin-top: 0; }
+.cana-theme h1, .cana-theme h2, .cana-theme .cana-display { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; }
+
+.cana-shell { width: min(1220px, calc(100% - 96px)); margin: 0 auto; }
+.cana-section { position: relative; padding: 112px 0; }
+.cana-light { background: var(--cana-paper-2); }
+.cana-sand { background: var(--cana-sand); }
+.cana-ink { background: var(--cana-ink); color: #f7f2e8; }
+
+.cana-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  min-height: 78px;
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+  align-items: center;
+  gap: 24px;
+  padding: 12px 44px;
+  color: #fff;
+  background: rgba(20, 22, 19, 0.96);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+}
+.cana-nav::after { content: ""; position: absolute; left: 0; bottom: -1px; width: 28%; height: 2px; background: linear-gradient(90deg, var(--cana-accent), var(--cana-accent-2)); }
+.cana-brand { display: flex; flex-direction: column; color: #fff; gap: 3px; }
+.cana-brand-main { font-weight: 800; font-size: 15px; letter-spacing: 0.06em; }
+.cana-brand-sub { color: rgba(255,255,255,.56); text-transform: uppercase; font-size: 9px; letter-spacing: .18em; }
+.cana-nav-links { display: flex; align-items: center; justify-content: center; gap: 34px; }
+.cana-nav-links a { color: rgba(255,255,255,.74); font-size: 13px; transition: color .2s ease; }
+.cana-nav-links a:hover { color: #fff; }
+.cana-nav-cta { justify-self: end; color: #fff; background: var(--cana-accent); border-radius: 999px; padding: 14px 21px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; box-shadow: 0 12px 34px rgba(200,92,61,.22); }
+
+.cana-hero { position: relative; min-height: 850px; display: flex; align-items: center; background: #111; color: white; isolation: isolate; }
+.cana-hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -3; }
+.cana-hero-overlay { position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg, rgba(13,15,13,.92) 0%, rgba(13,15,13,.76) 44%, rgba(13,15,13,.28) 76%, rgba(13,15,13,.58) 100%), linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.35)); }
+.cana-hero-fade { position: absolute; z-index: -1; left: 0; right: 0; bottom: 0; height: 190px; background: linear-gradient(180deg, transparent, rgba(13,15,13,.32)); pointer-events: none; }
+.cana-hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(320px, .55fr); gap: 76px; align-items: end; padding: 130px 0 94px; }
+.cana-hero-copy { max-width: 780px; }
+.cana-eyebrow { margin-bottom: 18px; text-transform: uppercase; letter-spacing: .22em; font-size: 10px; font-weight: 800; color: #f0b59d; }
+.cana-eyebrow.dark { color: #8b4a34; }
+.cana-hero h1 { margin: 0; max-width: 760px; font-size: clamp(54px, 6.2vw, 96px); line-height: .94; letter-spacing: -.035em; }
+.cana-hero-lead { max-width: 720px; margin: 28px 0 0; color: rgba(255,255,255,.78); font-size: 17px; line-height: 1.7; }
+.cana-hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+.cana-btn, .cana-btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 0 22px; border-radius: 999px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .07em; transition: transform .2s ease, background .2s ease, border-color .2s ease; }
+.cana-btn { background: var(--cana-accent); color: white; box-shadow: 0 13px 34px rgba(200,92,61,.27); }
+.cana-btn:hover, .cana-btn-ghost:hover { transform: translateY(-2px); }
+.cana-btn-ghost { border: 1px solid rgba(255,255,255,.34); color: white; background: rgba(255,255,255,.05); backdrop-filter: blur(8px); }
+.cana-hero-flow { display: grid; grid-template-columns: 1fr 1.1fr 1fr; gap: 0; margin-top: 38px; max-width: 760px; border: 1px solid rgba(255,255,255,.18); border-radius: 18px; overflow: hidden; background: rgba(14,16,13,.46); backdrop-filter: blur(14px); }
+.cana-hero-flow > div { padding: 16px 17px; min-height: 82px; display: flex; flex-direction: column; gap: 7px; justify-content: center; }
+.cana-hero-flow > div + div { border-left: 1px solid rgba(255,255,255,.14); }
+.cana-hero-flow strong { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; }
+.cana-hero-flow span { color: rgba(255,255,255,.62); font-size: 10px; line-height: 1.4; }
+.cana-flow-center { background: rgba(200,92,61,.13); }
+.cana-flow-center span { color: #f0b59d; text-transform: uppercase; letter-spacing: .12em; }
+.cana-hero-card { align-self: end; margin-bottom: 8px; padding: 31px; border-radius: 26px; color: #2a2925; background: rgba(248,244,236,.94); box-shadow: 0 30px 80px rgba(0,0,0,.25); backdrop-filter: blur(18px); }
+.cana-card-kicker { margin-bottom: 12px; color: #a84c34; text-transform: uppercase; letter-spacing: .18em; font-size: 9px; font-weight: 800; }
+.cana-hero-card h2 { margin: 0; font-size: 30px; line-height: 1.08; }
+.cana-hero-card > p:not(.cana-card-kicker) { margin: 19px 0 0; font-size: 13px; line-height: 1.7; color: #5f5b52; }
+.cana-card-rule { height: 1px; background: rgba(23,25,21,.16); margin: 23px 0 17px; }
+.cana-hero-card span { display: block; color: #81796d; font-size: 10px; line-height: 1.55; }
+
+.cana-context-strip { padding: 25px 0 28px; background: var(--cana-paper); border-bottom: 1px solid var(--cana-line); }
+.cana-context-strip .cana-shell { display: grid; grid-template-columns: 190px 1fr; gap: 28px; align-items: center; }
+.cana-context-strip p { margin: 0; color: #8b4a34; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .16em; }
+.cana-context-list { display: flex; gap: 12px 22px; align-items: center; flex-wrap: wrap; }
+.cana-context-list span { color: #58544d; font-size: 12px; }
+.cana-context-list span:not(:last-child)::after { content: "·"; margin-left: 22px; color: #b6aa99; }
+
+.cana-heading-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(280px, .62fr); gap: 84px; align-items: end; }
+.cana-heading-grid h2, .cana-display { margin: 0; max-width: 760px; font-size: clamp(40px, 4.5vw, 66px); line-height: 1.02; letter-spacing: -.025em; }
+.cana-heading-grid > p { margin: 0; max-width: 520px; color: #6b655b; font-size: 15px; line-height: 1.78; }
+.cana-heading-on-dark > p { color: rgba(255,255,255,.62); }
+.cana-copy-dark { margin: 25px 0 0; color: #5d574f; font-size: 15px; line-height: 1.8; max-width: 590px; }
+
+.cana-moments-grid { margin-top: 58px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--cana-line); border-left: 1px solid var(--cana-line); }
+.cana-moment-card { min-height: 190px; padding: 28px; border-right: 1px solid var(--cana-line); border-bottom: 1px solid var(--cana-line); }
+.cana-moment-card span { font-family: var(--font-fraunces), Georgia, serif; font-size: 27px; }
+.cana-moment-card p { margin: 16px 0 0; color: #716b62; font-size: 13px; line-height: 1.65; max-width: 30ch; }
+.cana-production-line { margin: 34px 0 0; color: #8b4a34; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .15em; }
+
+.cana-motion { background: #102019; color: #f7f2e8; }
+.cana-gallery-dark { --st-ink: #f7f2e8; --st-ivory: #101812; --st-line: rgba(255,255,255,.16); --st-gold: #df8a68; --st-gold-soft: #f0b59d; --st-ink-soft: rgba(255,255,255,.72); --st-ink-muted: rgba(255,255,255,.5); --st-sand: #1b2a22; --st-shadow: 0 28px 78px rgba(0,0,0,.35); --st-shadow-soft: 0 12px 36px rgba(0,0,0,.28); }
+.cana-gallery-light { --st-ink: #171915; --st-ivory: #f7f2e8; --st-line: rgba(23,25,21,.16); --st-gold: #c85c3d; --st-gold-soft: #df8a68; --st-ink-soft: #655f55; --st-ink-muted: #8b8479; --st-sand: #eee7db; }
+.cana-media-note { margin: 24px 0 0; font-size: 10px; color: rgba(255,255,255,.48); font-style: italic; }
+.cana-media-note.dark-note { color: #8f887d; }
+
+.cana-display { color: #f7f2e8; }
+.dark-display { color: var(--cana-ink); }
+.cana-fit-grid { margin-top: 58px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.cana-fit-card { padding: 30px; min-height: 420px; border-radius: 24px; border: 1px solid var(--cana-line-dark); background: linear-gradient(180deg, rgba(255,255,255,.065), rgba(255,255,255,.025)); }
+.cana-fit-top { display: flex; align-items: center; justify-content: space-between; color: #f0b59d; }
+.cana-fit-top span { font-size: 11px; letter-spacing: .18em; }
+.cana-fit-card h3 { margin: 42px 0 0; font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; font-size: 30px; line-height: 1.08; }
+.cana-fit-card p { margin: 20px 0 0; color: rgba(255,255,255,.62); font-size: 13px; line-height: 1.75; }
+.cana-tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.cana-tag-row span { border: 1px solid rgba(255,255,255,.16); border-radius: 999px; padding: 7px 10px; color: rgba(255,255,255,.7); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
+
+.cana-desk-grid { display: grid; grid-template-columns: .78fr 1.22fr; gap: 86px; align-items: center; }
+.cana-desk-grid h2 { margin: 0; font-size: clamp(42px,4.6vw,68px); line-height: 1.02; }
+.cana-desk-card { padding: 18px; border-radius: 28px; background: #f8f5ee; border: 1px solid rgba(23,25,21,.11); box-shadow: 0 24px 70px rgba(53,43,31,.12); display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.cana-desk-card > div:not(.cana-desk-flow) { padding: 24px; border-radius: 18px; background: white; border: 1px solid rgba(23,25,21,.09); display: flex; flex-direction: column; gap: 8px; }
+.cana-desk-card small { text-transform: uppercase; letter-spacing: .13em; color: #a0563d; font-size: 9px; font-weight: 800; }
+.cana-desk-card strong { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; font-size: 21px; }
+.cana-desk-flow { grid-column: 1 / -1; margin-top: 8px; padding: 17px 19px; border-radius: 16px; background: #172019; color: white; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.cana-desk-flow span { font-size: 9px; line-height: 1.3; text-transform: uppercase; letter-spacing: .11em; text-align: center; }
+.cana-desk-flow svg { color: #df8a68; flex: 0 0 auto; }
+
+.cana-phase-grid { margin-top: 56px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.cana-phase-card { padding: 29px; min-height: 320px; border-radius: 24px; background: #fff; border: 1px solid var(--cana-line); box-shadow: 0 18px 50px rgba(30,25,19,.06); }
+.cana-phase-card svg { color: #a84c34; }
+.cana-phase-card h3 { margin: 50px 0 0; font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; font-size: 30px; }
+.cana-phase-card ul, .cana-referral-grid ul { margin: 22px 0 0; padding: 0; list-style: none; }
+.cana-phase-card li, .cana-referral-grid li { position: relative; padding-left: 16px; margin: 9px 0; color: #6b655b; font-size: 12px; line-height: 1.45; }
+.cana-phase-card li::before, .cana-referral-grid li::before { content: ""; position: absolute; left: 0; top: .58em; width: 5px; height: 5px; border-radius: 50%; background: var(--cana-accent); }
+
+.cana-use-grid { margin-top: 52px; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--cana-line-dark); border-left: 1px solid var(--cana-line-dark); }
+.cana-use-grid article { min-height: 255px; padding: 27px; border-right: 1px solid var(--cana-line-dark); border-bottom: 1px solid var(--cana-line-dark); }
+.cana-use-grid svg { color: #f0b59d; }
+.cana-use-grid h3 { margin: 42px 0 0; font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; font-size: 24px; }
+.cana-use-grid p { margin: 15px 0 0; color: rgba(255,255,255,.58); font-size: 12px; line-height: 1.7; }
+.cana-pullquote { margin: 42px 0 0; max-width: 760px; font-family: var(--font-fraunces), Georgia, serif; font-size: 28px; line-height: 1.28; color: #f4ddd3; }
+
+.cana-referral-grid { margin-top: 56px; display: grid; grid-template-columns: 1fr 180px 1fr; gap: 22px; align-items: stretch; }
+.cana-referral-grid article { padding: 30px; border-radius: 24px; border: 1px solid var(--cana-line); background: #fff; }
+.cana-referral-head { display: flex; align-items: center; gap: 12px; color: #92472f; }
+.cana-referral-head span { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; }
+.cana-handshake { border-radius: 24px; background: var(--cana-ink); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; }
+.cana-handshake svg { color: #f0b59d; }
+.cana-handshake span { max-width: 100px; font-size: 9px; line-height: 1.4; text-transform: uppercase; letter-spacing: .12em; }
+.cana-fine-print { margin: 22px 0 0; color: #8b8479; font-size: 10px; line-height: 1.6; }
+.cana-fine-print.on-dark { color: rgba(255,255,255,.45); }
+
+.cana-project-flow { margin-top: 56px; display: grid; grid-template-columns: 1fr 42px 1fr 42px 1fr; gap: 14px; align-items: center; }
+.cana-project-flow > div { min-height: 210px; padding: 26px; border-radius: 22px; background: #f8f5ef; border: 1px solid rgba(23,25,21,.1); display: flex; flex-direction: column; justify-content: space-between; }
+.cana-project-flow strong { color: #91462f; font-size: 10px; letter-spacing: .15em; text-transform: uppercase; }
+.cana-project-flow span { color: #625c53; font-size: 13px; line-height: 1.7; }
+.cana-project-flow > svg { color: #9e8060; justify-self: center; }
+
+.cana-proof-grid { margin-top: 50px; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--cana-line-dark); border-left: 1px solid var(--cana-line-dark); }
+.cana-proof-grid article { min-height: 190px; padding: 27px; border-right: 1px solid var(--cana-line-dark); border-bottom: 1px solid var(--cana-line-dark); display: flex; flex-direction: column; justify-content: flex-end; }
+.cana-proof-grid svg { margin-bottom: auto; color: #f0b59d; }
+.cana-proof-grid strong { font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; font-size: 42px; }
+.cana-proof-grid span { margin-top: 6px; color: rgba(255,255,255,.54); font-size: 11px; }
+
+/* --- Fit-card key line (short takeaway under each "three ways" card) --- */
+.cana-fit-key { margin: 18px 0 0; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.14); color: #f0b59d; font-size: 12px; line-height: 1.6; font-style: italic; }
+
+/* --- Cana Creative Extension: vertical flow (Cana -> need -> Archer -> ongoing) --- */
+.cana-extension { margin: 60px auto 0; max-width: 620px; display: flex; flex-direction: column; align-items: center; }
+.cana-extension-node { width: 100%; padding: 28px 32px; border-radius: 22px; border: 1px solid rgba(23,25,21,.12); background: #fff; box-shadow: 0 18px 50px rgba(30,25,19,.06); text-align: center; }
+.cana-extension-node.is-ink { background: var(--cana-ink); color: #fff; border-color: rgba(255,255,255,.14); }
+.cana-extension-node.is-connector { background: transparent; box-shadow: none; border: none; padding: 4px 0; }
+.cana-extension-node strong { display: block; font-family: var(--font-fraunces), Georgia, serif; font-weight: 400; font-size: 23px; margin-bottom: 4px; }
+.cana-extension-connector-text { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .14em; color: #8b4a34; }
+.cana-extension-tags { margin-top: 15px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.cana-extension-tags span { border: 1px solid rgba(23,25,21,.14); border-radius: 999px; padding: 6px 12px; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: #6b655b; }
+.cana-extension-node.is-ink .cana-extension-tags span { border-color: rgba(255,255,255,.22); color: rgba(255,255,255,.75); }
+.cana-extension-arrow { color: #b59b72; margin: 6px 0; }
+.cana-extension-note { margin: 36px auto 0; max-width: 640px; text-align: center; color: #5d574f; font-size: 14px; line-height: 1.7; }
+
+/* --- Monthly production tier row (real Archer pricing, no invented numbers) --- */
+.cana-tier-row { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.cana-tier-row article { padding: 22px; border-radius: 18px; background: #fff; border: 1px solid rgba(23,25,21,.1); }
+.cana-tier-row strong { display: block; font-family: var(--font-fraunces), Georgia, serif; font-size: 27px; font-weight: 400; }
+.cana-tier-row em { display: block; margin-top: 2px; font-style: normal; font-size: 13px; color: #6b655b; }
+.cana-tier-row span { display: block; margin-top: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: #8b4a34; }
+
+/* --- Proposed recurring partner share (clearly labeled illustrative) --- */
+.cana-percent-wrap { margin-top: 46px; display: grid; grid-template-columns: 190px 1fr; gap: 34px; align-items: center; padding: 34px; border-radius: 26px; background: #fff; border: 1px solid rgba(23,25,21,.11); box-shadow: 0 24px 70px rgba(53,43,31,.1); }
+.cana-percent-num { display: flex; align-items: center; justify-content: center; gap: 4px; font-family: var(--font-fraunces), Georgia, serif; font-size: 40px; line-height: 1; color: var(--cana-accent); }
+.cana-percent-label { margin-top: 10px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; color: #8b4a34; line-height: 1.5; }
+.cana-percent-copy p { margin: 0; color: #5d574f; font-size: 14px; line-height: 1.75; }
+.cana-percent-terms { margin: 18px 0 0; color: #8b8479; font-size: 11px; line-height: 1.65; }
+
+/* --- White-label / behind-the-scenes option (secondary, lighter weight) --- */
+.cana-whitelabel { margin-top: 40px; padding: 30px; border-radius: 22px; background: #f8f5ee; border: 1px solid rgba(23,25,21,.09); }
+.cana-whitelabel p { margin: 0; color: #5d574f; font-size: 14px; line-height: 1.75; max-width: 660px; }
+.cana-whitelabel .cana-tag-row { margin-top: 20px; }
+.cana-whitelabel .cana-tag-row span { border-color: rgba(23,25,21,.16); color: #6b655b; }
+
+.cana-final { padding: 130px 0; background: #f6f0e7; }
+.cana-final-inner { max-width: 850px; text-align: center; }
+.cana-final h2 { margin: 0; font-size: clamp(48px, 6vw, 82px); line-height: .98; }
+.cana-final p:not(.cana-eyebrow) { max-width: 660px; margin: 25px auto 0; color: #655f55; font-size: 15px; line-height: 1.78; }
+.final-actions { justify-content: center; }
+.dark-btn { color: white; }
+.light-ghost { color: #34312c; border-color: rgba(23,25,21,.22); background: transparent; }
+
+.cana-footer { padding: 42px 0; background: #121411; color: rgba(255,255,255,.54); }
+.cana-footer .cana-shell { display: grid; grid-template-columns: 220px 1fr 220px; gap: 34px; align-items: start; }
+.cana-footer div > div { display: flex; flex-direction: column; gap: 5px; }
+.cana-footer strong { color: white; font-size: 11px; letter-spacing: .1em; }
+.cana-footer span { font-size: 9px; text-transform: uppercase; letter-spacing: .13em; }
+.cana-footer p { margin: 0; font-size: 9px; line-height: 1.7; }
+.cana-footer p:last-child { text-align: right; }
+
+@media (max-width: 1080px) {
+  .cana-shell { width: min(100% - 56px, 1120px); }
+  .cana-nav { grid-template-columns: 1fr auto; padding-inline: 28px; }
+  .cana-nav-links { display: none; }
+  .cana-hero-inner { grid-template-columns: 1fr .52fr; gap: 40px; }
+  .cana-hero-flow { grid-template-columns: 1fr; }
+  .cana-hero-flow > div + div { border-left: 0; border-top: 1px solid rgba(255,255,255,.14); }
+  .cana-fit-grid, .cana-phase-grid { grid-template-columns: 1fr 1fr; }
+  .cana-use-grid { grid-template-columns: 1fr 1fr; }
+  .cana-proof-grid { grid-template-columns: 1fr 1fr; }
+  .cana-footer .cana-shell { grid-template-columns: 1fr 1.4fr; }
+  .cana-footer p:last-child { grid-column: 1 / -1; text-align: left; }
+  .cana-tier-row { grid-template-columns: 1fr 1fr; }
+  .cana-percent-wrap { grid-template-columns: 150px 1fr; }
+}
+
+@media (max-width: 760px) {
+  .cana-shell { width: calc(100% - 34px); }
+  .cana-section { padding: 82px 0; }
+  .cana-nav { min-height: 66px; padding: 10px 16px; }
+  .cana-brand-sub { display: none; }
+  .cana-nav-cta { padding: 12px 14px; font-size: 9px; }
+  .cana-hero { min-height: 900px; align-items: flex-end; }
+  .cana-hero-inner { grid-template-columns: 1fr; gap: 30px; padding: 110px 0 46px; }
+  .cana-hero h1 { font-size: clamp(48px, 13vw, 70px); }
+  .cana-hero-lead { font-size: 15px; }
+  .cana-hero-card { padding: 24px; }
+  .cana-hero-card h2 { font-size: 26px; }
+  .cana-context-strip .cana-shell { grid-template-columns: 1fr; gap: 12px; }
+  .cana-context-list { gap: 9px 14px; }
+  .cana-context-list span::after { display: none; }
+  .cana-heading-grid, .cana-desk-grid { grid-template-columns: 1fr; gap: 28px; }
+  .cana-heading-grid h2, .cana-display, .cana-desk-grid h2 { font-size: 44px; }
+  .cana-moments-grid { grid-template-columns: 1fr 1fr; }
+  .cana-fit-grid, .cana-phase-grid { grid-template-columns: 1fr; }
+  .cana-fit-card { min-height: 0; }
+  .cana-desk-card { grid-template-columns: 1fr; }
+  .cana-desk-flow { grid-column: auto; flex-direction: column; }
+  .cana-desk-flow svg { transform: rotate(90deg); }
+  .cana-use-grid { grid-template-columns: 1fr; }
+  .cana-referral-grid { grid-template-columns: 1fr; }
+  .cana-handshake { min-height: 120px; }
+  .cana-project-flow { grid-template-columns: 1fr; }
+  .cana-project-flow > svg { transform: rotate(90deg); }
+  .cana-project-flow > div { min-height: 175px; }
+  .cana-proof-grid { grid-template-columns: 1fr 1fr; }
+  .cana-final { padding: 90px 0; }
+  .cana-final h2 { font-size: 52px; }
+  .cana-footer .cana-shell { grid-template-columns: 1fr; }
+  .cana-footer p:last-child { grid-column: auto; }
+  .cana-tier-row { grid-template-columns: 1fr; }
+  .cana-percent-wrap { grid-template-columns: 1fr; text-align: center; }
+  .cana-extension-node { padding: 22px; }
+}
+
+@media (max-width: 480px) {
+  .cana-brand-main { font-size: 12px; }
+  .cana-nav-cta { font-size: 8px; padding: 11px 12px; }
+  .cana-moments-grid, .cana-proof-grid { grid-template-columns: 1fr; }
+  .cana-hero-actions { flex-direction: column; align-items: stretch; }
+  .cana-btn, .cana-btn-ghost { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cana-theme *, .cana-theme *::before, .cana-theme *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+  .cana-hero-video { display: none; }
+  .cana-hero { background: #151814; }
+}

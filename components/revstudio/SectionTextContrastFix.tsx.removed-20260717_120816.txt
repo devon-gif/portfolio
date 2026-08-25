@@ -1,0 +1,521 @@
+"use client";
+
+import { useEffect } from "react";
+
+const SECTION_PHRASES = [
+  "How the work moves",
+  "Strategy identifies the opportunity",
+  "One commercial priority. Two specialist layers",
+  "Two types of proof. One coordinated model",
+  "Most hotels see the opportunity long before the campaign exists",
+];
+
+function normalizeText(element: Element) {
+  return (element.textContent || "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function forceStyle(
+  element: HTMLElement,
+  property: string,
+  value: string,
+) {
+  element.style.setProperty(
+    property,
+    value,
+    "important",
+  );
+}
+
+function parseColor(color: string) {
+  const match = color.match(
+    /rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+))?/i,
+  );
+
+  if (!match) {
+    return null;
+  }
+
+  return {
+    red: Number(match[1]),
+    green: Number(match[2]),
+    blue: Number(match[3]),
+    alpha:
+      match[4] === undefined
+        ? 1
+        : Number(match[4]),
+  };
+}
+
+function brightness(
+  red: number,
+  green: number,
+  blue: number,
+) {
+  return (
+    red * 0.299 +
+    green * 0.587 +
+    blue * 0.114
+  ) / 255;
+}
+
+function hasDarkSurface(
+  element: HTMLElement,
+  section: HTMLElement,
+) {
+  let current = element.parentElement;
+
+  while (current && current !== section) {
+    const style =
+      window.getComputedStyle(current);
+
+    const parsed = parseColor(
+      style.backgroundColor,
+    );
+
+    if (
+      parsed &&
+      parsed.alpha > 0.18 &&
+      brightness(
+        parsed.red,
+        parsed.green,
+        parsed.blue,
+      ) < 0.52
+    ) {
+      return true;
+    }
+
+    const className =
+      typeof current.className === "string"
+        ? current.className.toLowerCase()
+        : "";
+
+    if (
+      className.includes("bg-black") ||
+      className.includes("bg-zinc-9") ||
+      className.includes("bg-neutral-9") ||
+      className.includes("bg-slate-9")
+    ) {
+      return true;
+    }
+
+    const borderRadius =
+      Number.parseFloat(
+        style.borderRadius,
+      ) || 0;
+
+    const textColor = parseColor(
+      style.color,
+    );
+
+    /*
+      Detect dark gradient cards whose computed
+      background color remains transparent.
+    */
+    if (
+      style.backgroundImage !== "none" &&
+      borderRadius >= 12 &&
+      textColor &&
+      brightness(
+        textColor.red,
+        textColor.green,
+        textColor.blue,
+      ) > 0.68
+    ) {
+      return true;
+    }
+
+    current = current.parentElement;
+  }
+
+  return false;
+}
+
+function isMediaOverlay(
+  element: HTMLElement,
+  section: HTMLElement,
+) {
+  let current = element.parentElement;
+
+  while (current && current !== section) {
+    const tag =
+      current.tagName.toLowerCase();
+
+    if (
+      tag === "figure" ||
+      tag === "picture"
+    ) {
+      return true;
+    }
+
+    try {
+      if (
+        current.querySelector(
+          ":scope > img, :scope > video, :scope > picture",
+        )
+      ) {
+        return true;
+      }
+    } catch {
+      // Older selector engines can ignore :scope.
+    }
+
+    current = current.parentElement;
+  }
+
+  return false;
+}
+
+function forceText(
+  element: HTMLElement,
+  color: string,
+) {
+  forceStyle(element, "color", color);
+
+  forceStyle(
+    element,
+    "-webkit-text-fill-color",
+    color,
+  );
+
+  forceStyle(
+    element,
+    "background-image",
+    "none",
+  );
+
+  forceStyle(
+    element,
+    "background-clip",
+    "border-box",
+  );
+
+  forceStyle(
+    element,
+    "-webkit-background-clip",
+    "border-box",
+  );
+
+  forceStyle(element, "opacity", "1");
+  forceStyle(element, "filter", "none");
+
+  forceStyle(
+    element,
+    "mix-blend-mode",
+    "normal",
+  );
+
+  forceStyle(
+    element,
+    "text-shadow",
+    "none",
+  );
+
+  forceStyle(
+    element,
+    "visibility",
+    "visible",
+  );
+}
+
+function findTargetSections() {
+  const candidates = Array.from(
+    document.querySelectorAll<HTMLElement>(
+      "h1, h2, h3, p, blockquote",
+    ),
+  );
+
+  const sections = new Set<HTMLElement>();
+
+  for (const phrase of SECTION_PHRASES) {
+    const match = candidates.find(
+      (element) =>
+        normalizeText(element)
+          .toLowerCase()
+          .includes(
+            phrase.toLowerCase(),
+          ),
+    );
+
+    if (!match) {
+      continue;
+    }
+
+    const section =
+      (match.closest("section") as
+        | HTMLElement
+        | null) ||
+      match.parentElement;
+
+    if (section) {
+      sections.add(section);
+    }
+  }
+
+  return Array.from(sections);
+}
+
+function applySectionContrast() {
+  const sections = findTargetSections();
+
+  for (const section of sections) {
+    /*
+      A faded parent makes every child appear pale,
+      even when the child has a dark color.
+    */
+    section.style.setProperty(
+      "opacity",
+      "1",
+      "important",
+    );
+
+    section.style.setProperty(
+      "filter",
+      "none",
+      "important",
+    );
+
+    section
+      .querySelectorAll<HTMLElement>("*")
+      .forEach((element) => {
+        forceStyle(
+          element,
+          "opacity",
+          "1",
+        );
+
+        forceStyle(
+          element,
+          "filter",
+          "none",
+        );
+
+        forceStyle(
+          element,
+          "visibility",
+          "visible",
+        );
+      });
+
+    const textElements =
+      section.querySelectorAll<HTMLElement>(
+        [
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "p",
+          "span",
+          "small",
+          "strong",
+          "em",
+          "li",
+          "dt",
+          "dd",
+          "blockquote",
+          "figcaption",
+          "label",
+          "a",
+          "button",
+        ].join(","),
+      );
+
+    textElements.forEach((element) => {
+      if (
+        isMediaOverlay(
+          element,
+          section,
+        )
+      ) {
+        return;
+      }
+
+      const darkSurface =
+        hasDarkSurface(
+          element,
+          section,
+        );
+
+      const style =
+        window.getComputedStyle(element);
+
+      const fontSize =
+        Number.parseFloat(
+          style.fontSize,
+        ) || 16;
+
+      const tag =
+        element.tagName.toLowerCase();
+
+      const className =
+        typeof element.className === "string"
+          ? element.className.toLowerCase()
+          : "";
+
+      const isLabel =
+        className.includes("uppercase") ||
+        className.includes("tracking");
+
+      const isHeading =
+        /^h[1-6]$/.test(tag) ||
+        fontSize >= 28;
+
+      const button =
+        element.closest(
+          "a, button",
+        ) as HTMLElement | null;
+
+      if (button) {
+        const buttonDark =
+          hasDarkSurface(
+            button,
+            section,
+          );
+
+        forceText(
+          element,
+          buttonDark
+            ? "#ffffff"
+            : "#342f38",
+        );
+
+        return;
+      }
+
+      if (darkSurface) {
+        if (isLabel) {
+          forceText(
+            element,
+            "#c5afff",
+          );
+        } else if (isHeading) {
+          forceText(
+            element,
+            "#ffffff",
+          );
+        } else {
+          forceText(
+            element,
+            "rgba(255,255,255,0.82)",
+          );
+        }
+
+        return;
+      }
+
+      if (isLabel) {
+        forceText(
+          element,
+          "#5B21F5",
+        );
+      } else if (isHeading) {
+        forceText(
+          element,
+          "#2d2930",
+        );
+      } else {
+        forceText(
+          element,
+          "#514b56",
+        );
+      }
+    });
+  }
+}
+
+export default function SectionTextContrastFix() {
+  useEffect(() => {
+    let frame = 0;
+
+    const apply = () => {
+      window.cancelAnimationFrame(frame);
+
+      frame = window.requestAnimationFrame(
+        applySectionContrast,
+      );
+    };
+
+    /*
+      Apply repeatedly because some sections receive
+      opacity and text styles only when scrolled into view.
+    */
+    const timers = [
+      window.setTimeout(apply, 50),
+      window.setTimeout(apply, 300),
+      window.setTimeout(apply, 800),
+      window.setTimeout(apply, 1500),
+      window.setTimeout(apply, 2800),
+    ];
+
+    const interval =
+      window.setInterval(
+        apply,
+        1400,
+      );
+
+    const stopInterval =
+      window.setTimeout(() => {
+        window.clearInterval(interval);
+      }, 18000);
+
+    const observer =
+      new MutationObserver(apply);
+
+    observer.observe(
+      document.body,
+      {
+        childList: true,
+        subtree: true,
+      },
+    );
+
+    window.addEventListener(
+      "scroll",
+      apply,
+      { passive: true },
+    );
+
+    window.addEventListener(
+      "resize",
+      apply,
+    );
+
+    window.addEventListener(
+      "load",
+      apply,
+    );
+
+    apply();
+
+    return () => {
+      timers.forEach(
+        window.clearTimeout,
+      );
+
+      window.clearInterval(interval);
+      window.clearTimeout(stopInterval);
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+
+      window.removeEventListener(
+        "scroll",
+        apply,
+      );
+
+      window.removeEventListener(
+        "resize",
+        apply,
+      );
+
+      window.removeEventListener(
+        "load",
+        apply,
+      );
+    };
+  }, []);
+
+  return null;
+}

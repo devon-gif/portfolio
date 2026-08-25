@@ -90,6 +90,7 @@ tsconfig.v9.json
 # Local build/test artifacts
 .next-build/
 .next-build2/
+.next-build*/
 dev.log
 build-error.txt
 
@@ -106,3 +107,10 @@ vercel-deploy.log
 dev.log
 build-error.txt
 vercel-deploy.log
+
+asset-backup/
+public/Screenshot 2026-*.png
+
+# Stray Next build output (sandbox verify)
+/tmp/
+tmp/

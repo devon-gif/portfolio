@@ -4,5 +4,11 @@
       "path": "/api/send-due",
       "schedule": "*/15 13-23 * * 1-5"
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/archer-preview/index.html"
+    }
   ]
 }

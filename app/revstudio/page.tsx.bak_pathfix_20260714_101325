@@ -1,0 +1,678 @@
+import type { Metadata } from "next";
+import { JsonLd } from "@/components/marketing/JsonLd";
+import { fraunces } from "@/components/marketing/studioFont";
+import { absoluteUrl, faqJsonLd, serviceJsonLd } from "@/lib/seo";
+import { isRevstudioPageApproved, REVSTUDIO_FALLBACK_MAILTO } from "@/lib/revstudio";
+import { JointPartnerHeader } from "@/components/marketing/revstudio/JointPartnerHeader";
+import { JointFooter } from "@/components/marketing/revstudio/JointFooter";
+import { RevstudioHeroVideo } from "@/components/marketing/revstudio/RevstudioHeroVideo";
+import { TrackedBookingLink } from "@/components/marketing/revstudio/TrackedBookingLink";
+import { PartnershipFAQ } from "@/components/marketing/revstudio/PartnershipFAQ";
+import { Reveal } from "@/components/marketing/revstudio/Reveal";
+import {
+  HERO,
+  OPPORTUNITY,
+  RESULTS,
+  MODEL,
+  PROCESS,
+  USE_CASES,
+  AGENCIES,
+  HOTELS,
+  PORTFOLIO,
+  PRICING,
+  PILOT,
+  PARTNERS,
+  FAQ,
+  FINAL_CTA,
+} from "@/lib/revstudio-content";
+import { HOSPITALITY_LOGOS } from "@/lib/revstudio-logos";
+
+const PAGE_TITLE = "The Revstudio × Archer Design | Hotel Revenue Operations & Creative Execution";
+const PAGE_DESCRIPTION =
+  "The Revstudio keeps a hotel's commercial side moving: distribution, channels, rate parity, and reporting. Archer Design turns those priorities into finished campaigns. One connected path from revenue priority to finished campaign.";
+const OG_IMAGE = absoluteUrl("/revstudio/media/revstudio-hotel-hero-poster.jpg");
+
+const approved = isRevstudioPageApproved();
+
+// Renders one stage of the Opportunity section's execution-gap process.
+// Stage 04 gets a two-tone "meeting" node since it's where the two
+// partners' work converges back into one guest-facing result.
+function renderOpStage(s: (typeof OPPORTUNITY.stages)[number]) {
+  const nodeClass = s.index === "04" ? "op-node-meeting" : `op-node-${s.owner}`;
+  return (
+    <div key={s.index} className={`op-stage op-stage-${s.owner}`}>
+      <span className={`op-node ${nodeClass}`} aria-hidden="true" />
+      <p className="op-stage-index">{s.index}</p>
+      <h3 className="op-stage-label">{s.label}</h3>
+      <p className="op-stage-desc">{s.description}</p>
+      {s.owner !== "shared" && (
+        <p className="op-stage-owner">
+          <span className="op-owner-dot" aria-hidden="true" />
+          {s.owner === "revstudio" ? "The Revstudio · Commercial execution" : "Archer Design · Creative execution"}
+        </p>
+      )}
+    </div>
+  );
+}
+
+export const metadata: Metadata = {
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: absoluteUrl("/revstudio") },
+  openGraph: {
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    url: absoluteUrl("/revstudio"),
+    images: [{ url: OG_IMAGE, width: 1664, height: 1248, alt: "A hotel property, isolated at night, from The Revstudio's hero video" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    images: [OG_IMAGE],
+  },
+  // Early/unapproved page, noindex until REVSTUDIO_PAGE_APPROVED=true.
+  robots: approved
+    ? { index: true, follow: true }
+    : { index: false, follow: false, nocache: true },
+};
+
+export default function RevstudioPage() {
+  return (
+    <div id="top" className={`${fraunces.variable} revstudio-theme relative min-h-screen`}>
+      <JsonLd
+        data={[
+          serviceJsonLd({
+            name: "The Revstudio × Archer Design, Hotel Revenue Operations & Creative Execution",
+            description: PAGE_DESCRIPTION,
+            path: "/revstudio",
+            serviceType: "Hotel revenue management, distribution operations, and hospitality creative execution",
+          }),
+          faqJsonLd(FAQ),
+        ]}
+      />
+
+      <div
+        className="pointer-events-none fixed inset-0 -z-10 bg-cover bg-top bg-no-repeat opacity-90"
+        style={{ backgroundImage: "url('/revstudio/media/Background.png')" }}
+        aria-hidden="true"
+      />
+      <div className="rv-ops-field pointer-events-none absolute inset-x-0 top-0 h-[900px]" aria-hidden="true" />
+
+      <JointPartnerHeader />
+
+      {/* ============================================================
+          HERO
+          ============================================================ */}
+      <section className="relative overflow-hidden px-6 sm:px-8 lg:px-10 pb-20 pt-14 md:pb-28 md:pt-20">
+        <div className="mx-auto grid max-w-[96rem] items-center gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14 xl:gap-20">
+          <Reveal>
+            <p className="rv-kicker">{HERO.eyebrow}</p>
+            <h1 className="mt-4 font-serif text-[2.5rem] leading-[1.08] text-[var(--rv-ink)] sm:text-[3.1rem] lg:text-[3.3rem]">
+              {HERO.headline}
+            </h1>
+            <p className="mt-6 max-w-[46ch] text-[15.5px] leading-relaxed text-[var(--rv-ink-soft)]">{HERO.supporting}</p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <TrackedBookingLink variant="hero" className="rv-btn px-6 py-3.5 text-[13.5px]">
+                {HERO.primaryCta}
+              </TrackedBookingLink>
+              <a href="#model" className="rv-btn-ghost px-6 py-3.5 text-[13.5px]">
+                {HERO.secondaryCta}
+              </a>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-2.5">
+              {HERO.pills.map((p) => (
+                <span key={p} className="rv-chip">
+                  {p}
+                </span>
+              ))}
+            </div>
+
+            <p className="mt-8 flex items-center gap-3 text-[12.5px] italic text-[var(--rv-ink-muted)]">
+              <span className="h-px w-7 bg-[var(--rv-blue)]" aria-hidden="true" />
+              {HERO.italicLine}
+            </p>
+          </Reveal>
+
+          <Reveal delay={2} className="mx-auto w-full max-w-xl lg:max-w-none">
+            <div className="rv-hero-stage">
+              <span className="rv-hero-corner rv-hero-corner-tl" aria-hidden="true" />
+              <span className="rv-hero-corner rv-hero-corner-br" aria-hidden="true" />
+              <RevstudioHeroVideo />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ============================================================
+          THE OPPORTUNITY: editorial intro + execution-gap infographic
+          ============================================================ */}
+      <section id="opportunity" className="scroll-mt-24 border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <Reveal className="max-w-2xl">
+            <p className="rv-kicker">{OPPORTUNITY.eyebrow}</p>
+            <h2 className="mt-4 font-serif text-[2rem] leading-[1.15] text-[var(--rv-ink)] sm:text-[2.5rem]">{OPPORTUNITY.headline}</h2>
+            <p className="mt-5 text-[15px] leading-relaxed text-[var(--rv-ink-soft)]">{OPPORTUNITY.body}</p>
+            <p className="mt-6 font-serif text-[1.05rem] italic leading-relaxed text-[var(--rv-ink)] sm:text-[1.2rem]">{OPPORTUNITY.bridge}</p>
+          </Reveal>
+
+          <Reveal delay={1} className="op-frame mt-12 p-7 sm:p-9 lg:p-10">
+            <div className="op-track">
+              {renderOpStage(OPPORTUNITY.stages[0])}
+              <span className="op-connector op-connector-revstudio" aria-hidden="true" />
+              {renderOpStage(OPPORTUNITY.stages[1])}
+
+              <div className="op-gap">
+                <span className="op-gap-node op-gap-fade" aria-hidden="true" />
+                <p className="op-gap-label op-gap-fade">{OPPORTUNITY.gap.label}</p>
+                <p className="op-gap-body op-gap-fade">{OPPORTUNITY.gap.body}</p>
+              </div>
+
+              {renderOpStage(OPPORTUNITY.stages[2])}
+              <span className="op-connector op-connector-archer" aria-hidden="true" />
+              {renderOpStage(OPPORTUNITY.stages[3])}
+            </div>
+          </Reveal>
+
+          <Reveal delay={2} className="op-frame mt-8 p-7 sm:p-9">
+            <div className="grid gap-8 md:grid-cols-[1fr_auto_1fr] md:items-center">
+              <div className="op-conclusion-revstudio">
+                <p className="rv-kicker">The Revstudio</p>
+                <p className="op-conclusion-text">{OPPORTUNITY.conclusion.revstudio}</p>
+              </div>
+              <div className="op-conclusion-center">
+                <span className="op-conclusion-line" aria-hidden="true" />
+                <span className="op-badge">{OPPORTUNITY.conclusion.badge}</span>
+              </div>
+              <div className="op-conclusion-archer">
+                <p className="rv-kicker">Archer Design</p>
+                <p className="op-conclusion-text">{OPPORTUNITY.conclusion.archer}</p>
+              </div>
+            </div>
+            <p className="op-conclusion-closing">{OPPORTUNITY.conclusion.closing}</p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ============================================================
+          RESULTS: two separately attributed proof sets
+          ============================================================ */}
+      <section id="results" className="scroll-mt-24 relative overflow-hidden border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-20 md:py-28">
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: "radial-gradient(55% 55% at 50% 0%, rgba(150,104,215,0.06), transparent 70%)" }}
+          aria-hidden="true"
+        />
+        <div className="relative mx-auto max-w-6xl">
+          <Reveal className="max-w-2xl">
+            <p className="rv-kicker">{RESULTS.eyebrow}</p>
+            <h2 className="mt-4 font-serif text-[2rem] leading-[1.15] text-[var(--rv-ink)] sm:text-[2.5rem]">{RESULTS.headline}</h2>
+            <p className="mt-5 text-[15px] leading-relaxed text-[var(--rv-ink-soft)]">{RESULTS.body}</p>
+          </Reveal>
+
+          <Reveal delay={1} className="rs-frame mt-12 p-7 sm:p-9 lg:p-10">
+            <div className="grid gap-10 md:grid-cols-[1fr_auto_1fr] md:gap-8">
+              <div className="rs-revstudio">
+                <p className="rv-kicker">{RESULTS.revstudio.name}</p>
+                <p className="rs-side-tag">{RESULTS.revstudio.tag}</p>
+                <div className="rs-stats">
+                  {RESULTS.revstudio.stats.map((stat) => (
+                    <div key={stat.label} className="rs-stat">
+                      <p className="rs-value">{stat.value}</p>
+                      <span className="rs-rule" aria-hidden="true" />
+                      <p className="rs-label">{stat.label}</p>
+                      {stat.sublabel && <p className="rs-sublabel">{stat.sublabel}</p>}
+                    </div>
+                  ))}
+                </div>
+                <p className="rs-disclaimer">{RESULTS.revstudio.disclaimer}</p>
+              </div>
+
+              <div className="rs-bridge">
+                <span className="rs-bridge-line" aria-hidden="true" />
+                <span className="rs-bridge-word rs-bridge-word-revstudio">{RESULTS.bridge.top}</span>
+                <span className="rs-bridge-plus" aria-hidden="true">+</span>
+                <span className="rs-bridge-word rs-bridge-word-archer">{RESULTS.bridge.bottom}</span>
+              </div>
+
+              <div className="rs-archer">
+                <p className="rv-kicker">{RESULTS.archer.name}</p>
+                <p className="rs-side-tag">{RESULTS.archer.tag}</p>
+                <div className="rs-stats">
+                  {RESULTS.archer.stats.map((stat) => (
+                    <div key={stat.label} className="rs-stat">
+                      <p className="rs-value">{stat.value}</p>
+                      <span className="rs-rule" aria-hidden="true" />
+                      <p className="rs-label">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+                <p className="rs-disclaimer">{RESULTS.archer.disclaimer}</p>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={2} className="mt-6 text-center">
+            <p className="mx-auto max-w-2xl text-[12.5px] leading-relaxed text-[var(--rv-ink-muted)]">{RESULTS.bridgeNote}</p>
+          </Reveal>
+
+          <Reveal delay={3} className="mt-16">
+            <p className="rv-kicker text-center">{RESULTS.logosHeading}</p>
+            <div className="rs-logos mt-7">
+              {HOSPITALITY_LOGOS.filter((logo) => logo.approved).map((logo) => (
+                <img key={logo.name} src={logo.src} alt={logo.alt} loading="lazy" />
+              ))}
+            </div>
+            <p className="mx-auto mt-5 max-w-2xl text-center text-[11px] leading-relaxed text-[var(--rv-ink-muted)]">{RESULTS.logosDisclaimer}</p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ============================================================
+          THE COMBINED MODEL
+          ============================================================ */}
+      <section id="model" className="scroll-mt-24 relative overflow-hidden border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-20 md:py-28">
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: "radial-gradient(55% 55% at 50% 20%, rgba(150,104,215,0.07), transparent 70%)" }}
+          aria-hidden="true"
+        />
+        <div className="relative mx-auto max-w-6xl">
+          <Reveal className="max-w-2xl">
+            <p className="rv-kicker">{MODEL.eyebrow}</p>
+            <h2 className="mt-4 font-serif text-[2rem] leading-[1.15] text-[var(--rv-ink)] sm:text-[2.5rem]">{MODEL.headline}</h2>
+          </Reveal>
+
+          <div className="mt-14 grid items-stretch gap-10 lg:grid-cols-[1fr_auto_1fr]">
+            <Reveal delay={1} id="revenue-operations" className="scroll-mt-24 rv-card p-7 sm:p-8">
+              <h3 className="font-serif text-[18px] text-[var(--rv-ink)]">{MODEL.revstudio.name}</h3>
+              <p className="rv-kicker mt-1">{MODEL.revstudio.tag}</p>
+              <span className="rv-hline my-5" aria-hidden="true" />
+              <ul className="flex flex-col gap-3 text-[13.5px] leading-relaxed text-[var(--rv-ink-soft)]">
+                {MODEL.revstudio.items.map((item) => (
+                  <li key={item} className="flex gap-2.5">
+                    <span className="mt-[7px] h-[3px] w-[3px] shrink-0 rounded-full bg-[var(--rv-blue-bright)]" aria-hidden="true" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+
+            <div className="hidden lg:block rv-vline" aria-hidden="true" />
+            <div className="rv-hline lg:hidden" aria-hidden="true" />
+
+            <Reveal delay={2} id="creative-execution" className="scroll-mt-24 rv-card p-7 sm:p-8">
+              <h3 className="font-serif text-[18px] text-[var(--rv-ink)]">{MODEL.archer.name}</h3>
+              <p className="rv-kicker mt-1">{MODEL.archer.tag}</p>
+              <span className="rv-hline my-5" aria-hidden="true" />
+              <ul className="flex flex-col gap-3 text-[13.5px] leading-relaxed text-[var(--rv-ink-soft)]">
+                {MODEL.archer.items.map((item) => (
+                  <li key={item} className="flex gap-2.5">
+                    <span className="mt-[7px] h-[3px] w-[3px] shrink-0 rounded-full bg-[var(--rv-blue-bright)]" aria-hidden="true" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+
+          <Reveal delay={3} className="mt-10 text-center">
+            <p className="mx-auto max-w-2xl font-serif text-[1.15rem] italic leading-relaxed text-[var(--rv-ink-soft)]">{MODEL.bridge}</p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ============================================================
+          HOW IT WORKS
+          ============================================================ */}
+      <section id="how-it-works" className="scroll-mt-24 border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <Reveal className="max-w-2xl">
+            <p className="rv-kicker">How it works</p>
+            <h2 className="mt-4 font-serif text-[2rem] leading-[1.15] text-[var(--rv-ink)] sm:text-[2.5rem]">{PROCESS.headline}</h2>
+          </Reveal>
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {PROCESS.stages.map((s, i) => (
+              <Reveal key={s.n} delay={((i % 4) + 1) as 1 | 2 | 3 | 4} className="rv-panel p-6">
+                <span className="font-serif text-[1.4rem] text-[var(--rv-blue-bright)]">{s.n}</span>
+                <h3 className="mt-3 font-serif text-[15px] text-[var(--rv-ink)]">{s.t}</h3>
+                <p className="mt-2 text-[12.5px] leading-relaxed text-[var(--rv-ink-soft)]">{s.d}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          IN PRACTICE
+          ============================================================ */}
+      <section id="practice" className="scroll-mt-24 border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <Reveal className="max-w-2xl">
+            <p className="rv-kicker">In practice</p>
+            <h2 className="mt-4 font-serif text-[2rem] leading-[1.15] text-[var(--rv-ink)] sm:text-[2.5rem]">{USE_CASES.headline}</h2>
+          </Reveal>
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2">
+            {USE_CASES.items.map((u, i) => (
+              <Reveal key={u.t} delay={((i % 2) + 1) as 1 | 2} className="rv-card p-7">
+                <h3 className="font-serif text-[16px] text-[var(--rv-ink)]">{u.t}</h3>
+                <p className="mt-3 text-[13.5px] leading-relaxed text-[var(--rv-ink-soft)]">{u.d}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          THE ACTIVATION LAYER, visual proof that commercial signal
+          becomes guest-facing creative. Real local Archer Design work
+          only; no invented clients, no invented performance claims.
+          ============================================================ */}
+      <section id="activation-layer" className="scroll-mt-24 border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <Reveal className="max-w-2xl">
+            <p className="rv-kicker">The activation layer</p>
+            <h2 className="mt-4 font-serif text-[2rem] leading-[1.15] text-[var(--rv-ink)] sm:text-[2.5rem]">
+              When the commercial priority is clear, the creative should be ready.
+            </h2>
+            <p className="mt-5 text-[15px] leading-relaxed text-[var(--rv-ink-soft)]">
+              Revenue operations surfaces where the demand is. Archer Design turns that signal into the property
+              motion, campaign visuals, and seasonal creative a hotel actually runs, on-site, on social, and in
+              print. A sample of that work, drawn from active engagements across the portfolio.
+            </p>
+          </Reveal>
+
+          <Reveal delay={2} className="am-mosaic mt-12">
+            <div className="am-item am-feature">
+              <video src="/archer-preview/motion/pendry-hotel-entrance-night.mp4" autoPlay muted loop playsInline preload="metadata" aria-label="Property motion, hotel entrance at night" />
+              <div className="am-cap">
+                <span className="am-cap-idx">01</span>
+                <span className="am-cap-label">Property motion</span>
+              </div>
+            </div>
+
+            <div className="am-item am-tall">
+              <img src="/Image%202.png" alt="Hotel Indigo direct-booking campaign design" loading="lazy" />
+              <div className="am-cap">
+                <span className="am-cap-idx">02</span>
+                <span className="am-cap-label">Direct-booking campaign</span>
+              </div>
+            </div>
+
+            <div className="am-item am-small-a">
+              <img src="/Image%204.png" alt="Hampton by Hilton event activation poster" loading="lazy" />
+              <div className="am-cap">
+                <span className="am-cap-idx">03</span>
+                <span className="am-cap-label">Event activation</span>
+              </div>
+            </div>
+
+            <div className="am-item am-small-b">
+              <video src="/lark/media/03-property/property.mp4" autoPlay muted loop playsInline preload="metadata" aria-label="Hotel lounge and meeting space" />
+              <div className="am-cap">
+                <span className="am-cap-idx">04</span>
+                <span className="am-cap-label">Meetings &amp; weddings</span>
+              </div>
+            </div>
+
+            <div className="am-item am-medium">
+              <img src="/Image%205.png" alt="Restaurant food and beverage promotional design" loading="lazy" />
+              <div className="am-cap">
+                <span className="am-cap-idx">05</span>
+                <span className="am-cap-label">F&amp;B storytelling</span>
+              </div>
+            </div>
+
+            <div className="am-item am-wide-a">
+              <img src="/Image%203.png" alt="Seasonal restaurant billboard campaign" loading="lazy" />
+              <div className="am-cap">
+                <span className="am-cap-idx">06</span>
+                <span className="am-cap-label">Seasonal campaign</span>
+              </div>
+            </div>
+
+            <div className="am-item am-wide-b">
+              <video src="/dovetail/media/05-wayfinder/wayfinder.mp4" autoPlay muted loop playsInline preload="metadata" aria-label="Boutique hotel exterior, local demand" />
+              <div className="am-cap">
+                <span className="am-cap-idx">07</span>
+                <span className="am-cap-label">Local demand</span>
+              </div>
+            </div>
+
+            <div className="am-item am-motion">
+              <video src="/valencia/media/george-exterior.mp4" autoPlay muted loop playsInline preload="metadata" aria-label="Boutique hotel entrance at night, property-level creative" />
+              <div className="am-cap">
+                <span className="am-cap-idx">08</span>
+                <span className="am-cap-label">Property-level creative</span>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ============================================================
+          FOR AGENCIES
+          ============================================================ */}
+      <section id="agencies" className="scroll-mt-24 border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-20 md:py-28">
+        <div className="mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+          <Reveal>
+            <p className="rv-kicker">{AGENCIES.eyebrow}</p>
+            <h2 className="mt-4 font-serif text-[2rem] leading-[1.15] text-[var(--rv-ink)] sm:text-[2.4rem]">{AGENCIES.headline}</h2>
+            <p className="mt-5 text-[15px] leading-relaxed text-[var(--rv-ink-soft)]">{AGENCIES.body}</p>
+            <p className="mt-5 text-[12.5px] leading-relaxed text-[var(--rv-ink-muted)]">{AGENCIES.disclaimer}</p>
+          </Reveal>
+
+          <Reveal delay={2} className="rv-panel p-7">
+            <ul className="grid gap-3.5 sm:grid-cols-2">
+              {AGENCIES.benefits.map((b) => (
+                <li key={b} className="flex gap-2.5 text-[13.5px] leading-relaxed text-[var(--rv-ink-soft)]">
+                  <span className="mt-[7px] h-[3px] w-[3px] shrink-0 rounded-full bg-[var(--rv-blue-bright)]" aria-hidden="true" />
+                  {b}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ============================================================
+          FOR HOTELS
+          ============================================================ */}
+      <section id="hotels" className="scroll-mt-24 border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <Reveal className="max-w-2xl">
+            <p className="rv-kicker">{HOTELS.eyebrow}</p>
+            <h2 className="mt-4 font-serif text-[2rem] leading-[1.15] text-[var(--rv-ink)] sm:text-[2.4rem]">{HOTELS.headline}</h2>
+            <p className="mt-5 text-[15px] leading-relaxed text-[var(--rv-ink-soft)]">{HOTELS.body}</p>
+          </Reveal>
+
+          <div className="mt-10 grid gap-6 sm:grid-cols-2">
+            <Reveal delay={1} className="rv-panel p-6">
+              <p className="rv-kicker">{MODEL.revstudio.name} handles</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {HOTELS.revstudioHandles.map((h) => (
+                  <span key={h} className="rv-chip">
+                    {h}
+                  </span>
+                ))}
+              </div>
+            </Reveal>
+            <Reveal delay={2} className="rv-panel p-6">
+              <p className="rv-kicker">{MODEL.archer.name} handles</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {HOTELS.archerHandles.map((h) => (
+                  <span key={h} className="rv-chip">
+                    {h}
+                  </span>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          PORTFOLIO / MULTI-PROPERTY
+          ============================================================ */}
+      <section id="portfolio" className="scroll-mt-24 border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <Reveal className="max-w-2xl">
+            <p className="rv-kicker">Portfolio</p>
+            <h2 className="mt-4 font-serif text-[2rem] leading-[1.15] text-[var(--rv-ink)] sm:text-[2.4rem]">{PORTFOLIO.headline}</h2>
+            <p className="mt-5 text-[15px] leading-relaxed text-[var(--rv-ink-soft)]">{PORTFOLIO.body}</p>
+          </Reveal>
+
+          <div className="mt-10 grid gap-6 sm:grid-cols-2">
+            <Reveal delay={1} className="rv-panel p-6">
+              <p className="rv-kicker">Portfolio level</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {PORTFOLIO.portfolioLevel.map((p) => (
+                  <span key={p} className="rv-chip">
+                    {p}
+                  </span>
+                ))}
+              </div>
+            </Reveal>
+            <Reveal delay={2} className="rv-panel p-6">
+              <p className="rv-kicker">Property level</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {PORTFOLIO.propertyLevel.map((p) => (
+                  <span key={p} className="rv-chip">
+                    {p}
+                  </span>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          PRICING
+          ============================================================ */}
+      <section id="pricing" className="scroll-mt-24 border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-20 md:py-28">
+        <div className="mx-auto max-w-4xl rv-panel p-8 sm:p-10">
+          <Reveal>
+            <p className="rv-kicker">{PRICING.eyebrow}</p>
+            <h2 className="mt-4 font-serif text-[1.9rem] leading-[1.15] text-[var(--rv-ink)] sm:text-[2.2rem]">{PRICING.headline}</h2>
+            <p className="mt-5 text-[14.5px] leading-relaxed text-[var(--rv-ink-soft)]">{PRICING.body}</p>
+
+            <ul className="mt-7 grid gap-3 sm:grid-cols-2">
+              {PRICING.detailLines.map((d) => (
+                <li key={d} className="flex gap-2.5 text-[13px] leading-relaxed text-[var(--rv-ink-soft)]">
+                  <span className="mt-[7px] h-[3px] w-[3px] shrink-0 rounded-full bg-[var(--rv-blue-bright)]" aria-hidden="true" />
+                  {d}
+                </li>
+              ))}
+            </ul>
+
+            <p className="mt-7 text-[12px] leading-relaxed text-[var(--rv-ink-muted)]">{PRICING.smallPrint}</p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ============================================================
+          THE PILOT
+          ============================================================ */}
+      <section id="pilot" className="scroll-mt-24 relative overflow-hidden border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-20 md:py-28">
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: "radial-gradient(55% 55% at 82% 45%, rgba(150,104,215,0.07), transparent 70%)" }}
+          aria-hidden="true"
+        />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+          <Reveal>
+            <p className="rv-kicker">{PILOT.eyebrow}</p>
+            <h2 className="mt-4 font-serif text-[2rem] leading-[1.15] text-[var(--rv-ink)] sm:text-[2.4rem]">{PILOT.headline}</h2>
+            <p className="mt-5 text-[15px] leading-relaxed text-[var(--rv-ink-soft)]">{PILOT.body}</p>
+            <TrackedBookingLink variant="pilot" className="rv-btn mt-8 px-6 py-3.5 text-[13.5px]">
+              {PILOT.cta}
+            </TrackedBookingLink>
+          </Reveal>
+
+          <Reveal delay={2} className="rv-panel p-7">
+            <ul className="flex flex-col gap-3 text-[13.5px] leading-relaxed text-[var(--rv-ink-soft)]">
+              {PILOT.structure.map((s) => (
+                <li key={s} className="flex gap-2.5">
+                  <span className="mt-[7px] h-[3px] w-[3px] shrink-0 rounded-full bg-[var(--rv-blue-bright)]" aria-hidden="true" />
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ============================================================
+          THE PARTNERS
+          ============================================================ */}
+      <section id="partners" className="scroll-mt-24 border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <Reveal>
+            <p className="rv-kicker">{PARTNERS.eyebrow}</p>
+          </Reveal>
+
+          <div className="mt-8 grid gap-8 md:grid-cols-2">
+            <Reveal delay={1}>
+              <h3 className="font-serif text-[17px] text-[var(--rv-ink)]">{PARTNERS.revstudio.name}</h3>
+              <p className="mt-3 text-[13.5px] leading-relaxed text-[var(--rv-ink-soft)]">{PARTNERS.revstudio.body}</p>
+            </Reveal>
+            <Reveal delay={2}>
+              <h3 className="font-serif text-[17px] text-[var(--rv-ink)]">{PARTNERS.archer.name}</h3>
+              <p className="mt-3 text-[13.5px] leading-relaxed text-[var(--rv-ink-soft)]">{PARTNERS.archer.body}</p>
+            </Reveal>
+          </div>
+
+          <Reveal delay={3} className="mt-8 max-w-3xl">
+            <p className="text-[12px] leading-relaxed text-[var(--rv-ink-muted)]">{PARTNERS.independenceLine}</p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ============================================================
+          FAQ
+          ============================================================ */}
+      <section id="faq" className="scroll-mt-24 border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-20 md:py-28">
+        <div className="mx-auto max-w-3xl">
+          <Reveal>
+            <p className="rv-kicker">FAQ</p>
+            <h2 className="mt-4 font-serif text-[2rem] leading-[1.15] text-[var(--rv-ink)] sm:text-[2.4rem]">Common questions.</h2>
+          </Reveal>
+          <Reveal delay={1} className="mt-8">
+            <PartnershipFAQ items={FAQ} />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ============================================================
+          FINAL CTA
+          ============================================================ */}
+      <section className="relative overflow-hidden border-t border-[var(--rv-line)] px-6 sm:px-8 lg:px-10 py-24 md:py-32">
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: "radial-gradient(60% 60% at 50% 40%, rgba(150,104,215,0.09), transparent 70%)" }}
+          aria-hidden="true"
+        />
+        <Reveal className="relative mx-auto max-w-3xl text-center">
+          <span className="rv-hline mx-auto mb-8 max-w-xs" aria-hidden="true" />
+          <h2 className="font-serif text-[2rem] leading-[1.15] text-[var(--rv-ink)] sm:text-[2.6rem]">{FINAL_CTA.headline}</h2>
+          <p className="mx-auto mt-5 max-w-[52ch] text-[15px] leading-relaxed text-[var(--rv-ink-soft)]">{FINAL_CTA.body}</p>
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
+            <TrackedBookingLink variant="final-cta" className="rv-btn px-7 py-3.5 text-[13.5px]">
+              {FINAL_CTA.primaryCta}
+            </TrackedBookingLink>
+            <a href={REVSTUDIO_FALLBACK_MAILTO} className="rv-btn-ghost px-7 py-3.5 text-[13.5px]">
+              {FINAL_CTA.secondaryCta}
+            </a>
+          </div>
+        </Reveal>
+      </section>
+
+      <JointFooter />
+    </div>
+  );
+}

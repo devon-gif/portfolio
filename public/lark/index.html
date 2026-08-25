@@ -1,0 +1,1046 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Archer Design × Lark Hotels — A Creative Concept</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="A private creative concept prepared by Archer Design for Lark Hotels.">
+<script>document.documentElement.classList.add("js");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   ARCHER DESIGN × LARK HOTELS — private creative concept
+   Editorial / cinematic hospitality presentation.
+   Shares the same design system as public/dovetail/index.html.
+   ============================================================ */
+
+:root{
+  --ink:#110f0c;
+  --ink-2:#1a1712;
+  --ink-soft:rgba(246,240,228,0.66);
+  --ink-faint:rgba(246,240,228,0.4);
+  --cream:#f6f1e5;
+  --cream-2:#efe6d2;
+  --paper:#fbf8f0;
+  --stone:#3b352b;
+  --stone-soft:rgba(59,53,43,0.64);
+  --stone-faint:rgba(59,53,43,0.4);
+  --gold:#c8a355;
+  --gold-soft:rgba(200,163,85,0.5);
+  --gold-line:rgba(200,163,85,0.28);
+  --line-on-cream:rgba(30,26,20,0.13);
+  --line-on-ink:rgba(246,240,228,0.16);
+  --ease:cubic-bezier(.22,.61,.19,.99);
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; background:var(--ink); }
+@media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--stone);
+  font-family:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  font-size:16px;
+  line-height:1.5;
+}
+
+img,video{ max-width:100%; display:block; }
+
+.serif{
+  font-family:"Fraunces",ui-serif,Georgia,"Times New Roman",serif;
+  font-weight:400;
+  letter-spacing:-0.01em;
+}
+
+.eyebrow{
+  font-size:11.5px;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  font-weight:600;
+  color:var(--gold);
+}
+
+.shell{
+  width:min(1280px, calc(100% - 64px));
+  margin:0 auto;
+}
+
+a{ color:inherit; }
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:13px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  font-weight:600;
+  text-decoration:none;
+  padding:15px 30px;
+  border-radius:2px;
+  transition:background .5s var(--ease), color .5s var(--ease), border-color .5s var(--ease), transform .4s var(--ease);
+  white-space:nowrap;
+}
+.btn-primary{
+  background:var(--gold);
+  color:#171208;
+  border:1px solid var(--gold);
+}
+.btn-primary:hover{ background:transparent; color:var(--gold); }
+.btn-ghost-light{
+  border:1px solid rgba(246,240,228,0.4);
+  color:var(--paper);
+  background:transparent;
+}
+.btn-ghost-light:hover{ background:rgba(246,240,228,0.1); border-color:rgba(246,240,228,0.7); }
+.btn-ghost-dark{
+  border:1px solid rgba(30,26,20,0.28);
+  color:var(--stone);
+  background:transparent;
+}
+.btn-ghost-dark:hover{ background:rgba(30,26,20,0.06); border-color:rgba(30,26,20,0.5); }
+.text-link{
+  text-decoration:none;
+  border-bottom:1px solid currentColor;
+  padding-bottom:2px;
+  font-size:13px;
+  letter-spacing:0.04em;
+  opacity:0.86;
+  transition:opacity .3s var(--ease);
+}
+.text-link:hover{ opacity:1; }
+
+/* ---------- reveal system ---------- */
+.reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity 1.1s var(--ease), transform 1.1s var(--ease);
+}
+.reveal.is-visible{ opacity:1; transform:translateY(0); }
+.reveal-d1{ transition-delay:.08s; }
+.reveal-d2{ transition-delay:.18s; }
+.reveal-d3{ transition-delay:.28s; }
+.reveal-scale{ opacity:0; transform:scale(1.06); transition:opacity 1.4s var(--ease), transform 1.7s var(--ease); }
+.reveal-scale.is-visible{ opacity:1; transform:scale(1); }
+@media (prefers-reduced-motion:reduce){
+  .reveal, .reveal-scale{ opacity:1 !important; transform:none !important; transition:none !important; }
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:22px clamp(20px,4vw,48px);
+  transition:background .5s var(--ease), padding .5s var(--ease), border-color .5s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  background:rgba(17,15,12,0.86);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom-color:rgba(246,240,228,0.1);
+  padding-top:15px; padding-bottom:15px;
+}
+.nav-brand{ display:flex; align-items:center; gap:12px; text-decoration:none; }
+.nav-logo-mark{
+  flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center;
+  width:28px; height:28px; border-radius:50%;
+  border:1px solid rgba(246,240,228,0.5);
+  background:rgba(246,240,228,0.05);
+  font-family:"Fraunces",serif; font-size:10.5px; font-weight:600; letter-spacing:0.01em;
+  color:var(--gold); line-height:1;
+}
+.nav-wordmark{
+  font-family:"Fraunces",serif; font-size:14px; letter-spacing:0.14em;
+  text-transform:uppercase; color:var(--paper); font-weight:500;
+}
+@media (max-width:480px){
+  .nav-logo-mark{ width:25px; height:25px; font-size:10px; }
+  .nav-wordmark{ font-size:12.5px; }
+}
+.nav-links{ display:flex; align-items:center; gap:clamp(20px,3vw,40px); }
+.nav-links a{
+  font-size:12.5px; letter-spacing:0.09em; text-transform:uppercase;
+  color:rgba(246,240,228,0.78); text-decoration:none; font-weight:500;
+  transition:color .3s var(--ease);
+}
+.nav-links a:hover{ color:var(--gold); }
+.nav-links a.nav-cta{
+  color:var(--paper); border:1px solid rgba(246,240,228,0.38);
+  padding:9px 18px; border-radius:2px;
+}
+.nav-links a.nav-cta:hover{ border-color:var(--gold); color:var(--gold); }
+.nav-toggle{ display:none; }
+
+@media (max-width:820px){
+  .nav-links{
+    position:fixed; inset:0 0 0 auto; width:min(320px,84vw); height:100vh;
+    background:var(--ink); flex-direction:column; align-items:flex-start;
+    justify-content:center; gap:28px; padding:0 40px;
+    transform:translateX(100%); transition:transform .55s var(--ease);
+  }
+  .nav-links.open{ transform:translateX(0); }
+  .nav-links a{ font-size:15px; }
+  .nav-toggle{
+    display:flex; flex-direction:column; gap:5px; width:26px; background:none;
+    border:0; cursor:pointer; padding:8px; z-index:110;
+  }
+  .nav-toggle span{ display:block; height:1px; background:var(--paper); width:100%; }
+}
+
+/* ============================================================
+   MEDIA FRAME  (video / poster wrapper used across sections)
+   ============================================================ */
+.media-frame{
+  position:relative; overflow:hidden; background:var(--ink);
+  isolation:isolate;
+}
+.media-frame video, .media-frame .fallback-img{
+  /* Full-bleed cinematic sections (hero, destination, property, seasonal):
+     cover fills edge-to-edge intentionally centered; object-position is
+     declared explicitly rather than left implicit. */
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; z-index:1;
+}
+.media-frame::before{
+  content:""; position:absolute; inset:0; z-index:0;
+}
+.media-frame.tone-charcoal::before{ background:
+  radial-gradient(120% 90% at 50% 100%, rgba(38,34,26,0.85), transparent 62%),
+  linear-gradient(160deg,#0f0e0c 0%,#171410 55%,#0c0b09 100%); }
+.media-frame.tone-bermuda::before{ background:
+  radial-gradient(120% 90% at 20% 100%, rgba(28,44,42,0.85), transparent 60%),
+  linear-gradient(150deg,#0c1615 0%,#151a17 45%,#1c1712 100%); }
+.media-frame.tone-urban::before{ background:
+  radial-gradient(120% 90% at 80% 100%, rgba(53,37,24,0.85), transparent 60%),
+  linear-gradient(150deg,#161310 0%,#1d1712 45%,#231a10 100%); }
+.media-frame.tone-warm::before{ background:
+  radial-gradient(120% 90% at 30% 0%, rgba(58,36,24,0.75), transparent 62%),
+  linear-gradient(160deg,#1c140e 0%,#221810 55%,#180f0a 100%); }
+.media-frame.tone-wine::before{ background:
+  radial-gradient(120% 90% at 75% 10%, rgba(48,20,20,0.72), transparent 60%),
+  linear-gradient(160deg,#150e0c 0%,#1c110f 50%,#100a09 100%); }
+.media-frame .grain{
+  position:absolute; inset:0; z-index:2; opacity:0.5; mix-blend-mode:overlay; pointer-events:none;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size:3px 3px;
+}
+.media-frame .scene-tag{
+  position:absolute; left:22px; bottom:20px; z-index:3;
+  display:flex; align-items:center; gap:10px;
+  font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+  color:rgba(246,240,228,0.56); font-weight:500;
+}
+.media-frame .scene-tag::before{
+  content:""; width:16px; height:1px; background:var(--gold-soft);
+}
+.media-frame .corner{
+  position:absolute; z-index:3; width:22px; height:22px; pointer-events:none;
+  border-color:rgba(246,240,228,0.28);
+}
+.media-frame .corner.tl{ top:18px; left:18px; border-top:1px solid; border-left:1px solid; }
+.media-frame .corner.br{ bottom:18px; right:18px; border-bottom:1px solid; border-right:1px solid; }
+
+/* ============================================================
+   1. HERO
+   ============================================================ */
+.hero{
+  position:relative; height:100svh; min-height:640px; width:100%;
+  display:flex; align-items:flex-end; overflow:hidden; background:#0c0b09;
+}
+.hero .media-frame{ position:absolute; inset:0; }
+.hero-overlay{
+  position:absolute; inset:0; z-index:4;
+  background:linear-gradient(180deg, rgba(10,9,7,0.28) 0%, rgba(10,9,7,0.08) 32%, rgba(10,9,7,0.5) 78%, rgba(8,7,6,0.86) 100%);
+}
+.hero-inner{
+  position:relative; z-index:5; width:100%;
+  padding:0 clamp(20px,4vw,48px) clamp(56px,9vh,120px);
+}
+.hero-inner .shell{ width:100%; max-width:920px; margin:0; }
+.hero .eyebrow{ color:var(--gold); margin-bottom:22px; display:block; font-size:13px; letter-spacing:0.26em; font-weight:700; }
+.hero h1{
+  margin:0 0 26px; color:var(--paper);
+  font-size:clamp(2.5rem, 5.6vw, 4.7rem);
+  line-height:1.06; font-weight:400; letter-spacing:-0.015em;
+}
+.hero p.sub{
+  color:rgba(246,240,228,0.78); font-size:clamp(15px,1.5vw,18px);
+  max-width:540px; line-height:1.65; margin:0 0 40px; font-weight:400;
+}
+.hero-actions{ display:flex; gap:16px; flex-wrap:wrap; }
+.scroll-cue{
+  position:absolute; z-index:5; left:clamp(20px,4vw,48px); bottom:28px;
+  display:flex; align-items:center; gap:10px; color:rgba(246,240,228,0.5);
+  font-size:11px; letter-spacing:0.16em; text-transform:uppercase;
+}
+.scroll-cue .line{ width:1px; height:34px; background:rgba(246,240,228,0.32); position:relative; overflow:hidden; }
+.scroll-cue .line::after{
+  content:""; position:absolute; top:-100%; left:0; width:100%; height:100%;
+  background:var(--gold); animation:cueDrop 2.6s ease-in-out infinite;
+}
+@keyframes cueDrop{ 0%{ top:-100%; } 60%{ top:100%; } 100%{ top:100%; } }
+@media (prefers-reduced-motion:reduce){ .scroll-cue .line::after{ animation:none; top:0; } }
+@media (max-width:820px){ .scroll-cue{ display:none; } }
+
+/* ============================================================
+   SECTION SCAFFOLDING
+   ============================================================ */
+section{ position:relative; }
+.section-pad{ padding:clamp(90px,13vw,180px) 0; }
+.on-cream{ background:var(--cream); color:var(--stone); }
+.on-paper{ background:var(--paper); color:var(--stone); }
+.on-ink{ background:var(--ink); color:var(--paper); }
+.label-row{ display:flex; align-items:center; gap:14px; margin-bottom:26px; }
+.label-row .rule{ width:34px; height:1px; background:var(--gold-soft); }
+.on-ink .label-row .rule{ background:var(--gold-soft); }
+
+/* ============================================================
+   1B. SUPPORT STATEMENT — positioning / reassurance beat
+   ============================================================ */
+.support-statement-inner{
+  width:min(760px, calc(100% - 48px));
+  margin:0 auto;
+  text-align:center;
+  padding:clamp(72px,11vw,128px) 0;
+}
+.support-divider{
+  display:block;
+  width:34px; height:1px; background:var(--gold-soft);
+  margin:0 auto 22px;
+}
+.support-eyebrow{
+  display:block;
+  font-size:11.5px; letter-spacing:0.22em; text-transform:uppercase;
+  font-weight:600; color:var(--gold); margin-bottom:26px;
+}
+.support-statement h2{
+  font-size:clamp(1.6rem,3.4vw,2.6rem); line-height:1.34; font-weight:400;
+  color:var(--stone); margin:0 0 26px; letter-spacing:-0.01em;
+}
+.support-statement h2 em{
+  display:block; margin-top:10px;
+  font-style:italic; color:var(--gold);
+  font-size:clamp(1.08rem,2.2vw,1.55rem);
+}
+.support-statement p{
+  font-size:16px; line-height:1.8; color:var(--stone-soft);
+  max-width:52ch; margin:0 auto;
+}
+@media (max-width:600px){
+  .support-statement-inner{ padding:60px 0; }
+  .support-statement h2{ font-size:clamp(1.45rem,7vw,2rem); }
+}
+
+/* ============================================================
+   ABOUT / PROOF  — cream editorial
+   ============================================================ */
+.about{ position:relative; overflow:hidden; }
+.about-silk{
+  position:absolute; top:0; right:0; width:52%; height:100%;
+  background-image:url('/dovetail/brand/silk-background.png');
+  background-size:cover; background-position:center;
+  opacity:0.5; mix-blend-mode:multiply;
+  -webkit-mask-image:linear-gradient(90deg, transparent, black 35%);
+  mask-image:linear-gradient(90deg, transparent, black 35%);
+}
+.about-grid{
+  position:relative; z-index:2;
+  display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr); gap:clamp(40px,6vw,90px);
+  align-items:start;
+}
+.about h2{
+  font-size:clamp(1.9rem,3.6vw,3.05rem); line-height:1.18; font-weight:400;
+  margin:0 0 28px; letter-spacing:-0.01em; max-width:15ch;
+}
+.about-copy{ max-width:52ch; }
+.about-copy p{ font-size:16.5px; line-height:1.8; color:var(--stone-soft); margin:0 0 16px; }
+.about-signature{ margin-top:34px; display:flex; align-items:center; gap:16px; }
+.about-signature .name{ font-family:"Fraunces",serif; font-style:italic; font-size:19px; color:var(--stone); }
+.about-signature .role{ font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--stone-faint); }
+
+.metrics{
+  margin-top:clamp(56px,7vw,88px);
+  display:flex; flex-wrap:wrap;
+  border-top:1px solid var(--line-on-cream);
+}
+.metric{
+  flex:1 1 210px; padding:30px clamp(18px,2.4vw,34px) 6px 0;
+  border-right:1px solid var(--line-on-cream);
+}
+.metric:last-child{ border-right:none; }
+.metric .num{
+  font-family:"Fraunces",serif; font-weight:400; letter-spacing:-0.02em;
+  font-size:clamp(2rem,3.2vw,2.7rem); color:var(--stone); display:block;
+}
+.metric .lbl{
+  margin-top:8px; font-size:12px; letter-spacing:0.05em; color:var(--stone-faint); line-height:1.5; max-width:20ch;
+}
+@media (max-width:900px){
+  .about-grid{ grid-template-columns:1fr; }
+  .about-silk{ width:100%; height:40%; top:auto; bottom:0; opacity:0.35;
+    -webkit-mask-image:linear-gradient(0deg, black, transparent 70%);
+    mask-image:linear-gradient(0deg, black, transparent 70%); }
+  .metric{ flex:1 1 44%; border-right:none; border-bottom:1px solid var(--line-on-cream); padding-bottom:20px; }
+}
+
+/* ============================================================
+   THE IDEA — split editorial
+   ============================================================ */
+.split{
+  display:grid; grid-template-columns:1fr 1fr; min-height:86vh;
+}
+.split .media-frame{ height:100%; min-height:420px; }
+.split-copy{
+  display:flex; flex-direction:column; justify-content:center;
+  padding:clamp(48px,6vw,100px);
+}
+.split-copy h2{
+  font-size:clamp(1.9rem,3vw,2.7rem); line-height:1.2; font-weight:400;
+  margin:0 0 24px; max-width:14ch; color:var(--paper);
+}
+.split-copy p{
+  font-size:16px; line-height:1.85; color:var(--ink-soft); max-width:44ch; margin:0 0 18px;
+}
+.split-copy .statement{
+  margin-top:26px; padding-top:26px; border-top:1px solid var(--line-on-ink);
+  font-family:"Fraunces",serif; font-style:italic; font-weight:400;
+  font-size:clamp(1.2rem,1.7vw,1.55rem); color:var(--gold); max-width:24ch; line-height:1.4;
+}
+@media (max-width:900px){
+  .split{ grid-template-columns:1fr; min-height:auto; }
+  .split .media-frame{ min-height:52vh; }
+  .split-copy{ padding:52px clamp(20px,5vw,48px); }
+}
+.split.reverse{ direction:rtl; }
+.split.reverse > *{ direction:ltr; }
+
+/* ============================================================
+   GUEST EXPERIENCE — warm, full-bleed, minimal copy
+   ============================================================ */
+.experience{ height:92vh; min-height:560px; display:flex; align-items:flex-end; }
+.experience .media-frame{ position:absolute; inset:0; }
+.experience-overlay{ position:absolute; inset:0; z-index:4;
+  background:linear-gradient(0deg, rgba(9,7,5,0.82) 0%, rgba(9,7,5,0.15) 55%, transparent 80%); }
+.experience-inner{ position:relative; z-index:5; padding:0 clamp(20px,4vw,48px) clamp(56px,8vh,110px); width:100%; }
+.experience-inner .shell{ margin:0; width:100%; max-width:760px; }
+.experience h2{
+  font-size:clamp(1.9rem,3.6vw,3rem); line-height:1.22; font-weight:400; color:var(--paper); margin:0 0 20px;
+}
+.experience p{ font-size:16px; line-height:1.8; color:rgba(246,240,228,0.74); max-width:46ch; margin:0; }
+
+/* ============================================================
+   BEYOND THE STAY — typographic labels, no icons
+   ============================================================ */
+.fnb-inner{ max-width:900px; }
+.fnb h2{
+  font-size:clamp(1.9rem,3.6vw,3rem); font-weight:400; line-height:1.2; margin:0 0 46px; max-width:18ch;
+}
+.fnb-labels{ display:flex; flex-wrap:wrap; gap:0; border-top:1px solid var(--line-on-cream); }
+.fnb-labels span{
+  font-family:"Fraunces",serif; font-style:italic; font-weight:400;
+  font-size:clamp(1.05rem,1.7vw,1.4rem); color:var(--stone);
+  padding:20px 30px 20px 0; margin-right:30px; border-bottom:1px solid var(--line-on-cream);
+  flex:0 0 auto;
+}
+@media (max-width:700px){ .fnb-labels span{ padding-right:0; margin-right:0; width:100%; border-bottom:1px solid var(--line-on-cream); } }
+
+/* ============================================================
+   AMBIENT-FILL TREATMENT — scoped only to the human-experience
+   (wedding) and beachfront F&B videos. Shows the full original
+   frame via a "contain" foreground video, with a softly blurred
+   "cover" copy of the same clip filling the unused space so there
+   are no visible black bars. Does not affect any other media-frame.
+   ============================================================ */
+.media-frame.ambient-fill .ambient-bg{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:center;
+  transform:scale(1.12);
+  filter:blur(24px) saturate(1.05);
+  opacity:0.6;
+  z-index:1;
+}
+.media-frame.ambient-fill .ambient-dim{
+  position:absolute; inset:0; z-index:2;
+  background:rgba(10,9,7,0.26);
+  pointer-events:none;
+}
+.media-frame.ambient-fill .ambient-fg{
+  /* Source is native 1248x1664 (portrait). Capping width/height to the
+     intrinsic pixel size prevents the browser from upscaling the crisp
+     foreground layer beyond its natural resolution on large/tall
+     desktop viewports; margin:auto centers the capped box within the
+     full-bleed frame. The blurred ambient-bg layer still fills any
+     resulting space, so no black bars appear. */
+  position:absolute; inset:0; margin:auto;
+  width:100%; height:100%;
+  max-width:1248px; max-height:1664px;
+  object-fit:contain; object-position:center center;
+  z-index:3;
+}
+.media-frame.ambient-fill .grain{ z-index:4; }
+.media-frame.ambient-fill .scene-tag,
+.media-frame.ambient-fill .corner{ z-index:5; }
+@media (max-width:700px){
+  .media-frame.ambient-fill .ambient-bg{ transform:scale(1.18); filter:blur(18px) saturate(1.05); }
+}
+
+/* ============================================================
+   SEASONAL — full-screen cinematic
+   ============================================================ */
+.arrival{ height:100vh; min-height:640px; display:flex; align-items:center; justify-content:center; text-align:center; }
+.arrival .media-frame{ position:absolute; inset:0; }
+.arrival-overlay{ position:absolute; inset:0; z-index:4;
+  background:linear-gradient(180deg, rgba(8,7,6,0.55) 0%, rgba(8,7,6,0.3) 40%, rgba(8,7,6,0.7) 100%); }
+.arrival-inner{ position:relative; z-index:5; padding:0 clamp(20px,6vw,48px); }
+.arrival h2{
+  font-size:clamp(2.1rem,5vw,4rem); font-weight:400; line-height:1.14; color:var(--paper);
+  margin:0 auto 26px; max-width:18ch;
+}
+.arrival p{ font-size:16px; line-height:1.85; color:rgba(246,240,228,0.76); max-width:46ch; margin:0 auto; }
+
+/* ============================================================
+   HOW ARCHER FITS — dark minimal
+   ============================================================ */
+.fit-head{ max-width:640px; margin-bottom:clamp(56px,7vw,90px); }
+.fit-head h2{
+  font-size:clamp(1.9rem,3.6vw,3rem); font-weight:400; line-height:1.2; color:var(--paper); margin:0 0 24px;
+}
+.fit-head p{ font-size:16px; line-height:1.85; color:var(--ink-soft); margin:0; }
+.fit-cols{ display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--line-on-ink); }
+.fit-col{ padding:36px clamp(20px,2.2vw,40px) 8px 0; border-right:1px solid var(--line-on-ink); }
+.fit-col:last-child{ border-right:none; }
+.fit-col .idx{ font-size:12px; letter-spacing:0.1em; color:var(--gold-soft); margin-bottom:18px; display:block; }
+.fit-col h3{
+  font-family:"Fraunces",serif; font-weight:400; font-size:20px; color:var(--paper); margin:0 0 14px; line-height:1.3;
+}
+.fit-col p{ font-size:14.5px; line-height:1.7; color:var(--ink-faint); margin:0; }
+@media (max-width:820px){
+  .fit-cols{ grid-template-columns:1fr; }
+  .fit-col{ border-right:none; border-bottom:1px solid var(--line-on-ink); padding-bottom:28px; }
+}
+
+/* ============================================================
+   SELECTED WORK — asymmetric editorial gallery
+   ============================================================ */
+.work-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:clamp(44px,6vw,72px); flex-wrap:wrap; }
+.work-head h2{ font-size:clamp(1.9rem,3.6vw,3rem); font-weight:400; line-height:1.15; margin:0; max-width:14ch; }
+.work-head p{ font-size:14.5px; color:var(--stone-faint); max-width:32ch; margin:0; line-height:1.6; }
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:clamp(14px,1.6vw,22px);
+}
+.g-item{ position:relative; overflow:hidden; background:var(--ink); }
+.g-item .media-frame{ height:100%; }
+.g-item a.g-link{ position:absolute; inset:0; z-index:6; }
+.g-item .g-media-wrap{ position:relative; width:100%; height:100%; overflow:hidden; }
+.g-item img, .g-item video{
+  width:100%; height:100%; object-fit:cover;
+  transition:transform 1.4s var(--ease);
+}
+.g-item:hover img, .g-item:hover video{ transform:scale(1.045); }
+.g-caption{
+  position:absolute; left:0; right:0; bottom:0; z-index:5; padding:22px;
+  background:linear-gradient(0deg, rgba(8,7,6,0.82) 0%, transparent 75%);
+}
+.g-caption .g-name{ font-family:"Fraunces",serif; font-style:italic; font-size:18px; color:var(--paper); display:block; }
+.g-caption .g-tag{ font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(246,240,228,0.6); margin-top:5px; display:block; }
+
+.g-1{ grid-column:span 7; aspect-ratio:4/3; }
+.g-2{ grid-column:span 5; aspect-ratio:4/5; }
+.g-3{ grid-column:span 4; aspect-ratio:3/4; }
+.g-4{ grid-column:span 4; aspect-ratio:3/4; }
+.g-5{ grid-column:span 4; aspect-ratio:3/4; }
+.g-6{ grid-column:span 12; aspect-ratio:16/7; }
+
+@media (max-width:900px){
+  .gallery{ grid-template-columns:1fr 1fr; }
+  .g-1,.g-2,.g-6{ grid-column:span 2; aspect-ratio:4/3; }
+  .g-3,.g-4,.g-5{ grid-column:span 1; aspect-ratio:3/4; }
+}
+@media (max-width:560px){
+  .gallery{ grid-template-columns:1fr; }
+  .g-1,.g-2,.g-3,.g-4,.g-5,.g-6{ grid-column:span 1; aspect-ratio:4/3.4; }
+}
+
+/* ============================================================
+   FINAL CTA
+   ============================================================ */
+.cta{ position:relative; min-height:78vh; display:flex; align-items:center; overflow:hidden; background:#0b0a08; }
+.cta video.cta-bg{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.34;
+}
+.cta::before{
+  content:""; position:absolute; inset:0; z-index:1;
+  background:radial-gradient(120% 90% at 50% 20%, rgba(43,36,24,0.5), transparent 60%), linear-gradient(180deg, #0b0a08 0%, #100d0a 60%, #0b0a08 100%);
+}
+.cta-inner{ position:relative; z-index:2; text-align:center; width:100%; padding:clamp(40px,7vw,0px) clamp(20px,4vw,48px); }
+.cta h2{
+  font-size:clamp(2.3rem,5.4vw,4.2rem); font-weight:400; color:var(--paper); margin:0 auto 26px; max-width:16ch; line-height:1.1;
+}
+.cta p{ font-size:16.5px; line-height:1.85; color:rgba(246,240,228,0.72); max-width:52ch; margin:0 auto 44px; }
+.cta-actions{ display:flex; flex-direction:column; align-items:center; gap:22px; }
+
+/* ============================================================
+   FOOTER  (CSS-only mark — no external image dependency)
+   ============================================================ */
+footer{ background:var(--ink); border-top:1px solid var(--line-on-ink); padding:34px 0; }
+.foot-inner{ display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+.foot-inner .fmark{ display:flex; align-items:center; gap:10px; }
+.fmark-mark{
+  flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center;
+  width:18px; height:18px; border-radius:50%;
+  border:1px solid rgba(246,240,228,0.4);
+  font-family:"Fraunces",serif; font-size:7.5px; font-weight:600; letter-spacing:0.01em;
+  color:var(--gold); line-height:1;
+}
+.fmark-word{ font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); }
+.foot-inner .fnote{ font-size:11.5px; color:var(--ink-faint); letter-spacing:0.02em; }
+
+/* generic section top label used on cream/paper sections */
+.on-cream .eyebrow, .on-paper .eyebrow{ color:var(--gold); }
+
+</style>
+</head>
+<body class="archer-lark">
+
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<nav class="nav" id="siteNav">
+  <a href="#top" class="nav-brand">
+    <span class="nav-logo-mark" aria-hidden="true">AD</span>
+    <span class="nav-wordmark">Archer Design</span>
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="navLinks">
+    <a href="#work">The Work</a>
+    <a href="#idea">The Idea</a>
+    <a href="#about">About</a>
+    <a class="nav-cta" href="https://calendly.com/devonavich0/30min" target="_blank" rel="noopener">Let's Talk</a>
+  </div>
+</nav>
+
+<!-- ============================================================
+     1. HERO
+     ============================================================ -->
+<section class="hero" id="top">
+  <div class="media-frame tone-charcoal">
+    <video autoplay muted loop playsinline preload="none"
+      poster="/lark/media/01-hero/poster.jpg">
+      <source src="/lark/media/01-hero/hero.mp4" type="video/mp4">
+    </video>
+    <div class="grain"></div>
+    <div class="scene-tag">Reel 01 — Hero</div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <div class="shell">
+      <span class="eyebrow reveal">Archer Design × Lark Hotels</span>
+      <h1 class="serif reveal reveal-d1">Different destinations. Different personalities. One creative engine behind them.</h1>
+      <p class="sub reveal reveal-d2">A private creative concept exploring how Archer Design could support Lark Hotels with recurring property storytelling, short-form motion, seasonal campaigns, F&amp;B, events, and sales-support creative — while preserving what makes every property feel distinct.</p>
+      <div class="hero-actions reveal reveal-d3">
+        <a href="#idea" class="btn btn-primary">Explore the concept</a>
+        <a href="#about" class="btn btn-ghost-light">About Archer</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span class="line"></span> Scroll</div>
+</section>
+
+<!-- ============================================================
+     1B. SUPPORT STATEMENT — Archer works alongside the team,
+         not in place of it
+     ============================================================ -->
+<section class="support-statement on-paper">
+  <div class="support-statement-inner">
+    <span class="support-divider reveal" aria-hidden="true"></span>
+    <span class="support-eyebrow reveal">How Archer fits</span>
+    <h2 class="serif reveal reveal-d1">Not a replacement for the team. <em>An extra creative resource when the work demands more capacity.</em></h2>
+    <p class="reveal reveal-d2">Archer Design is built to work alongside internal teams and existing partners — helping with additional production, motion, campaigns, property-level content, and periods of heavier creative demand when useful.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     2. SECOND CINEMATIC SECTION — every destination, its own pace
+     ============================================================ -->
+<section class="experience" id="destination">
+  <div class="media-frame tone-bermuda reveal-scale">
+    <video autoplay muted loop playsinline preload="none"
+      poster="/lark/media/02-destination/poster.jpg">
+      <source src="/lark/media/02-destination/destination.mp4" type="video/mp4">
+    </video>
+    <div class="grain"></div>
+    <div class="scene-tag">Reel 02 — Destination</div>
+  </div>
+  <div class="experience-overlay"></div>
+  <div class="experience-inner">
+    <div class="shell">
+      <span class="eyebrow reveal" style="display:block;margin-bottom:18px;">One portfolio. Many rhythms.</span>
+      <h2 class="serif reveal reveal-d1">Every destination deserves its own pace.</h2>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. ABOUT ARCHER
+     ============================================================ -->
+<section class="about on-cream section-pad" id="about">
+  <div class="about-silk" aria-hidden="true"></div>
+  <div class="shell">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="label-row"><span class="rule"></span><span class="eyebrow">About Archer Design</span></div>
+        <h2 class="serif">I'm Devon Archer. I build creative systems for hospitality teams without flattening what makes each property different.</h2>
+      </div>
+      <div class="about-copy reveal reveal-d1">
+        <p>Archer Design supports hotels, restaurants, resorts, spas, and hospitality groups — building the recurring photo, motion, and campaign creative that keeps a property's story current without asking an internal team to become a production studio.</p>
+        <p>Every property gets its own visual language. The system behind it stays consistent, efficient, and built to scale.</p>
+        <div class="about-signature">
+          <span class="name serif">Devon Archer</span>
+          <span class="role">Founder, Archer Design</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="metrics reveal reveal-d2">
+      <div class="metric"><span class="num serif">18.6M+</span><span class="lbl">Tracked impressions</span></div>
+      <div class="metric"><span class="num serif">4.9M+</span><span class="lbl">Reach</span></div>
+      <div class="metric"><span class="num serif">612K+</span><span class="lbl">Engagements</span></div>
+      <div class="metric"><span class="num serif">2.7K+</span><span class="lbl">Creative pieces delivered</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. THE IDEA — one portfolio, many ways to stay
+     ============================================================ -->
+<section class="split on-ink" id="idea">
+  <div class="media-frame tone-urban reveal-scale">
+    <video autoplay muted loop playsinline preload="none"
+      poster="/lark/media/03-property/poster.jpg">
+      <source src="/lark/media/03-property/property.mp4" type="video/mp4">
+    </video>
+    <div class="grain"></div>
+    <div class="corner tl"></div><div class="corner br"></div>
+    <div class="scene-tag">Reel 03 — Property</div>
+  </div>
+  <div class="split-copy">
+    <div class="label-row reveal"><span class="rule"></span><span class="eyebrow">The idea</span></div>
+    <h2 class="serif reveal">One portfolio. Many ways to stay.</h2>
+    <p class="reveal reveal-d1">A coastal escape should not feel like a mountain lodge. A historic inn should not move like a modern city hotel. A family-friendly getaway should not speak like an intimate guest house.</p>
+    <p class="reveal reveal-d2">The production system can scale. The creative should still belong to the property.</p>
+    <p class="statement reveal reveal-d3">Consistency behind the scenes. Individuality everywhere the guest can see.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. HUMAN EXPERIENCE
+     ============================================================ -->
+<section class="experience">
+  <div class="media-frame ambient-fill tone-warm reveal-scale">
+    <video class="ambient-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1">
+      <source src="/lark/media/04-experience/experience.mp4" type="video/mp4">
+    </video>
+    <div class="ambient-dim"></div>
+    <video class="ambient-fg" autoplay muted loop playsinline preload="auto"
+      poster="/lark/media/04-experience/poster.jpg">
+      <source src="/lark/media/04-experience/experience.mp4" type="video/mp4">
+    </video>
+    <div class="grain"></div>
+    <div class="scene-tag">Reel 04 — Experience</div>
+  </div>
+  <div class="experience-overlay"></div>
+  <div class="experience-inner">
+    <div class="shell">
+      <h2 class="serif reveal">The property is the setting. The experience is the story.</h2>
+      <p class="reveal reveal-d1">Archer Design helps turn the moments already happening across a property into recurring creative with movement, atmosphere, and a strong sense of place.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     6. BEYOND THE STAY / F&B + EXPERIENCES
+     ============================================================ -->
+<section class="fnb on-cream section-pad">
+  <div class="shell">
+    <div class="fnb-inner">
+      <div class="label-row reveal"><span class="rule"></span><span class="eyebrow">Beyond the stay</span></div>
+      <h2 class="serif reveal">From check-in to last call. From season to season.</h2>
+    </div>
+    <div class="fnb-labels reveal reveal-d1">
+      <span>Seasonal campaigns</span>
+      <span>F&amp;B storytelling</span>
+      <span>Events</span>
+      <span>Packages</span>
+      <span>Destination content</span>
+      <span>Short-form motion</span>
+      <span>Local demand drivers</span>
+      <span>Weddings &amp; gatherings</span>
+    </div>
+  </div>
+  <div class="media-frame ambient-fill tone-wine reveal-scale" style="height:56vh;min-height:340px;margin-top:clamp(50px,6vw,80px);">
+    <video class="ambient-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1">
+      <source src="/lark/media/05-food-experience/food-experience.mp4" type="video/mp4">
+    </video>
+    <div class="ambient-dim"></div>
+    <video class="ambient-fg" autoplay muted loop playsinline preload="auto"
+      poster="/lark/media/05-food-experience/poster.jpg">
+      <source src="/lark/media/05-food-experience/food-experience.mp4" type="video/mp4">
+    </video>
+    <div class="grain"></div>
+    <div class="corner tl"></div><div class="corner br"></div>
+    <div class="scene-tag">Reel 05 — F&amp;B</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     7. SEASONAL SECTION
+     ============================================================ -->
+<section class="arrival">
+  <div class="media-frame tone-charcoal reveal-scale">
+    <video autoplay muted loop playsinline preload="none"
+      poster="/lark/media/06-seasonal/poster.jpg">
+      <source src="/lark/media/06-seasonal/seasonal.mp4" type="video/mp4">
+    </video>
+    <div class="grain"></div>
+    <div class="scene-tag">Reel 06 — Seasonal</div>
+  </div>
+  <div class="arrival-overlay"></div>
+  <div class="arrival-inner">
+    <h2 class="serif reveal">Hospitality stories change with the season. The creative should keep up.</h2>
+    <p class="reveal reveal-d1">Lark properties live inside destinations that change constantly — weather, menus, events, offers, local activity, and guest behavior. Archer can help keep the creative moving with them.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     8. HOW ARCHER FITS
+     ============================================================ -->
+<section class="fit on-ink section-pad">
+  <div class="shell">
+    <div class="fit-head reveal">
+      <div class="label-row"><span class="rule"></span><span class="eyebrow">How this works</span></div>
+      <h2 class="serif">A flexible creative bench for a portfolio that never stands still.</h2>
+      <p>Archer Design can work alongside Lark's internal and property teams to turn more footage, photography, offers, menus, events, packages, and local stories into finished creative consistently.</p>
+    </div>
+    <div class="fit-cols reveal reveal-d1">
+      <div class="fit-col">
+        <span class="idx">I.</span>
+        <h3 class="serif">Property storytelling</h3>
+        <p>Rooms, amenities, neighborhoods, destinations, experiences, and moments of arrival.</p>
+      </div>
+      <div class="fit-col">
+        <span class="idx">II.</span>
+        <h3 class="serif">Motion + campaigns</h3>
+        <p>Short-form motion, seasonal launches, packages, events, and social storytelling.</p>
+      </div>
+      <div class="fit-col">
+        <span class="idx">III.</span>
+        <h3 class="serif">Commercial support</h3>
+        <p>F&amp;B, weddings, groups, meetings, direct booking, local demand drivers, and sales-support creative.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     9. SELECTED ARCHER WORK
+     (reuses the same shared assets as the Dovetail gallery — not duplicated)
+     ============================================================ -->
+<section class="work on-paper section-pad" id="work">
+  <div class="shell">
+    <div class="work-head reveal">
+      <h2 class="serif">Real work for real properties.</h2>
+      <p>A small selection of recent work across hotel, restaurant, and hospitality clients.</p>
+    </div>
+
+    <div class="gallery">
+      <div class="g-item g-1 reveal">
+        <div class="g-media-wrap">
+          <div class="media-frame" style="position:static;height:100%;">
+            <img class="fallback-img" src="/Image%202.png" alt="Hotel Indigo Pittsburgh — room photography" />
+          </div>
+        </div>
+        <div class="g-caption"><span class="g-name serif">Hotel Indigo</span><span class="g-tag">Property photography</span></div>
+      </div>
+
+      <div class="g-item g-2 reveal reveal-d1">
+        <div class="g-media-wrap">
+          <div class="media-frame" style="position:static;height:100%;">
+            <img class="fallback-img" src="/Image%207.png" alt="Eliza Hot Metal Bistro — F&B brand photography" />
+          </div>
+        </div>
+        <div class="g-caption"><span class="g-name serif">Eliza Hot Metal Bistro</span><span class="g-tag">F&amp;B storytelling</span></div>
+      </div>
+
+      <div class="g-item g-3 reveal">
+        <div class="g-media-wrap">
+          <div class="media-frame" style="position:static;height:100%;">
+            <img class="fallback-img" src="/Image%204.png" alt="Hampton by Hilton — event campaign" />
+          </div>
+        </div>
+        <div class="g-caption"><span class="g-name serif">Hampton Inn</span><span class="g-tag">Event campaign</span></div>
+      </div>
+
+      <div class="g-item g-4 reveal reveal-d1">
+        <div class="g-media-wrap">
+          <div class="media-frame" style="position:static;height:100%;">
+            <video autoplay muted loop playsinline preload="none">
+              <source src="/Seedance%202_0%20-%20A%20serene%20static%20luxury%20resort%20shot%20in%20bright%20tropical%20daylight_%20Preserve%20the%20exact%20co.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <div class="g-caption"><span class="g-name serif">Spa &amp; wellness</span><span class="g-tag">Motion, resort</span></div>
+      </div>
+
+      <div class="g-item g-5 reveal reveal-d2">
+        <div class="g-media-wrap">
+          <div class="media-frame" style="position:static;height:100%;">
+            <img class="fallback-img" src="/Image%203.png" alt="Eliza Hot Metal Bistro — seasonal billboard campaign" />
+          </div>
+        </div>
+        <div class="g-caption"><span class="g-name serif">Seasonal campaigns</span><span class="g-tag">Out-of-home &amp; social</span></div>
+      </div>
+
+      <div class="g-item g-6 reveal reveal-d2">
+        <div class="g-media-wrap">
+          <div class="media-frame" style="position:relative;height:100%;">
+            <video autoplay muted loop playsinline preload="auto">
+              <source src="/timelapse.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <div class="g-caption"><span class="g-name serif">Hospitality motion work</span><span class="g-tag">Hotel timelapse reel</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     10. FINAL CTA
+     ============================================================ -->
+<section class="cta" id="contact">
+  <video class="cta-bg" autoplay muted loop playsinline preload="none">
+    <source src="/dovetail/media/background-cloth.mp4" type="video/mp4">
+  </video>
+  <div class="cta-inner">
+    <div class="shell" style="width:100%;">
+      <span class="eyebrow reveal" style="display:block;margin-bottom:22px;">Devon Archer, Archer Design</span>
+      <h2 class="serif reveal reveal-d1">Worth exploring together?</h2>
+      <p class="reveal reveal-d2">I'd love to learn more about how Lark approaches property-level creative and explore whether Archer Design could be useful as a flexible creative extension across select hotels, campaigns, or a small portfolio pilot.</p>
+      <div class="cta-actions reveal reveal-d3">
+        <a href="https://calendly.com/devonavich0/30min" target="_blank" rel="noopener" class="btn btn-primary">Let's talk for 15 minutes</a>
+        <a href="/" class="text-link">View Archer Design</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell foot-inner">
+    <div class="fmark">
+      <span class="fmark-mark" aria-hidden="true">AD</span>
+      <span class="fmark-word">Archer Design</span>
+    </div>
+    <div class="fnote">Prepared privately for Lark Hotels — not for distribution.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* nav scroll state */
+  var nav = document.getElementById("siteNav");
+  function onScroll(){
+    if (window.scrollY > 40) nav.classList.add("scrolled");
+    else nav.classList.remove("scrolled");
+  }
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive:true });
+
+  /* mobile nav toggle */
+  var toggle = document.getElementById("navToggle");
+  var links = document.getElementById("navLinks");
+  if (toggle && links){
+    toggle.addEventListener("click", function(){
+      var open = links.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    links.querySelectorAll("a").forEach(function(a){
+      a.addEventListener("click", function(){ links.classList.remove("open"); });
+    });
+  }
+
+  /* reveal on scroll */
+  var revealEls = document.querySelectorAll(".reveal, .reveal-scale");
+  if ("IntersectionObserver" in window && !reducedMotion){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16, rootMargin: "0px 0px -6% 0px" });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add("is-visible"); });
+  }
+
+  /* pause offscreen video for performance; respect reduced motion */
+  var videos = document.querySelectorAll("video");
+  if ("IntersectionObserver" in window){
+    var vio = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var v = entry.target;
+        if (reducedMotion){ v.pause(); return; }
+        if (entry.isIntersecting){ v.play().catch(function(){}); }
+        else { v.pause(); }
+      });
+    }, { threshold: 0.1 });
+    videos.forEach(function(v){ vio.observe(v); });
+  }
+
+  /* subtle parallax on full-bleed media frames */
+  if (!reducedMotion){
+    var parallaxTargets = document.querySelectorAll(".hero video:not(.ambient-bg):not(.ambient-fg), .arrival video:not(.ambient-bg):not(.ambient-fg), .experience video:not(.ambient-bg):not(.ambient-fg)");
+    var ticking = false;
+    function updateParallax(){
+      var vh = window.innerHeight;
+      parallaxTargets.forEach(function(v){
+        var rect = v.getBoundingClientRect();
+        var progress = (rect.top) / vh;
+        var shift = Math.max(-1, Math.min(1, progress)) * 26;
+        /* Minimal overscan (1.05) — just enough to cover the parallax
+           shift without revealing an edge, instead of enlarging the
+           full-bleed video further than necessary on wide displays. */
+        v.style.transform = "translateY(" + shift + "px) scale(1.05)";
+      });
+      ticking = false;
+    }
+    window.addEventListener("scroll", function(){
+      if (!ticking){ window.requestAnimationFrame(updateParallax); ticking = true; }
+    }, { passive:true });
+    updateParallax();
+  }
+})();
+</script>
+</body>
+</html>

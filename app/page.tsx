@@ -1,369 +1,464 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Allura, Fraunces } from "next/font/google";
-import { siteConfig } from "@/lib/site-config";
-import { SeedanceBackground } from "@/components/marketing/SeedanceBackground";
-import { ClientLogoStrip } from "@/components/marketing/ClientLogoStrip";
-import { HowItWorks } from "@/components/marketing/HowItWorks";
-import { MediaHero } from "@/components/marketing/MediaHero";
-import { MetricsStrip } from "@/components/marketing/MetricsStrip";
-import { FeaturedMotionShowcase } from "@/components/marketing/FeaturedMotionShowcase";
-import { ImageGallery } from "@/components/marketing/ImageGallery";
-import { ValueQuoteRow } from "@/components/marketing/ValueQuoteRow";
-import { PackagePathCards } from "@/components/marketing/PackagePathCards";
-import { RetainerValueSection } from "@/components/marketing/RetainerValueSection";
-import { PackageCards } from "@/components/marketing/PackageCards";
-import { TrialCTA } from "@/components/marketing/TrialCTA";
-import { StarterSprintSection } from "@/components/marketing/StarterSprintSection";
-import { BeforeAfterSection } from "@/components/marketing/BeforeAfterSection";
-import { FitSection } from "@/components/marketing/FitSection";
-import { CampaignResults } from "@/components/marketing/CampaignResults";
-import { TopCampaignMoments } from "@/components/marketing/TopCampaignMoments";
-import { WhatWeTrack } from "@/components/marketing/WhatWeTrack";
-import { AdminLink } from "@/components/AdminLink";
-import { GOLD_GRADIENT, FEATURED_VIDEOS, GALLERY_IMAGES } from "@/components/marketing/media";
+import Link from "next/link";
 import { JsonLd } from "@/components/marketing/JsonLd";
-import { absoluteUrl, faqJsonLd, serviceJsonLd, videoObjectJsonLd } from "@/lib/seo";
+import { StudioHeroMedia, type StudioClip } from "@/components/marketing/StudioHeroMedia";
+import { StudioGallery, type StudioGalleryItem } from "@/components/marketing/StudioGallery";
+import { StudioHeader } from "@/components/marketing/StudioHeader";
+import { StudioFooter } from "@/components/marketing/StudioFooter";
+import { StudioCTA } from "@/components/marketing/StudioCTA";
+import { fraunces } from "@/components/marketing/studioFont";
+import { HERO_ROTATION } from "@/components/marketing/media";
+import { faqJsonLd, serviceJsonLd } from "@/lib/seo";
 
-const fraunces = Fraunces({
-  variable: "--font-luxury-serif",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const allura = Allura({
-  variable: "--font-wordmark-script",
-  subsets: ["latin"],
-  weight: ["400"],
-});
+const TITLE = "Archer Design | Remote Hospitality Creative Studio";
+const DESCRIPTION =
+  "Archer Design is a remote hospitality creative studio that turns the property photos, F&B content, event footage, and brand assets hotels already have into polished monthly campaigns, social graphics, short-form motion, and booking-support creative.";
 
 export const metadata: Metadata = {
-  title: {
-    absolute: "Archer Design | Hotel Social Media & Hospitality Creative Support",
-  },
-  description:
-    "Hospitality creative support for hotels, restaurants, spas, and event venues, social graphics, short-form video, captions, campaign copy, and approval-ready content without adding full-time creative headcount.",
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
   alternates: { canonical: "/" },
-  openGraph: {
-    title: "Archer Design | Hotel Social Media & Hospitality Creative Support",
-    description:
-      "Hospitality creative support for hotels, restaurants, spas, and event venues, social graphics, short-form video, captions, campaign copy, and approval-ready content without adding full-time creative headcount.",
-    url: "/",
-  },
+  openGraph: { title: TITLE, description: DESCRIPTION, url: "/" },
+  twitter: { title: TITLE, description: DESCRIPTION },
 };
 
-// TODO(devon): Fill in real terms for the commitment FAQ answer.
+const pub = (file: string) => `/${encodeURIComponent(file)}`;
+
+// Hero rotation — real landscape hotel / resort / F&B motion (Supabase).
+const HERO_CLIPS: readonly StudioClip[] = HERO_ROTATION.slice(0, 6).map((v) => ({
+  src: v.src,
+  label: v.label,
+  tag: v.category,
+}));
+
+// Work / proof gallery — real campaign creative from /public.
+const WORK_ITEMS: readonly StudioGalleryItem[] = [
+  { src: pub("Image 2.png"), alt: "Hotel Indigo Pittsburgh University-Oakland room & lobby social campaign", tag: "Hotel Indigo — social campaign" },
+  { src: pub("Image 5.png"), alt: "Eliza Hot Metal Bistro burger promo, 15% off", tag: "Eliza Hot Metal Bistro — F&B promo" },
+  { src: pub("Image 4.png"), alt: "Hampton Inn flood festival event flyer", tag: "Hampton Inn — event campaign" },
+  { src: pub("Image 6.png"), alt: "Eliza Hot Metal Bistro live music flyer", tag: "Live music & events" },
+  { src: pub("Image 3.png"), alt: "Eliza Hot Metal Bistro wine & holiday seasonal billboard", tag: "Seasonal campaign" },
+  { src: pub("Image 7.png"), alt: "Eliza Hot Metal Bistro Take-Out Wednesday promo", tag: "Restaurant promo" },
+];
+
+// Brand proof logos.
+const BRAND_LOGOS = [
+  { src: pub("Hampton-Brand-Logo_TM_CMYK_Full-Color.png"), alt: "Hampton by Hilton" },
+  { src: pub("PITTSBURGH UNI-OAK_RGB_canvas_white_on_indigo_blue.png"), alt: "Hotel Indigo Pittsburgh University-Oakland" },
+  { src: pub("Elements Full logo- NO BACK GROUND.png"), alt: "Elements Spa" },
+  { src: pub("Untitled.png"), alt: "Eliza Hot Metal Bistro" },
+] as const;
+
+const HERO_PROOF = [
+  "14.8M+ tracked impressions",
+  "4.3M+ reach",
+  "565K+ engagements",
+  "2.5K+ creative pieces / posts",
+];
+
+// 4 — What Archer makes each month.
+const DELIVERABLES = [
+  { t: "Social graphics", d: "On-brand feed and story creative for hotels, F&B, spas, and events." },
+  { t: "Short-form motion & reels", d: "Polished motion built from existing stills and quick staff clips." },
+  { t: "Campaign visuals", d: "Seasonal pushes, events, and offers turned into coordinated asset sets." },
+  { t: "Booking-support creative", d: "Direct-booking visuals, sales decks, and one-sheets for group and leisure demand." },
+  { t: "F&B & event promos", d: "Menu features, specials, live music, and private-dining promos timed to your calendar." },
+  { t: "Google Business content", d: "Local visibility creative so nearby guests find and choose you first." },
+];
+
+// 5 — Remote workflow steps.
+const WORKFLOW = [
+  { n: "01", t: "You send the raw ingredients", d: "Past professional photos, staff iPhone clips, property links, event details, menus, and seasonal offers." },
+  { n: "02", t: "We edit, design, animate, and caption", d: "Your assets become polished, on-brand graphics, motion, and campaign visuals — a steady monthly rhythm." },
+  { n: "03", t: "You receive ready-to-use creative", d: "Approval-ready to post, send, or print across social, sales, and property marketing." },
+];
+
+// 5 — Objection pillars.
+const REMOTE_ANGLES = [
+  { t: "Asset maximizer", d: "Most hotels already paid for professional photography. We make those assets work harder, long after the shoot." },
+  { t: "Motion without a full crew", d: "High-quality stills become polished short-form motion and campaign video — no production day required." },
+  { t: "Authentic social, handled", d: "Your staff capture quick iPhone clips; we handle the editing, pacing, polish, captions, and motion." },
+  { t: "Hybrid when it matters", d: "If a property truly needs new hero assets, we can help coordinate a local shooter — but most monthly work is remote." },
+];
+
+// 6 — Proof band.
+const PROOF_METRICS = [
+  { value: "14.8M+", label: "Tracked impressions" },
+  { value: "4.3M+", label: "Reach" },
+  { value: "565K+", label: "Engagements" },
+  { value: "670K+", label: "Reported post clicks" },
+  { value: "2.5K+", label: "Creative pieces / posts" },
+];
+
+// 8 — Who it's for.
+const AUDIENCES = [
+  { t: "Single properties", d: "Boutique and select-service hotels that need consistent creative without a hire." },
+  { t: "Hotel restaurants & bars", d: "F&B teams that need menu, event, and beverage creative on a steady cadence." },
+  { t: "Resorts & spas", d: "Calm, premium creative for amenities, wellness, and seasonal packages." },
+  { t: "Multi-property & groups", d: "Scalable, on-brand creative across a portfolio — one studio, one rhythm." },
+];
+
+// 9 — Comparison.
+const OLD_WAY = [
+  "Freelance designer",
+  "Video editor",
+  "Social content support",
+  "Photographer / production crew",
+  "Agency support",
+  "Internal coordination time",
+];
+const ARCHER_WAY = [
+  "One hospitality creative studio",
+  "A steady monthly creative rhythm",
+  "A remote post-production workflow",
+  "Scalable support for one property or many",
+  "Lower overhead than building a full creative team",
+];
+
 const FAQ = [
   {
-    q: "Do you only work from existing photos?",
-    a: "No. Existing property assets are often the fastest starting point, but we also create new branded graphics, campaign concepts, polished visuals, motion assets, and photo and video direction as needed. If new photo or video support is needed, we can scope that into the project.",
-    open: true,
+    q: "How does this work if you're not on-site?",
+    a: "Most properties already have strong raw assets — professional photos, room and F&B imagery, event photos, and brand files. We turn those into ongoing creative remotely. When a property genuinely needs new hero assets, we can help coordinate a local shooter.",
   },
   {
-    q: "What do we get each month?",
-    a: "A monthly creative plan, then a steady delivery of finished assets: social graphics, short-form motion, event and F&B promos, and seasonal campaign visuals, with captions included. Ask about your specific asset count during onboarding.",
-    open: true,
+    q: "Do we need new professional photos first?",
+    a: "No. The whole point is making the assets you already paid for work harder. Past professional photos, staff iPhone clips, menus, and property links are usually more than enough to build a strong monthly creative rhythm.",
   },
   {
-    q: "Do you replace our internal team?",
-    a: "No. Most groups we work with already have internal marketing support. Archer Design is usually the outside creative extension that helps with overflow, property-level consistency, F&B/event campaigns, short-form motion, and local content.",
-    open: false,
+    q: "Can you support more than one property?",
+    a: "Yes. Archer Design is built to scale from a single property to a multi-property group, keeping every location on-brand with one consistent creative workflow.",
   },
   {
-    q: "Do you manage social accounts?",
-    a: "The core service is creative production and campaign support. We create the assets, captions, and creative direction your team can publish. Full account management can be discussed separately for the right long-term partnership.",
-    open: false,
+    q: "Do you work within our brand standards?",
+    a: "Yes. We produce brand-standard-aware creative built from your existing brand kit, so it clears review the first time — including for franchise- and flag-operated properties.",
   },
   {
-    q: "How is this lower-overhead than hiring?",
-    a: "A single in-house creative, social, or digital hire typically costs $90K–$180K a year once you include salary, insurance, payroll taxes, software, recruiting, and management time. The usual workaround, juggling several freelancers, often leads to inconsistent monthly output and last-minute graphics right before a key event or season. Archer Design delivers the output of that role on a steady monthly cadence for a fixed fee, with no employment overhead and no replacement risk. Use the calculator above with your own numbers.",
-    open: false,
-  },
-  {
-    q: "Why start with 3–5 properties?",
-    a: "It gives both sides a low-risk way to prove workflow, approvals, creative quality, and monthly cadence before expanding across more of the portfolio. We build the creative workflow, brand rules, motion style, and reporting structure on a manageable footprint first. Larger groups then expand on evidence, not promises.",
-    open: false,
-  },
-  {
-    q: "What's the difference between the free samples and the Starter Sprint?",
-    a: "The 5 free sample assets are a small taste, enough to judge quality on your brand. The Starter Sprint is a full working engagement: 15 finished assets, a real campaign's worth of creative, delivered in 7 days. It's the fastest way to experience what a monthly partnership feels like, and the full $950 is credited toward your first month if you continue.",
-    open: false,
-  },
-  {
-    q: "Can you prove the creative drove bookings?",
-    a: "We track what creative can honestly claim: impressions, reach, engagement, reactions, shares, comments, reported post clicks, and direct response to promoted offers and events. Across tracked hospitality profiles, that's 14.8M+ impressions, 565K+ direct engagements, 4.3M+ reach, and 670K+ reported post clicks to date. Direct booking attribution depends on your property's tracking setup. During onboarding we'll set up UTM links, campaign links, Google Business Profile tracking, and inquiry/booking-support signals where access is available.",
-    open: false,
-  },
-  {
-    q: "Do these numbers prove bookings?",
-    a: "Not by themselves. The report shows strong impressions, engagement, shares, comments, and 670K+ reported post clicks across tracked campaigns. These are meaningful signals that show the creative is creating attention and action. Direct booking attribution depends on the property's own tracking setup. During a pilot, Archer Design can add UTM links, campaign links, landing page tracking, Google Business Profile reporting, and inquiry/booking-support signals where access is available.",
-    open: false,
-  },
-  {
-    q: "What do you measure during a pilot?",
-    a: "We measure creative output, impressions, reach, direct engagements, reactions, comments, shares, reported post clicks, link clicks where available, website traffic where access is available, Google Business Profile actions, Search Console visibility, and any inquiry or booking data the property is able to share. Weekly performance pulse checks and a monthly performance recap are included for pilots and ongoing retainers.",
-    open: false,
-  },
-  {
-    q: "Is this only social media?",
-    a: "No. Social is one distribution channel. Archer Design supports the creative system behind property-level hospitality marketing: F&B and event promos, meeting and wedding assets, seasonal campaigns, spa and wellness campaigns, short-form motion, photo polishing, new branded creative, local SEO support, Google Business Profile support, and performance reporting. The assets live on social because that's where most hospitality audiences are, but the creative scope is broader.",
-    open: false,
-  },
-  {
-    q: "What's the commitment?",
-    // TODO(devon): Replace with your real terms: month-to-month or 3-month minimum.
-    a: "Most partnerships start monthly and can scale based on seasonality, property count, and campaign volume. Ask us about commitment terms during your pilot, we'll give you the straight answer.",
-    open: false,
+    q: "How is this different from hiring an agency or in-house team?",
+    a: "It's lower overhead. Instead of stacking a designer, video editor, social support, and production crew, you get one hospitality creative studio with a predictable monthly rhythm — premium output without building a full team.",
   },
 ];
 
-export default function ArcherDesignHome() {
+export default function ArcherStudioHome() {
   return (
-    <div
-      className={`${fraunces.variable} ${allura.variable} archer-luxury relative min-h-screen text-[#F6F1E7] font-[family-name:var(--font-geist-sans)]`}
-    >
+    <div className={`${fraunces.variable} archer-studio relative min-h-screen`}>
       <JsonLd
         data={[
           serviceJsonLd({
-            name: "Hotel Social Media & Hospitality Creative Support",
-            description:
-              "Social graphics, short-form video, captions, and approval-ready content for hotels, restaurants, spas, and event venues.",
+            name: "Archer Design — Remote Hospitality Creative Studio",
+            description: DESCRIPTION,
             path: "/",
-            serviceType: "Hospitality creative and social media content service",
+            serviceType: "Hospitality creative, social content, and post-production studio",
           }),
           faqJsonLd(FAQ.map(({ q, a }) => ({ q, a }))),
-          ...videoObjectJsonLd(
-            FEATURED_VIDEOS.map((v, i) => ({
-              name: v.label,
-              description: `Archer Design short-form hospitality video example: ${v.label}.`,
-              contentUrl: v.src,
-              thumbnailUrl: absoluteUrl(GALLERY_IMAGES[i % GALLERY_IMAGES.length].src),
-            }))
-          ),
         ]}
       />
-      <SeedanceBackground />
 
-      {/* Slim header */}
-      <header className="sticky top-0 z-40 border-b border-[rgba(201,164,76,0.14)] bg-[rgba(5,5,5,0.68)] backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.18)]">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="relative h-11 w-11 overflow-hidden rounded-full border border-[rgba(201,164,76,0.22)] bg-black shadow-[0_0_22px_rgba(201,164,76,0.16)]">
-              <Image
-                src="/ChatGPT%20Image%20Jun%207,%202026,%2004_28_24%20PM.png"
-                alt="Archer Design logo"
-                fill
-                sizes="44px"
-                className="object-cover"
-                priority
-              />
-            </div>
-            <div className="wordmark-font text-[0.88rem] sm:text-[0.96rem]">
-              <span className="text-[#F6F1E7]">Archer</span>
-              <span className="text-[#C9A44C]">Design</span>
-            </div>
-          </div>
-          <nav className="flex items-center gap-5 text-sm text-[#A9A092]">
-            <a href="/" className="hidden text-[#F6F1E7] sm:inline">Hotels</a>
-            <a href="/restaurant-creative-support" className="hidden hover:text-[#F6F1E7] sm:inline">Restaurants</a>
-            <a href="/spa-salon-creative-support" className="hidden hover:text-[#F6F1E7] sm:inline">Spas</a>
-            <a href="/case-studies" className="hidden hover:text-[#F6F1E7] sm:inline">Proof</a>
-            <a href="#packages" className="hidden hover:text-[#F6F1E7] sm:inline">Packages</a>
-            <a
-              href={siteConfig.creativeGapReviewUrl}
-              className="rounded-xl px-4 py-2 text-[13px] font-semibold text-[#1a1407]"
-              style={{ background: GOLD_GRADIENT }}
-            >
-              Request a Pilot →
-            </a>
-          </nav>
-        </div>
-      </header>
+      <StudioHeader />
 
       <main>
-        <MediaHero />
+        {/* ── 1. Hero ──────────────────────────────────────────────────────── */}
+        <section className="px-6 pt-16 pb-14 lg:pt-24">
+          <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+            <div>
+              <span className="st-kicker">Remote hospitality creative studio</span>
+              <h1 className="mt-5 font-serif text-[clamp(34px,5vw,60px)] leading-[1.05] text-[var(--st-ink)]">
+                The creative your property needs — from the assets you already
+                have.
+              </h1>
+              <p className="mt-6 max-w-xl text-[16.5px] leading-relaxed text-[var(--st-ink-soft)]">
+                Send us your photos, clips, menus, and seasonal offers. We turn
+                them into polished monthly creative — social graphics, short-form
+                motion, and campaign visuals — your team can actually post,
+                without adding more in-house overhead.
+              </p>
 
-        {/* Trust bar, client logos only, no keyword tags */}
-        <ClientLogoStrip />
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link href="/contact" className="st-btn">
+                  Send a property link <span aria-hidden>→</span>
+                </Link>
+                <a href="#work" className="st-btn-ghost">
+                  View hospitality work
+                </a>
+              </div>
 
-        {/* Creative support tied to real revenue moments */}
-        <section className="px-6 py-16">
+              <p className="mt-8 text-[13px] leading-relaxed text-[var(--st-ink-muted)]">
+                {HERO_PROOF.join("  ·  ")}
+              </p>
+            </div>
+
+            <div className="lg:pl-4">
+              <StudioHeroMedia clips={HERO_CLIPS} />
+            </div>
+          </div>
+        </section>
+
+        {/* ── 2. Trust strip ───────────────────────────────────────────────── */}
+        <section className="px-6 py-8">
           <div className="mx-auto max-w-5xl">
-            <div className="glass-card rounded-3xl p-8 md:p-12">
-              <span className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C]">
-                Why this works
-              </span>
-              <h2 className="mt-3 font-serif text-[clamp(26px,3.5vw,42px)] font-semibold leading-tight text-[#F6F1E7]">
-                Creative support tied to real revenue moments.
+            <p className="text-center text-[11px] font-semibold uppercase tracking-[0.3em] text-[var(--st-ink-muted)]">
+              Creative built for real hotel, restaurant & event brands
+            </p>
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
+              {BRAND_LOGOS.map((logo) => (
+                <div
+                  key={logo.src}
+                  className="relative h-9 w-28 shrink-0 opacity-60 grayscale transition hover:opacity-100 hover:grayscale-0 sm:h-10 sm:w-32"
+                >
+                  <Image src={logo.src} alt={logo.alt} fill sizes="160px" loading="lazy" className="object-contain" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── 3. Problem ───────────────────────────────────────────────────── */}
+        <section className="px-6 py-20">
+          <div className="mx-auto max-w-5xl">
+            <span className="st-kicker">The opportunity</span>
+            <h2 className="mt-4 max-w-3xl font-serif text-[clamp(26px,3.6vw,44px)] leading-[1.1] text-[var(--st-ink)]">
+              You already paid for great photography. Let&apos;s make it work harder.
+            </h2>
+            <div className="mt-9 grid gap-6 md:grid-cols-2">
+              <p className="text-[16px] leading-relaxed text-[var(--st-ink-soft)]">
+                Most properties sit on a library of professional photos, F&amp;B
+                shots, event coverage, and brand materials. After the initial
+                shoot, those assets tend to go quiet in a folder.
+              </p>
+              <p className="text-[16px] leading-relaxed text-[var(--st-ink-soft)]">
+                Meanwhile, restaurant and event teams are busy, and GMs and sales
+                leaders don&apos;t have time to design campaigns. Social slips into
+                inconsistency, and great guest experiences don&apos;t always translate
+                online.
+              </p>
+            </div>
+            <p className="mt-9 max-w-3xl font-serif text-[19px] leading-relaxed text-[var(--st-ink)]">
+              The gap is rarely the assets. It&apos;s the bandwidth to turn them into a
+              steady stream of polished, on-brand creative.
+            </p>
+          </div>
+        </section>
+
+        {/* ── 4. What we make each month ───────────────────────────────────── */}
+        <section className="bg-[var(--st-cream)] px-6 py-20">
+          <div className="mx-auto max-w-6xl">
+            <div className="max-w-2xl">
+              <span className="st-kicker">What we make</span>
+              <h2 className="mt-4 font-serif text-[clamp(26px,3.6vw,44px)] leading-[1.1] text-[var(--st-ink)]">
+                Finished hospitality creative, every month.
               </h2>
-              <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-[#A9A092]">
-                Most hospitality businesses already have things worth promoting. The challenge is
-                keeping those offers visible, polished, and consistent every month.
+            </div>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {DELIVERABLES.map((d) => (
+                <div key={d.t} className="st-card p-7">
+                  <h3 className="font-serif text-[20px] text-[var(--st-ink)]">{d.t}</h3>
+                  <p className="mt-2.5 text-[14.5px] leading-relaxed text-[var(--st-ink-soft)]">{d.d}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── 5. Remote workflow + objection ───────────────────────────────── */}
+        <section id="approach" className="scroll-mt-24 px-6 py-20">
+          <div className="mx-auto max-w-6xl">
+            <div className="max-w-2xl">
+              <span className="st-kicker">How remote production works</span>
+              <h2 className="mt-4 font-serif text-[clamp(26px,3.6vw,44px)] leading-[1.1] text-[var(--st-ink)]">
+                Raw ingredients in. Finished creative out.
+              </h2>
+              <p className="mt-4 text-[16px] leading-relaxed text-[var(--st-ink-soft)]">
+                Think of Archer Design as your remote hospitality post-production
+                studio. The workflow is simple — and the remote model is a
+                strategic advantage, not a limitation.
               </p>
-              <p className="mt-3 text-[15px] leading-relaxed text-[#A9A092]">
-                We help turn those revenue moments into stronger creative:
-              </p>
-              <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
-                {[
-                  "Hotel packages",
-                  "Restaurant offers",
-                  "Private dining",
-                  "F&B events",
-                  "Spa services",
-                  "Gift cards",
-                  "Wedding and meeting inquiries",
-                  "Seasonal campaigns",
-                  "Local events",
-                  "Google Business updates",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-xl border border-[rgba(201,164,76,0.16)] bg-[rgba(201,164,76,0.04)] px-4 py-3 text-center text-[13px] text-[#D8CFBE]"
-                  >
-                    {item}
+            </div>
+
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {WORKFLOW.map((s) => (
+                <div key={s.n} className="st-card p-7">
+                  <span className="font-serif text-[26px] text-[var(--st-gold)]">{s.n}</span>
+                  <h3 className="mt-3 font-serif text-[20px] text-[var(--st-ink)]">{s.t}</h3>
+                  <p className="mt-3 text-[14.5px] leading-relaxed text-[var(--st-ink-soft)]">{s.d}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Objection block */}
+            <div className="st-panel mt-8 p-8 md:p-10">
+              <h3 className="font-serif text-[clamp(20px,2.6vw,28px)] text-[var(--st-ink)]">
+                &ldquo;But how do you handle photo and video if you&apos;re not on-site?&rdquo;
+              </h3>
+              <div className="mt-7 grid gap-6 sm:grid-cols-2">
+                {REMOTE_ANGLES.map((a) => (
+                  <div key={a.t}>
+                    <h4 className="font-serif text-[17px] text-[var(--st-ink)]">{a.t}</h4>
+                    <p className="mt-2 text-[14px] leading-relaxed text-[var(--st-ink-soft)]">{a.d}</p>
                   </div>
                 ))}
               </div>
-              <p className="mt-7 text-[15px] leading-relaxed text-[#A9A092]">
-                The goal is not more random content.
-              </p>
-              <p className="mt-2 font-serif text-[18px] text-[#F6F1E7]">
-                The goal is cleaner creative output that helps people notice, click, inquire, book,
-                or come back.
-              </p>
             </div>
           </div>
         </section>
 
-        {/* Pilot section, group pitch */}
-        <section className="px-6 py-16">
-          <div className="mx-auto max-w-5xl">
-            <div className="glass-card rounded-3xl p-8 md:p-12">
-              <div className="grid gap-8 md:grid-cols-2 md:items-start">
-                <div>
-                  <span className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C]">
-                    Group partnerships
-                  </span>
-                  <h2 className="mt-3 font-serif text-[clamp(26px,3.5vw,42px)] font-semibold leading-tight text-[#F6F1E7]">
-                    Start with a focused 3–5 property pilot.
-                  </h2>
-                  <p className="mt-4 text-[15px] leading-relaxed text-[#A9A092]">
-                    For hotel groups, we don&apos;t recommend rolling creative support across the
-                    entire portfolio on day one. The cleanest path is a focused pilot across 3–5
-                    properties.
-                  </p>
-                  <p className="mt-3 text-[15px] leading-relaxed text-[#A9A092]">
-                    That gives us time to build the creative workflow, approval process, brand rules,
-                    motion style, campaign cadence, and reporting structure before expanding.
-                  </p>
-                  <p className="mt-3 text-[15px] leading-relaxed text-[#A9A092]">
-                    It lowers risk for both sides: you judge real output on real properties for one
-                    monthly fee, and expansion across the portfolio happens on evidence, property by
-                    property, when the cadence is proven.
-                  </p>
-                  <div className="mt-6">
-                    <a
-                      href={siteConfig.creativeGapReviewUrl}
-                      className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
-                      style={{ background: GOLD_GRADIENT }}
-                    >
-                      Request a 3–5 Property Pilot <span aria-hidden>→</span>
-                    </a>
-                    <p className="mt-3 text-[13px] text-[#A9A092]">
-                      3-property pilots start at $4,500/month; 5-property portfolio pilots start at $10,000/month.
-                    </p>
+        {/* ── 6. Proof numbers band ────────────────────────────────────────── */}
+        <section className="bg-[var(--st-cream)] px-6 py-20">
+          <div className="mx-auto max-w-6xl">
+            <div className="max-w-2xl">
+              <span className="st-kicker">The proof</span>
+              <h2 className="mt-4 font-serif text-[clamp(26px,3.6vw,42px)] leading-[1.1] text-[var(--st-ink)]">
+                Tracked across real hospitality clients.
+              </h2>
+            </div>
+            <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
+              {PROOF_METRICS.map((m) => (
+                <div key={m.label}>
+                  <div className="font-serif text-[clamp(28px,3.4vw,42px)] leading-none text-[var(--st-ink)]">
+                    {m.value}
                   </div>
+                  <div className="mt-2 text-[12.5px] leading-snug text-[var(--st-ink-muted)]">{m.label}</div>
                 </div>
-                <div className="space-y-3">
-                  <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[#A9A092]">
-                    Best fit
-                  </p>
-                  {[
-                    "Hotel groups with multiple properties",
-                    "Properties with active F&B, events, meetings, weddings, or spa offerings",
-                    "Teams that need more creative output without adding another hire",
-                    "Groups that want better portfolio consistency",
-                  ].map((item) => (
-                    <div key={item} className="flex items-start gap-3 text-[14.5px] text-[#A9A092]">
-                      <span className="mt-[6px] shrink-0 text-[9px] text-[#C9A44C]">◆</span>
+              ))}
+            </div>
+            <p className="mt-8 max-w-3xl text-[12px] leading-relaxed text-[var(--st-ink-muted)]">
+              Figures are cumulative across tracked hotel, restaurant, spa, event,
+              and seasonal hospitality campaigns — not the result of any single
+              client. Results depend on offer, audience, timing, and many other
+              factors.
+            </p>
+          </div>
+        </section>
+
+        {/* ── 7. Selected work ─────────────────────────────────────────────── */}
+        <section id="work" className="scroll-mt-24 px-6 py-20">
+          <div className="mx-auto max-w-6xl">
+            <div className="max-w-2xl">
+              <span className="st-kicker">Selected work</span>
+              <h2 className="mt-4 font-serif text-[clamp(26px,3.6vw,44px)] leading-[1.1] text-[var(--st-ink)]">
+                Real properties. Real hospitality creative.
+              </h2>
+              <p className="mt-4 text-[16px] leading-relaxed text-[var(--st-ink-soft)]">
+                Campaigns and content built from existing assets for hotels,
+                restaurants, events, and seasonal pushes.
+              </p>
+            </div>
+            <div className="mt-12">
+              <StudioGallery items={WORK_ITEMS} />
+            </div>
+            <p className="mt-8">
+              <Link href="/case-studies" className="text-[14px] font-semibold text-[var(--st-gold)] hover:text-[var(--st-ink)]">
+                See the full case studies →
+              </Link>
+            </p>
+          </div>
+        </section>
+
+        {/* ── 8. Who it's for ──────────────────────────────────────────────── */}
+        <section id="who" className="scroll-mt-24 bg-[var(--st-cream)] px-6 py-20">
+          <div className="mx-auto max-w-6xl">
+            <div className="max-w-2xl">
+              <span className="st-kicker">Who it&apos;s for</span>
+              <h2 className="mt-4 font-serif text-[clamp(26px,3.6vw,44px)] leading-[1.1] text-[var(--st-ink)]">
+                Built for one property or a whole portfolio.
+              </h2>
+            </div>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {AUDIENCES.map((a) => (
+                <div key={a.t} className="st-card p-7">
+                  <h3 className="font-serif text-[19px] text-[var(--st-ink)]">{a.t}</h3>
+                  <p className="mt-2.5 text-[14px] leading-relaxed text-[var(--st-ink-soft)]">{a.d}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── 9. Lower-overhead comparison ─────────────────────────────────── */}
+        <section id="value" className="scroll-mt-24 px-6 py-20">
+          <div className="mx-auto max-w-6xl">
+            <div className="max-w-2xl">
+              <span className="st-kicker">The advantage</span>
+              <h2 className="mt-4 font-serif text-[clamp(26px,3.6vw,44px)] leading-[1.1] text-[var(--st-ink)]">
+                More creative output. Less overhead.
+              </h2>
+              <p className="mt-4 text-[16px] leading-relaxed text-[var(--st-ink-soft)]">
+                Instead of stacking multiple vendors and in-house hires, one studio
+                keeps the creative moving — with far less coordination burden on
+                your team.
+              </p>
+            </div>
+            <div className="mt-12 grid gap-6 lg:grid-cols-2">
+              <div className="st-panel p-8">
+                <p className="text-[12px] font-semibold uppercase tracking-[0.22em] text-[var(--st-ink-muted)]">
+                  The old way
+                </p>
+                <ul className="mt-5 space-y-3">
+                  {OLD_WAY.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-[15px] text-[var(--st-ink-soft)]">
+                      <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--st-taupe)]" />
                       {item}
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ul>
+              </div>
+              <div className="st-card border-[var(--st-gold-soft)] p-8">
+                <p className="text-[12px] font-semibold uppercase tracking-[0.22em] text-[var(--st-gold)]">
+                  With Archer Design
+                </p>
+                <ul className="mt-5 space-y-3">
+                  {ARCHER_WAY.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-[15px] text-[var(--st-ink)]">
+                      <span className="mt-[3px] shrink-0 text-[var(--st-gold)]">✦</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
         </section>
 
-        {/* How it works, 3-step process */}
-        <HowItWorks />
+        {/* ── 10. Soft pilot options ───────────────────────────────────────── */}
+        <section className="px-6 pb-4">
+          <div className="mx-auto max-w-5xl">
+            <div className="st-panel p-8 text-center md:p-12">
+              <span className="st-kicker">Getting started</span>
+              <p className="mx-auto mt-4 max-w-3xl font-serif text-[clamp(20px,2.6vw,28px)] leading-snug text-[var(--st-ink)]">
+                Monthly creative support is available for single properties, hotel
+                restaurants, resorts, and multi-property groups.
+              </p>
+              <p className="mx-auto mt-4 max-w-2xl text-[15.5px] leading-relaxed text-[var(--st-ink-soft)]">
+                Most clients begin with a focused pilot so we can prove the
+                workflow before expanding — lower overhead than hiring multiple
+                vendors, and scalable as you grow.
+              </p>
+              <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <Link href="/contact" className="st-btn">
+                  Send a property link <span aria-hidden>→</span>
+                </Link>
+                <Link href="/packages" className="st-btn-ghost">
+                  How packages work
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
 
-        {/* Featured short-form motion */}
-        <FeaturedMotionShowcase />
-
-        {/* Before/after positioning: everyday moments → premium campaign assets */}
-        <BeforeAfterSection />
-
-        <MetricsStrip />
-
-        {/* Campaign results — 4 property cards with SHAIPE proof data */}
-        <CampaignResults />
-
-        {/* Top campaign moments — individual campaign highlights */}
-        <TopCampaignMoments />
-
-        {/* What we track + honest booking attribution + pilot framing */}
-        <WhatWeTrack />
-
-        {/* ROI calculator + overhead comparison */}
-        <RetainerValueSection />
-
-        <div className="mx-auto max-w-6xl px-6 py-2">
-          <div className="gold-divider opacity-30" />
-        </div>
-
-        {/* Still image gallery */}
-        <ImageGallery />
-
-        {/* 3-card value strip + client testimonials */}
-        <ValueQuoteRow />
-
-        <div className="mx-auto max-w-6xl px-6 py-2">
-          <div className="gold-divider opacity-25" />
-        </div>
-
-        {/* Sample assets (free) — first rung of the ladder */}
-        <TrialCTA />
-
-        {/* Starter Sprint (paid pilot) — second rung */}
-        <StarterSprintSection />
-
-        {/* Package navigation cards (Hotels / Spas / Restaurants) */}
-        <PackagePathCards />
-
-        {/* Full package listing, group leads */}
-        <PackageCards />
-
-        {/* Qualification: best fit / not a fit */}
-        <FitSection />
-
-        {/* FAQ */}
+        {/* ── 11. FAQ ──────────────────────────────────────────────────────── */}
         <section className="px-6 py-20">
           <div className="mx-auto max-w-3xl">
-            <div className="mb-8">
-              <span className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C]">FAQ</span>
-              <h2 className="mt-3 font-serif text-[clamp(28px,4vw,46px)] font-semibold leading-tight text-[#F6F1E7]">
-                Good questions.
-              </h2>
-            </div>
-            <div className="divide-y divide-[rgba(201,164,76,0.18)]">
-              {FAQ.map((f) => (
-                <details key={f.q} open={f.open} className="group py-5">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-xl text-[#F6F1E7] [&::-webkit-details-marker]:hidden">
+            <span className="st-kicker">Good questions</span>
+            <h2 className="mt-4 font-serif text-[clamp(26px,3.6vw,42px)] leading-[1.1] text-[var(--st-ink)]">
+              The practical details.
+            </h2>
+            <div className="mt-8 divide-y divide-[var(--st-line)] border-y border-[var(--st-line)]">
+              {FAQ.map((f, i) => (
+                <details key={f.q} open={i === 0} className="group py-5">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-serif text-[19px] text-[var(--st-ink)] [&::-webkit-details-marker]:hidden">
                     {f.q}
-                    <span className="text-2xl text-[#C9A44C] transition group-open:rotate-45">+</span>
+                    <span className="text-2xl text-[var(--st-gold)] transition group-open:rotate-45">+</span>
                   </summary>
-                  <p className="mt-3 text-[15px] text-[#A9A092]">{f.a}</p>
+                  <p className="mt-3 text-[15px] leading-relaxed text-[var(--st-ink-soft)]">{f.a}</p>
                 </details>
               ))}
             </div>
@@ -371,51 +466,10 @@ export default function ArcherDesignHome() {
         </section>
       </main>
 
-      <footer className="border-t border-[rgba(201,164,76,0.1)] px-6 py-16 text-center text-[13px] text-[#A9A092]">
-        <div className="mx-auto flex w-fit items-center gap-3">
-          <div className="relative h-10 w-10 overflow-hidden rounded-full border border-[rgba(201,164,76,0.22)] bg-black shadow-[0_0_18px_rgba(201,164,76,0.14)]">
-            <Image
-              src="/ChatGPT%20Image%20Jun%207,%202026,%2004_28_24%20PM.png"
-              alt="Archer Design logo"
-              fill
-              sizes="40px"
-              className="object-cover"
-            />
-          </div>
-          <div className="wordmark-font text-[0.68rem] text-[#F6F1E7] sm:text-[0.74rem]">
-            <span className="text-[#F6F1E7]">Archer</span>
-            <span className="text-[#C9A44C]">Design</span>
-          </div>
-        </div>
+      {/* ── 12. Final CTA ──────────────────────────────────────────────────── */}
+      <StudioCTA />
 
-        <p className="mt-4 font-serif text-[clamp(18px,2.4vw,26px)] text-[#F6F1E7]">
-          Your properties already have the raw material.{" "}
-          <span
-            className="bg-clip-text text-transparent"
-            style={{ backgroundImage: GOLD_GRADIENT }}
-          >
-            Let&apos;s show you what it can do.
-          </span>
-        </p>
-
-        <div className="mt-5">
-          <a
-            href={siteConfig.creativeGapReviewUrl}
-            className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-[#1a1407] shadow-[0_6px_30px_rgba(201,164,76,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_40px_rgba(201,164,76,0.4)]"
-            style={{ background: GOLD_GRADIENT }}
-          >
-            Request a 3–5 Property Pilot <span aria-hidden>→</span>
-          </a>
-          <p className="mt-3 text-[13px] text-[#A9A092]">Or request 5 sample assets, no card, 7 days, approval-ready.</p>
-        </div>
-
-        {/* SEO keyword row, moved from trust bar */}
-        <p className="mt-8 text-[11px] text-[#A9A092]/50">
-          Boutique Spas &middot; Hotel Restaurants &middot; Event Venues &middot; Multi-Property Groups &middot; F&amp;B Campaigns &middot; Local SEO
-        </p>
-
-        <AdminLink className="mt-4 inline-block text-[11px] text-[#A9A092]/40 transition-colors hover:text-[#C9A44C]" />
-      </footer>
+      <StudioFooter />
     </div>
   );
 }

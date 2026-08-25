@@ -1,4 +1,12 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+
+@source ".";
+@source "../components";
+@source "../lib";
+@source "../hooks";
+@source "../utils";
+@source "../pages";
+
 
 :root {
   color-scheme: dark;
@@ -257,3 +265,1852 @@ body {
     padding: 0 10px;
   }
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Archer Studio — light, airy luxury hospitality theme.
+   Scoped under .archer-studio so it never affects the dark CRM / service
+   pages. Warm ivory backgrounds, soft taupe tones, muted gold, refined serif
+   display paired with a clean sans body. Reusable across future marketing
+   pages (Hotels, Restaurants, Work, etc.).
+   ─────────────────────────────────────────────────────────────────────────── */
+.archer-studio {
+  color-scheme: light;
+  /* Surfaces */
+  --st-ivory: #fbf8f2;
+  --st-cream: #f6f1e8;
+  --st-sand: #efe7d9;
+  --st-white: #ffffff;
+  /* Ink */
+  --st-ink: #2a2520;
+  --st-ink-soft: #5b5248;
+  --st-ink-muted: #8a8073;
+  /* Accents */
+  --st-gold: #a98a4c;
+  --st-gold-soft: #c2a86f;
+  --st-taupe: #b8a98f;
+  /* Lines */
+  --st-line: rgba(42, 37, 32, 0.1);
+  --st-line-soft: rgba(42, 37, 32, 0.06);
+  /* Shadows */
+  --st-shadow: 0 22px 60px -28px rgba(63, 53, 38, 0.32);
+  --st-shadow-soft: 0 12px 36px -22px rgba(63, 53, 38, 0.26);
+
+  background: var(--st-ivory);
+  color: var(--st-ink);
+  font-family: var(--font-geist-sans, ui-sans-serif, system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.archer-studio .font-serif,
+.archer-studio h1,
+.archer-studio h2,
+.archer-studio h3 {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, Cambria,
+    "Times New Roman", serif;
+  letter-spacing: -0.012em;
+  font-weight: 400;
+}
+
+.archer-studio .wordmark-font {
+  font-family: var(--font-wordmark-script), "Snell Roundhand",
+    "Brush Script MT", cursive;
+  letter-spacing: 0;
+  line-height: 1;
+  font-feature-settings: "liga" 1, "kern" 1;
+}
+
+/* Eyebrow / kicker label */
+.archer-studio .st-kicker {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--st-gold);
+}
+
+/* Soft elevated card on warm backgrounds */
+.archer-studio .st-card {
+  background: var(--st-white);
+  border: 1px solid var(--st-line);
+  border-radius: 22px;
+  box-shadow: var(--st-shadow-soft);
+}
+
+/* Thin-bordered, flatter panel */
+.archer-studio .st-panel {
+  background: var(--st-cream);
+  border: 1px solid var(--st-line);
+  border-radius: 22px;
+}
+
+/* Primary (gold) button */
+.archer-studio .st-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.85rem 1.6rem;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  background: var(--st-ink);
+  color: var(--st-ivory);
+  border: 1px solid var(--st-ink);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.archer-studio .st-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--st-shadow);
+}
+
+/* Secondary (outline) button */
+.archer-studio .st-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.85rem 1.5rem;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  background: transparent;
+  color: var(--st-ink);
+  border: 1px solid var(--st-line);
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.archer-studio .st-btn-ghost:hover {
+  transform: translateY(-1px);
+  border-color: var(--st-gold);
+  background: rgba(169, 138, 76, 0.06);
+}
+
+.archer-studio .st-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(169, 138, 76, 0.4),
+    transparent
+  );
+}
+
+/* Media frame for hero / gallery video + image cards */
+.archer-studio .st-media-frame {
+  background: var(--st-white);
+  border: 1px solid var(--st-line);
+  border-radius: 26px;
+  padding: 10px;
+  box-shadow: var(--st-shadow);
+}
+.archer-studio .st-media-inner {
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--st-sand);
+}
+
+/* Soft scrollbar within the studio theme */
+.archer-studio ::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.archer-studio ::-webkit-scrollbar-thumb {
+  background: var(--st-taupe);
+  border-radius: 10px;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   The Revstudio — standalone /revstudio page theme.
+   Scoped under .revstudio-theme so it never affects the light Archer
+   Studio pages or the dark CRM. Near-black + dark plum surfaces, warm
+   ivory text, a restrained Revstudio purple as the sole accent (small
+   highlights, thin borders, active states, CTA accents — never flooded
+   across the page) plus a warm-amber undertone reserved for the hero's
+   hotel-lighting glow. Distinct from the cream Archer theme and from the
+   HSC × Archer Design prospect page (public/revenue-activation) — this is
+   Revstudio's own identity, not a partnership co-brand.
+   The --rv-* variable names are kept stable from the page's earlier
+   partnership-era build so every consuming rule below stays correct after
+   a palette swap; only the values changed.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme {
+  color-scheme: light;
+  /* Surfaces — unchanged: these stay dark and back the intentionally dark
+     cards/panels/media stages (.rv-model-card, .op-frame, .am-item, etc.).
+     The PAGE itself is light; only these specific surfaces are dark. */
+  --rv-bg: #030304;
+  --rv-bg-2: #09090c;
+  --rv-navy: #100a14;
+  --rv-panel: rgba(16, 10, 20, 0.62);
+  --rv-panel-strong: rgba(9, 9, 12, 0.82);
+
+  /* Ink — default (light-page) values. Text sitting directly on the light
+     background/glass sections uses these. Genuinely dark surfaces
+     (.rv-model-card, .op-frame, .rv-hero-stage, .am-item, .rv-icon-badge,
+     etc.) re-declare all of --rv-ink/--rv-ink-soft/--rv-ink-muted/
+     --rv-gold/--rv-blue-bright/--rv-champagne/--rv-line/--rv-line-strong
+     back to their dark-surface values in one scoped block below — see
+     "DARK-SURFACE TOKEN OVERRIDE". CSS custom properties cascade normally,
+     so every descendant text/icon color automatically follows whichever
+     scope it's actually sitting inside — no per-element color rules and no
+     runtime DOM color-fixing required. */
+  --rv-ink: #211d25;             /* primary heading */
+  --rv-ink-soft: #514b56;        /* body text */
+  --rv-ink-muted: #746d79;       /* muted supporting text */
+
+  /* Accents — TRS purple is the sole accent hue on the light page; amber
+     is reserved for the hero's warm hotel-lighting glow only, never UI
+     chrome. --rv-gold (kicker/label color) and --rv-blue-bright (the
+     "Revstudio" accent used throughout) both resolve to the same exact
+     TRS purple on the light page for one consistent brand color. */
+  --rv-slate: #a7a1aa;
+  --rv-gold: #5b21f5;
+  --rv-gold-soft: rgba(91, 33, 245, 0.1);
+  --rv-blue: #7254a8;
+  --rv-blue-bright: #5b21f5;
+  --rv-cyan: rgba(150, 104, 215, 0.5);
+  --rv-amber: rgba(217, 165, 101, 0.4);
+  /* Archer Design's side-accent in shared Revstudio x Archer sections
+     (Opportunity execution-gap infographic, Results). Darkened from the
+     original dark-surface gold so it stays readable on the light page;
+     the brighter original value returns on dark surfaces below. */
+  --rv-champagne: #8a6a2e;
+  --rv-champagne-soft: rgba(138, 106, 46, 0.12);
+
+  /* Lines — a visible soft charcoal/purple hairline on the light page.
+     Dark surfaces restore the original pale line beneath. */
+  --rv-line: rgba(33, 29, 37, 0.1);
+  --rv-line-strong: rgba(91, 33, 245, 0.18);
+
+  /* Shadows */
+  --rv-shadow: 0 26px 70px -30px rgba(44, 24, 75, 0.22);
+  /* Shared page shell — keeps the header logo and hero content locked to
+     the same left edge, and gives the hero a fixed-width frame instead of
+     fluid columns that reflow on every resize. */
+  --revstudio-shell-width: 1440px;
+  --revstudio-page-gutter: 40px;
+
+  /* Page background — flowing white/lavender glass artwork, not a blank
+     page. A light wash keeps text readable without washing the artwork
+     out to near-nothing (a nearly opaque white layer was the earlier
+     mistake here). Sections layer their own translucent glass on top. */
+  background-color: #f8f6fb;
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(247, 242, 255, 0.34) 45%, rgba(255, 255, 255, 0.5) 100%),
+    url("/revstudio/media/revstudio-background.png");
+  background-position: center top, center top;
+  background-size: cover, cover;
+  background-repeat: no-repeat, no-repeat;
+  background-attachment: fixed, fixed;
+  color: var(--rv-ink);
+  font-family: var(--font-geist-sans, ui-sans-serif, system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@media (max-width: 800px) {
+  .revstudio-theme {
+    /* Fixed backgrounds repaint on every scroll frame on many mobile
+       browsers; scroll keeps the page smooth without changing the look. */
+    background-attachment: scroll, scroll;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   DARK-SURFACE TOKEN OVERRIDE — every component that renders its own dark
+   background (cards, panels, badges, media stages, pills) re-declares the
+   ink/accent/line tokens back to their light-on-dark values here, once.
+   Everything else on the page inherits the light-page tokens from
+   .revstudio-theme above automatically through normal CSS cascade.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme :is(
+  .rv-model-card,
+  .rv-card,
+  .rv-panel,
+  .rv-icon-badge,
+  .am-item,
+  .op-frame,
+  .op-badge,
+  .rs-frame,
+  .rs-bridge-word,
+  .rv-process-badge,
+  .rv-process-icon,
+  .rv-scenario-pill,
+  .rv-scenario-flow,
+  .rv-scenario-step-icon,
+  .rv-hero-stage,
+  .rv-people-avatar
+) {
+  --rv-ink: #ffffff;
+  --rv-ink-soft: rgba(255, 255, 255, 0.76);
+  --rv-ink-muted: rgba(255, 255, 255, 0.72);
+  --rv-gold: #9668d7;
+  --rv-blue-bright: #9668d7;
+  --rv-champagne: #d9b97a;
+  --rv-line: rgba(215, 205, 225, 0.12);
+  --rv-line-strong: rgba(215, 205, 225, 0.24);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   LIGHT GLASS SECTIONS — every full-bleed section gets a translucent glass
+   layer over the page background artwork instead of a heavy, near-opaque
+   white fill. Alternating sections shift slightly toward lavender so the
+   page reads as one continuous glass surface, not identical stacked boxes.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme main > section {
+  position: relative;
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(22px) saturate(135%);
+  -webkit-backdrop-filter: blur(22px) saturate(135%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+.revstudio-theme main > section:nth-of-type(even) {
+  background: rgba(247, 243, 255, 0.6);
+}
+.revstudio-theme main > section.border-t {
+  border-top-color: var(--rv-line);
+}
+
+/* Header / mobile nav — a light glass bar rather than a hardcoded dark
+   surface, so it reads consistently with the rest of the light page. */
+.revstudio-theme .rv-header {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 1px 0 rgba(44, 24, 75, 0.06), 0 12px 34px rgba(44, 24, 75, 0.06);
+}
+.revstudio-theme .rv-mobile-nav {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+}
+
+/* Visible keyboard focus everywhere on the page, as a safety net for any
+   link/button not already given a dedicated focus-visible treatment. */
+.revstudio-theme a:focus-visible,
+.revstudio-theme button:focus-visible {
+  outline: 2px solid #5b21f5;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Hero building image — floats on the page inside .rv-hero-stage--pad
+   (no dark card fill, just breathing room + corner accents; see below),
+   replacing the previous hero video. object-fit:contain keeps the full
+   building visible, unclipped, centered. */
+.revstudio-theme .rv-hero-building-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 780px;
+  object-fit: contain;
+  margin-inline: auto;
+}
+
+.revstudio-theme .rv-shell {
+  width: 100%;
+  max-width: var(--revstudio-shell-width);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+@media (min-width: 640px) {
+  .revstudio-theme .rv-shell { padding-inline: 32px; }
+}
+@media (min-width: 1024px) {
+  .revstudio-theme .rv-shell { padding-inline: var(--revstudio-page-gutter); }
+}
+
+.revstudio-theme .font-serif,
+.revstudio-theme h1,
+.revstudio-theme h2,
+.revstudio-theme h3 {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+}
+
+.revstudio-theme .rv-kicker {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--rv-gold);
+}
+
+.revstudio-theme .rv-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--rv-line);
+  border-radius: 9999px;
+  padding: 0.4rem 0.85rem;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rv-slate);
+  background: rgba(141, 163, 210, 0.06);
+}
+
+.revstudio-theme .rv-card {
+  background: var(--rv-panel);
+  border: 1px solid var(--rv-line);
+  border-radius: 18px;
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  box-shadow: var(--rv-shadow);
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.revstudio-theme .rv-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--rv-line-strong);
+}
+
+.revstudio-theme .rv-panel {
+  background: var(--rv-panel-strong);
+  border: 1px solid var(--rv-line);
+  border-radius: 18px;
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+.revstudio-theme .rv-panel:hover {
+  transform: translateY(-2px);
+  border-color: var(--rv-line-strong);
+}
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-card,
+  .revstudio-theme .rv-panel { transition: none !important; }
+  .revstudio-theme .rv-card:hover,
+  .revstudio-theme .rv-panel:hover { transform: none !important; }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   THE MODEL — "One commercial priority. Two specialist layers." Scoped
+   entirely to #model; does not touch .rv-card/.rv-panel/.rv-hline/.rv-vline,
+   which are shared with other sections. Cinematic dark-glass backdrop
+   (radial purple glow + a faint static architectural grid, masked to a
+   restrained vignette — no animation, no bright wash over the copy) behind
+   two premium glass panels, each carrying a distinct accent so The
+   Revstudio (purple) and Archer Design (champagne) read as separate
+   specialist layers rather than twin generic cards.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .rv-model-atmosphere {
+  background:
+    radial-gradient(58% 55% at 50% 6%, rgba(150, 104, 215, 0.16), transparent 65%),
+    radial-gradient(42% 48% at 10% 88%, rgba(114, 84, 168, 0.09), transparent 70%),
+    radial-gradient(42% 48% at 90% 88%, rgba(217, 185, 122, 0.06), transparent 70%);
+}
+.revstudio-theme .rv-model-grid {
+  background-image:
+    linear-gradient(rgba(215, 205, 225, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(215, 205, 225, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: center top;
+  -webkit-mask-image: radial-gradient(65% 72% at 50% 38%, rgba(0, 0, 0, 0.75), transparent 75%);
+  mask-image: radial-gradient(65% 72% at 50% 38%, rgba(0, 0, 0, 0.75), transparent 75%);
+}
+.revstudio-theme .rv-model-vignette {
+  background: radial-gradient(120% 95% at 50% 45%, transparent 55%, rgba(2, 2, 3, 0.5) 100%);
+}
+
+.revstudio-theme .rv-model-card {
+  position: relative;
+  isolation: isolate;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(23, 12, 35, 0.82), rgba(8, 8, 14, 0.92));
+  border: 1px solid rgba(174, 107, 255, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 30px 80px rgba(64, 20, 110, 0.18);
+  backdrop-filter: blur(18px) saturate(130%);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  overflow: hidden;
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.revstudio-theme .rv-model-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 42%);
+  pointer-events: none;
+}
+.revstudio-theme .rv-model-card > * { position: relative; z-index: 1; }
+.revstudio-theme .rv-model-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 36px 90px rgba(64, 20, 110, 0.24);
+}
+.revstudio-theme .rv-model-card--revstudio {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 30px 80px rgba(64, 20, 110, 0.18),
+    0 0 70px -26px rgba(150, 104, 215, 0.45);
+}
+.revstudio-theme .rv-model-card--revstudio:hover {
+  border-color: rgba(174, 107, 255, 0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 36px 90px rgba(64, 20, 110, 0.24),
+    0 0 80px -24px rgba(150, 104, 215, 0.55);
+}
+.revstudio-theme .rv-model-card--archer {
+  border-color: rgba(217, 185, 122, 0.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 30px 80px rgba(64, 20, 110, 0.14),
+    0 0 70px -26px rgba(217, 185, 122, 0.32);
+}
+.revstudio-theme .rv-model-card--archer:hover {
+  border-color: rgba(217, 185, 122, 0.42);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 36px 90px rgba(64, 20, 110, 0.2),
+    0 0 80px -24px rgba(217, 185, 122, 0.42);
+}
+.revstudio-theme .rv-model-card--archer .rv-hline {
+  background: linear-gradient(90deg, transparent, rgba(217, 185, 122, 0.4) 20%, rgba(217, 185, 122, 0.4) 80%, transparent);
+}
+.revstudio-theme .rv-model-card--revstudio .rv-hline {
+  background: linear-gradient(90deg, transparent, rgba(150, 104, 215, 0.4) 20%, rgba(150, 104, 215, 0.4) 80%, transparent);
+}
+.revstudio-theme .rv-model-card--archer li span { background: var(--rv-champagne) !important; }
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-model-card { transition: none !important; }
+  .revstudio-theme .rv-model-card:hover { transform: none !important; }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   HERO — icon-led benefit items, compact proof strip, connector microcopy.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .rv-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: linear-gradient(145deg, rgba(150, 104, 215, 0.18), rgba(23, 12, 35, 0.5));
+  border: 1px solid rgba(174, 107, 255, 0.3);
+  box-shadow: 0 0 22px -8px rgba(150, 104, 215, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  color: var(--rv-blue-bright);
+  flex-shrink: 0;
+}
+.revstudio-theme .rv-icon-badge svg { width: 17px; height: 17px; }
+.revstudio-theme .rv-icon-badge--archer {
+  background: linear-gradient(145deg, rgba(217, 185, 122, 0.16), rgba(23, 12, 35, 0.5));
+  border-color: rgba(217, 185, 122, 0.32);
+  box-shadow: 0 0 22px -8px rgba(217, 185, 122, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  color: var(--rv-champagne);
+}
+.revstudio-theme .rv-icon-badge--sm { width: 26px; height: 26px; border-radius: 8px; }
+.revstudio-theme .rv-icon-badge--sm svg { width: 13px; height: 13px; }
+
+/* Flush, borderless layout — no card/box around each item, just the icon
+   badge and text sitting directly on the hero backdrop. Spacing alone
+   (not a border) separates the three items, matching the reference's
+   quieter, less "boxy" composition. */
+.revstudio-theme .rv-hero-benefits {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 640px) {
+  .revstudio-theme .rv-hero-benefits { grid-template-columns: 1fr; gap: 1rem; }
+}
+.revstudio-theme .rv-hero-benefit {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+.revstudio-theme .rv-hero-benefit-label { font-size: 12px; font-weight: 600; color: var(--rv-ink); }
+.revstudio-theme .rv-hero-benefit-support { font-size: 10.5px; line-height: 1.4; color: var(--rv-ink-muted); }
+
+.revstudio-theme .rv-proof-strip {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+.revstudio-theme .rv-proof-mark {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  color: var(--rv-blue-bright);
+  opacity: 0.65;
+  flex-shrink: 0;
+}
+.revstudio-theme .rv-proof-lead { font-size: 12px; line-height: 1.5; color: var(--rv-ink-soft); }
+.revstudio-theme .rv-proof-attribution { margin-top: 5px; font-size: 10px; letter-spacing: 0.03em; color: var(--rv-ink-muted); }
+
+.revstudio-theme .rv-hero-connector {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.revstudio-theme .rv-hero-connector-line {
+  height: 1px;
+  width: 34px;
+  background: linear-gradient(90deg, var(--rv-blue-bright), var(--rv-champagne));
+  flex-shrink: 0;
+}
+.revstudio-theme .rv-hero-connector-node {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--rv-champagne);
+  box-shadow: 0 0 8px 1px rgba(217, 185, 122, 0.6);
+  flex-shrink: 0;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   OPPORTUNITY — two-column layout with the "light fade" architectural
+   video, matching the hero's frame treatment (.rv-hero-stage/.rv-hero-corner
+   are reused as-is; only a section-specific aspect ratio is needed here).
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .rv-opportunity-grid {
+  display: grid;
+  gap: 3rem;
+  align-items: start;
+}
+@media (min-width: 1024px) {
+  .revstudio-theme .rv-opportunity-grid {
+    grid-template-columns: minmax(460px, 0.85fr) minmax(420px, 1.15fr);
+    gap: 3.5rem;
+  }
+}
+.revstudio-theme .rv-opportunity-visual { width: 100%; }
+.revstudio-theme .rv-opportunity-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1112 / 834;
+  object-fit: contain;
+  background: var(--rv-bg);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   SHARED PREMIUM PRIMITIVES — pilot / partners / pricing / portfolio /
+   hotels / agencies. Built on the same glass language as .rv-model-card so
+   the lower half of the page reads as one system, not six one-off designs.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .rv-flow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.revstudio-theme .rv-flow-step {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 9999px;
+  background: rgba(150, 104, 215, 0.08);
+  border: 1px solid rgba(150, 104, 215, 0.24);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rv-ink-soft);
+  white-space: nowrap;
+}
+.revstudio-theme .rv-flow-step-num { color: var(--rv-blue-bright); }
+.revstudio-theme .rv-flow-arrow { color: var(--rv-line-strong); font-size: 13px; flex-shrink: 0; }
+
+.revstudio-theme .rv-check-list { display: flex; flex-direction: column; gap: 0.65rem; }
+.revstudio-theme .rv-check-item { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 13px; line-height: 1.55; color: var(--rv-ink-soft); }
+.revstudio-theme .rv-check-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  margin-top: 1px;
+  flex-shrink: 0;
+  background: rgba(150, 104, 215, 0.14);
+  border: 1px solid rgba(150, 104, 215, 0.32);
+  color: var(--rv-blue-bright);
+}
+.revstudio-theme .rv-check-icon svg { width: 11px; height: 11px; }
+
+.revstudio-theme .rv-compare-grid {
+  display: grid;
+  gap: 1.5rem;
+  align-items: stretch;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 900px) {
+  .revstudio-theme .rv-compare-grid { grid-template-columns: 1fr auto 1fr; gap: 1.75rem; }
+}
+.revstudio-theme .rv-compare-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  text-align: center;
+  padding: 0.5rem 0;
+}
+.revstudio-theme .rv-compare-connector-line {
+  width: 1px;
+  flex: 1;
+  min-height: 24px;
+  background: linear-gradient(180deg, rgba(150, 104, 215, 0.5), var(--rv-line-strong) 50%, rgba(217, 185, 122, 0.5));
+}
+@media (max-width: 899px) {
+  .revstudio-theme .rv-compare-connector-line { display: none; }
+}
+.revstudio-theme .rv-compare-connector-label { max-width: 160px; font-size: 11px; line-height: 1.4; color: var(--rv-ink-muted); }
+
+.revstudio-theme .rv-mini-stats { display: flex; gap: 1.5rem; margin-top: 1.25rem; }
+.revstudio-theme .rv-mini-stat-value { font-family: var(--font-luxury-serif), serif; font-size: 1.25rem; color: var(--rv-champagne); }
+.revstudio-theme .rv-mini-stat-label { margin-top: 2px; font-size: 10.5px; color: var(--rv-ink-muted); }
+
+.revstudio-theme .rv-price-callout { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6rem; margin-top: 1.25rem; }
+.revstudio-theme .rv-price-number {
+  font-family: var(--font-luxury-serif), serif;
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--rv-ink);
+}
+.revstudio-theme .rv-price-unit { font-size: 13px; color: var(--rv-ink-muted); }
+.revstudio-theme .rv-price-sublabel { margin-top: 0.4rem; font-size: 12.5px; color: var(--rv-ink-soft); }
+.revstudio-theme .rv-price-row {
+  margin-top: 1.75rem;
+  padding: 0.7rem 1.1rem;
+  border-radius: 10px;
+  background: rgba(150, 104, 215, 0.06);
+  border: 1px solid rgba(150, 104, 215, 0.18);
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rv-ink-soft);
+}
+
+.revstudio-theme .rv-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1.5rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 9999px;
+  background: rgba(150, 104, 215, 0.08);
+  border: 1px solid rgba(150, 104, 215, 0.22);
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--rv-ink-soft);
+}
+
+.revstudio-theme .rv-group-block + .rv-group-block { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--rv-line); }
+.revstudio-theme .rv-group-title { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--rv-champagne); }
+
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-flow-step,
+  .revstudio-theme .rv-hero-benefit,
+  .revstudio-theme .rv-proof-strip { transition: none !important; }
+}
+
+/* Primary "Discuss a pilot" CTA — smooth premium TRS-purple button. Used
+   identically in the header, hero and every later section, so it's the
+   single source of truth for that button's appearance (no per-section
+   runtime overrides). */
+.revstudio-theme .rv-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 14px;
+  padding: 0.85rem 1.6rem;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, #7045ff 0%, #5b21f5 55%, #4513c6 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 12px 30px rgba(91, 33, 245, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.revstudio-theme .rv-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 17px 38px rgba(91, 33, 245, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38);
+}
+.revstudio-theme .rv-btn:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+  box-shadow:
+    0 0 0 4px rgba(91, 33, 245, 0.35),
+    0 12px 30px rgba(91, 33, 245, 0.28);
+}
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-btn { transition: none !important; }
+  .revstudio-theme .rv-btn:hover { transform: none !important; }
+}
+
+/* Secondary CTA — a light-glass pill so it reads clearly on the light
+   page/hero instead of the near-invisible pale-on-pale border it had
+   before. */
+.revstudio-theme .rv-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 14px;
+  padding: 0.85rem 1.5rem;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px) saturate(135%);
+  -webkit-backdrop-filter: blur(14px) saturate(135%);
+  color: var(--rv-ink);
+  border: 1px solid rgba(91, 33, 245, 0.22);
+  box-shadow: 0 8px 24px rgba(44, 24, 75, 0.08);
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.revstudio-theme .rv-btn-ghost:hover {
+  transform: translateY(-2px);
+  border-color: rgba(91, 33, 245, 0.4);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 12px 28px rgba(44, 24, 75, 0.12);
+}
+.revstudio-theme .rv-btn-ghost:focus-visible {
+  outline: 2px solid #5b21f5;
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-btn-ghost { transition: none !important; }
+  .revstudio-theme .rv-btn-ghost:hover { transform: none !important; }
+}
+
+/* Dark-surface variant: the ghost button also appears inside dark cards
+   (e.g. none currently, kept as a safety net for future use) — on a dark
+   host the light-glass fill would read as a pale card-on-card box, so
+   swap to a thin light-purple outline instead. */
+.revstudio-theme :is(.rv-model-card, .op-frame, .rv-hero-stage) .rv-btn-ghost {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(150, 104, 215, 0.4);
+}
+.revstudio-theme :is(.rv-model-card, .op-frame, .rv-hero-stage) .rv-btn-ghost:hover {
+  background: rgba(150, 104, 215, 0.12);
+  border-color: rgba(150, 104, 215, 0.6);
+}
+
+.revstudio-theme .rv-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, var(--rv-line-strong), transparent);
+}
+
+/* Fine animated connector line used in the process/model sections. */
+.revstudio-theme .rv-connector {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rv-cyan), transparent);
+  overflow: hidden;
+}
+.revstudio-theme .rv-connector::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(150, 104, 215, 0.9), transparent);
+  animation: rv-connector-sweep 5.5s ease-in-out infinite;
+}
+@keyframes rv-connector-sweep {
+  0% { transform: translateX(-120%); }
+  50% { transform: translateX(220%); }
+  100% { transform: translateX(220%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-connector::after { animation: none; display: none; }
+}
+
+.revstudio-theme ::-webkit-scrollbar-thumb {
+  background: var(--rv-slate);
+  border-radius: 10px;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Revstudio × Archer Design — scroll-reveal system.
+   Ported from the HSC × Archer Design prospect page's .reveal pattern
+   (public/revenue-activation/index.html) into a reusable React wrapper
+   (components/marketing/revstudio/Reveal.tsx). Same easing/timing/stagger
+   values, so motion feels consistent between the two partnership pages.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .rv-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.revstudio-theme .rv-reveal.is-visible { opacity: 1; transform: none; }
+.revstudio-theme .rv-reveal-d1 { transition-delay: 0.08s; }
+.revstudio-theme .rv-reveal-d2 { transition-delay: 0.16s; }
+.revstudio-theme .rv-reveal-d3 { transition-delay: 0.24s; }
+.revstudio-theme .rv-reveal-d4 { transition-delay: 0.32s; }
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-reveal {
+    opacity: 1 !important; transform: none !important; transition: none !important;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Revstudio × Archer Design — 3D object accents (hero-knot / system-cube /
+   pilot-torus). Same halo + orbit-ring + soft-float technique as the HSC
+   page's .object-wrap system, reused via components/marketing/revstudio/
+   ObjectStage.tsx. Purely decorative — always rendered aria-hidden.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .rv-object-stage {
+  position: relative;
+  isolation: isolate;
+  margin: 0 auto;
+}
+.revstudio-theme .rv-object-halo {
+  position: absolute; inset: -22%; z-index: 0; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(150,104,215,0.2), rgba(114,84,168,0.07) 55%, transparent 78%);
+}
+.revstudio-theme .rv-object-img {
+  position: relative; z-index: 1; width: 100%; height: auto;
+  filter: drop-shadow(0 28px 56px rgba(0,0,0,0.55));
+  animation: rv-obj-float 10s ease-in-out infinite;
+}
+@keyframes rv-obj-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(3deg); }
+}
+.revstudio-theme .rv-object-cube { animation-name: rv-obj-float-cube; animation-duration: 11.5s; }
+@keyframes rv-obj-float-cube {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-9px) rotate(-3.5deg); }
+}
+.revstudio-theme .rv-object-torus { animation: rv-obj-spin-torus 46s linear infinite; }
+@keyframes rv-obj-spin-torus { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.revstudio-theme .rv-orbit-ring {
+  position: absolute; border: 1px solid var(--rv-line); border-radius: 50%;
+  z-index: 0; pointer-events: none;
+}
+.revstudio-theme .rv-orbit-ring::before {
+  content: ""; position: absolute; top: -2px; left: 50%; width: 4px; height: 4px;
+  border-radius: 50%; background: var(--rv-blue-bright); transform: translateX(-50%);
+  box-shadow: 0 0 8px rgba(150,104,215,0.6);
+}
+.revstudio-theme .rv-orbit-ring-1 { inset: -14%; animation: rv-orbit-spin 64s linear infinite; }
+.revstudio-theme .rv-orbit-ring-2 { inset: -30%; animation: rv-orbit-spin-rev 96s linear infinite; }
+@keyframes rv-orbit-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes rv-orbit-spin-rev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-object-img,
+  .revstudio-theme .rv-orbit-ring { animation: none !important; }
+}
+
+/* Thin architectural line accents used to frame panels/sections. */
+.revstudio-theme .rv-hline {
+  height: 1px; width: 100%;
+  background: linear-gradient(90deg, transparent, var(--rv-line-strong) 20%, var(--rv-line-strong) 80%, transparent);
+}
+.revstudio-theme .rv-vline {
+  width: 1px; align-self: stretch;
+  background: linear-gradient(180deg, transparent, var(--rv-line-strong) 20%, var(--rv-line-strong) 80%, transparent);
+}
+
+/* Very faint architectural grid texture, static (no animation) so it never
+   competes with the hero video. Applied to the page root, not globally. */
+.revstudio-theme .rv-ops-field {
+  background-image:
+    linear-gradient(rgba(215,205,225,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(215,205,225,0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-position: center top;
+  -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.9), transparent 70%);
+  mask-image: linear-gradient(180deg, rgba(0,0,0,0.9), transparent 70%);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Hero grid — a stable, non-fluid two-column composition at desktop /
+   landscape-tablet widths (>=1100px). Below that it's a single stacked
+   column. The text column and the visual column both get fixed widths
+   inside the shared .rv-shell (max-width 1440px), so headline line breaks,
+   image size, and the gap between the two never drift as the browser is
+   resized — only the (rare) jump across the 1100px breakpoint changes
+   anything.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .rv-hero-grid {
+  display: grid;
+  gap: 2.75rem;
+  align-items: center;
+}
+.revstudio-theme .rv-hero-copy { max-width: 46rem; }
+.revstudio-theme .rv-hero-visual { position: relative; width: 100%; max-width: 42rem; margin-inline: auto; }
+.revstudio-theme .rv-hero-visual::before {
+  content: "";
+  position: absolute;
+  inset: -10%;
+  background: radial-gradient(60% 60% at 50% 45%, rgba(150, 104, 215, 0.22), transparent 70%);
+  filter: blur(24px);
+  z-index: -1;
+  pointer-events: none;
+}
+@media (min-width: 1100px) {
+  .revstudio-theme .rv-hero-grid {
+    grid-template-columns: 500px minmax(0, 1fr);
+    column-gap: 5rem;
+    min-height: 560px;
+  }
+  .revstudio-theme .rv-hero-copy { max-width: 500px; }
+  .revstudio-theme .rv-hero-visual { max-width: 820px; margin-inline: 0; }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   .rv-hero-stage — shared frame base. Still used, with its dark glass fill,
+   by the Opportunity section's video (an edge-to-edge clip that needs its
+   own black backdrop). The hero's building render uses the --pad modifier
+   below, which strips the dark fill so the render's own transparent
+   background blends straight into the page instead of sitting in a box.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .rv-hero-stage {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 70% at 50% 30%, rgba(150,104,215,0.07), transparent 70%),
+    var(--rv-bg);
+  border: 1px solid rgba(150,104,215,0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    inset 0 0 90px rgba(150,104,215,0.05),
+    0 32px 70px -20px rgba(0,0,0,0.65);
+}
+/* Hero-only variant: extra inset padding so the architectural model has
+   breathing room inside the frame instead of touching the edges. Scoped
+   with a modifier (not applied to .rv-hero-stage globally) so the
+   Opportunity section's video keeps its own edge-to-edge framing.
+   The building render already has its own transparent background (see
+   .rv-hero-building-image), so this variant drops the dark card fill
+   entirely — just soft breathing room and the purple corner accents,
+   with the image floating on the page the way it does in the source
+   file rather than sitting inside a black box. */
+.revstudio-theme .rv-hero-stage--pad {
+  padding: 24px;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+@media (min-width: 640px) {
+  .revstudio-theme .rv-hero-stage--pad { padding: 32px; }
+}
+.revstudio-theme .rv-hero-video {
+  display: block; width: 100%; height: auto;
+  aspect-ratio: 1664 / 1248;
+  object-fit: contain;
+  background: var(--rv-bg);
+}
+.revstudio-theme .rv-hero-corner {
+  position: absolute; width: 22px; height: 22px; pointer-events: none; z-index: 1;
+}
+.revstudio-theme .rv-hero-corner-tl { top: 14px; left: 14px; border-top: 1px solid rgba(150,104,215,0.55); border-left: 1px solid rgba(150,104,215,0.55); }
+.revstudio-theme .rv-hero-corner-br { bottom: 14px; right: 14px; border-bottom: 1px solid rgba(150,104,215,0.55); border-right: 1px solid rgba(150,104,215,0.55); }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   THE ACTIVATION LAYER — editorial media mosaic, /revstudio only.
+   Inspired by (but structurally distinct from) the HSC × Archer Design
+   prospect page's .mosaic (public/revenue-activation/index.html): different
+   column/row proportions, an interlocking tall column instead of banded
+   rows, rounded-18px corners, purple-tinted borders/overlay instead of the
+   neutral navy treatment there, and a numbered caption instead of a plain
+   label. Evidence of the creative-execution layer, not a generic gallery.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .am-mosaic {
+  --am-row-a: clamp(140px, 15vw, 185px);
+  --am-row-b: clamp(110px, 11vw, 145px);
+  --am-row-c: clamp(150px, 15vw, 195px);
+  --am-row-d: clamp(160px, 16vw, 205px);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(2, var(--am-row-a)) var(--am-row-b) var(--am-row-c) var(--am-row-d);
+  gap: 14px;
+}
+.revstudio-theme .am-item {
+  position: relative; overflow: hidden; isolation: isolate;
+  border-radius: 18px;
+  background: var(--rv-navy);
+  border: 1px solid rgba(150, 104, 215, 0.16);
+  box-shadow: inset 0 0 46px rgba(0, 0, 0, 0.3);
+  transition: border-color 0.4s var(--ease), transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.revstudio-theme .am-item:hover {
+  border-color: rgba(150, 104, 215, 0.42);
+  transform: translateY(-3px);
+  box-shadow: inset 0 0 46px rgba(0, 0, 0, 0.3), 0 20px 40px -18px rgba(0, 0, 0, 0.55);
+}
+.revstudio-theme .am-item video,
+.revstudio-theme .am-item img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+}
+.revstudio-theme .am-item::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, transparent 48%, rgba(9, 4, 15, 0.85) 100%);
+}
+.revstudio-theme .am-cap {
+  position: absolute; left: 16px; bottom: 13px; z-index: 2;
+  display: flex; align-items: baseline; gap: 8px;
+}
+.revstudio-theme .am-cap-idx {
+  font-family: "Fraunces", ui-serif, Georgia, serif; font-size: 12px; font-weight: 500;
+  color: var(--rv-blue-bright); opacity: 0.85;
+}
+.revstudio-theme .am-cap-label {
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
+  color: var(--rv-ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .am-item { transition: none !important; }
+  .revstudio-theme .am-item:hover { transform: none !important; }
+}
+
+.revstudio-theme .am-feature { grid-column: span 8; grid-row: span 2; }
+.revstudio-theme .am-tall { grid-column: span 4; grid-row: span 3; }
+.revstudio-theme .am-small-a { grid-column: span 4; grid-row: span 1; }
+.revstudio-theme .am-small-b { grid-column: span 4; grid-row: span 1; }
+.revstudio-theme .am-medium { grid-column: span 7; grid-row: span 1; }
+.revstudio-theme .am-wide-a { grid-column: span 5; grid-row: span 1; }
+.revstudio-theme .am-wide-b { grid-column: span 6; grid-row: span 1; }
+.revstudio-theme .am-motion { grid-column: span 6; grid-row: span 1; }
+
+@media (max-width: 900px) {
+  .revstudio-theme .am-mosaic { grid-template-columns: 1fr; grid-template-rows: none; gap: 12px; }
+  .revstudio-theme .am-feature,
+  .revstudio-theme .am-small-a,
+  .revstudio-theme .am-small-b,
+  .revstudio-theme .am-medium,
+  .revstudio-theme .am-wide-a,
+  .revstudio-theme .am-wide-b,
+  .revstudio-theme .am-motion { grid-column: span 1; grid-row: auto; aspect-ratio: 16 / 10; }
+  .revstudio-theme .am-tall { grid-column: span 1; grid-row: auto; aspect-ratio: 3 / 4; }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   THE OPPORTUNITY — execution-gap infographic. A four-stage "opportunity to
+   activation" process (stacked vertically through tablet, a single
+   horizontal row at lg+) with a visually distinct "execution gap" moment
+   between stages 02 and 03, plus a partnership-conclusion band beneath.
+   Deliberately restrained: no gradient blobs, no glassmorphism, no glow
+   beyond a thin illuminated node per stage.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .op-frame {
+  position: relative;
+  border-radius: 22px;
+  border: 1px solid var(--rv-line);
+  background:
+    radial-gradient(70% 60% at 50% 0%, rgba(150,104,215,0.05), transparent 65%),
+    var(--rv-panel-strong);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), var(--rv-shadow);
+}
+
+.revstudio-theme .op-track {
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+}
+@media (min-width: 1024px) {
+  .revstudio-theme .op-track { flex-direction: row; align-items: flex-start; gap: 0; }
+  .revstudio-theme .op-track > .op-stage { flex: 1 1 0; }
+}
+
+.revstudio-theme .op-stage { position: relative; }
+.revstudio-theme .op-node {
+  display: block; width: 9px; height: 9px; border-radius: 50%;
+  margin-bottom: 14px;
+  box-shadow: 0 0 0 4px rgba(150,104,215,0.08);
+}
+.revstudio-theme .op-node-shared { background: var(--rv-slate); box-shadow: 0 0 0 4px rgba(167,161,170,0.1); }
+.revstudio-theme .op-node-revstudio { background: var(--rv-blue-bright); box-shadow: 0 0 0 4px rgba(150,104,215,0.16); }
+.revstudio-theme .op-node-archer { background: var(--rv-champagne); box-shadow: 0 0 0 4px var(--rv-champagne-soft); }
+.revstudio-theme .op-node-meeting {
+  background: linear-gradient(90deg, var(--rv-blue-bright), var(--rv-champagne));
+  box-shadow: 0 0 0 4px rgba(150,104,215,0.1);
+}
+
+.revstudio-theme .op-stage-index {
+  font-family: "Fraunces", ui-serif, Georgia, serif;
+  font-size: 1.1rem; color: var(--rv-ink-muted);
+}
+.revstudio-theme .op-stage-label {
+  margin-top: 0.4rem; font-size: 15px; color: var(--rv-ink);
+}
+.revstudio-theme .op-stage-desc {
+  margin-top: 0.55rem; font-size: 12.5px; line-height: 1.6; color: var(--rv-ink-soft);
+  max-width: 30ch;
+}
+.revstudio-theme .op-stage-owner {
+  margin-top: 0.85rem; display: flex; align-items: center; gap: 0.5rem;
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600;
+  color: var(--rv-ink-muted);
+}
+.revstudio-theme .op-owner-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.revstudio-theme .op-stage-revstudio .op-owner-dot { background: var(--rv-blue-bright); }
+.revstudio-theme .op-stage-archer .op-owner-dot { background: var(--rv-champagne); }
+
+/* Connector: only rendered between stages 01→02 and 03→04. Vertical on
+   mobile/tablet, a thin horizontal rule at lg+. Draws in on reveal. */
+.revstudio-theme .op-connector {
+  align-self: center;
+  width: 1px; height: 1.75rem;
+  background: linear-gradient(180deg, transparent, var(--op-connector-color, var(--rv-line-strong)), transparent);
+}
+.revstudio-theme .op-connector-revstudio { --op-connector-color: rgba(150,104,215,0.55); }
+.revstudio-theme .op-connector-archer { --op-connector-color: rgba(217,185,122,0.55); }
+@media (min-width: 1024px) {
+  .revstudio-theme .op-connector {
+    width: 3rem; height: 1px; margin-top: 4px; flex-shrink: 0;
+    background: linear-gradient(90deg, transparent, var(--op-connector-color, var(--rv-line-strong)), transparent);
+    transform: scaleX(0); transform-origin: left center;
+    transition: transform 1s var(--ease) 0.15s;
+  }
+  .revstudio-theme .rv-reveal.is-visible .op-connector { transform: scaleX(1); }
+}
+
+/* The execution gap: an offset "bridge" moment, not an alert. A short
+   illuminated node with no connecting line on either side is the
+   interruption itself. */
+.revstudio-theme .op-gap {
+  position: relative;
+  padding: 1.1rem 0.25rem;
+  border-top: 1px dashed var(--rv-line);
+  border-bottom: 1px dashed var(--rv-line);
+}
+@media (min-width: 1024px) {
+  .revstudio-theme .op-gap {
+    flex: 0 0 11rem;
+    margin: 0 0.5rem;
+    padding: 0 1rem;
+    text-align: center;
+    border-top: none; border-bottom: none;
+    border-left: 1px dashed var(--rv-line);
+    border-right: 1px dashed var(--rv-line);
+  }
+}
+.revstudio-theme .op-gap-node {
+  display: block; width: 6px; height: 6px; border-radius: 50%;
+  margin: 0 0 12px; background: var(--rv-ink);
+  box-shadow: 0 0 10px 2px rgba(242,238,231,0.35);
+}
+@media (min-width: 1024px) { .revstudio-theme .op-gap-node { margin: 0 auto 12px; } }
+.revstudio-theme .op-gap-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--rv-ink);
+}
+.revstudio-theme .op-gap-body {
+  margin-top: 0.5rem; font-size: 12px; line-height: 1.55; color: var(--rv-ink-muted);
+  max-width: 26ch;
+}
+@media (min-width: 1024px) { .revstudio-theme .op-gap-body { margin-left: auto; margin-right: auto; } }
+.revstudio-theme .op-gap-fade {
+  opacity: 0; transition: opacity 1.1s var(--ease) 0.4s;
+}
+.revstudio-theme .rv-reveal.is-visible .op-gap-fade { opacity: 1; }
+
+/* Partnership conclusion band. */
+.revstudio-theme .op-conclusion-text { margin-top: 0.7rem; font-size: 13.5px; line-height: 1.65; color: var(--rv-ink-soft); }
+.revstudio-theme .op-conclusion-revstudio { border-left: 2px solid rgba(150,104,215,0.4); padding-left: 1.1rem; }
+.revstudio-theme .op-conclusion-archer { border-right: 2px solid var(--rv-champagne); padding-right: 1.1rem; text-align: right; }
+@media (max-width: 767px) {
+  .revstudio-theme .op-conclusion-archer { border-right: none; border-left: 2px solid var(--rv-champagne); padding-right: 0; padding-left: 1.1rem; text-align: left; }
+}
+.revstudio-theme .op-conclusion-center { position: relative; display: flex; align-items: center; justify-content: center; min-height: 3rem; }
+.revstudio-theme .op-conclusion-line { position: absolute; inset: 0; margin: 0 auto; width: 1px; background: linear-gradient(180deg, rgba(150,104,215,0.5), var(--rv-line-strong) 45%, var(--rv-champagne) 100%); opacity: 0.7; }
+@media (max-width: 767px) { .revstudio-theme .op-conclusion-line { display: none; } }
+.revstudio-theme .op-badge {
+  position: relative; z-index: 1;
+  display: inline-flex; align-items: center; white-space: nowrap;
+  border: 1px solid var(--rv-line-strong); border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: 9.5px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--rv-ink); background: var(--rv-bg-2);
+}
+.revstudio-theme .op-conclusion-closing {
+  margin-top: 1.75rem; text-align: center;
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 1.05rem; font-style: italic; color: var(--rv-ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .op-connector { transform: none !important; transition: none !important; }
+  .revstudio-theme .op-gap-fade { opacity: 1 !important; transition: none !important; }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   RESULTS — two separately attributed proof sets (Revstudio operational,
+   Archer creative) inside one architectural frame. No shared/blended
+   totals. Consistent value sizing regardless of digit count.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .rs-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+.revstudio-theme .rs-header-visual {
+  position: relative;
+  flex-shrink: 0;
+  width: 220px;
+  height: 220px;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--rv-line);
+  background: radial-gradient(70% 70% at 50% 40%, rgba(150,104,215,0.14), transparent 75%), var(--rv-panel-strong);
+  box-shadow: 0 0 48px -14px rgba(150,104,215,0.45), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.revstudio-theme .rs-header-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (max-width: 1023px) {
+  .revstudio-theme .rs-header-visual { width: 170px; height: 170px; }
+}
+@media (max-width: 767px) {
+  .revstudio-theme .rs-header-row { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  .revstudio-theme .rs-header-visual { width: 130px; height: 130px; }
+}
+
+.revstudio-theme .rs-frame {
+  border-radius: 22px;
+  border: 1px solid var(--rv-line);
+  background:
+    radial-gradient(60% 50% at 50% 100%, rgba(150,104,215,0.05), transparent 70%),
+    var(--rv-panel-strong);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), var(--rv-shadow);
+}
+.revstudio-theme .rs-side-tag { margin-top: 0.3rem; font-size: 11.5px; color: var(--rv-ink-muted); }
+.revstudio-theme .rs-stats { margin-top: 1.75rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 1.25rem; }
+.revstudio-theme .rs-stat { border-top: 1px solid var(--rv-line); padding-top: 0.85rem; }
+.revstudio-theme .rs-value {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 1.9rem; line-height: 1; color: var(--rv-ink);
+}
+.revstudio-theme .rs-rule { display: block; width: 1.5rem; height: 2px; margin: 0.6rem 0 0.6rem; border-radius: 2px; }
+.revstudio-theme .rs-revstudio .rs-rule { background: var(--rv-blue-bright); }
+.revstudio-theme .rs-archer .rs-rule { background: var(--rv-champagne); }
+.revstudio-theme .rs-label { font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; color: var(--rv-ink-soft); line-height: 1.4; }
+.revstudio-theme .rs-sublabel { margin-top: 0.2rem; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--rv-ink-muted); }
+.revstudio-theme .rs-disclaimer { margin-top: 1.75rem; font-size: 11px; line-height: 1.6; color: var(--rv-ink-muted); }
+
+.revstudio-theme .rs-bridge {
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.6rem; min-height: 6rem; padding: 1.5rem 0;
+}
+.revstudio-theme .rs-bridge-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-50%); background: linear-gradient(180deg, var(--rv-blue-bright), var(--rv-line-strong) 50%, var(--rv-champagne)); opacity: 0.6; }
+@media (max-width: 767px) { .revstudio-theme .rs-bridge-line { display: none; } }
+.revstudio-theme .rs-bridge-word {
+  position: relative; z-index: 1; background: var(--rv-panel-strong);
+  padding: 0.3rem 0.75rem;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+}
+.revstudio-theme .rs-bridge-word-revstudio { color: var(--rv-blue-bright); }
+.revstudio-theme .rs-bridge-word-archer { color: var(--rv-champagne); }
+.revstudio-theme .rs-bridge-plus { position: relative; z-index: 1; background: var(--rv-panel-strong); padding: 0 0.5rem; font-size: 11px; color: var(--rv-ink-muted); }
+
+/* Brand logos, now shown beneath the hero rather than in Results. Every
+   mark is rendered as a plain white silhouette via filter (not a redraw or
+   recolor of the source file on disk — the original assets are untouched;
+   this is a presentational CSS treatment only) so every logo, regardless
+   of its native color, reads cleanly and consistently on the dark
+   background with no card/surface needed. Widths are visually balanced via
+   a shared row height + max-width rather than forcing identical pixel
+   dimensions. */
+.revstudio-theme .rs-logos {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 1.75rem 2.75rem;
+}
+.revstudio-theme .rs-logo-item {
+  display: flex; align-items: center; justify-content: center;
+  height: 40px;
+}
+.revstudio-theme .rs-logos img {
+  display: block; height: 100%; width: auto; max-width: 124px;
+  object-fit: contain;
+  /* This strip sits directly on the light page background, not a dark
+     surface, so logos render as a dark charcoal silhouette (brightness(0))
+     rather than the white silhouette used on dark surfaces elsewhere. */
+  filter: brightness(0);
+  opacity: 0.72;
+  transition: opacity 0.3s ease;
+}
+.revstudio-theme .rs-logo-item:hover img { opacity: 0.92; }
+@media (max-width: 640px) {
+  .revstudio-theme .rs-logos { gap: 1.25rem 1.75rem; }
+  .revstudio-theme .rs-logo-item { height: 30px; }
+  .revstudio-theme .rs-logos img { max-width: 96px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rs-logos img { transition: none !important; }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   HOW IT WORKS — "How the work moves." One connected six-step workflow
+   (ProcessFlow component) instead of six text-heavy cards. Mobile-first:
+   a left-rail vertical timeline by default, two rows of three at
+   900-1279px, one alternating horizontal path with a full connector line
+   at 1280px+. Icon/line color runs Revstudio violet (01-03) through a
+   04 transition node to warmer Archer Design gold accents (05-06);
+   ownership is spelled out in text + a small dot, never color alone.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .rv-process {
+  position: relative;
+  margin-top: 3.5rem;
+}
+
+.revstudio-theme .rv-process-badge-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+.revstudio-theme .rv-process-badge {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  border-radius: 16px;
+  border: 1px solid var(--rv-line-strong);
+  background: rgba(16, 10, 20, 0.75);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  box-shadow: 0 0 40px -12px rgba(150, 104, 215, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  padding: 0.9rem 1.5rem;
+  text-align: center;
+}
+.revstudio-theme .rv-process-badge span {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.6;
+  color: var(--rv-ink);
+}
+.revstudio-theme .rv-process-badge span:first-child { color: var(--rv-blue-bright); }
+.revstudio-theme .rv-process-badge span:last-child { color: var(--rv-champagne); }
+
+.revstudio-theme .rv-process-body { position: relative; }
+.revstudio-theme .rv-process-line { display: none; }
+
+/* Mobile / default: vertical timeline, illuminated rail on the left. */
+.revstudio-theme .rv-process-track {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 2.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.1rem;
+}
+.revstudio-theme .rv-process-track::before {
+  content: "";
+  position: absolute;
+  left: 0.6rem;
+  top: 0.6rem;
+  bottom: 0.6rem;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--rv-blue-bright) 0%, var(--rv-blue-bright) 45%, var(--rv-champagne) 75%, var(--rv-champagne) 100%);
+  opacity: 0.45;
+}
+.revstudio-theme .rv-process-node { position: relative; }
+.revstudio-theme .rv-process-node-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.9rem;
+  text-align: left;
+}
+.revstudio-theme .rv-process-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(150, 104, 215, 0.18), rgba(23, 12, 35, 0.55));
+  border: 1px solid rgba(174, 107, 255, 0.32);
+  box-shadow: 0 0 22px -8px rgba(150, 104, 215, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  color: var(--rv-blue-bright);
+  position: relative;
+}
+.revstudio-theme .rv-process-icon::before {
+  content: "";
+  position: absolute;
+  left: -2.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--rv-bg);
+  border: 2px solid var(--rv-blue-bright);
+  display: none;
+}
+.revstudio-theme .rv-process-icon svg { width: 18px; height: 18px; }
+.revstudio-theme .rv-process-num {
+  position: absolute;
+  top: -6px;
+  right: -4px;
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 10px;
+  color: var(--rv-ink-muted);
+}
+.revstudio-theme .rv-process-label { font-size: 13.5px; font-weight: 600; color: var(--rv-ink); }
+.revstudio-theme .rv-process-detail { margin-top: 0.3rem; font-size: 12px; line-height: 1.5; color: var(--rv-ink-soft); max-width: 30ch; }
+.revstudio-theme .rv-process-owner {
+  margin-top: 0.55rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rv-ink-muted);
+}
+.revstudio-theme .rv-process-owner-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; background: var(--rv-blue-bright); }
+.revstudio-theme .rv-process-node--archer .rv-process-owner-dot { background: var(--rv-champagne); }
+.revstudio-theme .rv-process-node--shared .rv-process-owner-dot,
+.revstudio-theme .rv-process-node--mixed .rv-process-owner-dot {
+  background: linear-gradient(90deg, var(--rv-blue-bright), var(--rv-champagne));
+}
+
+.revstudio-theme .rv-process-loop {
+  margin-top: 2.2rem;
+  margin-left: 2.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--rv-ink-muted);
+  font-style: italic;
+}
+.revstudio-theme .rv-process-loop svg { width: 14px; height: 14px; color: var(--rv-champagne); flex-shrink: 0; }
+
+/* Tablet: two rows of three, direction from 03 down to 04 made explicit. */
+@media (min-width: 900px) {
+  .revstudio-theme .rv-process-track {
+    padding-left: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2.75rem 1.25rem;
+  }
+  .revstudio-theme .rv-process-track::before { display: none; }
+  .revstudio-theme .rv-process-node { width: calc(33.333% - 0.85rem); }
+  .revstudio-theme .rv-process-node-inner { flex-direction: column; align-items: center; text-align: center; gap: 0.6rem; }
+  .revstudio-theme .rv-process-detail { max-width: 22ch; }
+  .revstudio-theme .rv-process-icon::before { display: none; }
+  .revstudio-theme .rv-process-num { position: static; margin-top: 0.1rem; font-size: 11px; }
+  .revstudio-theme .rv-process-node:nth-child(3)::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -1.9rem;
+    width: 9px;
+    height: 9px;
+    border-right: 1.5px solid var(--rv-champagne);
+    border-bottom: 1.5px solid var(--rv-champagne);
+    transform: translateX(-50%) rotate(45deg);
+    opacity: 0.75;
+  }
+  .revstudio-theme .rv-process-loop { margin-left: 0; display: flex; justify-content: center; margin-top: 2.75rem; }
+}
+
+/* Desktop 1280px+: one straight horizontal path with a full connector line.
+   All six icons share one baseline (no alternating offset — a single
+   even row reads far cleaner than a wave and never risks label text from
+   one node colliding with the row below it). The central badge stays in
+   normal document flow above the track (set on .rv-process-badge-wrap,
+   unchanged from the base rule) so it can never overlap node content. */
+@media (min-width: 1280px) {
+  .revstudio-theme .rv-process-line {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 29px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--rv-blue-bright) 0%, var(--rv-blue-bright) 46%, var(--rv-champagne) 68%, var(--rv-champagne) 100%);
+    opacity: 0.5;
+    box-shadow: 0 0 26px -4px rgba(150, 104, 215, 0.55);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 1.3s var(--ease) 0.1s;
+  }
+  .revstudio-theme .rv-reveal.is-visible .rv-process-line { transform: scaleX(1); }
+
+  .revstudio-theme .rv-process-track {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+  }
+  .revstudio-theme .rv-process-node { width: auto; flex: 1 1 0; display: flex; justify-content: center; }
+  .revstudio-theme .rv-process-node-inner { max-width: 168px; }
+  .revstudio-theme .rv-process-detail { max-width: 22ch; }
+
+  .revstudio-theme .rv-process-node:nth-child(3)::after { display: none; }
+  .revstudio-theme .rv-process-node:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 21px;
+    right: -0.55rem;
+    width: 8px;
+    height: 8px;
+    border-top: 1.5px solid var(--rv-line-strong);
+    border-right: 1.5px solid var(--rv-line-strong);
+    transform: translateY(-50%) rotate(45deg);
+    opacity: 0.7;
+    z-index: 1;
+  }
+  .revstudio-theme .rv-process-node:nth-child(-n+3):not(:last-child)::after { border-color: rgba(150, 104, 215, 0.6); }
+  .revstudio-theme .rv-process-node:nth-child(n+4):not(:last-child)::after { border-color: rgba(217, 185, 122, 0.6); }
+
+  /* 04 = transition node; 05-06 pick up warm gold accents while staying
+     structurally consistent with the violet base. */
+  .revstudio-theme .rv-process-node:nth-child(4) .rv-process-icon {
+    background: linear-gradient(145deg, rgba(150, 104, 215, 0.16), rgba(217, 185, 122, 0.16), rgba(23, 12, 35, 0.55));
+    border-color: rgba(199, 156, 205, 0.34);
+    box-shadow: 0 0 22px -8px rgba(190, 150, 205, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+  .revstudio-theme .rv-process-node:nth-child(n+5) .rv-process-icon {
+    border-color: rgba(217, 185, 122, 0.32);
+    box-shadow: 0 0 22px -8px rgba(217, 185, 122, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    color: var(--rv-champagne);
+  }
+
+  .revstudio-theme .rv-process-loop { justify-content: center; margin-top: 3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-process-line { transition: none !important; transform: scaleX(1) !important; }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   IN PRACTICE — "What a coordinated priority looks like." Four scenarios
+   as a zero-JS radio-driven pill switcher (ScenarioFlow component). Each
+   scenario reveals a short Opportunity -> Revstudio -> Archer Design ->
+   Outcome flow. Panels are stacked in the same grid cell and cross-fade
+   on selection; mobile stacks the flow vertically instead of overflowing.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .rv-scenario { margin-top: 3rem; position: relative; }
+
+.revstudio-theme .rv-scenario-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.revstudio-theme .rv-scenario-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  border-radius: 9999px;
+  border: 1px solid var(--rv-line);
+  background: var(--rv-panel);
+  padding: 0.65rem 1.1rem 0.65rem 0.85rem;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--rv-ink-soft);
+  transition: border-color 0.3s var(--ease), background 0.3s var(--ease), color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.revstudio-theme .rv-scenario-pill-index {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 11px;
+  color: var(--rv-ink-muted);
+}
+@media (max-width: 640px) {
+  .revstudio-theme .rv-scenario-pills { flex-direction: column; }
+  .revstudio-theme .rv-scenario-pill { width: 100%; }
+}
+
+.revstudio-theme .rv-scenario-panels {
+  display: grid;
+  margin-top: 2.25rem;
+}
+.revstudio-theme .rv-scenario-panel {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+.revstudio-theme .rv-scenario-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--rv-line);
+  background: var(--rv-panel-strong);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  box-shadow: var(--rv-shadow);
+  padding: 1.75rem;
+}
+.revstudio-theme .rv-scenario-step { display: flex; flex-direction: column; gap: 0.5rem; }
+.revstudio-theme .rv-scenario-step-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: linear-gradient(145deg, rgba(150, 104, 215, 0.16), rgba(23, 12, 35, 0.5));
+  border: 1px solid rgba(174, 107, 255, 0.28);
+  color: var(--rv-blue-bright);
+}
+.revstudio-theme .rv-scenario-step-icon svg { width: 17px; height: 17px; }
+.revstudio-theme .rv-scenario-step--archer .rv-scenario-step-icon {
+  background: linear-gradient(145deg, rgba(217, 185, 122, 0.16), rgba(23, 12, 35, 0.5));
+  border-color: rgba(217, 185, 122, 0.3);
+  color: var(--rv-champagne);
+}
+.revstudio-theme .rv-scenario-step--outcome .rv-scenario-step-icon {
+  background: linear-gradient(145deg, rgba(150, 104, 215, 0.12), rgba(217, 185, 122, 0.12), rgba(23, 12, 35, 0.5));
+  border-color: rgba(199, 156, 205, 0.3);
+  color: var(--rv-ink);
+}
+.revstudio-theme .rv-scenario-step-chip {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rv-ink-muted);
+}
+.revstudio-theme .rv-scenario-step--revstudio .rv-scenario-step-chip { color: var(--rv-blue-bright); }
+.revstudio-theme .rv-scenario-step--archer .rv-scenario-step-chip { color: var(--rv-champagne); }
+.revstudio-theme .rv-scenario-step-text { font-size: 13px; line-height: 1.55; color: var(--rv-ink-soft); }
+.revstudio-theme .rv-scenario-arrow {
+  align-self: center;
+  width: 1px;
+  height: 1.25rem;
+  background: linear-gradient(180deg, transparent, var(--rv-line-strong), transparent);
+}
+
+@media (min-width: 900px) {
+  .revstudio-theme .rv-scenario-flow { flex-direction: row; align-items: stretch; padding: 2.25rem; }
+  .revstudio-theme .rv-scenario-step { flex: 1 1 0; }
+  .revstudio-theme .rv-scenario-arrow {
+    width: 2.25rem;
+    height: 1px;
+    margin-top: 19px;
+    background: linear-gradient(90deg, transparent, var(--rv-line-strong), transparent);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.7s var(--ease) 0.2s;
+  }
+  .revstudio-theme .rv-scenario-panel[data-panel-index] { transform: none; }
+}
+
+.revstudio-theme .rv-scenario-radio:checked ~ .rv-scenario-panels .rv-scenario-panel {
+  transition-delay: 0s;
+}
+.revstudio-theme #rv-scenario-0:checked ~ .rv-scenario-pills label[for="rv-scenario-0"],
+.revstudio-theme #rv-scenario-1:checked ~ .rv-scenario-pills label[for="rv-scenario-1"],
+.revstudio-theme #rv-scenario-2:checked ~ .rv-scenario-pills label[for="rv-scenario-2"],
+.revstudio-theme #rv-scenario-3:checked ~ .rv-scenario-pills label[for="rv-scenario-3"] {
+  border-color: rgba(174, 107, 255, 0.5);
+  background: rgba(150, 104, 215, 0.14);
+  color: var(--rv-ink);
+  box-shadow: 0 0 24px -10px rgba(150, 104, 215, 0.6);
+}
+.revstudio-theme #rv-scenario-0:checked ~ .rv-scenario-panels .rv-scenario-panel[data-panel-index="0"],
+.revstudio-theme #rv-scenario-1:checked ~ .rv-scenario-panels .rv-scenario-panel[data-panel-index="1"],
+.revstudio-theme #rv-scenario-2:checked ~ .rv-scenario-panels .rv-scenario-panel[data-panel-index="2"],
+.revstudio-theme #rv-scenario-3:checked ~ .rv-scenario-panels .rv-scenario-panel[data-panel-index="3"] {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.revstudio-theme #rv-scenario-0:checked ~ .rv-scenario-panels .rv-scenario-panel[data-panel-index="0"] .rv-scenario-arrow,
+.revstudio-theme #rv-scenario-1:checked ~ .rv-scenario-panels .rv-scenario-panel[data-panel-index="1"] .rv-scenario-arrow,
+.revstudio-theme #rv-scenario-2:checked ~ .rv-scenario-panels .rv-scenario-panel[data-panel-index="2"] .rv-scenario-arrow,
+.revstudio-theme #rv-scenario-3:checked ~ .rv-scenario-panels .rv-scenario-panel[data-panel-index="3"] .rv-scenario-arrow {
+  transform: scaleX(1);
+}
+.revstudio-theme #rv-scenario-0:focus-visible ~ .rv-scenario-pills label[for="rv-scenario-0"],
+.revstudio-theme #rv-scenario-1:focus-visible ~ .rv-scenario-pills label[for="rv-scenario-1"],
+.revstudio-theme #rv-scenario-2:focus-visible ~ .rv-scenario-pills label[for="rv-scenario-2"],
+.revstudio-theme #rv-scenario-3:focus-visible ~ .rv-scenario-pills label[for="rv-scenario-3"] {
+  outline: 2px solid var(--rv-blue-bright);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revstudio-theme .rv-scenario-panel,
+  .revstudio-theme .rv-scenario-pill,
+  .revstudio-theme .rv-scenario-arrow { transition: none !important; }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   THE PEOPLE — the two business owners, shown near the bottom of the page.
+   Each card's avatar ring and company label pick up the same violet
+   (Revstudio) / gold (Archer Design) accent used everywhere else on the
+   page, so the pairing reads consistently even without reading the text.
+   ─────────────────────────────────────────────────────────────────────────── */
+.revstudio-theme .rv-people-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3rem;
+}
+.revstudio-theme .rv-people-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 180px;
+}
+.revstudio-theme .rv-people-avatar {
+  display: block;
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(174, 107, 255, 0.32);
+  box-shadow: 0 0 32px -10px rgba(150, 104, 215, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  background: var(--rv-panel-strong);
+}
+.revstudio-theme .rv-people-card--archer .rv-people-avatar {
+  border-color: rgba(217, 185, 122, 0.36);
+  box-shadow: 0 0 32px -10px rgba(217, 185, 122, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.revstudio-theme .rv-people-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.revstudio-theme .rv-people-name {
+  margin-top: 1rem;
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 16px;
+  color: var(--rv-ink);
+}
+.revstudio-theme .rv-people-company {
+  margin-top: 0.3rem;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rv-blue-bright);
+}
+.revstudio-theme .rv-people-card--archer .rv-people-company { color: var(--rv-champagne); }

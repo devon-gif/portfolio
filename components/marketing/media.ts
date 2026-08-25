@@ -120,5 +120,92 @@ export const GALLERY_IMAGES = [
   { src: img("Image 7.png"), alt: "Hospitality creative, restaurant & F&B", category: "Restaurant" },
 ] as const;
 
+// ── Promo Rescue hero video + image — curated, manually picked ──────────────
+// Hero uses the real promo-video.mp4 clip with a static poster fallback
+// (Hotel Indigo collage) so the card never renders as a black/empty box.
+export const PROMO_RESCUE_HERO_VIDEO = "/promo-video.mp4";
+
+export const HOTEL_INDIGO_COLLAGE = {
+  src: img("Image 2.png"),
+  alt: 'Hotel Indigo Pittsburgh University-Oakland "Comfy Yet?" room and lobby promo collage',
+  label: "Hotel social media campaign",
+};
+export const ELIZA_WINE_BILLBOARD = {
+  src: img("Image 3.png"),
+  alt: "Eliza Hot Metal Bistro wine and holiday season billboard promo",
+  label: "Local campaign graphic",
+};
+export const HAMPTON_FLOOD_FESTIVAL = {
+  src: img("Image 4.png"),
+  alt: "Hampton Inn flood festival promo flyer",
+  label: "Hotel event campaign",
+};
+export const ELIZA_BURGER_PROMO = {
+  src: img("Image 5.png"),
+  alt: "Eliza Hot Metal Bistro burgers promo graphic, 15% off all burgers",
+  label: "F&B special",
+};
+export const ELIZA_LIVE_MUSIC = {
+  src: img("Image 6.png"),
+  alt: "Eliza Hot Metal Bistro live music November promo flyer",
+  label: "Live music flyer",
+};
+export const ELIZA_TAKEOUT_PROMO = {
+  src: img("Image 7.png"),
+  alt: "Eliza Hot Metal Bistro Take Out Wednesday promo graphic",
+  label: "Restaurant promo",
+};
+
+export const PROMO_RESCUE_HERO_IMAGE = HOTEL_INDIGO_COLLAGE;
+
+// ── Real examples ─ curated, deduplicated promo creative (Promo Rescue) ─────
+// Manually selected. Every entry below has been verified by hand to be real
+// hospitality/restaurant/event promo work, with no headshots, no unrelated
+// product photos, and no repeats. Do not auto-add files from /public here.
+export const PROMO_RESCUE_EXAMPLES = [
+  HOTEL_INDIGO_COLLAGE,
+  ELIZA_WINE_BILLBOARD,
+  HAMPTON_FLOOD_FESTIVAL,
+  ELIZA_BURGER_PROMO,
+  ELIZA_LIVE_MUSIC,
+  ELIZA_TAKEOUT_PROMO,
+] as const;
+
+// ── Motion examples (Promo Rescue) — only real, verified-playable clips ─────
+// Each clip below was opened and confirmed to show real hospitality/F&B
+// footage (not template intros or unrelated projects) before being added.
+// Poster frames are pre-extracted JPGs so cards never render as black boxes
+// while the video loads (or if it fails to load at all).
+export const PROMO_RESCUE_MOTION_EXAMPLES = [
+  {
+    src: "/poolside.mp4",
+    poster: "/poolside-poster.jpg",
+    alt: "Rooftop resort poolside loungers promo clip",
+    label: "Hotel/poolside motion",
+  },
+  {
+    src: "/pancakes.mp4",
+    poster: "/pancakes-poster.jpg",
+    alt: "Restaurant pancakes plating promo clip",
+    label: "Food promo motion",
+  },
+  {
+    src: "/timelapse.mp4",
+    poster: "/timelapse-poster.jpg",
+    alt: "Resort poolside cabins seasonal promo clip",
+    label: "Design process timelapse",
+  },
+] as const;
+
+// ── Brand proof logo strip (clients/partners, shown smaller than gallery) ────
+export const BRAND_PROOF_LOGOS = [
+  { src: img("Hampton-Brand-Logo_TM_CMYK_Full-Color.png"), alt: "Hampton by Hilton brand logo" },
+  {
+    src: img("PITTSBURGH UNI-OAK_RGB_canvas_white_on_indigo_blue.png"),
+    alt: "Hotel Indigo Pittsburgh University-Oakland logo",
+  },
+  { src: img("Elements Full logo- NO BACK GROUND.png"), alt: "Elements brand logo" },
+] as const;
+
 // ── Brand ────────────────────────────────────────────────────────────────────
 export const GOLD_GRADIENT = "linear-gradient(135deg, #E8D7A2, #C9A44C, #8B6A21)";

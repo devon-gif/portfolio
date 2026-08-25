@@ -1,0 +1,408 @@
+"use client";
+
+import {
+  FormEvent,
+  useEffect,
+  useState,
+} from "react";
+
+const CONTACT_EMAIL =
+  process.env.NEXT_PUBLIC_REVSTUDIO_CONTACT_EMAIL ||
+  "hello@archerdesign.shop";
+
+function normalizedText(element: Element) {
+  return (element.textContent || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+function getBrightness(background: string) {
+  const match = background.match(
+    /rgba?\((\d+),\s*(\d+),\s*(\d+)/,
+  );
+
+  if (!match) return 1;
+
+  const red = Number(match[1]);
+  const green = Number(match[2]);
+  const blue = Number(match[3]);
+
+  return (
+    red * 0.299 +
+    green * 0.587 +
+    blue * 0.114
+  ) / 255;
+}
+
+function enhanceRevstudioPage() {
+  const root = document.querySelector(
+    ".revstudio-refresh",
+  );
+
+  if (!root) return;
+
+  const interactiveElements =
+    root.querySelectorAll(
+      "a, button, [role='button']",
+    );
+
+  interactiveElements.forEach((element) => {
+    const text = normalizedText(element);
+
+    if (
+      text.includes("discuss a pilot") ||
+      text.includes("start a pilot") ||
+      text.includes("request a pilot")
+    ) {
+      element.classList.add("rev-pilot-cta");
+    }
+
+    if (
+      text === "priority" ||
+      text === "execution" ||
+      text === "review"
+    ) {
+      element.classList.add(
+        "rev-process-pill",
+      );
+    }
+
+    if (
+      text.includes("new demand") ||
+      text.includes("direct-booking package") ||
+      text.includes(
+        "f&b, events, and local demand",
+      ) ||
+      text.includes(
+        "revenue-management agency support",
+      )
+    ) {
+      element.classList.add(
+        "rev-scenario-tab",
+      );
+    }
+  });
+
+  const candidates =
+    root.querySelectorAll<HTMLElement>(
+      "main article, main aside, main div, main section",
+    );
+
+  candidates.forEach((element) => {
+    if (
+      element.closest(
+        "header, nav, footer, dialog",
+      )
+    ) {
+      return;
+    }
+
+    const rectangle =
+      element.getBoundingClientRect();
+
+    if (
+      rectangle.width < 480 ||
+      rectangle.height < 150
+    ) {
+      return;
+    }
+
+    if (
+      element.querySelector(
+        "img, video, picture, iframe",
+      )
+    ) {
+      return;
+    }
+
+    const style =
+      window.getComputedStyle(element);
+
+    const radius =
+      parseFloat(style.borderRadius) || 0;
+
+    const brightness = getBrightness(
+      style.backgroundColor,
+    );
+
+    if (radius >= 18 && brightness < 0.55) {
+      element.classList.add(
+        "rev-readable-panel",
+      );
+    }
+  });
+
+  const images =
+    root.querySelectorAll<HTMLImageElement>(
+      "img",
+    );
+
+  images.forEach((image) => {
+    const markBroken = () => {
+      const parent =
+        image.parentElement;
+
+      if (!parent) return;
+
+      parent.classList.add(
+        "rev-broken-media",
+      );
+
+      image.style.display = "none";
+    };
+
+    if (
+      image.complete &&
+      image.naturalWidth === 0
+    ) {
+      markBroken();
+    }
+
+    image.addEventListener(
+      "error",
+      markBroken,
+      { once: true },
+    );
+  });
+
+  const videos =
+    root.querySelectorAll<HTMLVideoElement>(
+      "video",
+    );
+
+  videos.forEach((video) => {
+    const markBroken = () => {
+      const parent =
+        video.parentElement;
+
+      if (!parent) return;
+
+      parent.classList.add(
+        "rev-broken-media",
+      );
+    };
+
+    video.addEventListener(
+      "error",
+      markBroken,
+      { once: true },
+    );
+
+    window.setTimeout(() => {
+      if (
+        video.readyState === 0 &&
+        video.networkState === 3
+      ) {
+        markBroken();
+      }
+    }, 3500);
+  });
+}
+
+export default function RevstudioEnhancements() {
+  const [open, setOpen] =
+    useState(false);
+
+  const [submitted, setSubmitted] =
+    useState(false);
+
+  useEffect(() => {
+    enhanceRevstudioPage();
+
+    const observer = new MutationObserver(
+      () => {
+        enhanceRevstudioPage();
+      },
+    );
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  function handleSubmit(
+    event: FormEvent<HTMLFormElement>,
+  ) {
+    event.preventDefault();
+
+    const form = new FormData(
+      event.currentTarget,
+    );
+
+    const name = String(
+      form.get("name") || "",
+    );
+
+    const email = String(
+      form.get("email") || "",
+    );
+
+    const company = String(
+      form.get("company") || "",
+    );
+
+    const message = String(
+      form.get("message") || "",
+    );
+
+    const subject =
+      "Revstudio × Archer Design inquiry";
+
+    const body = [
+      `Name: ${name}`,
+      `Email: ${email}`,
+      `Company: ${company}`,
+      "",
+      message,
+    ].join("\n");
+
+    const mailto =
+      `mailto:${CONTACT_EMAIL}` +
+      `?subject=${encodeURIComponent(subject)}` +
+      `&body=${encodeURIComponent(body)}`;
+
+    setSubmitted(true);
+
+    window.setTimeout(() => {
+      window.location.href = mailto;
+    }, 250);
+  }
+
+  return (
+    <>
+      <button
+        type="button"
+        className="rev-floating-contact"
+        onClick={() => {
+          setSubmitted(false);
+          setOpen(true);
+        }}
+      >
+        <span>Contact</span>
+        <span aria-hidden="true">↗</span>
+      </button>
+
+      {open && (
+        <div
+          className="rev-contact-backdrop"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (
+              event.target ===
+              event.currentTarget
+            ) {
+              setOpen(false);
+            }
+          }}
+        >
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="rev-contact-title"
+            className="rev-contact-modal"
+          >
+            <button
+              type="button"
+              aria-label="Close contact form"
+              className="rev-contact-close"
+              onClick={() => setOpen(false)}
+            >
+              ×
+            </button>
+
+            <p className="rev-contact-eyebrow">
+              The Revstudio × Archer Design
+            </p>
+
+            <h2 id="rev-contact-title">
+              Discuss a hotel pilot.
+            </h2>
+
+            <p className="rev-contact-intro">
+              Tell us about your property,
+              portfolio, or agency and the
+              support you are looking for.
+            </p>
+
+            {submitted ? (
+              <div className="rev-contact-success">
+                <strong>
+                  Your email app is opening.
+                </strong>
+
+                <p>
+                  Review the prepared message,
+                  then send it to complete your
+                  inquiry.
+                </p>
+              </div>
+            ) : (
+              <form
+                className="rev-contact-form"
+                onSubmit={handleSubmit}
+              >
+                <label>
+                  Name
+                  <input
+                    name="name"
+                    required
+                    autoComplete="name"
+                  />
+                </label>
+
+                <label>
+                  Work email
+                  <input
+                    name="email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                  />
+                </label>
+
+                <label>
+                  Company or property
+                  <input
+                    name="company"
+                    required
+                    autoComplete="organization"
+                  />
+                </label>
+
+                <label>
+                  How can we help?
+                  <textarea
+                    name="message"
+                    rows={5}
+                    required
+                    placeholder="Tell us about your priorities, property count, timing, or current challenges."
+                  />
+                </label>
+
+                <button
+                  type="submit"
+                  className="rev-contact-submit"
+                >
+                  Prepare inquiry
+                  <span aria-hidden="true">
+                    →
+                  </span>
+                </button>
+
+                <p className="rev-contact-note">
+                  This opens your email
+                  application with the completed
+                  inquiry.
+                </p>
+              </form>
+            )}
+          </section>
+        </div>
+      )}
+    </>
+  );
+}

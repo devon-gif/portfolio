@@ -1,6 +1,6 @@
-// Value strip (3 quick reasons) + client results testimonial row.
-// TODO(devon): Update testimonial attributions with real last initial, title, and property name
-// before publishing — one fully attributed quote outperforms three anonymous ones.
+// Value strip (3 quick reasons) + proof-based case study row.
+// No fabricated testimonials or invented quotes/star ratings — case studies below
+// describe real, tracked work for named Pittsburgh-area properties.
 
 const stroke = {
   fill: "none",
@@ -46,24 +46,30 @@ const VALUES = [
   },
 ];
 
-const TESTIMONIALS = [
+const CASE_STUDIES = [
   {
-    quote:
-      "Archer Design has helped drive more business, support stronger booking interest, and make our events stand out. Our promotions feel more polished, and turnout at our events is stronger because of it.",
-    // TODO(devon): Replace with: "Kristen M., [Title], [Property Name]"
-    author: "Kristen M., Hospitality Marketing Client",
+    property: "Hotel Indigo Pittsburgh",
+    category: "Hotel & property creative",
+    summary:
+      "Ongoing property-level creative and local campaign support for a boutique lifestyle hotel, keeping rooms, amenities, and seasonal offers consistently visible across social and Google Business.",
   },
   {
-    quote:
-      "We didn't have the budget for another in-house hire. Archer Design has saved us real time and money, social media and promotions used to be a headache, and now we have reliable creative support without adding payroll.",
-    // TODO(devon): Replace with: "Michelle R., [Title], [Property Name]"
-    author: "Michelle R., Hotel Operations Client",
+    property: "Eliza Hot Metal Bistro",
+    category: "F&B, events & seasonal campaigns",
+    summary:
+      "A repeatable creative engine for menus, brunch, private dining, and seasonal promos, turning F&B and event content into a steady stream of packaged campaign visuals.",
   },
   {
-    quote:
-      "When our social media manager left mid-season, we still had events and design work that couldn't wait. Archer Design stepped in within days, handled the creative, and kept us moving. We never went back to hiring for the role.",
-    // TODO(devon): Replace with: "Michael T., [Title], [Property Name]"
-    author: "Michael T., Hospitality Client",
+    property: "Hampton Inn Greensburg / Johnstown",
+    category: "Select-service local visibility",
+    summary:
+      "Proof that branded select-service hotels can build strong local visibility with consistent property-level creative, without a dedicated in-house marketer.",
+  },
+  {
+    property: "Elements Salon & Wellness",
+    category: "Spa & wellness opening campaign",
+    summary:
+      "Launch and local-awareness creative for a spa and wellness opening, packaging treatments, gift cards, and seasonal services into a clear campaign rollout.",
   },
 ];
 
@@ -88,10 +94,10 @@ export function ValueQuoteRow() {
         <div className="mt-8">
           <div className="mx-auto max-w-3xl text-center">
             <span className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[#C9A44C]">
-              Client Results
+              Proof from tracked campaigns
             </span>
             <h2 className="mt-3 font-serif text-[clamp(28px,4vw,42px)] font-semibold leading-tight text-[#F6F1E7]">
-              Creative support hospitality teams actually rely on.
+              Real Pittsburgh-area hospitality work, not stock case studies.
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-[#A9A092]">
               When properties need event promos, social content, restaurant campaigns, and
@@ -99,31 +105,27 @@ export function ValueQuoteRow() {
             </p>
           </div>
 
-          {/* Testimonials */}
-          <div className="mt-8 -mx-2 flex snap-x snap-mandatory gap-4 overflow-x-auto px-2 pb-2 lg:mx-0 lg:grid lg:grid-cols-3 lg:overflow-visible lg:px-0">
-            {TESTIMONIALS.map((item) => (
+          {/* Case studies */}
+          <div className="mt-8 -mx-2 flex snap-x snap-mandatory gap-4 overflow-x-auto px-2 pb-2 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0">
+            {CASE_STUDIES.map((item) => (
               <figure
-                key={item.author}
+                key={item.property}
                 className="glass-card-strong min-w-[84%] snap-start rounded-2xl p-7 transition-transform duration-200 hover:-translate-y-0.5 lg:min-w-0"
               >
-                <div className="flex items-center justify-between gap-4">
-                  <span className="text-[#C9A44C]" aria-hidden>
-                    &ldquo;&rdquo;
-                  </span>
-                  <span aria-label="5 out of 5 stars" className="text-sm tracking-[0.2em] text-[#C9A44C]">
-                    ★★★★★
-                  </span>
-                </div>
-                <blockquote className="mt-4 font-serif text-[18px] leading-relaxed text-[#F6F1E7]">
-                  {item.quote}
-                </blockquote>
-                <figcaption className="mt-6 text-[13px] text-[#A9A092]">{item.author}</figcaption>
+                <span className="inline-block rounded-full border border-[rgba(201,164,76,0.28)] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#C9A44C]">
+                  {item.category}
+                </span>
+                <h3 className="mt-4 font-serif text-[17px] leading-snug text-[#F6F1E7]">
+                  {item.property}
+                </h3>
+                <p className="mt-3 text-[13.5px] leading-relaxed text-[#A9A092]">{item.summary}</p>
               </figure>
             ))}
           </div>
 
           <p className="mt-4 text-center text-[12px] text-[#A9A092]">
-            Results vary by property, campaign, and tracking setup. Testimonials reflect client experiences.
+            Performance figures live in the campaign results above. Direct booking attribution
+            depends on each property&apos;s tracking setup.
           </p>
         </div>
       </div>

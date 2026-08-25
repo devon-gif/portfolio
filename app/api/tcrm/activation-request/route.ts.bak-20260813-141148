@@ -1,0 +1,345 @@
+import { NextResponse } from "next/server";
+
+import {
+  ACTIVATION_TIERS,
+  TCRM_CLIENT_PRICING,
+  customPackTotal,
+} from "@/app/tcrm/tcrm-pricing";
+
+export const runtime = "nodejs";
+
+type ActivationPayload = {
+  propertyName?: string;
+  contactName?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  tcrmContact?: string;
+  notes?: string;
+  plan?: string;
+  staticCount?: number;
+  motionCount?: number;
+  website?: string;
+};
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function money(value: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+function resolvePlan(
+  slug: string,
+  staticCount: number,
+  motionCount: number,
+) {
+  if (slug === "custom") {
+    const safeStatic = Math.max(0, Math.floor(staticCount || 0));
+    const safeMotion = Math.max(0, Math.floor(motionCount || 0));
+    const totalAssets = safeStatic + safeMotion;
+
+    if (totalAssets < 1 || totalAssets > 10) {
+      return null;
+    }
+
+    return {
+      name: "Build Your Own Creative Pack",
+      price: customPackTotal(safeStatic, safeMotion),
+      cadence: "one time",
+      scope: `${safeMotion} motion + ${safeStatic} static`,
+    };
+  }
+
+  const essential = ACTIVATION_TIERS.find(
+    (tier) => tier.key === "essential",
+  );
+
+  if (slug === "starter") {
+    if (!essential) return null;
+
+    return {
+      name: "30-Day Creative Starter",
+      price: TCRM_CLIENT_PRICING.starter,
+      cadence: "one time",
+      scope: `${essential.motionConcepts} motion + ${essential.staticConcepts} static`,
+    };
+  }
+
+  const tierKey =
+    slug === "full-campaign"
+      ? "full"
+      : slug === "growth"
+        ? "growth"
+        : slug === "essential"
+          ? "essential"
+          : null;
+
+  if (!tierKey) return null;
+
+  const tier = ACTIVATION_TIERS.find(
+    (item) => item.key === tierKey,
+  );
+
+  if (!tier) return null;
+
+  return {
+    name: tier.name,
+    price: tier.retail,
+    cadence: "month",
+    scope: `${tier.motionConcepts} motion + ${tier.staticConcepts} static`,
+  };
+}
+
+export async function POST(request: Request) {
+  try {
+    const body = (await request.json()) as ActivationPayload;
+
+    // Honeypot. Bots filling this hidden field get a harmless success.
+    if (body.website) {
+      return NextResponse.json({ ok: true });
+    }
+
+    const propertyName = body.propertyName?.trim() ?? "";
+    const contactName = body.contactName?.trim() ?? "";
+    const contactEmail = body.contactEmail?.trim() ?? "";
+    const contactPhone = body.contactPhone?.trim() ?? "";
+    const tcrmContact = body.tcrmContact?.trim() ?? "";
+    const notes = body.notes?.trim() ?? "";
+    const planSlug = body.plan?.trim() ?? "";
+
+    if (!propertyName || !contactName || !contactEmail || !planSlug) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Please complete all required fields.",
+        },
+        { status: 400 },
+      );
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail)) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Please enter a valid email address.",
+        },
+        { status: 400 },
+      );
+    }
+
+    const plan = resolvePlan(
+      planSlug,
+      Number(body.staticCount ?? 0),
+      Number(body.motionCount ?? 0),
+    );
+
+    if (!plan) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "The selected creative plan could not be verified.",
+        },
+        { status: 400 },
+      );
+    }
+
+    const apiKey = process.env.RESEND_API_KEY;
+
+    const from =
+      process.env.TCRM_ACTIVATION_FROM_EMAIL ||
+      process.env.RESEND_FROM_EMAIL ||
+      process.env.FROM_EMAIL;
+
+    const recipients = (
+      process.env.TCRM_ACTIVATION_EMAILS || ""
+    )
+      .split(",")
+      .map((email) => email.trim())
+      .filter(Boolean);
+
+    if (!apiKey || !from || recipients.length === 0) {
+      console.error(
+        "TCRM activation email configuration is incomplete.",
+      );
+
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "Email delivery is not configured yet. Please contact your TCRM representative.",
+        },
+        { status: 500 },
+      );
+    }
+
+    const subject =
+      planSlug === "custom"
+        ? `NEW TCRM PLAN REQUEST — ${plan.name} — ${plan.scope} — ${propertyName}`
+        : `NEW TCRM PLAN REQUEST — ${plan.name} — ${propertyName}`;
+
+    const safeProperty = escapeHtml(propertyName);
+    const safeContact = escapeHtml(contactName);
+    const safeEmail = escapeHtml(contactEmail);
+    const safePhone = escapeHtml(contactPhone || "Not provided");
+    const safeTcrmContact = escapeHtml(
+      tcrmContact || "Not sure / not selected",
+    );
+    const safeNotes = escapeHtml(notes || "None provided");
+
+    const priceLabel =
+      plan.cadence === "month"
+        ? `${money(plan.price)} / month`
+        : `${money(plan.price)} one time`;
+
+    const html = `
+      <div style="font-family:Arial,Helvetica,sans-serif;max-width:680px;margin:auto;color:#17362b;">
+        <div style="padding:28px;background:#10251d;color:#fff;border-radius:18px 18px 0 0;">
+          <div style="font-size:11px;letter-spacing:2px;color:#b7d98e;margin-bottom:8px;">
+            TCRM CREATIVE ACTIVATION
+          </div>
+          <h1 style="font-size:26px;margin:0;">
+            New Creative Plan Request
+          </h1>
+        </div>
+
+        <div style="padding:30px;border:1px solid #e2ddd2;border-top:0;border-radius:0 0 18px 18px;background:#faf8f3;">
+          <h2 style="font-size:20px;margin:0 0 22px;">
+            ${safeProperty}
+          </h2>
+
+          <table style="width:100%;border-collapse:collapse;font-size:14px;">
+            <tr>
+              <td style="padding:9px 0;color:#6a746d;">Selected plan</td>
+              <td style="padding:9px 0;text-align:right;font-weight:700;">${escapeHtml(plan.name)}</td>
+            </tr>
+
+            <tr>
+              <td style="padding:9px 0;color:#6a746d;">Client price</td>
+              <td style="padding:9px 0;text-align:right;font-weight:700;color:#147562;">${priceLabel}</td>
+            </tr>
+
+            <tr>
+              <td style="padding:9px 0;color:#6a746d;">Creative scope</td>
+              <td style="padding:9px 0;text-align:right;font-weight:700;">${escapeHtml(plan.scope)}</td>
+            </tr>
+
+            <tr>
+              <td style="padding:9px 0;color:#6a746d;">Property contact</td>
+              <td style="padding:9px 0;text-align:right;">${safeContact}</td>
+            </tr>
+
+            <tr>
+              <td style="padding:9px 0;color:#6a746d;">Email</td>
+              <td style="padding:9px 0;text-align:right;">${safeEmail}</td>
+            </tr>
+
+            <tr>
+              <td style="padding:9px 0;color:#6a746d;">Phone</td>
+              <td style="padding:9px 0;text-align:right;">${safePhone}</td>
+            </tr>
+
+            <tr>
+              <td style="padding:9px 0;color:#6a746d;">TCRM contact</td>
+              <td style="padding:9px 0;text-align:right;">${safeTcrmContact}</td>
+            </tr>
+          </table>
+
+          <div style="margin-top:24px;padding:18px;background:#fff;border:1px solid #e2ddd2;border-radius:12px;">
+            <strong style="display:block;margin-bottom:8px;">Client notes</strong>
+            <div style="line-height:1.6;color:#4e5c54;">${safeNotes.replaceAll("\n", "<br>")}</div>
+          </div>
+
+          <div style="margin-top:24px;padding:18px;background:#e8f1e8;border-radius:12px;line-height:1.55;">
+            <strong>Next step:</strong>
+            TCRM confirms activation and payment details. Once confirmed,
+            Archer Design coordinates creative onboarding and production.
+          </div>
+        </div>
+      </div>
+    `;
+
+    const text = `
+TCRM CREATIVE ACTIVATION — NEW PLAN REQUEST
+
+Property: ${propertyName}
+Plan: ${plan.name}
+Price: ${priceLabel}
+Creative scope: ${plan.scope}
+
+Property contact: ${contactName}
+Email: ${contactEmail}
+Phone: ${contactPhone || "Not provided"}
+TCRM contact: ${tcrmContact || "Not sure / not selected"}
+
+Notes:
+${notes || "None provided"}
+
+NEXT STEP:
+TCRM confirms activation and payment details. Once confirmed,
+Archer Design coordinates creative onboarding and production.
+    `.trim();
+
+    const resendResponse = await fetch(
+      "https://api.resend.com/emails",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from,
+          to: recipients,
+          reply_to: contactEmail,
+          subject,
+          html,
+          text,
+        }),
+      },
+    );
+
+    const resendResult = await resendResponse.json();
+
+    if (!resendResponse.ok) {
+      console.error(
+        "Resend activation request error:",
+        resendResult,
+      );
+
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "Your request could not be emailed. Please try again.",
+        },
+        { status: 502 },
+      );
+    }
+
+    return NextResponse.json({
+      ok: true,
+      emailId: resendResult.id ?? null,
+    });
+  } catch (error) {
+    console.error("TCRM activation request error:", error);
+
+    return NextResponse.json(
+      {
+        ok: false,
+        error:
+          "Something went wrong while submitting your request.",
+      },
+      { status: 500 },
+    );
+  }
+}

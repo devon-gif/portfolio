@@ -1,3 +1,4 @@
+import { siteConfig } from "@/lib/site-config";
 import { GOLD_GRADIENT } from "./media";
 
 type Pkg = {
@@ -12,80 +13,28 @@ type Pkg = {
   ctaHref: string;
 };
 
-// Group offer leads. Spa + restaurant get a compact footer row.
+// Five-tier model: free entry point, then single-property through portfolio scale.
+// Spa + restaurant get a compact footer row below.
 const PACKAGES: Pkg[] = [
   {
-    id: "group",
-    name: "Hospitality Group Partnership",
-    price: "Custom, starting at $15,000/mo",
-    note: "Multi-property groups & management companies",
-    badge: "Built for hotel groups & management companies",
-    featured: true,
+    id: "gap-review",
+    name: "Creative Gap Review",
+    price: "Free",
+    note: "One property, restaurant, spa, or event venue",
+    badge: "Start here",
     features: [
-      "Everything in the Creative + Local SEO System, scaled per property",
-      "Portfolio-wide brand consistency with property-level customization",
-      "Group-level monthly creative plan and reporting",
-      "Priority turnaround across all properties",
-      "Optional quarterly campaign planning sessions",
-      "One partner, one invoice, every property covered",
+      "A short, practical review of how one property shows up online",
+      "Website, social, Google Business content, and visible campaigns",
+      "3-5 practical fixes you can act on",
+      "No pressure, no long brief, no card required",
     ],
-    ctaLabel: "Book a Portfolio Strategy Call →",
-    // TODO(devon): Replace with your real Calendly or booking link.
-    ctaHref: "/contact",
-  },
-  {
-    id: "portfolio-pilot",
-    name: "5-Property Portfolio Pilot",
-    price: "Starting at $10,000/mo",
-    note: "The proving ground before a portfolio rollout",
-    features: [
-      "Five properties on one coordinated creative system",
-      "Social graphics, short-form motion, and campaign visuals per property",
-      "F&B, event, wedding, and seasonal promos",
-      "Photo polishing and new branded creative",
-      "One approval workflow, one monthly plan, one invoice",
-      "Expansion roadmap after the pilot month",
-    ],
-    ctaLabel: "Request a 3–5 Property Pilot →",
-    ctaHref: "/contact",
-  },
-  {
-    id: "hotel-seo",
-    name: "Creative + Local SEO System",
-    price: "Starting at $7,500/mo",
-    note: "Monthly creative plus local search visibility",
-    features: [
-      "Everything in the 3-Property Creative System",
-      "Google Business Profile content support",
-      "Local landing page copy recommendations",
-      "Monthly SEO content",
-      "Metadata, title & description recommendations",
-      "FAQ and review-response support",
-    ],
-    ctaLabel: "Request 5 Sample Assets →",
-    ctaHref: "/contact",
-  },
-  {
-    id: "hotel-creative",
-    name: "3-Property Creative System",
-    price: "Starting at $4,500/mo",
-    note: "Small hotel groups & management companies",
-    features: [
-      "Social graphics",
-      "Short-form motion pieces",
-      "F&B and event promos",
-      "Seasonal campaign visuals",
-      "Meeting, wedding & event graphics",
-      "Captions included with every asset",
-      "Monthly creative plan",
-    ],
-    ctaLabel: "Request 5 Sample Assets →",
-    ctaHref: "/contact",
+    ctaLabel: "Request a Creative Gap Review →",
+    ctaHref: siteConfig.creativeGapReviewUrl,
   },
   {
     id: "single",
-    name: "Single Property Creative System",
-    price: "$2,500/mo",
+    name: "Single Property Creative Support",
+    price: "Starting at $1,799/mo",
     note: "One hotel, restaurant, spa, resort, or event property",
     features: [
       "Social graphics",
@@ -95,8 +44,59 @@ const PACKAGES: Pkg[] = [
       "Captions included with every asset",
       "Monthly creative plan",
     ],
-    ctaLabel: "Request 5 Sample Assets →",
-    ctaHref: "/contact",
+    ctaLabel: "Request a Creative Gap Review →",
+    ctaHref: siteConfig.creativeGapReviewUrl,
+  },
+  {
+    id: "pilot-3",
+    name: "3-Property Hospitality Pilot",
+    price: "$4,500–$5,500/mo",
+    note: "Small hotel groups & management companies",
+    features: [
+      "Social graphics across all three properties",
+      "Short-form motion pieces",
+      "F&B and event promos",
+      "Seasonal campaign visuals",
+      "Meeting, wedding & event graphics",
+      "Captions included with every asset",
+      "One monthly creative plan, one invoice",
+    ],
+    ctaLabel: "Request a Creative Gap Review →",
+    ctaHref: siteConfig.creativeGapReviewUrl,
+  },
+  {
+    id: "pilot-5",
+    name: "5-Property Creative Pilot",
+    price: "$7,500–$8,500/mo",
+    note: "The proving ground before a portfolio rollout",
+    featured: true,
+    badge: "Built for multi-property teams",
+    features: [
+      "Five properties on one coordinated creative system",
+      "Social graphics, short-form motion, and campaign visuals per property",
+      "F&B, event, wedding, and seasonal promos",
+      "Google Business content support",
+      "One approval workflow, one monthly plan, one invoice",
+      "Expansion roadmap after the pilot",
+    ],
+    ctaLabel: "Request a Creative Gap Review →",
+    ctaHref: siteConfig.creativeGapReviewUrl,
+  },
+  {
+    id: "portfolio",
+    name: "Portfolio Partnership",
+    price: "Custom",
+    note: "10+ properties, management companies & ownership groups",
+    features: [
+      "Everything in the 5-Property Creative Pilot, scaled per property",
+      "Portfolio-wide brand consistency with property-level customization",
+      "Group-level monthly creative plan and reporting",
+      "Priority turnaround across all properties",
+      "Optional quarterly campaign planning sessions",
+      "One partner, one invoice, every property covered",
+    ],
+    ctaLabel: "Request a Creative Gap Review →",
+    ctaHref: siteConfig.creativeGapReviewUrl,
   },
 ];
 
@@ -110,12 +110,12 @@ export function PackageCards() {
             Packages
           </span>
           <h2 className="mt-3 font-serif text-[clamp(28px,4vw,46px)] font-semibold leading-tight text-[#F6F1E7]">
-            Clear monthly packages for hospitality properties.
+            Clear packages for single properties and multi-property teams.
           </h2>
           <p className="mt-4 text-[#A9A092]">
-            Fixed monthly creative support across social, motion, F&amp;B, and events. Most
-            partnerships start monthly and can scale based on seasonality, property count, and
-            campaign volume.
+            Start with a free Creative Gap Review, then scale into fixed monthly creative support
+            across social, motion, F&amp;B, and events. Pilots can grow based on seasonality,
+            property count, and campaign volume.
           </p>
         </div>
 
