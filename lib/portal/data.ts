@@ -151,6 +151,18 @@ async function toItem(supabase: SupabaseClient, raw: RawItem, participants: Map<
     updatedAt: raw.updated_at,
     versions: signed,
     actions,
+    // These four have no home in the current schema. They stay empty on live
+    // data until 20260825a is applied — see that migration for what each needs.
+    // Empty is the honest value: the portal renders without them rather than
+    // inventing content.
+    annotations: [],
+    notes: [],
+    captions: [],
+    campaign: null,
+    channels: [],
+    dueDate: null,
+    durationSeconds: null,
+    dimensions: null,
   };
 }
 
@@ -287,6 +299,16 @@ export async function loadPortalData(ctx: AuthContext, organizationId?: string):
     properties: (propsResult.data ?? []) as { id: string; name: string }[],
     tasks,
     items,
+    // Defaults until publishing responsibility has somewhere to live
+    // (20260825a). Archer-everything matches the current engagements, and the
+    // client sees it stated plainly rather than guessed at per item.
+    responsibility: {
+      creative: "archer",
+      copy: "archer",
+      publishing: "archer",
+      socialContactName: null,
+      socialContactEmail: null,
+    },
     otherOrganizations: orgs.filter((o) => o.id !== orgId),
   };
 }

@@ -1,376 +1,484 @@
 /* ─────────────────────────────────────────────────────────────────────────────
-   portal.css — the Archer Design client portal visual system.
+   portal.css — Archer Design client portal.
 
-   Route-scoped: every rule is nested under .archer-portal, and this file is
-   imported only by app/portal/layout.tsx and the owner preview route. Nothing
-   here can leak into the dark zinc CRM, and the CRM's globals.css cannot bleed
-   in — the portal explicitly repaints background and text.
+   Route-scoped under .archer-portal and imported only by the portal layout and
+   the owner preview, so it cannot leak into the dark CRM and the CRM's
+   globals.css cannot bleed in.
 
-   Palette is carried over from the proven review portal
-   (components/review/SimpleReview.module.css on review-os-multiclient) so the
-   two surfaces read as one product: warm ivory ground, translucent ivory glass,
-   antique gold accent, charcoal-brown text, serif display.
+   THEMING
+   Light is the default and the brand default — a client-facing hospitality
+   surface, not a SaaS console. Dark is a deliberate second palette (warm ink,
+   not the CRM's cold zinc) selected by the client and persisted to
+   localStorage. Every colour is a token defined on BOTH themes; no component
+   hardcodes a colour that only works in one.
    ───────────────────────────────────────────────────────────────────────────── */
 
 .archer-portal {
-  /* Grounds */
-  --ap-ivory: #fdfbf6;
-  --ap-parchment: #f6f0e4;
-  --ap-champagne: #efe3c8;
-  --ap-beige: #ece2d2;
-  --ap-mushroom: #ddd3c4;
+  /* ── Light (default) ───────────────────────────────────────────────────── */
+  --ap-bg: #fdfbf6;
+  --ap-bg-bloom-1: rgba(169, 129, 47, 0.13);
+  --ap-bg-bloom-2: rgba(216, 189, 184, 0.16);
+  --ap-bg-bloom-3: rgba(239, 227, 200, 0.28);
 
-  /* Ink */
-  --ap-charcoal: #2b241f;
-  --ap-charcoal-soft: #6d6155;
-  --ap-charcoal-faint: #9a8d7e;
+  --ap-surface: rgba(255, 252, 247, 0.68);
+  --ap-surface-solid: #fffdf8;
+  --ap-surface-2: #f6f0e4;
+  --ap-surface-sunken: #ece2d2;
+  --ap-border: rgba(255, 255, 255, 0.72);
+  --ap-border-firm: #e2d7c4;
+  --ap-shadow: 0 24px 70px rgba(79, 60, 47, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.88);
+  --ap-shadow-sm: 0 10px 30px rgba(79, 60, 47, 0.07);
 
-  /* Accent */
+  --ap-text: #2b241f;
+  --ap-text-2: #6d6155;
+  --ap-text-3: #9a8d7e;
+
   --ap-gold: #a9812f;
   --ap-gold-deep: #8a6a24;
-  --ap-gold-pale: rgba(169, 129, 47, 0.14);
-  --ap-gold-line: rgba(169, 129, 47, 0.28);
+  --ap-gold-soft: rgba(169, 129, 47, 0.13);
+  --ap-gold-line: rgba(169, 129, 47, 0.3);
 
-  /* Status — deliberately separate from the gold accent */
-  --ap-await: #9a6a12;
-  --ap-await-bg: rgba(216, 166, 64, 0.16);
-  --ap-changes: #a1554a;
-  --ap-changes-bg: rgba(185, 143, 138, 0.2);
-  --ap-approved: #4a6b4f;
-  --ap-approved-bg: rgba(122, 155, 128, 0.18);
-  --ap-progress: #6a6070;
-  --ap-progress-bg: rgba(222, 215, 219, 0.5);
+  --ap-await: #8a5f10;
+  --ap-await-bg: rgba(216, 166, 64, 0.18);
+  --ap-changes: #9d5045;
+  --ap-changes-bg: rgba(185, 143, 138, 0.22);
+  --ap-approved: #3f6248;
+  --ap-approved-bg: rgba(122, 155, 128, 0.2);
+  --ap-neutral: #635a66;
+  --ap-neutral-bg: rgba(214, 206, 212, 0.5);
 
-  /* Glass */
-  --ap-glass: rgba(255, 252, 247, 0.62);
-  --ap-glass-strong: rgba(255, 253, 248, 0.8);
-  --ap-glass-border: rgba(255, 255, 255, 0.7);
-  --ap-glass-shadow: 0 24px 70px rgba(79, 60, 47, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.88);
-  --ap-blur: blur(28px) saturate(135%);
+  --ap-stage: #efe9dd;      /* the mat behind artwork */
+  --ap-stage-edge: #ded3c1;
 
   --ap-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
   --ap-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ap-blur: blur(28px) saturate(135%);
 
+  color-scheme: light;
   min-height: 100vh;
-  color: var(--ap-charcoal);
+  color: var(--ap-text);
   font-family: var(--ap-sans);
   font-size: 15px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-
-  /* Three soft blooms over ivory. The portal always renders light — it is a
-     client-facing brand surface, not a themeable app — so it paints its own
-     ground rather than inheriting the CRM's near-black body. */
   background:
-    radial-gradient(circle at 78% 4%, rgba(169, 129, 47, 0.13), transparent 34%),
-    radial-gradient(circle at 8% 92%, rgba(216, 189, 184, 0.17), transparent 40%),
-    radial-gradient(circle at 96% 82%, rgba(239, 227, 200, 0.3), transparent 38%),
-    var(--ap-ivory);
+    radial-gradient(circle at 78% 3%, var(--ap-bg-bloom-1), transparent 34%),
+    radial-gradient(circle at 6% 94%, var(--ap-bg-bloom-2), transparent 40%),
+    radial-gradient(circle at 96% 84%, var(--ap-bg-bloom-3), transparent 38%),
+    var(--ap-bg);
+}
+
+/* ── Dark: warm ink, deliberately not the CRM's cold zinc ─────────────────── */
+.archer-portal[data-theme="dark"] {
+  --ap-bg: #17130f;
+  --ap-bg-bloom-1: rgba(169, 129, 47, 0.16);
+  --ap-bg-bloom-2: rgba(120, 88, 84, 0.16);
+  --ap-bg-bloom-3: rgba(90, 74, 48, 0.2);
+
+  --ap-surface: rgba(44, 37, 30, 0.72);
+  --ap-surface-solid: #221c17;
+  --ap-surface-2: #2b241d;
+  --ap-surface-sunken: #1e1914;
+  --ap-border: rgba(233, 219, 197, 0.12);
+  --ap-border-firm: #3a3128;
+  --ap-shadow: 0 24px 70px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 250, 240, 0.05);
+  --ap-shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.38);
+
+  --ap-text: #f2ebdf;
+  --ap-text-2: #c0b3a1;
+  --ap-text-3: #8d8070;
+
+  --ap-gold: #d3ab5e;
+  --ap-gold-deep: #e6c583;
+  --ap-gold-soft: rgba(211, 171, 94, 0.16);
+  --ap-gold-line: rgba(211, 171, 94, 0.34);
+
+  --ap-await: #e0b45f;
+  --ap-await-bg: rgba(216, 166, 64, 0.2);
+  --ap-changes: #dc9a8e;
+  --ap-changes-bg: rgba(185, 143, 138, 0.22);
+  --ap-approved: #8fbf9c;
+  --ap-approved-bg: rgba(122, 155, 128, 0.22);
+  --ap-neutral: #b6abb8;
+  --ap-neutral-bg: rgba(120, 112, 118, 0.3);
+
+  --ap-stage: #100d0a;
+  --ap-stage-edge: #2e2720;
+
+  color-scheme: dark;
 }
 
 .archer-portal *,
 .archer-portal *::before,
 .archer-portal *::after { box-sizing: border-box; }
 
-/* ── Layout ───────────────────────────────────────────────────────────────── */
-.archer-portal .ap-shell { width: min(1180px, 100%); margin: 0 auto; padding: 0 28px; }
-.archer-portal .ap-main { padding: 34px 0 96px; display: flex; flex-direction: column; gap: 30px; }
-.archer-portal .ap-row { display: grid; gap: 20px; }
-.archer-portal .ap-row--2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-.archer-portal .ap-row--3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-.archer-portal .ap-row--4 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+/* ── App frame: sidebar + main ────────────────────────────────────────────── */
+.archer-portal .ap-app { display: grid; grid-template-columns: 244px minmax(0, 1fr); min-height: 100vh; }
 
-/* ── Glass surfaces ───────────────────────────────────────────────────────── */
-.archer-portal .ap-card {
-  background: var(--ap-glass);
-  backdrop-filter: var(--ap-blur);
-  -webkit-backdrop-filter: var(--ap-blur);
-  border: 1px solid var(--ap-glass-border);
-  border-radius: 24px;
-  box-shadow: var(--ap-glass-shadow);
-  padding: 26px 28px;
-}
-.archer-portal .ap-card--tight { padding: 20px 22px; border-radius: 18px; }
-.archer-portal .ap-card--flush { padding: 0; overflow: hidden; }
-
-/* ── Header ───────────────────────────────────────────────────────────────── */
-.archer-portal .ap-header {
+.archer-portal .ap-side {
   position: sticky;
   top: 0;
-  z-index: 20;
-  background: var(--ap-glass-strong);
+  align-self: start;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 26px 18px;
+  background: var(--ap-surface);
   backdrop-filter: var(--ap-blur);
   -webkit-backdrop-filter: var(--ap-blur);
-  border-bottom: 1px solid var(--ap-glass-border);
+  border-right: 1px solid var(--ap-border-firm);
 }
-.archer-portal .ap-header-inner {
+.archer-portal .ap-side-brand { padding: 0 8px; }
+.archer-portal .ap-side-brand strong { display: block; font-family: var(--ap-serif); font-size: 19px; font-weight: 600; }
+.archer-portal .ap-side-brand span {
+  display: block;
+  margin-top: 3px;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ap-text-3);
+}
+.archer-portal .ap-nav { display: flex; flex-direction: column; gap: 2px; }
+.archer-portal .ap-nav a {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 16px 0;
-  flex-wrap: wrap;
+  gap: 11px;
+  padding: 9px 12px;
+  border-radius: 11px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ap-text-2);
+  text-decoration: none;
+  transition: background 0.16s ease, color 0.16s ease;
 }
-.archer-portal .ap-brand { display: flex; align-items: baseline; gap: 12px; }
-.archer-portal .ap-brand-name { font-family: var(--ap-serif); font-size: 20px; letter-spacing: -0.01em; }
-.archer-portal .ap-brand-sub {
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--ap-charcoal-faint);
+.archer-portal .ap-nav a:hover { background: var(--ap-gold-soft); color: var(--ap-text); }
+.archer-portal .ap-nav a[aria-current="page"] {
+  background: var(--ap-gold-soft);
+  color: var(--ap-text);
+  font-weight: 600;
+  box-shadow: inset 2px 0 0 var(--ap-gold);
 }
-.archer-portal .ap-header-right { display: flex; align-items: center; gap: 16px; }
-.archer-portal .ap-whoami { text-align: right; line-height: 1.3; }
-.archer-portal .ap-whoami strong { display: block; font-size: 13px; font-weight: 600; }
-.archer-portal .ap-whoami span { font-size: 11px; color: var(--ap-charcoal-faint); }
-
-/* ── Type ─────────────────────────────────────────────────────────────────── */
-.archer-portal h1,
-.archer-portal h2,
-.archer-portal h3 { font-family: var(--ap-serif); font-weight: 600; margin: 0; text-wrap: balance; }
-.archer-portal .ap-greeting { font-size: clamp(30px, 4.6vw, 50px); line-height: 1.08; letter-spacing: -0.015em; }
-.archer-portal .ap-org { font-size: 13px; color: var(--ap-charcoal-soft); margin-top: 10px; }
-.archer-portal .ap-section-title { font-size: 21px; letter-spacing: -0.01em; }
-.archer-portal .ap-label {
-  font-size: 9.5px;
+.archer-portal .ap-nav-badge {
+  margin-left: auto;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--ap-gold);
+  color: #241b0c;
+  font-size: 10.5px;
   font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--ap-charcoal-faint);
-}
-.archer-portal .ap-eyebrow {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ap-gold-deep);
-}
-.archer-portal .ap-muted { color: var(--ap-charcoal-soft); font-size: 13.5px; }
-.archer-portal .ap-figure {
-  font-family: var(--ap-serif);
-  font-size: 30px;
-  line-height: 1.1;
+  display: grid;
+  place-items: center;
   font-variant-numeric: tabular-nums;
 }
+.archer-portal .ap-side-foot { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
+.archer-portal .ap-side-sep { height: 1px; background: var(--ap-border-firm); margin: 2px 0; }
 
-/* ── Stat tiles ───────────────────────────────────────────────────────────── */
-.archer-portal .ap-stat {
-  background: rgba(255, 252, 247, 0.55);
-  backdrop-filter: blur(20px) saturate(130%);
-  -webkit-backdrop-filter: blur(20px) saturate(130%);
-  border: 1px solid var(--ap-glass-border);
-  border-radius: 18px;
-  padding: 18px 20px;
-  box-shadow: 0 12px 36px rgba(79, 60, 47, 0.06);
-}
-.archer-portal .ap-stat .ap-figure { margin-bottom: 4px; }
-
-/* ── Status pills ─────────────────────────────────────────────────────────── */
-.archer-portal .ap-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 11px;
+/* Theme switch */
+.archer-portal .ap-theme {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  padding: 3px;
   border-radius: 999px;
-  font-size: 10.5px;
+  background: var(--ap-surface-sunken);
+  border: 1px solid var(--ap-border-firm);
+}
+.archer-portal .ap-theme button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 6px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ap-text-3);
+  font: inherit;
+  font-size: 11.5px;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  white-space: nowrap;
+  cursor: pointer;
+}
+.archer-portal .ap-theme button[aria-pressed="true"] {
+  background: var(--ap-surface-solid);
+  color: var(--ap-text);
+  box-shadow: var(--ap-shadow-sm);
+}
+
+.archer-portal .ap-side-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  color: var(--ap-text-2);
+  background: none;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: left;
+  width: 100%;
+}
+.archer-portal .ap-side-link:hover { background: var(--ap-gold-soft); color: var(--ap-text); }
+
+/* ── Main ─────────────────────────────────────────────────────────────────── */
+.archer-portal .ap-main { min-width: 0; padding: 34px 38px 90px; display: flex; flex-direction: column; gap: 30px; }
+.archer-portal .ap-main--wide { padding: 0 0 60px; }
+.archer-portal .ap-row { display: grid; gap: 18px; }
+.archer-portal .ap-row--2 { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+.archer-portal .ap-row--3 { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.archer-portal .ap-row--4 { grid-template-columns: repeat(auto-fit, minmax(168px, 1fr)); }
+
+/* ── Surfaces ─────────────────────────────────────────────────────────────── */
+.archer-portal .ap-card {
+  background: var(--ap-surface);
+  backdrop-filter: var(--ap-blur);
+  -webkit-backdrop-filter: var(--ap-blur);
+  border: 1px solid var(--ap-border);
+  border-radius: 22px;
+  box-shadow: var(--ap-shadow);
+  padding: 24px 26px;
+}
+.archer-portal .ap-card--tight { padding: 18px 20px; border-radius: 16px; }
+.archer-portal .ap-card--accent { border-color: var(--ap-gold-line); background: var(--ap-gold-soft); }
+
+/* ── Type ─────────────────────────────────────────────────────────────────── */
+.archer-portal h1, .archer-portal h2, .archer-portal h3, .archer-portal h4 {
+  font-family: var(--ap-serif); font-weight: 600; margin: 0; text-wrap: balance;
+}
+.archer-portal .ap-h1 { font-size: clamp(28px, 4vw, 44px); line-height: 1.1; letter-spacing: -0.015em; }
+.archer-portal .ap-h2 { font-size: 20px; letter-spacing: -0.01em; }
+.archer-portal .ap-h3 { font-size: 16px; }
+.archer-portal .ap-label {
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.19em; text-transform: uppercase; color: var(--ap-text-3);
+}
+.archer-portal .ap-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.17em; text-transform: uppercase; color: var(--ap-gold-deep);
+}
+.archer-portal .ap-muted { color: var(--ap-text-2); font-size: 13.5px; }
+.archer-portal .ap-figure { font-family: var(--ap-serif); font-size: 28px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+
+/* ── Pills — never colour alone: each carries a text label ────────────────── */
+.archer-portal .ap-pill {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 999px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; white-space: nowrap;
 }
 .archer-portal .ap-pill--await { background: var(--ap-await-bg); color: var(--ap-await); }
 .archer-portal .ap-pill--changes { background: var(--ap-changes-bg); color: var(--ap-changes); }
 .archer-portal .ap-pill--approved { background: var(--ap-approved-bg); color: var(--ap-approved); }
-.archer-portal .ap-pill--progress { background: var(--ap-progress-bg); color: var(--ap-progress); }
-.archer-portal .ap-pill--demo { background: var(--ap-gold-pale); color: var(--ap-gold-deep); }
-
-/* ── Progress ─────────────────────────────────────────────────────────────── */
-.archer-portal .ap-track {
-  height: 7px;
-  border-radius: 999px;
-  background: rgba(169, 129, 47, 0.14);
-  overflow: hidden;
-}
-.archer-portal .ap-track-fill {
-  height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #cda85c, var(--ap-gold));
-}
-
-/* ── Checklist ────────────────────────────────────────────────────────────── */
-.archer-portal .ap-check { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.archer-portal .ap-check li { display: flex; align-items: flex-start; gap: 11px; font-size: 13.5px; }
-.archer-portal .ap-check .ap-dot {
-  flex: none;
-  width: 17px;
-  height: 17px;
-  border-radius: 50%;
-  margin-top: 2px;
-  display: grid;
-  place-items: center;
-  border: 1.5px solid var(--ap-mushroom);
-}
-.archer-portal .ap-check .ap-dot--done { background: var(--ap-gold); border-color: var(--ap-gold); color: #fff; }
-.archer-portal .ap-check li.is-done { color: var(--ap-charcoal-faint); }
-.archer-portal .ap-check li.is-done .ap-check-text { text-decoration: line-through; text-decoration-thickness: 1px; }
+.archer-portal .ap-pill--neutral { background: var(--ap-neutral-bg); color: var(--ap-neutral); }
+.archer-portal .ap-pill--gold { background: var(--ap-gold-soft); color: var(--ap-gold-deep); }
 
 /* ── Buttons ──────────────────────────────────────────────────────────────── */
 .archer-portal .ap-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border-radius: 999px;
-  padding: 11px 22px;
-  font-size: 13px;
-  font-weight: 600;
-  font-family: inherit;
-  border: 1px solid transparent;
-  cursor: pointer;
-  text-decoration: none;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  border-radius: 999px; padding: 10px 20px; font-size: 13px; font-weight: 600;
+  font-family: inherit; border: 1px solid transparent; cursor: pointer; text-decoration: none;
+  transition: filter 0.16s ease, background 0.16s ease;
 }
-.archer-portal .ap-btn:hover { transform: translateY(-1px); }
-.archer-portal .ap-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-.archer-portal .ap-btn--primary {
-  background: linear-gradient(150deg, #cda85c, var(--ap-gold) 70%);
-  color: #2b2114;
-  box-shadow: 0 10px 26px rgba(169, 129, 47, 0.26);
-}
-.archer-portal .ap-btn--ink { background: var(--ap-charcoal); color: var(--ap-ivory); }
-.archer-portal .ap-btn--quiet {
-  background: rgba(255, 252, 247, 0.7);
-  border-color: var(--ap-mushroom);
-  color: var(--ap-charcoal);
-}
-.archer-portal .ap-btn--approve { background: var(--ap-approved-bg); color: var(--ap-approved); border-color: rgba(122, 155, 128, 0.4); }
-.archer-portal .ap-btn--changes { background: var(--ap-await-bg); color: var(--ap-await); border-color: rgba(216, 166, 64, 0.42); }
-.archer-portal .ap-btn--direction { background: var(--ap-changes-bg); color: var(--ap-changes); border-color: rgba(185, 143, 138, 0.45); }
+.archer-portal .ap-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.archer-portal .ap-btn:not(:disabled):hover { filter: brightness(1.04); }
+.archer-portal .ap-btn--primary { background: var(--ap-gold); color: #241b0c; }
+.archer-portal .ap-btn--ink { background: var(--ap-text); color: var(--ap-bg); }
+.archer-portal .ap-btn--quiet { background: var(--ap-surface-solid); border-color: var(--ap-border-firm); color: var(--ap-text); }
+.archer-portal .ap-btn--approve { background: var(--ap-approved-bg); color: var(--ap-approved); border-color: var(--ap-approved); }
+.archer-portal .ap-btn--changes { background: var(--ap-await-bg); color: var(--ap-await); border-color: var(--ap-await); }
+.archer-portal .ap-btn--direction { background: var(--ap-changes-bg); color: var(--ap-changes); border-color: var(--ap-changes); }
+.archer-portal .ap-btn--sm { padding: 7px 14px; font-size: 12px; }
 
 /* ── Forms ────────────────────────────────────────────────────────────────── */
-.archer-portal .ap-input,
-.archer-portal .ap-textarea {
-  width: 100%;
-  font-family: inherit;
-  font-size: 14px;
-  color: var(--ap-charcoal);
-  background: rgba(255, 255, 255, 0.66);
-  border: 1px solid var(--ap-mushroom);
-  border-radius: 14px;
-  padding: 12px 14px;
+.archer-portal .ap-input, .archer-portal .ap-textarea {
+  width: 100%; font-family: inherit; font-size: 14px; color: var(--ap-text);
+  background: var(--ap-surface-solid); border: 1px solid var(--ap-border-firm);
+  border-radius: 13px; padding: 11px 13px;
 }
-.archer-portal .ap-textarea { min-height: 96px; resize: vertical; line-height: 1.55; }
-.archer-portal .ap-input::placeholder,
-.archer-portal .ap-textarea::placeholder { color: var(--ap-charcoal-faint); }
+.archer-portal .ap-textarea { min-height: 88px; resize: vertical; line-height: 1.55; }
+.archer-portal .ap-input::placeholder, .archer-portal .ap-textarea::placeholder { color: var(--ap-text-3); }
 
-/* One consistent focus ring on every interactive element. */
-.archer-portal a:focus-visible,
-.archer-portal button:focus-visible,
-.archer-portal input:focus-visible,
-.archer-portal textarea:focus-visible,
-.archer-portal select:focus-visible {
-  outline: 2px solid var(--ap-gold);
-  outline-offset: 2px;
-  border-radius: 10px;
+.archer-portal a:focus-visible, .archer-portal button:focus-visible,
+.archer-portal input:focus-visible, .archer-portal textarea:focus-visible,
+.archer-portal [tabindex]:focus-visible {
+  outline: 2px solid var(--ap-gold); outline-offset: 2px; border-radius: 8px;
 }
 
-/* ── Item cards ───────────────────────────────────────────────────────────── */
-.archer-portal .ap-items { display: flex; flex-direction: column; gap: 18px; }
-.archer-portal .ap-item {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(240px, 330px);
-  gap: 0;
-  background: var(--ap-glass);
-  backdrop-filter: var(--ap-blur);
-  -webkit-backdrop-filter: var(--ap-blur);
-  border: 1px solid var(--ap-glass-border);
-  border-radius: 22px;
-  box-shadow: var(--ap-glass-shadow);
-  overflow: hidden;
+/* ── Progress / checklist ─────────────────────────────────────────────────── */
+.archer-portal .ap-track { height: 6px; border-radius: 999px; background: var(--ap-gold-soft); overflow: hidden; }
+.archer-portal .ap-track-fill { height: 100%; border-radius: 999px; background: var(--ap-gold); }
+.archer-portal .ap-check { display: flex; flex-direction: column; gap: 9px; margin: 0; padding: 0; list-style: none; }
+.archer-portal .ap-check li { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; }
+.archer-portal .ap-dot {
+  flex: none; width: 16px; height: 16px; border-radius: 50%; margin-top: 2px;
+  display: grid; place-items: center; border: 1.5px solid var(--ap-border-firm);
 }
-.archer-portal .ap-item-media {
-  background: #211a14;
-  min-height: 210px;
-  display: grid;
-  place-items: center;
-  position: relative;
-}
-.archer-portal .ap-item-media img,
-.archer-portal .ap-item-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
-/* A near-black stage is right behind real photography and video, but wrong when
-   there is nothing to show — six dark rectangles would dominate the page. The
-   empty state gets a warm parchment panel instead, so an asset-less workspace
-   still reads as the same product. */
-.archer-portal .ap-item-media--empty {
-  background: linear-gradient(155deg, var(--ap-parchment), var(--ap-beige));
-  border-left: 1px solid var(--ap-glass-border);
-}
-.archer-portal .ap-item-media-empty {
-  color: var(--ap-charcoal-faint);
-  font-size: 10.5px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  text-align: center;
-  padding: 20px;
-  line-height: 1.8;
-}
-.archer-portal .ap-item-body { padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; }
-.archer-portal .ap-item-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
-.archer-portal .ap-item-title { font-family: var(--ap-serif); font-size: 18px; line-height: 1.25; }
-.archer-portal .ap-item-meta { font-size: 11.5px; color: var(--ap-charcoal-faint); }
-.archer-portal .ap-item-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 2px; }
+.archer-portal .ap-dot--done { background: var(--ap-gold); border-color: var(--ap-gold); color: #241b0c; }
+.archer-portal .ap-check li.is-done { color: var(--ap-text-3); }
 
-/* ── History ──────────────────────────────────────────────────────────────── */
-.archer-portal .ap-history { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-.archer-portal .ap-history li { display: grid; grid-template-columns: 8px 1fr; gap: 12px; font-size: 13px; }
-.archer-portal .ap-history li::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--ap-gold-line);
-  margin-top: 7px;
+/* ── Queue grid ───────────────────────────────────────────────────────────── */
+.archer-portal .ap-queue { display: grid; grid-template-columns: repeat(auto-fill, minmax(252px, 1fr)); gap: 18px; }
+.archer-portal .ap-qcard {
+  display: flex; flex-direction: column; text-decoration: none; color: inherit;
+  background: var(--ap-surface); backdrop-filter: var(--ap-blur); -webkit-backdrop-filter: var(--ap-blur);
+  border: 1px solid var(--ap-border); border-radius: 18px; overflow: hidden;
+  box-shadow: var(--ap-shadow-sm); transition: box-shadow 0.18s ease, border-color 0.18s ease;
 }
-.archer-portal .ap-history time { display: block; font-size: 11px; color: var(--ap-charcoal-faint); margin-top: 2px; }
+.archer-portal .ap-qcard:hover { box-shadow: var(--ap-shadow); border-color: var(--ap-gold-line); }
+.archer-portal .ap-qthumb {
+  aspect-ratio: 4 / 3; background: var(--ap-stage); display: grid; place-items: center; overflow: hidden; position: relative;
+}
+.archer-portal .ap-qthumb img, .archer-portal .ap-qthumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.archer-portal .ap-qthumb-type {
+  position: absolute; left: 10px; top: 10px; padding: 3px 8px; border-radius: 999px;
+  background: rgba(20, 16, 12, 0.66); color: #f4ece0; font-size: 9.5px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; backdrop-filter: blur(6px);
+}
+.archer-portal .ap-qbody { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; }
+/* `pretty`, not `balance`: in a narrow card, balancing a long title produces a
+   ragged column of two-word lines. */
+.archer-portal .ap-qtitle { font-family: var(--ap-serif); font-size: 15.5px; line-height: 1.3; text-wrap: pretty; }
+.archer-portal .ap-qmeta { font-size: 11.5px; color: var(--ap-text-3); }
 
-/* ── Notices ──────────────────────────────────────────────────────────────── */
+/* ── Review workspace ─────────────────────────────────────────────────────── */
+.archer-portal .ap-work { display: grid; grid-template-columns: minmax(0, 1fr) 384px; min-height: calc(100vh - 0px); }
+.archer-portal .ap-work-stage {
+  background: var(--ap-stage);
+  border-right: 1px solid var(--ap-stage-edge);
+  display: flex; flex-direction: column; min-width: 0;
+}
+.archer-portal .ap-work-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+  padding: 16px 24px; border-bottom: 1px solid var(--ap-stage-edge);
+}
+.archer-portal .ap-stage-area {
+  flex: 1; display: grid; place-items: center; padding: 34px; min-height: 420px; overflow: auto;
+}
+/* The artwork frame. Vertical assets are centred with negative space rather
+   than stretched; landscape gets the wider canvas. */
+.archer-portal .ap-frame { position: relative; line-height: 0; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.22); border-radius: 6px; overflow: hidden; }
+.archer-portal .ap-frame img, .archer-portal .ap-frame video { display: block; max-width: 100%; max-height: 68vh; width: auto; height: auto; }
+.archer-portal .ap-frame--annotatable { cursor: crosshair; }
+
+/* Annotation markers — positioned in PERCENT of the media box, so they stay
+   attached at any size. */
+.archer-portal .ap-marker {
+  position: absolute; transform: translate(-50%, -50%);
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--ap-gold); color: #241b0c;
+  font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums;
+  display: grid; place-items: center; cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.9); box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  padding: 0; font-family: inherit;
+}
+.archer-portal .ap-marker.is-active { background: var(--ap-text); color: var(--ap-bg); transform: translate(-50%, -50%) scale(1.14); }
+.archer-portal .ap-marker--draft { background: var(--ap-surface-solid); color: var(--ap-gold-deep); border-style: dashed; }
+
+.archer-portal .ap-work-side {
+  background: var(--ap-bg); display: flex; flex-direction: column; min-width: 0;
+  max-height: 100vh; overflow-y: auto;
+}
+.archer-portal .ap-work-side > * { padding: 20px 24px; border-bottom: 1px solid var(--ap-border-firm); }
+.archer-portal .ap-work-side > *:last-child { border-bottom: none; }
+
+.archer-portal .ap-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+.archer-portal .ap-meta-grid > div > span { display: block; }
+
+/* Version rail */
+.archer-portal .ap-versions { display: flex; gap: 8px; flex-wrap: wrap; }
+.archer-portal .ap-vbtn {
+  padding: 6px 13px; border-radius: 999px; border: 1px solid var(--ap-border-firm);
+  background: var(--ap-surface-solid); color: var(--ap-text-2); font: inherit; font-size: 12px;
+  font-weight: 600; cursor: pointer;
+}
+.archer-portal .ap-vbtn[aria-pressed="true"] { background: var(--ap-gold); border-color: var(--ap-gold); color: #241b0c; }
+.archer-portal .ap-vbtn--latest::after { content: " · latest"; font-weight: 500; opacity: 0.75; }
+
+/* Comments */
+.archer-portal .ap-thread { display: flex; flex-direction: column; gap: 14px; }
+.archer-portal .ap-comment { display: flex; gap: 11px; }
+.archer-portal .ap-comment-num {
+  flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--ap-gold-soft);
+  color: var(--ap-gold-deep); font-size: 11px; font-weight: 700; display: grid; place-items: center;
+  font-variant-numeric: tabular-nums; border: 1px solid var(--ap-gold-line);
+}
+.archer-portal .ap-comment.is-active .ap-comment-num { background: var(--ap-gold); color: #241b0c; }
+.archer-portal .ap-comment-body { min-width: 0; flex: 1; }
+.archer-portal .ap-comment-who { font-size: 12px; font-weight: 600; }
+.archer-portal .ap-comment-who .ap-role {
+  margin-left: 7px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 999px; background: var(--ap-neutral-bg); color: var(--ap-neutral);
+}
+.archer-portal .ap-comment-who .ap-role--archer { background: var(--ap-gold-soft); color: var(--ap-gold-deep); }
+.archer-portal .ap-comment-text { font-size: 13.5px; margin: 4px 0 0; }
+.archer-portal .ap-comment-time { font-size: 11px; color: var(--ap-text-3); }
+.archer-portal .ap-comment--clickable { cursor: pointer; text-align: left; background: none; border: none; padding: 0; font: inherit; color: inherit; width: 100%; }
+
+/* Caption blocks */
+.archer-portal .ap-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.archer-portal .ap-tab {
+  padding: 6px 13px; border-radius: 999px; border: 1px solid var(--ap-border-firm);
+  background: transparent; color: var(--ap-text-2); font: inherit; font-size: 12px; font-weight: 600; cursor: pointer;
+}
+.archer-portal .ap-tab[aria-selected="true"] { background: var(--ap-text); border-color: var(--ap-text); color: var(--ap-bg); }
+.archer-portal .ap-caption {
+  background: var(--ap-surface-2); border: 1px solid var(--ap-border-firm); border-radius: 14px;
+  padding: 15px 17px; font-size: 13.5px; white-space: pre-wrap; line-height: 1.6;
+}
+.archer-portal .ap-hashtags { color: var(--ap-gold-deep); }
+
+/* Workflow */
+.archer-portal .ap-flow { display: flex; flex-direction: column; gap: 10px; }
+.archer-portal .ap-flow-step { display: grid; grid-template-columns: 92px 1fr; gap: 12px; align-items: baseline; font-size: 13px; }
+.archer-portal .ap-flow-who { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ap-gold-deep); }
+.archer-portal .ap-flow-step--client .ap-flow-who { color: var(--ap-neutral); }
+
+.archer-portal .ap-empty { text-align: center; padding: 46px 22px; color: var(--ap-text-2); font-size: 14px; }
+.archer-portal .ap-empty strong { display: block; font-family: var(--ap-serif); font-size: 18px; color: var(--ap-text); margin-bottom: 7px; }
+
 .archer-portal .ap-notice {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding: 12px 18px;
-  border-radius: 14px;
-  font-size: 12.5px;
-  background: var(--ap-gold-pale);
-  border: 1px solid var(--ap-gold-line);
-  color: var(--ap-gold-deep);
-}
-.archer-portal .ap-empty {
-  text-align: center;
-  padding: 52px 24px;
-  color: var(--ap-charcoal-soft);
-  font-size: 14px;
-}
-.archer-portal .ap-empty strong { display: block; font-family: var(--ap-serif); font-size: 19px; color: var(--ap-charcoal); margin-bottom: 8px; }
-
-.archer-portal .ap-footer {
-  padding: 28px 0 44px;
-  text-align: center;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ap-charcoal-faint);
+  display: flex; align-items: center; gap: 11px; flex-wrap: wrap; padding: 11px 16px;
+  border-radius: 13px; font-size: 12.5px; background: var(--ap-gold-soft);
+  border: 1px solid var(--ap-gold-line); color: var(--ap-gold-deep);
 }
 
-/* ── Responsive ───────────────────────────────────────────────────────────── */
+/* ── Mobile ───────────────────────────────────────────────────────────────── */
+.archer-portal .ap-mobile-nav { display: none; }
+
+@media (max-width: 1080px) {
+  .archer-portal .ap-work { grid-template-columns: 1fr; }
+  .archer-portal .ap-work-side { max-height: none; border-top: 1px solid var(--ap-border-firm); }
+  .archer-portal .ap-work-stage { border-right: none; }
+}
+
 @media (max-width: 860px) {
-  .archer-portal .ap-item { grid-template-columns: 1fr; }
-  .archer-portal .ap-item-media { min-height: 200px; order: -1; }
-  .archer-portal .ap-shell { padding: 0 18px; }
+  .archer-portal .ap-app { grid-template-columns: 1fr; }
+  .archer-portal .ap-side { display: none; }
+  .archer-portal .ap-main { padding: 22px 18px 96px; }
+  .archer-portal .ap-stage-area { padding: 18px; min-height: 300px; }
+  .archer-portal .ap-frame img, .archer-portal .ap-frame video { max-height: 54vh; }
+
+  /* Bottom tab bar replaces the sidebar. Review controls stay reachable. */
+  .archer-portal .ap-mobile-nav {
+    display: grid;
+    grid-auto-flow: column;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    background: var(--ap-surface-solid);
+    border-top: 1px solid var(--ap-border-firm);
+    padding: 8px 6px calc(8px + env(safe-area-inset-bottom, 0px));
+  }
+  .archer-portal .ap-mobile-nav a, .archer-portal .ap-mobile-nav button {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    padding: 5px 4px; border: none; background: none; font: inherit;
+    font-size: 9.5px; font-weight: 600; color: var(--ap-text-3); text-decoration: none; cursor: pointer;
+  }
+  .archer-portal .ap-mobile-nav a[aria-current="page"] { color: var(--ap-gold-deep); }
+  .archer-portal .ap-work-bar { padding: 12px 16px; }
+  .archer-portal .ap-work-side > * { padding: 16px; }
+  .archer-portal .ap-meta-grid { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .archer-portal .ap-btn { transition: none; }
-  .archer-portal .ap-btn:hover { transform: none; }
+  .archer-portal * { transition: none !important; animation: none !important; }
 }
