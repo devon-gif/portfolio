@@ -181,7 +181,7 @@ export function HomePricingSection() {
             <ul className="mt-6 space-y-3 text-[14px] text-[var(--st-ink-soft)]">
               {[
                 "Up to 4 finished assets each month",
-                "Choose your mix of static and motion creative",
+                "Up to 1 motion piece; remaining assets are static",
                 "Captions included",
                 "One consolidated minor revision round",
                 "One property or brand",
