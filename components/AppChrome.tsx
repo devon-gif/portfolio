@@ -96,7 +96,10 @@ const AUTH_ROUTES = ["/login", "/auth/callback"];
 // "/cana" is the Cana Development × Archer Design private, speculative
 // collaboration concept — noindex, never linked from nav/sitemap/footer,
 // direct URL only.
-const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/review", "/topline", "/george", "/emma", "/vision", "/tcrm", "/oxford", "/first-hospitality", "/pyramid", "/bridgetown", "/hotel-commercial-growth", "/grant-hospitality", "/jacaruso", "/clientconcierge", "/commercial-growth", "/cana"];
+// "/rcc" is the RCC Hospitality Consulting × Archer Design private working
+// partnership concept prepared for Rachel Cimino — noindex, never linked
+// from nav/sitemap/footer, direct URL only.
+const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/review", "/topline", "/george", "/emma", "/vision", "/tcrm", "/oxford", "/first-hospitality", "/pyramid", "/bridgetown", "/hotel-commercial-growth", "/grant-hospitality", "/jacaruso", "/clientconcierge", "/commercial-growth", "/cana", "/rcc"];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;
