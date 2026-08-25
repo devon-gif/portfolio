@@ -4,11 +4,12 @@ import { LazyVideo } from "@/components/marketing/LazyVideo";
 import { StudioHeader } from "@/components/marketing/StudioHeader";
 import { StudioFooter } from "@/components/marketing/StudioFooter";
 import { StudioCTA } from "@/components/marketing/StudioCTA";
+import { HomePricingSection } from "@/components/marketing/HomePricingSection";
 import { fraunces } from "@/components/marketing/studioFont";
 import { FEATURED_VIDEOS } from "@/components/marketing/media";
 
 const DESCRIPTION =
-  "Monthly hospitality creative support for hotels, restaurants, bars, spas, and event venues — social graphics, short-form motion, and campaign visuals built from the assets you already have. One studio instead of stacking vendors.";
+  "Flexible hospitality creative support from one-off graphics and a $299.99 monthly starter plan through $800, $1,000, and $1,200 property-level creative partnerships.";
 
 export const metadata: Metadata = {
   title: "Packages & Creative Support",
@@ -84,34 +85,31 @@ export default function PackagesPage() {
       <StudioHeader active="packages" />
 
       <main>
-        {/* Hero */}
         <section className="mx-auto max-w-5xl px-6 pt-16 md:pt-20">
           <span className="st-kicker">Packages</span>
           <h1 className="mt-4 max-w-3xl font-serif text-[clamp(30px,4.5vw,52px)] leading-[1.06] text-[var(--st-ink)]">
-            Premium hospitality creative. Without the in-house overhead.
+            Premium hospitality creative, with a starting point for almost any budget.
           </h1>
           <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-[var(--st-ink-soft)]">
-            Every engagement delivers finished, approval-ready creative — social
-            graphics, short-form motion, and campaign visuals — built from the
-            assets your properties already have. Scaled to a single property or a
-            whole group.
+            Buy a single graphic when you need it, keep a small monthly creative lane open, or use Archer as a fuller property-level creative partner. No need to overbuy before the workload is there.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="/contact" className="st-btn">
-              Send a property link <span aria-hidden>→</span>
-            </Link>
+            <a href="#pricing" className="st-btn">
+              See pricing <span aria-hidden>→</span>
+            </a>
             <Link href="/case-studies" className="st-btn-ghost">
               See the work
             </Link>
           </div>
         </section>
 
-        {/* What's included */}
+        <HomePricingSection />
+
         <section className="mx-auto max-w-6xl px-6 py-20">
           <div className="max-w-2xl">
             <span className="st-kicker">What you get</span>
             <h2 className="mt-4 font-serif text-[clamp(26px,3.6vw,42px)] leading-[1.1] text-[var(--st-ink)]">
-              Finished creative, on a monthly rhythm.
+              Finished creative, scoped to the level you choose.
             </h2>
           </div>
           <div className="mt-12 grid gap-6 sm:grid-cols-2">
@@ -126,7 +124,6 @@ export default function PackagesPage() {
           </div>
         </section>
 
-        {/* Property paths */}
         <section className="bg-[var(--st-cream)] px-6 py-20">
           <div className="mx-auto max-w-6xl">
             <div className="max-w-2xl">
@@ -159,7 +156,6 @@ export default function PackagesPage() {
           </div>
         </section>
 
-        {/* Value comparison */}
         <section className="mx-auto max-w-6xl px-6 py-20">
           <div className="max-w-2xl">
             <span className="st-kicker">The advantage</span>
@@ -203,11 +199,7 @@ export default function PackagesPage() {
           <div className="st-panel mt-8 p-8">
             <h3 className="font-serif text-[22px] text-[var(--st-ink)]">How pricing works</h3>
             <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-[var(--st-ink-soft)]">
-              Monthly creative support is scoped to your property type, volume, and
-              the channels you care about. Most teams start with a single-property
-              or multi-property pilot, then settle into a steady monthly rhythm
-              once they see the output. We&apos;ll recommend the right starting point on
-              a quick intro call — no long-term lock-in to begin.
+              One-off creative is priced per asset. Creative Lite is $299.99 per month. The core property-level plans are $800, $1,000, and $1,200 per active property or brand per month. Multi-property teams can coordinate several properties under one workflow and invoice, with final scope confirmed before kickoff.
             </p>
           </div>
         </section>
@@ -215,7 +207,7 @@ export default function PackagesPage() {
 
       <StudioCTA
         heading="Let's scope the right creative rhythm."
-        body="Send a property, restaurant, bar, spa, or event link and we'll suggest a practical starting point and what a monthly rhythm could look like for your team."
+        body="Start with one asset, Creative Lite, or a fuller monthly partnership. Send a property, restaurant, bar, spa, or event link and we'll help you choose the right level."
         primaryLabel="Send a property link"
       />
 
