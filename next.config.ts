@@ -15,10 +15,9 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return {
-      // Keep the established Archer homepage design at `/`, while the
-      // legacy-home route swaps only its pricing content to the current
-      // Archer pricing structure. The rest of the approved homepage remains
-      // unchanged.
+      // Keep the established Archer homepage design at `/`. The home-upgraded
+      // route builds on legacy-home so the approved pricing/content stays
+      // intact while the live work carousels show more motion and graphics.
       beforeFiles: [
         {
           source: "/dovetail",
@@ -46,7 +45,7 @@ const nextConfig: NextConfig = {
         },
         {
           source: "/",
-          destination: "/legacy-home",
+          destination: "/home-upgraded",
         },
       ],
       afterFiles: [],
