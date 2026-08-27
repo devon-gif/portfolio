@@ -43,6 +43,8 @@ const AUTH_ROUTES = ["/login", "/auth/callback"];
 // "/social-media-work" is a public marketing portfolio page (and any future
 // child paths under it) — must render full-bleed with no Supabase/auth/
 // sidebar, same as the other public marketing routes above.
+// "/devon" is Devon Archer's public personal portfolio. It and its child
+// routes must bypass the private Hotel Pipeline OS owner auth guard.
 // "/review" is the Archer Review client portal — it ships its own login and
 // chrome, so it must render full-bleed with no CRM sidebar or owner guard.
 // "/topline" is the Topline Revenue Management private, personalized
@@ -99,7 +101,7 @@ const AUTH_ROUTES = ["/login", "/auth/callback"];
 // "/rcc" is the RCC Hospitality Consulting × Archer Design private working
 // partnership concept prepared for Rachel Cimino — noindex, never linked
 // from nav/sitemap/footer, direct URL only.
-const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/review", "/topline", "/george", "/emma", "/vision", "/tcrm", "/oxford", "/first-hospitality", "/pyramid", "/bridgetown", "/hotel-commercial-growth", "/grant-hospitality", "/jacaruso", "/clientconcierge", "/commercial-growth", "/cana", "/rcc"];
+const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/devon", "/review", "/topline", "/george", "/emma", "/vision", "/tcrm", "/oxford", "/first-hospitality", "/pyramid", "/bridgetown", "/hotel-commercial-growth", "/grant-hospitality", "/jacaruso", "/clientconcierge", "/commercial-growth", "/cana", "/rcc"];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;
