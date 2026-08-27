@@ -1,0 +1,155 @@
+/* Referral page skin — intentionally scoped to /referral only via the unique #refer section.
+   Keeps the referral page structure intact while aligning it more closely with Archer Design's
+   warm ivory / espresso / muted-gold visual system. */
+
+body:has(#refer) .archer-studio {
+  --st-ivory: #f8f3ea;
+  --st-cream: #f2eadf;
+  --st-sand: #eadfce;
+  --st-white: #fffaf2;
+  --st-ink: #29241f;
+  --st-ink-soft: #655d54;
+  --st-ink-muted: #8a7f72;
+  --st-gold: #b58a3e;
+  --st-gold-soft: #c9a45e;
+  --st-taupe: #b8aa98;
+  --st-line: rgba(41, 36, 31, 0.11);
+  --st-line-soft: rgba(41, 36, 31, 0.065);
+  --st-shadow: 0 26px 70px -34px rgba(62, 48, 31, 0.34);
+  --st-shadow-soft: 0 16px 42px -28px rgba(62, 48, 31, 0.28);
+
+  background:
+    radial-gradient(circle at 14% 4%, rgba(181, 138, 62, 0.11), transparent 31%),
+    radial-gradient(circle at 86% 3%, rgba(181, 138, 62, 0.075), transparent 27%),
+    linear-gradient(180deg, #fbf7ef 0%, #f8f3ea 46%, #f5eee4 100%);
+}
+
+/* Header — same logo asset as the main Archer site, with a cleaner treatment. */
+body:has(#refer) .archer-studio > header {
+  background: rgba(248, 243, 234, 0.9) !important;
+  border-bottom-color: rgba(41, 36, 31, 0.08) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.68), 0 12px 34px rgba(62, 48, 31, 0.045);
+}
+
+body:has(#refer) .archer-studio > header a[aria-label="Archer Design home"] > div:first-child {
+  width: 44px;
+  height: 44px;
+  border-color: rgba(181, 138, 62, 0.24) !important;
+  background: transparent !important;
+  box-shadow: 0 10px 24px rgba(41, 36, 31, 0.08);
+}
+
+body:has(#refer) .archer-studio > header a[aria-label="Archer Design home"] img {
+  object-fit: contain !important;
+}
+
+body:has(#refer) .archer-studio > header .wordmark-font {
+  font-size: 1.05rem !important;
+}
+
+/* Slightly richer Archer gold and warmer CTA treatment. */
+body:has(#refer) .archer-studio .st-kicker {
+  color: #b58a3e;
+}
+
+body:has(#refer) .archer-studio .st-btn {
+  background: #2b261f;
+  border-color: #2b261f;
+  color: #fff7ea;
+  box-shadow: 0 9px 24px rgba(43, 38, 31, 0.1);
+}
+
+body:has(#refer) .archer-studio .st-btn:hover {
+  background: #3a3229;
+  border-color: #3a3229;
+}
+
+body:has(#refer) .archer-studio .st-btn-ghost {
+  border-color: rgba(41, 36, 31, 0.13);
+  background: rgba(255, 250, 242, 0.44);
+}
+
+body:has(#refer) .archer-studio .st-btn-ghost:hover {
+  border-color: rgba(181, 138, 62, 0.55);
+  background: rgba(181, 138, 62, 0.075);
+}
+
+/* Hero — keep the composition, but make the media frame and glow feel warmer and more editorial. */
+body:has(#refer) .archer-studio main > section:first-of-type {
+  background:
+    radial-gradient(circle at 76% 38%, rgba(181, 138, 62, 0.08), transparent 34%),
+    transparent;
+}
+
+body:has(#refer) .archer-studio main > section:first-of-type > div:last-child > div:last-child {
+  border: 1px solid rgba(181, 138, 62, 0.18);
+  box-shadow: 0 34px 90px rgba(55, 43, 28, 0.16) !important;
+}
+
+/* Warm section rhythm instead of flat white / gray bands. */
+body:has(#refer) .archer-studio main > section:nth-of-type(2) {
+  background: rgba(255, 250, 242, 0.72) !important;
+  border-color: rgba(41, 36, 31, 0.075) !important;
+}
+
+body:has(#refer) .archer-studio main > section:nth-of-type(4),
+body:has(#refer) .archer-studio main > section:nth-of-type(6) {
+  background: #f1e8db !important;
+}
+
+body:has(#refer) .archer-studio main > section:nth-of-type(10) {
+  background: #eadfce !important;
+}
+
+/* Light cards should read like warm paper instead of bright white tiles. */
+body:has(#refer) .archer-studio main > section:nth-of-type(3) article:not(:last-child),
+body:has(#refer) .archer-studio main > section:nth-of-type(4) article,
+body:has(#refer) .archer-studio main > section:nth-of-type(6) article,
+body:has(#refer) .archer-studio main > section:nth-of-type(7) article,
+body:has(#refer) .archer-studio main > section:nth-of-type(9) > div > div > div:last-child > div,
+body:has(#refer) .archer-studio main > section:nth-of-type(10) > div > div:last-child,
+body:has(#refer) .archer-studio #refer form {
+  background-color: #fffaf2 !important;
+  border-color: rgba(41, 36, 31, 0.095) !important;
+}
+
+/* Referral trigger chips. */
+body:has(#refer) .archer-studio main > section:nth-of-type(5) .grid > div {
+  background: rgba(255, 250, 242, 0.82) !important;
+  border-color: rgba(41, 36, 31, 0.09) !important;
+}
+
+/* Form controls blend into the palette while retaining contrast. */
+body:has(#refer) .archer-studio #refer input,
+body:has(#refer) .archer-studio #refer textarea,
+body:has(#refer) .archer-studio #refer select {
+  background: #f8f1e7 !important;
+  border-color: rgba(41, 36, 31, 0.12) !important;
+  color: #29241f;
+}
+
+body:has(#refer) .archer-studio #refer input:focus,
+body:has(#refer) .archer-studio #refer textarea:focus,
+body:has(#refer) .archer-studio #refer select:focus {
+  border-color: rgba(181, 138, 62, 0.7) !important;
+  box-shadow: 0 0 0 3px rgba(181, 138, 62, 0.08);
+}
+
+/* Footer stays light and integrated with the page instead of feeling like a separate slab. */
+body:has(#refer) .archer-studio > footer {
+  background: #f3eadf;
+  border-top-color: rgba(41, 36, 31, 0.08) !important;
+}
+
+@media (max-width: 760px) {
+  body:has(#refer) .archer-studio {
+    background:
+      radial-gradient(circle at 24% 2%, rgba(181, 138, 62, 0.09), transparent 24%),
+      linear-gradient(180deg, #fbf7ef 0%, #f8f3ea 55%, #f5eee4 100%);
+  }
+
+  body:has(#refer) .archer-studio > header a[aria-label="Archer Design home"] > div:first-child {
+    width: 40px;
+    height: 40px;
+  }
+}
