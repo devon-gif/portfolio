@@ -15,6 +15,7 @@ const PUBLIC_ROUTES = [
   "/hotels",
   "/restaurants",
   "/bars",
+  "/referral",
   "/hotel-social-media-management",
   "/hotel-video-marketing",
   "/hospitality-creative-support",
