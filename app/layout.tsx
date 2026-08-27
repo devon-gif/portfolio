@@ -61,6 +61,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable} h-full`}>
+      <head>
+        <link rel="stylesheet" href="/referral-theme.css" />
+      </head>
       <body className="h-full bg-zinc-950 text-zinc-100 antialiased">
         <JsonLd data={organizationJsonLd()} />
         <AppChrome>{children}</AppChrome>
