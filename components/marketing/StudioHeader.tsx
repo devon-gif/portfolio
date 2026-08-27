@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CALENDLY_URL, LOGO_PATH } from "@/lib/seo";
+import { CALENDLY_URL } from "@/lib/seo";
 
 type NavKey = "hotels" | "restaurants" | "bars" | "work" | "packages";
 
@@ -12,6 +12,8 @@ const NAV: { key: NavKey; label: string; href: string }[] = [
   { key: "packages", label: "Packages", href: "/packages" },
 ];
 
+const HEADER_LOGO_PATH = "/icon%20logo.png";
+
 /**
  * Shared light-theme site header for all Archer Studio marketing pages.
  * Pass `active` to subtly mark the current section.
@@ -22,7 +24,7 @@ export function StudioHeader({ active }: { active?: NavKey }) {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-3" aria-label="Archer Design home">
           <div className="relative h-10 w-10 overflow-hidden rounded-full border border-[var(--st-line)] bg-white">
-            <Image src={LOGO_PATH} alt="Archer Design logo" fill sizes="40px" className="object-cover" priority />
+            <Image src={HEADER_LOGO_PATH} alt="Archer Design logo" fill sizes="40px" className="object-cover" priority />
           </div>
           <div className="wordmark-font text-[1rem]">
             <span className="text-[var(--st-ink)]">Archer</span>
