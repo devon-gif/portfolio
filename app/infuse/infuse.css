@@ -1,0 +1,2025 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   infuse.css — scoped styles for the /infuse private, personalized page
+   (Jaimie DeLeon · Infuse Hospitality). Imported only by app/infuse/layout.tsx
+   so none of this ships to any other route's bundle — same pattern as
+   dns.css, jacaruso.css, grant-hospitality.css.
+
+   Palette: Infuse Hospitality's own real brand language, verified directly
+   against the live infusehospitality.com via computed-style inspection —
+   coral #FB523D (primary accent), charcoal #2C2930 / #1C1C1C (dark
+   grounds), olive/gold #908859 (quiet accent), warm off-white #F5F5F5 and
+   soft white #FCFAF7 (light grounds). This page is built to feel visually
+   compatible with Infuse's world, not a clone of their site.
+
+   Type: Fraunces (--font-luxury-serif) for display/editorial headlines —
+   already in this project via components/marketing/studioFont.ts — standing
+   in for Infuse's licensed "Ivy Presto Headline." Geist Sans
+   (--font-geist-sans, loaded site-wide) for labels, body copy, UI. No new
+   fonts or libraries introduced.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.infuse-theme {
+  /* ── Core palette (verified against the live Infuse site) ─────────────── */
+  --infuse-coral: #fb523d;
+  --infuse-coral-dark: #e2402c;
+  --infuse-coral-soft: rgba(251, 82, 61, 0.14);
+  --infuse-charcoal: #2c2930;
+  --infuse-charcoal-deep: #1c1c1c;
+  --infuse-ink: #211f23;
+  --infuse-olive: #908859;
+  --infuse-cream: #f5f5f5;
+  --infuse-soft-white: #fcfaf7;
+  --infuse-muted: #6d6865;
+
+  /* legacy aliases kept so any un-migrated selector below still resolves to
+     the new system rather than the old green/beige one */
+  --infuse-forest: var(--infuse-charcoal);
+  --infuse-forest-dark: var(--infuse-charcoal-deep);
+  --infuse-off-white: var(--infuse-cream);
+  --infuse-terracotta: var(--infuse-coral);
+  --infuse-sage: var(--infuse-olive);
+
+  /* ── Glass utilities (used sparingly — see section comments below) ────── */
+  --glass-dark-bg: rgba(30, 28, 32, 0.45);
+  --glass-dark-bg-strong: rgba(23, 21, 25, 0.62);
+  --glass-dark-blur: blur(18px) saturate(130%);
+  --glass-dark-border: rgba(255, 255, 255, 0.18);
+  --glass-dark-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
+  --glass-light-bg: rgba(255, 255, 255, 0.6);
+  --glass-light-bg-strong: rgba(255, 255, 255, 0.78);
+  --glass-light-blur: blur(16px) saturate(120%);
+  --glass-light-border: rgba(33, 31, 35, 0.1);
+  --glass-light-shadow: 0 20px 60px rgba(33, 31, 35, 0.08);
+
+  background: var(--infuse-cream);
+  color: var(--infuse-ink);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.infuse-theme * {
+  box-sizing: border-box;
+}
+
+.infuse-theme .infuse-serif {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, Cambria, "Times New Roman", serif;
+}
+
+.infuse-theme .infuse-shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 64px);
+}
+
+.infuse-theme .infuse-eyebrow {
+  font-family: var(--font-geist-sans), ui-sans-serif, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--infuse-coral);
+}
+
+.infuse-theme section {
+  padding: clamp(56px, 9vw, 120px) 0;
+}
+
+/* Grain texture — a whisper of paper/film texture over flat grounds, CSS
+   only (no image asset), applied to a handful of large sections. */
+.infuse-grain {
+  position: relative;
+}
+.infuse-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.35) 0.6px, transparent 0.6px);
+  background-size: 3px 3px;
+}
+
+/* ── Reveal-on-scroll (scoped copy of this project's shared pattern) ──── */
+.infuse-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.infuse-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.infuse-reveal-d2 { transition-delay: 0.08s; }
+.infuse-reveal-d3 { transition-delay: 0.16s; }
+.infuse-reveal-d4 { transition-delay: 0.24s; }
+
+/* Media reveal — pairs with .infuse-reveal for a gentle scale-in on large
+   imagery/video stages (0.98 -> 1), used on gallery stages + still-to-motion
+   panel. Applied to a child so the parent's translateY isn't compounded. */
+.infuse-media-scale {
+  transform: scale(0.98);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.infuse-reveal.is-visible .infuse-media-scale {
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .infuse-reveal,
+  .infuse-media-scale {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ── Sitewide scroll progress line (thin coral hairline, fixed to top) ── */
+.infuse-scrollline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  z-index: 60;
+  background: rgba(44, 41, 48, 0.08);
+  pointer-events: none;
+}
+.infuse-scrollline-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--infuse-coral), var(--infuse-olive));
+  transform-origin: left;
+  will-change: width;
+}
+@media (prefers-reduced-motion: reduce) {
+  .infuse-scrollline { display: none; }
+}
+
+/* ── Floating glass-pill nav — lives INSIDE the hero frame (see below),
+   not page-sticky (see InfuseNav.tsx) ──────────────────────────────────── */
+.infuse-nav-wrap {
+  position: absolute;
+  z-index: 5;
+  top: clamp(16px, 2.6vw, 28px);
+  left: clamp(16px, 2.6vw, 28px);
+  right: clamp(16px, 2.6vw, 28px);
+  display: flex;
+  justify-content: center;
+}
+.infuse-nav {
+  position: relative;
+  width: 100%;
+  max-width: 1180px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 12px 12px 22px;
+  border-radius: 999px;
+  background: rgba(20, 18, 22, 0.45);
+  backdrop-filter: blur(22px) saturate(130%);
+  -webkit-backdrop-filter: blur(22px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+/* Thin highlight line along the top edge — a classic glassmorphism cue */
+.infuse-nav::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 6%;
+  right: 6%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+}
+.infuse-nav-lockup {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  white-space: nowrap;
+}
+.infuse-nav-mark {
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-style: italic;
+  font-size: 17px;
+  color: var(--infuse-soft-white);
+}
+.infuse-nav-for {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--infuse-coral);
+}
+.infuse-nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 26px);
+}
+.infuse-nav-link {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: rgba(252, 250, 247, 0.78);
+  transition: color 0.18s ease;
+  white-space: nowrap;
+}
+.infuse-nav-link:hover { color: var(--infuse-soft-white); }
+.infuse-nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: var(--infuse-coral);
+  color: var(--infuse-soft-white);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 10px 26px rgba(251, 82, 61, 0.35);
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+.infuse-nav-cta:hover { background: var(--infuse-coral-dark); transform: translateY(-1px); }
+.infuse-nav-toggle {
+  display: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-dark-border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--infuse-soft-white);
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex: 0 0 auto;
+}
+.infuse-nav-mobile {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .infuse-nav-links {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    z-index: 6;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    padding: 10px;
+    border-radius: 22px;
+    background: rgba(20, 18, 22, 0.82);
+    backdrop-filter: blur(22px) saturate(130%);
+    -webkit-backdrop-filter: blur(22px) saturate(130%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .infuse-nav-links.is-open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .infuse-nav-link {
+    padding: 12px 14px;
+    border-radius: 12px;
+  }
+  .infuse-nav-link:hover { background: rgba(255, 255, 255, 0.06); }
+  .infuse-nav-cta {
+    margin: 6px 4px 2px;
+    justify-content: center;
+  }
+  .infuse-nav-toggle { display: flex; }
+}
+
+/* ── Hero — one large, designed frame: dark luxury ground, cinematic
+   single-loop food video, floating nav + content panel + stats bar ─────
+   NOTE: the extra `.infuse-theme` prefix on the next rule is not
+   decorative — `.infuse-theme section` above (a class + element
+   descendant selector, specificity 0,1,1) would otherwise beat a bare
+   `.infuse-hero-shell` (0,1,0) and silently re-inflate this section's
+   padding back to the generic 56-120px section rhythm. */
+.infuse-theme .infuse-hero-shell {
+  position: relative;
+  overflow: visible;
+  background:
+    radial-gradient(circle at 72% 18%, rgba(130, 18, 34, 0.3), transparent 38%),
+    radial-gradient(circle at 20% 35%, rgba(54, 31, 49, 0.35), transparent 42%),
+    linear-gradient(90deg, rgba(80, 24, 32, 0.22) 0%, transparent 42%, transparent 58%, rgba(80, 24, 32, 0.22) 100%),
+    linear-gradient(180deg, #111115 0%, #171219 45%, #111115 100%);
+  padding: clamp(24px, 2.2vw, 40px) clamp(20px, 3.5vw, 35px) clamp(28px, 4vw, 48px);
+}
+/* Soft diffused wine/burgundy glow behind the hero frame — bleeds into the
+   shell's own padding so the sushi scene reads as softly illuminating the
+   page around it. Sits behind the hero (see z-index on .infuse-hero
+   below), never a hard-edged border. */
+.infuse-theme .infuse-hero-shell::before {
+  content: "";
+  position: absolute;
+  /* Fixed-pixel bleed (not a % of the shell's own height, which is mostly
+     hero height) so this stays a subtle glow confined near the shell's own
+     padding, rather than washing into whatever section follows. */
+  inset: -60px -90px;
+  z-index: 0;
+  background: radial-gradient(ellipse, rgba(191, 32, 48, 0.18), transparent 65%);
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+.infuse-hero {
+  position: relative;
+  z-index: 1;
+  height: clamp(640px, 86vh, 980px);
+  max-width: 1650px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: clamp(26px, 2.4vw, 40px);
+  background: var(--infuse-charcoal-deep);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 0 1px rgba(251, 82, 61, 0.18),
+    0 30px 100px rgba(0, 0, 0, 0.5),
+    0 0 80px rgba(130, 18, 34, 0.1);
+}
+
+.infuse-hero-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 64% center;
+}
+
+.infuse-hero-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 82% 30%, rgba(251, 82, 61, 0.14), transparent 46%),
+    radial-gradient(circle at 8% 88%, rgba(133, 20, 20, 0.28), transparent 55%),
+    linear-gradient(
+      90deg,
+      rgba(8, 8, 12, 0.88) 0%,
+      rgba(8, 8, 12, 0.58) 38%,
+      rgba(8, 8, 12, 0.1) 65%,
+      rgba(8, 8, 12, 0.06) 100%
+    ),
+    linear-gradient(180deg, rgba(8, 8, 12, 0.05) 0%, rgba(8, 8, 12, 0.2) 68%, rgba(6, 6, 9, 0.7) 100%);
+}
+
+.infuse-hero-inner {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  color: var(--infuse-soft-white);
+}
+
+/* Decorative vertical rail, far left of the frame — purely visual, no
+   functionality; not tied to the (now single) hero video. */
+.infuse-hero-rail {
+  position: absolute;
+  z-index: 3;
+  left: clamp(18px, 3vw, 40px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+}
+.infuse-hero-rail-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(252, 250, 247, 0.3);
+}
+.infuse-hero-rail-dot.is-active {
+  width: 7px;
+  height: 7px;
+  background: var(--infuse-coral);
+  box-shadow: 0 0 0 4px rgba(251, 82, 61, 0.18);
+}
+.infuse-hero-rail-num {
+  margin-top: 4px;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--infuse-coral);
+  font-variant-numeric: tabular-nums;
+}
+.infuse-hero-rail-line {
+  width: 1px;
+  height: 26px;
+  background: rgba(252, 250, 247, 0.18);
+}
+.infuse-hero-rail-total {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(252, 250, 247, 0.4);
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 860px) {
+  .infuse-hero-rail { display: none; }
+}
+
+/* Heavy dark-glass content panel over the left side of the video */
+.infuse-hero-content {
+  position: absolute;
+  z-index: 4;
+  left: clamp(20px, 4vw, 64px);
+  top: 50%;
+  transform: translateY(-58%);
+  width: min(560px, calc(100% - 40px));
+}
+.infuse-hero-content::before {
+  content: "";
+  position: absolute;
+  inset: -30px;
+  z-index: -1;
+  background: radial-gradient(circle at 30% 30%, rgba(251, 82, 61, 0.22), transparent 65%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+.infuse-hero-textpanel {
+  display: block;
+  padding: clamp(32px, 3.6vw, 52px);
+  border-radius: clamp(24px, 2.4vw, 34px);
+  background: rgba(17, 16, 19, 0.52);
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  backdrop-filter: blur(22px) saturate(125%);
+  -webkit-backdrop-filter: blur(22px) saturate(125%);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.4);
+}
+
+.infuse-hero-label {
+  display: inline-block;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--infuse-soft-white);
+  background: rgba(251, 82, 61, 0.16);
+  border: 1px solid rgba(251, 82, 61, 0.4);
+  padding: 9px 16px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+
+.infuse-hero h1 {
+  margin: 18px 0 14px;
+  font-weight: 400;
+  line-height: 1.04;
+  font-size: clamp(32px, 4vw, 52px);
+  text-wrap: balance;
+}
+.infuse-hero-accent {
+  color: var(--infuse-coral);
+}
+
+.infuse-hero-copy {
+  font-size: clamp(14px, 1.2vw, 16px);
+  line-height: 1.55;
+  color: rgba(252, 250, 247, 0.9);
+}
+
+.infuse-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 26px;
+}
+
+/* Floating glass stats bar — bottom-center of the hero frame */
+.infuse-hero-stats {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: clamp(18px, 2.6vw, 32px);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.4vw, 40px);
+  padding: clamp(16px, 1.8vw, 22px) clamp(22px, 2.8vw, 40px);
+  max-width: calc(100% - 32px);
+  border-radius: 999px;
+  background: rgba(22, 18, 21, 0.55);
+  backdrop-filter: blur(24px) saturate(130%);
+  -webkit-backdrop-filter: blur(24px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+  overflow-x: auto;
+}
+.infuse-hero-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.infuse-hero-stat strong {
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(26px, 2.9vw, 38px);
+  color: #ffffff;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+  font-variant-numeric: tabular-nums;
+}
+.infuse-hero-stat span {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--infuse-olive);
+}
+.infuse-hero-stat-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.14);
+  flex: 0 0 auto;
+}
+
+/* Scroll-to-explore control, lower-right of the hero */
+.infuse-hero-scrollcue {
+  position: absolute;
+  z-index: 4;
+  right: clamp(20px, 3vw, 40px);
+  bottom: clamp(96px, 11vw, 130px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: var(--glass-dark-bg);
+  backdrop-filter: var(--glass-dark-blur);
+  -webkit-backdrop-filter: var(--glass-dark-blur);
+  border: 1px solid var(--glass-dark-border);
+  color: rgba(252, 250, 247, 0.75);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.infuse-hero-scrollcue:hover { color: var(--infuse-soft-white); border-color: rgba(251, 82, 61, 0.4); }
+.infuse-hero-scrollcue-line {
+  width: 22px;
+  height: 1px;
+  background: rgba(252, 250, 247, 0.4);
+}
+.infuse-hero-scrollcue-arrow {
+  font-size: 12px;
+  animation: infuse-scrollcue-bob 1.8s ease-in-out infinite;
+}
+@keyframes infuse-scrollcue-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .infuse-hero-scrollcue-arrow { animation: none; }
+}
+@media (max-width: 860px) {
+  .infuse-hero-scrollcue { display: none; }
+}
+
+.infuse-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 28px;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  cursor: pointer;
+}
+.infuse-btn:hover { transform: translateY(-1px); }
+.infuse-btn-solid {
+  background: var(--infuse-coral);
+  color: var(--infuse-soft-white);
+  border: 1px solid var(--infuse-coral);
+  box-shadow: 0 10px 30px rgba(251, 82, 61, 0.28);
+}
+.infuse-btn-solid:hover { background: var(--infuse-coral-dark); border-color: var(--infuse-coral-dark); }
+.infuse-btn-outline {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--infuse-soft-white);
+  border: 1px solid rgba(252, 250, 247, 0.5);
+}
+.infuse-btn-outline:hover { background: rgba(251, 248, 242, 0.14); }
+
+/* Dark-section variant of the button pair (used on cream backgrounds) */
+.infuse-theme .infuse-on-cream .infuse-btn-outline {
+  color: var(--infuse-ink);
+  border-color: rgba(33, 31, 35, 0.28);
+  background: transparent;
+}
+.infuse-theme .infuse-on-cream .infuse-btn-outline:hover { background: rgba(33, 31, 35, 0.05); }
+
+.infuse-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 28px;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  cursor: pointer;
+}
+.infuse-btn:hover { transform: translateY(-1px); }
+.infuse-btn-solid {
+  background: var(--infuse-coral);
+  color: var(--infuse-soft-white);
+  border: 1px solid var(--infuse-coral);
+  box-shadow: 0 10px 30px rgba(251, 82, 61, 0.28);
+}
+.infuse-btn-solid:hover { background: var(--infuse-coral-dark); border-color: var(--infuse-coral-dark); }
+.infuse-btn-outline {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--infuse-soft-white);
+  border: 1px solid rgba(252, 250, 247, 0.5);
+}
+.infuse-btn-outline:hover { background: rgba(251, 248, 242, 0.14); }
+
+/* Dark-section variant of the button pair (used on cream backgrounds) */
+.infuse-theme .infuse-on-cream .infuse-btn-outline {
+  color: var(--infuse-ink);
+  border-color: rgba(33, 31, 35, 0.28);
+  background: transparent;
+}
+.infuse-theme .infuse-on-cream .infuse-btn-outline:hover { background: rgba(33, 31, 35, 0.05); }
+
+/* ── Section heading block ─────────────────────────────────────────────── */
+.infuse-heading {
+  max-width: 780px;
+}
+.infuse-heading h2 {
+  margin: 14px 0 0;
+  font-weight: 400;
+  line-height: 1.08;
+  font-size: clamp(30px, 4.2vw, 52px);
+  text-wrap: balance;
+}
+.infuse-heading p {
+  margin-top: 18px;
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.65;
+  color: var(--infuse-muted);
+  max-width: 62ch;
+}
+
+/* ── Positioning (light, sits between the two galleries and Capabilities) */
+.infuse-positioning {
+  background: var(--infuse-soft-white);
+  border-top: 1px solid rgba(33, 31, 35, 0.06);
+}
+.infuse-positioning-grid {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(32px, 6vw, 72px);
+  align-items: start;
+}
+.infuse-capability-list {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid rgba(33, 31, 35, 0.14);
+}
+.infuse-capability-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(33, 31, 35, 0.14);
+  font-size: 15px;
+  line-height: 1.4;
+}
+.infuse-capability-list li::before {
+  content: "";
+  flex: 0 0 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--infuse-coral);
+  transform: translateY(-2px);
+}
+
+/* ── Capabilities ("Services") — staggered masonry, alternating coral /
+   cream / charcoal cards rather than six identical boxes ─────────────── */
+.infuse-services {
+  background: var(--infuse-cream);
+  position: relative;
+}
+.infuse-services .infuse-eyebrow { color: var(--infuse-coral); }
+.infuse-services-grid {
+  margin-top: 52px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-flow: dense;
+  gap: 18px;
+}
+.infuse-service-card {
+  position: relative;
+  border-radius: 22px;
+  padding: 30px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 230px;
+  border: 1px solid rgba(33, 31, 35, 0.08);
+  background: var(--infuse-soft-white);
+  box-shadow: 0 18px 48px rgba(33, 31, 35, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.infuse-service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 26px 60px rgba(33, 31, 35, 0.09);
+}
+.infuse-service-number {
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+}
+.infuse-service-card h3 {
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-weight: 500;
+  font-size: 21px;
+}
+.infuse-service-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.82;
+}
+/* Alternating treatment — 1st & 4th (asset enhancement) coral-featured,
+   3rd & 6th charcoal dark-glass, the rest quiet cream cards. Also gives
+   the 4th card (the motion-transformation capability) a taller row so the
+   grid reads as staggered masonry rather than a flat table. */
+.infuse-service-card:nth-child(4n+1) {
+  background: var(--infuse-coral);
+  border-color: var(--infuse-coral);
+  color: var(--infuse-soft-white);
+}
+.infuse-service-card:nth-child(4n+1) .infuse-service-number { color: rgba(252, 250, 247, 0.7); opacity: 1; }
+.infuse-service-card:nth-child(4n+1) h3 { color: var(--infuse-soft-white); }
+.infuse-service-card:nth-child(4n+1) p { color: rgba(252, 250, 247, 0.88); }
+.infuse-service-card:nth-child(3n) {
+  background: var(--infuse-charcoal);
+  border-color: var(--infuse-charcoal);
+  color: var(--infuse-soft-white);
+  grid-row: span 1;
+}
+.infuse-service-card:nth-child(3n) .infuse-service-number { color: var(--infuse-olive); opacity: 1; }
+.infuse-service-card:nth-child(3n) h3 { color: var(--infuse-soft-white); }
+.infuse-service-card:nth-child(3n) p { color: rgba(252, 250, 247, 0.78); }
+.infuse-service-card:nth-child(4) {
+  padding-top: 42px;
+  padding-bottom: 40px;
+}
+.infuse-service-card:not(:nth-child(4n+1)):not(:nth-child(3n)) .infuse-service-number { color: var(--infuse-olive); }
+.infuse-service-card:not(:nth-child(4n+1)):not(:nth-child(3n)) h3 { color: var(--infuse-ink); }
+.infuse-service-card:not(:nth-child(4n+1)):not(:nth-child(3n)) p { color: var(--infuse-muted); }
+
+/* Short "multi-concept" note preserving the idea from the removed standalone
+   Multi-Concept Portfolios section — a single quiet line under the grid,
+   not a new heading/subsection. */
+.infuse-services-note {
+  margin: 36px 0 0;
+  padding-left: 20px;
+  border-left: 2px solid var(--infuse-coral);
+  max-width: 62ch;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--infuse-muted);
+}
+
+/* ── Track Record ("Proof") — deep charcoal, cream numerals, coral
+   highlight, thin olive rule, subtle glass separation ────────────────── */
+.infuse-proof {
+  background: var(--infuse-charcoal-deep);
+  color: var(--infuse-soft-white);
+}
+.infuse-proof .infuse-eyebrow { color: var(--infuse-coral); }
+.infuse-proof-heading {
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(28px, 3.6vw, 42px);
+  margin-top: 12px;
+  max-width: 20ch;
+}
+.infuse-proof-grid {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(252, 250, 247, 0.1);
+  border-top: 2px solid var(--infuse-olive);
+  border-bottom: 1px solid rgba(252, 250, 247, 0.1);
+}
+.infuse-proof-stat {
+  position: relative;
+  background: var(--infuse-charcoal-deep);
+  padding: 34px 20px;
+  text-align: center;
+}
+.infuse-proof-stat strong {
+  display: block;
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(30px, 3.6vw, 42px);
+  color: var(--infuse-soft-white);
+  font-variant-numeric: tabular-nums;
+}
+.infuse-proof-stat strong .infuse-stat-accent { color: var(--infuse-coral); }
+.infuse-proof-stat span {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(252, 250, 247, 0.5);
+}
+.infuse-proof-note {
+  margin-top: 28px;
+  max-width: 62ch;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(252, 250, 247, 0.55);
+}
+
+/* ── "A still image doesn't have to stay still" — short, compact,
+   text-only positioning section. Warm off-white ground, centered single
+   column, no video/grid/capability bubbles — the Motion gallery above
+   already did the selling. ─────────────────────────────────────────────── */
+/* `.infuse-theme` prefix needed: `.infuse-theme section` (specificity 0,1,1)
+   would otherwise beat this bare class (0,1,0) and silently re-inflate the
+   padding back to the generic 56-120px section rhythm — same fix as the
+   hero shell above. */
+.infuse-theme .infuse-still-to-motion {
+  background: var(--infuse-soft-white);
+  padding: clamp(56px, 7vw, 96px) 0;
+}
+.infuse-still-copy {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+.infuse-still-copy .infuse-eyebrow { color: var(--infuse-coral); }
+.infuse-still-copy h2 {
+  margin: 14px auto 18px;
+  font-weight: 400;
+  line-height: 1.1;
+  font-size: clamp(26px, 3.4vw, 38px);
+  max-width: 18ch;
+  color: var(--infuse-ink);
+  text-wrap: balance;
+}
+.infuse-still-copy p {
+  margin: 0 auto;
+  max-width: 58ch;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--infuse-muted);
+}
+.infuse-still-closing-line {
+  margin-top: 16px !important;
+  font-style: italic;
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  color: var(--infuse-ink) !important;
+  opacity: 0.85;
+}
+
+/* ── Standalone value quote — one of the strongest typography moments on
+   the page. Deep charcoal ground with a quiet burgundy/coral glow (echoes
+   the hero's palette without repeating its exact gradient), oversized
+   cream serif type, a single coral-emphasized phrase, thin coral vertical
+   rule, subtle glass glow. No card, no extra paragraph. ─────────────────── */
+/* `.infuse-theme` prefix needed for the same reason as the hero shell and
+   the section above: without it, `.infuse-theme section` (0,1,1) beats this
+   bare class (0,1,0) and silently caps the padding back to the generic
+   56-120px rhythm, undercutting the deliberately larger, more spacious
+   whitespace this "strongest typography moment" section calls for. */
+.infuse-theme .infuse-value-quote {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(88px, 11vw, 160px) 0;
+  background:
+    radial-gradient(circle at 82% 20%, rgba(251, 82, 61, 0.1), transparent 40%),
+    radial-gradient(circle at 12% 82%, rgba(130, 18, 34, 0.22), transparent 46%),
+    linear-gradient(165deg, #17151b 0%, var(--infuse-charcoal-deep) 55%, #0e0d10 100%);
+  color: var(--infuse-soft-white);
+}
+.infuse-vq-grid {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(40px, 6vw, 88px);
+  align-items: center;
+}
+.infuse-vq-copy {
+  padding-left: clamp(24px, 3.4vw, 40px);
+}
+.infuse-vq-rule {
+  display: block;
+  width: 2px;
+  height: clamp(40px, 5vw, 60px);
+  margin-bottom: clamp(24px, 3vw, 32px);
+  background: var(--infuse-coral);
+  box-shadow: 0 0 24px rgba(251, 82, 61, 0.5);
+}
+/* Noticeably smaller than the original oversized treatment — still an
+   elegant, premium serif moment, just no longer the biggest type on the
+   page. */
+.infuse-vq-text {
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.5;
+  font-size: clamp(18px, 2vw, 27px);
+  color: var(--infuse-soft-white);
+  text-wrap: balance;
+}
+.infuse-vq-accent {
+  color: var(--infuse-coral);
+}
+
+/* Portrait — Devon's actual portfolio headshot, glass-framed, kept
+   editorial rather than testimonial: no quote-mark icon, no card behind
+   the text, just a portrait sitting quietly beside the quote. */
+.infuse-vq-portrait {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.infuse-vq-portrait-frame {
+  position: relative;
+  width: 100%;
+  max-width: 260px;
+  aspect-ratio: 4 / 5;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--glass-dark-border);
+  background: var(--glass-dark-bg);
+  backdrop-filter: var(--glass-dark-blur);
+  -webkit-backdrop-filter: var(--glass-dark-blur);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+.infuse-vq-portrait-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(12, 10, 13, 0.04) 0%, rgba(12, 10, 13, 0.24) 100%);
+  pointer-events: none;
+}
+.infuse-vq-portrait-img {
+  object-fit: cover;
+}
+.infuse-vq-portrait-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+.infuse-vq-portrait-caption strong {
+  font-weight: 500;
+  font-size: 15px;
+  color: rgba(252, 250, 247, 0.92);
+}
+.infuse-vq-portrait-caption span {
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--infuse-olive);
+}
+@media (max-width: 900px) {
+  .infuse-vq-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .infuse-vq-portrait-frame { max-width: 220px; margin: 0 auto; }
+}
+
+/* ── Archer × Infuse logo lockup — real assets, thin divider, "prepared
+   for" framing only (never a merged mark, never partnership language).
+   Shared by the band just beneath the hero and the Final CTA. ─────────── */
+.infuse-logo-lockup {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.6vw, 26px);
+}
+.infuse-logo-lockup-archer,
+.infuse-logo-lockup-infuse {
+  height: 30px;
+  width: auto;
+}
+.infuse-logo-lockup-divider {
+  width: 1px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.18);
+  flex: 0 0 auto;
+}
+/* Final CTA sits on the coral ground with dark charcoal text/logo — the
+   default light divider would nearly vanish there, so darken it to match
+   the section's own dark accents (same tone as its outline-button border). */
+.infuse-final-logo .infuse-logo-lockup-divider {
+  background: rgba(28, 28, 28, 0.3);
+}
+
+/* Slim "prepared for" band directly beneath the hero — first of the two
+   logo-pairing placements. */
+.infuse-theme .infuse-logo-band {
+  padding: clamp(28px, 3.6vw, 48px) 0;
+  background: var(--infuse-charcoal-deep);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.infuse-logo-band .infuse-shell {
+  display: flex;
+  justify-content: center;
+}
+.infuse-logo-band-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.infuse-logo-band-caption {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(252, 250, 247, 0.5);
+}
+
+/* ── Motion Work gallery — reuses the /tcrm motion-slideshow interaction
+   model (see InfuseMotionSlideshow.tsx), restyled and contained rather
+   than filling the viewport. Deep charcoal / near-black signature section. */
+.infuse-mgallery-section {
+  position: relative;
+  padding: clamp(64px, 8vw, 110px) 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 72% 12%, rgba(251, 82, 61, 0.1), transparent 34%),
+    linear-gradient(155deg, #14121a 0%, var(--infuse-charcoal-deep) 55%, #0c0b0e 100%);
+  color: var(--infuse-soft-white);
+}
+.infuse-mgallery-heading {
+  max-width: 720px;
+  margin-bottom: 34px;
+}
+.infuse-mgallery-heading .infuse-eyebrow {
+  color: var(--infuse-coral);
+}
+.infuse-mgallery-heading h2 {
+  margin: 12px 0 10px;
+  font-weight: 400;
+  line-height: 1.05;
+  font-size: clamp(28px, 3.8vw, 46px);
+  color: var(--infuse-soft-white);
+  text-wrap: balance;
+}
+.infuse-mgallery-heading p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(252, 250, 247, 0.62);
+}
+.infuse-mgallery-ai-line {
+  margin-top: 10px !important;
+  font-style: italic;
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  color: rgba(252, 250, 247, 0.7) !important;
+}
+
+.infuse-mgallery-stage {
+  position: relative;
+  width: 100%;
+  height: clamp(420px, 56vw, 720px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(251, 82, 61, 0.12), transparent 46%),
+    #030303;
+  box-shadow: 0 34px 100px rgba(0, 0, 0, 0.4);
+}
+.infuse-mgallery-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #030303;
+}
+.infuse-mgallery-arrow {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  border: 1px solid var(--glass-dark-border);
+  border-radius: 999px;
+  background: var(--glass-dark-bg);
+  backdrop-filter: var(--glass-dark-blur);
+  -webkit-backdrop-filter: var(--glass-dark-blur);
+  color: var(--infuse-soft-white);
+  font-size: 19px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.infuse-mgallery-arrow:hover { border-color: rgba(251, 82, 61, 0.5); }
+.infuse-mgallery-left { left: 18px; }
+.infuse-mgallery-right { right: 18px; }
+.infuse-mgallery-counter {
+  position: absolute;
+  z-index: 4;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  gap: 7px;
+  padding: 8px 13px;
+  border: 1px solid var(--glass-dark-border);
+  border-radius: 999px;
+  background: var(--glass-dark-bg);
+  backdrop-filter: var(--glass-dark-blur);
+  -webkit-backdrop-filter: var(--glass-dark-blur);
+  color: rgba(252, 250, 247, 0.88);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+}
+.infuse-mgallery-counter span { opacity: 0.35; }
+
+.infuse-mgallery-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-top: 18px;
+  padding: 16px 20px;
+  border-radius: 18px;
+  background: var(--glass-dark-bg);
+  backdrop-filter: var(--glass-dark-blur);
+  -webkit-backdrop-filter: var(--glass-dark-blur);
+  border: 1px solid var(--glass-dark-border);
+}
+.infuse-mgallery-meta > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.infuse-mgallery-group {
+  color: var(--infuse-olive);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.infuse-mgallery-meta strong {
+  color: rgba(252, 250, 247, 0.94);
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+.infuse-mgallery-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+  max-width: 460px;
+}
+.infuse-mgallery-dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(252, 250, 247, 0.24);
+  cursor: pointer;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+.infuse-mgallery-dot-active {
+  width: 22px;
+  background: var(--infuse-coral);
+}
+
+/* ── Graphic + Campaign Work gallery — warm off-white, editorial frame,
+   oversized very-low-opacity background typography ────────────────────── */
+.infuse-ggallery-section {
+  position: relative;
+  padding: clamp(64px, 8vw, 110px) 0;
+  background: var(--infuse-soft-white);
+  overflow: hidden;
+}
+.infuse-ggallery-bgtype {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 0 clamp(20px, 4vw, 60px);
+  padding: 0 clamp(20px, 5vw, 64px);
+  overflow: hidden;
+  pointer-events: none;
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(64px, 11vw, 168px);
+  line-height: 1;
+  color: var(--infuse-ink);
+  opacity: 0.035;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.infuse-ggallery-heading,
+.infuse-ggallery-wrap {
+  position: relative;
+  z-index: 1;
+}
+.infuse-ggallery-heading {
+  max-width: 720px;
+  margin-bottom: 30px;
+}
+.infuse-ggallery-heading .infuse-eyebrow { color: var(--infuse-coral); }
+.infuse-ggallery-heading h2 {
+  margin: 12px 0 10px;
+  font-weight: 400;
+  line-height: 1.05;
+  font-size: clamp(28px, 3.8vw, 46px);
+  color: var(--infuse-ink);
+  text-wrap: balance;
+}
+.infuse-ggallery-heading p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--infuse-muted);
+}
+
+.infuse-ggallery-wrap { width: 100%; }
+.infuse-ggallery-stage {
+  position: relative;
+  width: 100%;
+  height: clamp(420px, 56vw, 720px);
+  overflow: hidden;
+  border-radius: 26px;
+  border: 1px solid rgba(33, 31, 35, 0.1);
+  background:
+    radial-gradient(circle at 50% 35%, rgba(251, 82, 61, 0.08), transparent 46%),
+    var(--infuse-charcoal-deep);
+  box-shadow: 0 30px 90px rgba(33, 31, 35, 0.14);
+}
+.infuse-ggallery-slide {
+  position: absolute;
+  inset: 0;
+  padding: 30px;
+  opacity: 0;
+  transform: scale(0.985);
+  transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  pointer-events: none;
+}
+.infuse-ggallery-slide-active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+.infuse-ggallery-arrow {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  border: 1px solid var(--glass-dark-border);
+  background: var(--glass-dark-bg);
+  backdrop-filter: var(--glass-dark-blur);
+  -webkit-backdrop-filter: var(--glass-dark-blur);
+  color: var(--infuse-soft-white);
+  font-size: 19px;
+  cursor: pointer;
+}
+.infuse-ggallery-prev { left: 18px; }
+.infuse-ggallery-next { right: 18px; }
+.infuse-ggallery-counter {
+  position: absolute;
+  z-index: 5;
+  right: 20px;
+  bottom: 18px;
+  display: flex;
+  gap: 7px;
+  padding: 8px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-dark-border);
+  background: var(--glass-dark-bg);
+  backdrop-filter: var(--glass-dark-blur);
+  -webkit-backdrop-filter: var(--glass-dark-blur);
+  color: rgba(252, 250, 247, 0.88);
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+}
+.infuse-ggallery-counter span { opacity: 0.35; }
+
+.infuse-ggallery-thumbs {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 4px 2px;
+  overflow-x: auto;
+}
+.infuse-ggallery-thumb {
+  position: relative;
+  flex: 0 0 auto;
+  width: 68px;
+  height: 68px;
+  padding: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  background: rgba(33, 31, 35, 0.06);
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+}
+.infuse-ggallery-thumb-active {
+  opacity: 1;
+  border-color: var(--infuse-coral);
+}
+
+/* ── First 30 days — off-white, floating glass cards ───────────────────── */
+.infuse-thirty {
+  background: var(--infuse-cream);
+}
+.infuse-thirty-list {
+  margin-top: 44px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.infuse-thirty-item {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 18px;
+  padding: 26px 24px;
+  border-radius: 20px;
+  background: var(--glass-light-bg);
+  border: 1px solid var(--glass-light-border);
+  backdrop-filter: var(--glass-light-blur);
+  -webkit-backdrop-filter: var(--glass-light-blur);
+  box-shadow: var(--glass-light-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.infuse-thirty-item:hover { transform: translateY(-3px); }
+.infuse-thirty-list .infuse-thirty-item:last-child {
+  grid-column: 1 / -1;
+}
+.infuse-thirty-item strong {
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--infuse-coral);
+}
+.infuse-thirty-item p {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--infuse-ink);
+  align-self: center;
+}
+
+/* ── About — minimal cream ─────────────────────────────────────────────── */
+.infuse-about {
+  background: var(--infuse-soft-white);
+  color: var(--infuse-ink);
+  border-top: 1px solid rgba(33, 31, 35, 0.06);
+}
+.infuse-about .infuse-eyebrow { color: var(--infuse-coral); }
+.infuse-about-grid {
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: clamp(28px, 5vw, 60px);
+  align-items: start;
+}
+.infuse-about-name {
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(26px, 3vw, 34px);
+}
+.infuse-about-title {
+  margin-top: 6px;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  color: var(--infuse-olive);
+}
+.infuse-about-grid p {
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--infuse-muted);
+}
+.infuse-about-grid p + p { margin-top: 16px; }
+
+/* ── Final CTA — bold coral field, dark type, logo mention ──────────────── */
+.infuse-final {
+  position: relative;
+  background: var(--infuse-coral);
+  color: var(--infuse-charcoal-deep);
+  text-align: center;
+  overflow: hidden;
+}
+.infuse-final::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.18), transparent 60%);
+  pointer-events: none;
+}
+.infuse-final .infuse-shell { position: relative; display: flex; flex-direction: column; align-items: center; }
+.infuse-final-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(28, 28, 28, 0.62);
+}
+.infuse-final .infuse-eyebrow { margin-top: 10px; color: var(--infuse-charcoal-deep); opacity: 0.7; }
+.infuse-final h2 {
+  margin-top: 14px;
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(28px, 4.4vw, 50px);
+  max-width: 20ch;
+  color: var(--infuse-charcoal-deep);
+  text-wrap: balance;
+}
+.infuse-final p {
+  margin-top: 18px;
+  max-width: 58ch;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: rgba(28, 28, 28, 0.72);
+}
+.infuse-final-actions {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+.infuse-final .infuse-btn-solid {
+  background: var(--infuse-charcoal-deep);
+  border-color: var(--infuse-charcoal-deep);
+  color: var(--infuse-soft-white);
+  box-shadow: 0 14px 34px rgba(28, 28, 28, 0.25);
+}
+.infuse-final .infuse-btn-solid:hover { background: #000; border-color: #000; }
+.infuse-final .infuse-btn-outline {
+  color: var(--infuse-charcoal-deep);
+  border-color: rgba(28, 28, 28, 0.35);
+  background: transparent;
+}
+.infuse-final .infuse-btn-outline:hover { background: rgba(28, 28, 28, 0.08); }
+.infuse-final-logo {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.infuse-final-logo img {
+  height: 26px;
+  width: auto;
+  opacity: 0.92;
+}
+.infuse-final-logo-line {
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  color: rgba(28, 28, 28, 0.62);
+}
+
+/* ── Footer ────────────────────────────────────────────────────────────── */
+.infuse-footer {
+  background: var(--infuse-charcoal-deep);
+  color: rgba(252, 250, 247, 0.55);
+  padding: 32px 0;
+}
+.infuse-footer-lockup {
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-size: 14px;
+  color: rgba(252, 250, 247, 0.85);
+}
+.infuse-footer-note {
+  margin-top: 10px;
+  font-size: 11.5px;
+  line-height: 1.55;
+  max-width: 74ch;
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 980px) {
+  .infuse-positioning-grid,
+  .infuse-about-grid {
+    grid-template-columns: 1fr;
+  }
+  .infuse-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .infuse-proof-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .infuse-services-grid {
+    grid-template-columns: 1fr;
+  }
+  .infuse-service-card:nth-child(4) { padding: 30px 28px 28px; }
+  .infuse-proof-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .infuse-thirty-list {
+    grid-template-columns: 1fr;
+  }
+  .infuse-thirty-list .infuse-thirty-item:last-child { grid-column: auto; }
+  .infuse-final-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  .infuse-final-actions .infuse-btn { width: 100%; }
+}
+
+/* ── Pricing / engagement ──────────────────────────────────────────────── */
+.infuse-pricing {
+  background: var(--infuse-charcoal-deep);
+  color: var(--infuse-soft-white);
+}
+.infuse-pricing .infuse-eyebrow { color: var(--infuse-coral); }
+.infuse-pricing .infuse-heading p { color: rgba(252, 250, 247, 0.62); }
+
+.infuse-pull-quote {
+  margin: 40px 0 0;
+  padding: 4px 0 4px 28px;
+  border-left: 2px solid var(--infuse-olive);
+  max-width: 68ch;
+  font-weight: 400;
+  font-size: clamp(19px, 2.2vw, 25px);
+  line-height: 1.42;
+  color: var(--infuse-soft-white);
+}
+
+/* Shared checklist look — small, restrained checkmarks, not giant SaaS
+   bullet lists. */
+.infuse-tier-includes {
+  margin-top: 18px;
+  display: grid;
+  gap: 9px;
+}
+.infuse-tier-includes li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: rgba(33, 31, 35, 0.72);
+}
+.infuse-tier-includes li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 11px;
+  color: var(--infuse-coral);
+}
+
+/* Pilot card — soft cream / glass, sits on the charcoal ground */
+.infuse-pilot-card {
+  margin-top: 44px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px;
+  padding: clamp(30px, 4vw, 48px);
+  background: var(--glass-light-bg-strong);
+  border: 1px solid var(--glass-light-border);
+  border-radius: 26px;
+  backdrop-filter: var(--glass-light-blur);
+  -webkit-backdrop-filter: var(--glass-light-blur);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.3);
+}
+.infuse-pilot-copy h3 {
+  margin: 12px 0 16px;
+  font-weight: 400;
+  font-size: clamp(24px, 2.6vw, 32px);
+  color: var(--infuse-ink);
+  text-wrap: balance;
+}
+.infuse-pilot-copy p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--infuse-muted);
+  max-width: 46ch;
+}
+.infuse-pilot-footnote {
+  margin-top: 14px;
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-style: italic;
+  color: var(--infuse-ink);
+}
+.infuse-pilot-copy .infuse-btn { margin-top: 22px; }
+.infuse-pilot-copy .infuse-btn-outline {
+  color: var(--infuse-ink);
+  border-color: rgba(33, 31, 35, 0.3);
+}
+.infuse-pilot-copy .infuse-btn-outline:hover { background: rgba(33, 31, 35, 0.06); }
+.infuse-pilot-details {
+  border-left: 1px solid rgba(33, 31, 35, 0.16);
+  padding-left: 32px;
+}
+.infuse-pilot-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.infuse-pilot-price strong {
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(30px, 3vw, 38px);
+  color: var(--infuse-coral);
+}
+.infuse-pilot-price span {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--infuse-muted);
+}
+
+/* Four standard tiers — 2x2 */
+.infuse-tiers-grid {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+.infuse-tier-card {
+  position: relative;
+  padding: 32px 30px 30px;
+  background: var(--glass-light-bg-strong);
+  border: 1px solid var(--glass-light-border);
+  border-radius: 22px;
+  backdrop-filter: var(--glass-light-blur);
+  -webkit-backdrop-filter: var(--glass-light-blur);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.infuse-tier-card:hover { transform: translateY(-3px); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3); }
+.infuse-tier-card h3 { color: var(--infuse-ink); }
+.infuse-tier-card .infuse-tier-price strong { color: var(--infuse-ink); }
+.infuse-tier-card .infuse-tier-positioning { color: var(--infuse-muted); }
+.infuse-tier-card .infuse-tier-number { color: var(--infuse-muted); }
+.infuse-tier-card .infuse-tier-caption { color: var(--infuse-ink); opacity: 0.7; }
+
+/* Recommended ($4,500) — coral featured card */
+.infuse-tier-featured {
+  padding: 40px 36px 36px;
+  background: linear-gradient(160deg, var(--infuse-coral), var(--infuse-coral-dark));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 24px 70px rgba(251, 82, 61, 0.32);
+}
+.infuse-tier-featured h3,
+.infuse-tier-featured .infuse-tier-price strong,
+.infuse-tier-featured .infuse-tier-caption {
+  color: var(--infuse-soft-white);
+}
+.infuse-tier-featured .infuse-tier-number,
+.infuse-tier-featured .infuse-tier-price span { color: rgba(252, 250, 247, 0.75); }
+.infuse-tier-featured .infuse-tier-positioning { color: rgba(252, 250, 247, 0.88); }
+.infuse-tier-featured .infuse-tier-note { color: rgba(252, 250, 247, 0.75); border-top-color: rgba(252, 250, 247, 0.3); }
+.infuse-tier-featured .infuse-tier-includes li { color: rgba(252, 250, 247, 0.88); }
+.infuse-tier-featured .infuse-tier-includes li::before { color: var(--infuse-soft-white); }
+.infuse-tier-featured .infuse-tier-cta { color: var(--infuse-soft-white); }
+.infuse-tier-badge {
+  position: absolute;
+  top: -13px;
+  right: 28px;
+  background: var(--infuse-olive);
+  color: var(--infuse-soft-white);
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 13px;
+  border-radius: 999px;
+}
+
+/* Embedded ($7,500) — premium dark-glass card (4th grid child) */
+.infuse-tiers-grid > div:nth-child(4) .infuse-tier-card {
+  background: var(--glass-dark-bg-strong);
+  border: 1px solid rgba(251, 82, 61, 0.3);
+  box-shadow: var(--glass-dark-shadow);
+}
+.infuse-tiers-grid > div:nth-child(4) .infuse-tier-card h3,
+.infuse-tiers-grid > div:nth-child(4) .infuse-tier-price strong,
+.infuse-tiers-grid > div:nth-child(4) .infuse-tier-caption {
+  color: var(--infuse-soft-white);
+}
+.infuse-tiers-grid > div:nth-child(4) .infuse-tier-number,
+.infuse-tiers-grid > div:nth-child(4) .infuse-tier-price span { color: var(--infuse-olive); }
+.infuse-tiers-grid > div:nth-child(4) .infuse-tier-positioning { color: rgba(252, 250, 247, 0.72); }
+.infuse-tiers-grid > div:nth-child(4) .infuse-tier-includes li { color: rgba(252, 250, 247, 0.75); }
+.infuse-tiers-grid > div:nth-child(4) .infuse-tier-cta { color: var(--infuse-coral); }
+
+.infuse-tier-number {
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+}
+.infuse-tier-card h3 {
+  margin: 10px 0 12px;
+  font-weight: 500;
+  font-size: 22px;
+}
+.infuse-tier-price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.infuse-tier-price strong {
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(26px, 2.6vw, 32px);
+}
+.infuse-tier-price span {
+  font-size: 12.5px;
+}
+.infuse-tier-positioning {
+  margin-top: 12px;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+.infuse-tier-note {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(33, 31, 35, 0.2);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--infuse-muted);
+}
+.infuse-tier-caption {
+  margin-top: 18px;
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-style: italic;
+  font-size: 14px;
+}
+.infuse-tier-cta {
+  margin-top: auto;
+  padding-top: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--infuse-coral);
+  transition: gap 0.18s ease;
+}
+.infuse-tier-cta:hover { gap: 10px; }
+
+/* High-volume custom block — wide luxury panel */
+.infuse-custom-block {
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: clamp(28px, 5vw, 56px);
+  padding: clamp(36px, 5vw, 60px);
+  background: linear-gradient(155deg, #201d24 0%, var(--infuse-charcoal-deep) 100%);
+  color: var(--infuse-soft-white);
+  border: 1px solid rgba(144, 136, 89, 0.3);
+  border-radius: 28px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+}
+.infuse-custom-block .infuse-eyebrow { color: var(--infuse-olive); }
+.infuse-custom-block h3 {
+  margin: 12px 0 10px;
+  font-weight: 400;
+  font-size: clamp(24px, 2.6vw, 30px);
+}
+.infuse-custom-block .infuse-tier-price strong { color: var(--infuse-soft-white); }
+.infuse-custom-range {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--infuse-olive);
+}
+.infuse-custom-block .infuse-tier-positioning { color: rgba(252, 250, 247, 0.72); }
+.infuse-custom-phrase {
+  margin-top: 20px;
+  font-weight: 500;
+  font-size: clamp(18px, 1.9vw, 22px);
+  color: var(--infuse-coral);
+  text-wrap: balance;
+}
+.infuse-custom-explanation {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(252, 250, 247, 0.72);
+  max-width: 44ch;
+}
+.infuse-custom-block .infuse-btn { margin-top: 26px; }
+.infuse-custom-includes-col .infuse-tier-includes {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 9px 20px;
+}
+.infuse-custom-includes-col .infuse-tier-includes li { color: rgba(252, 250, 247, 0.8); }
+.infuse-custom-includes-col .infuse-tier-includes li::before { color: var(--infuse-olive); }
+.infuse-custom-note {
+  margin-top: 14px;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: rgba(252, 250, 247, 0.45);
+}
+
+/* Hourly note + scope footnotes */
+.infuse-hourly-note {
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(252, 250, 247, 0.14);
+}
+.infuse-hourly-note p {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(252, 250, 247, 0.66);
+  max-width: 64ch;
+}
+.infuse-hourly-note p + p { margin-top: 6px; }
+.infuse-hourly-note strong { color: var(--infuse-soft-white); }
+.infuse-scope-footnotes {
+  margin-top: 14px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: rgba(252, 250, 247, 0.4);
+  max-width: 64ch;
+}
+
+/* Pricing-specific closing CTA */
+.infuse-pricing-closing {
+  margin-top: 56px;
+  padding-top: 44px;
+  border-top: 1px solid rgba(252, 250, 247, 0.14);
+  text-align: center;
+}
+.infuse-pricing-closing p {
+  margin: 14px auto 0;
+  max-width: 56ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(252, 250, 247, 0.66);
+}
+.infuse-pricing-closing .infuse-hero-actions {
+  margin-top: 26px;
+  justify-content: center;
+}
+
+/* ── Pricing responsive ────────────────────────────────────────────────── */
+@media (max-width: 980px) {
+  .infuse-pilot-card {
+    grid-template-columns: 1fr;
+  }
+  .infuse-pilot-details {
+    border-left: none;
+    border-top: 1px solid rgba(33, 31, 35, 0.18);
+    padding-left: 0;
+    padding-top: 24px;
+  }
+  .infuse-custom-block {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .infuse-tiers-grid {
+    grid-template-columns: 1fr;
+  }
+  .infuse-tier-featured {
+    padding: 32px 26px 30px;
+  }
+  .infuse-custom-includes-col .infuse-tier-includes {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Responsive — hero, galleries, nav (mobile) ─────────────────────────── */
+@media (max-width: 860px) {
+  .infuse-hero {
+    height: 82vh;
+    align-items: stretch;
+  }
+  .infuse-hero-content {
+    left: 16px;
+    right: 16px;
+    top: auto;
+    bottom: clamp(96px, 22vw, 130px);
+    transform: none;
+    width: auto;
+  }
+  .infuse-hero-textpanel {
+    padding: 22px 22px 26px;
+    border-radius: 22px;
+  }
+  .infuse-hero h1 {
+    font-size: clamp(26px, 7.5vw, 38px);
+  }
+  .infuse-hero-stats {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    transform: none;
+    max-width: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 10px;
+    border-radius: 24px;
+    overflow-x: visible;
+  }
+  .infuse-hero-stat-divider { display: none; }
+  .infuse-nav-wrap { top: 12px; left: 10px; right: 10px; }
+  .infuse-nav { padding: 8px 8px 8px 16px; }
+}
+
+@media (max-width: 640px) {
+  .infuse-theme .infuse-hero-shell {
+    padding: clamp(12px, 4vw, 20px) 10px 20px;
+  }
+  .infuse-theme .infuse-hero-shell::before {
+    /* Reduced glow on mobile — lighter blur/opacity for performance and so
+       it doesn't compete with the now much tighter top margin. */
+    inset: -30px -40px;
+    filter: blur(40px);
+    opacity: 0.7;
+  }
+  .infuse-hero {
+    border-radius: 20px;
+  }
+
+  .infuse-mgallery-stage,
+  .infuse-ggallery-stage {
+    height: 480px;
+    border-radius: 18px;
+  }
+  .infuse-mgallery-arrow,
+  .infuse-ggallery-arrow {
+    width: 42px;
+    height: 42px;
+  }
+  .infuse-mgallery-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .infuse-mgallery-dots {
+    justify-content: flex-start;
+  }
+  .infuse-ggallery-thumbs {
+    -webkit-overflow-scrolling: touch;
+  }
+  .infuse-ggallery-bgtype { font-size: 56px; opacity: 0.03; }
+
+  .infuse-final-logo img { height: 20px; }
+}
