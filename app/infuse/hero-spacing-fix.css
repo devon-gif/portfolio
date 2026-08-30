@@ -1,81 +1,165 @@
-/* Hero spacing correction for the personalized Infuse page.
-   Keeps the floating nav, content panel, proof stats and scroll cue in
-   separate vertical zones so they do not collide at shorter desktop
-   viewports or browser zoom levels. */
+/* Infuse hero refinement.
+   Loaded after infuse.css so these rules preserve the approved visual system
+   while tightening the hero composition and elevating proof/experience. */
 
 @media (min-width: 861px) {
   .infuse-theme .infuse-hero {
-    height: clamp(860px, 96vh, 1040px);
+    height: clamp(780px, 88vh, 920px);
+    min-height: 780px;
   }
 
+  /* Smaller, more editorial text block with more of the food scene visible. */
   .infuse-theme .infuse-hero-content {
-    top: clamp(118px, 14vh, 148px);
+    top: clamp(122px, 13vh, 142px);
     transform: none;
-    width: min(600px, calc(100% - 150px));
+    width: min(485px, calc(100% - 150px));
   }
 
   .infuse-theme .infuse-hero-textpanel {
-    padding: clamp(30px, 3vw, 42px);
+    padding: clamp(24px, 2.2vw, 30px);
+    border-radius: clamp(22px, 2vw, 28px);
+  }
+
+  .infuse-theme .infuse-hero-label {
+    font-size: 9.5px;
+    padding: 8px 14px;
   }
 
   .infuse-theme .infuse-hero h1 {
     margin: 16px 0 12px;
-    font-size: clamp(36px, 3.55vw, 50px);
+    font-size: clamp(30px, 2.9vw, 42px);
     line-height: 1.02;
   }
 
   .infuse-theme .infuse-hero-copy {
-    max-width: 48ch;
+    max-width: 44ch;
+    font-size: clamp(13.5px, 1vw, 15px);
+    line-height: 1.5;
   }
 
   .infuse-theme .infuse-hero-actions {
-    margin-top: 22px;
+    gap: 12px;
+    margin-top: 20px;
   }
 
+  .infuse-theme .infuse-hero-actions .infuse-btn {
+    padding: 13px 22px;
+    font-size: 11px;
+  }
+
+  /* Lift the social proof into the composition instead of pinning it to the
+     bottom edge. Give both number and descriptor equal visual confidence. */
   .infuse-theme .infuse-hero-stats {
-    bottom: clamp(24px, 2.4vw, 34px);
-    padding: clamp(14px, 1.5vw, 18px) clamp(20px, 2.4vw, 34px);
+    bottom: clamp(68px, 7vw, 88px);
+    gap: clamp(22px, 2.7vw, 44px);
+    padding: clamp(18px, 2vw, 24px) clamp(28px, 3.2vw, 44px);
+    background: rgba(18, 15, 19, 0.7);
+    border-color: rgba(255, 255, 255, 0.22);
   }
 
   .infuse-theme .infuse-hero-stat strong {
-    font-size: clamp(24px, 2.55vw, 34px);
+    font-size: clamp(31px, 3.25vw, 45px);
+    line-height: 1;
+    color: #ffffff;
+  }
+
+  .infuse-theme .infuse-hero-stat span {
+    margin-top: 3px;
+    font-size: clamp(10.5px, 0.78vw, 12px);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .infuse-theme .infuse-hero-stat-divider {
+    height: 36px;
+    background: rgba(255, 255, 255, 0.22);
   }
 
   .infuse-theme .infuse-hero-scrollcue {
-    bottom: clamp(142px, 15vw, 166px);
+    bottom: clamp(178px, 17vw, 212px);
   }
 }
 
-/* Tablets and phones need extra vertical room because the proof stats become
-   a two-column grid. The content panel is anchored below the nav instead of
-   being tied to the stats bar. */
+/* Short desktop windows / browser zoom: preserve the same hierarchy without
+   letting the smaller text card fall into the raised proof bar. */
+@media (min-width: 861px) and (max-height: 840px) {
+  .infuse-theme .infuse-hero {
+    height: 780px;
+    min-height: 780px;
+  }
+
+  .infuse-theme .infuse-hero-content {
+    top: 112px;
+    width: min(465px, calc(100% - 150px));
+  }
+
+  .infuse-theme .infuse-hero-textpanel {
+    padding: 23px 26px 25px;
+  }
+
+  .infuse-theme .infuse-hero h1 {
+    font-size: clamp(29px, 2.7vw, 39px);
+  }
+
+  .infuse-theme .infuse-hero-copy {
+    font-size: 13.5px;
+  }
+
+  .infuse-theme .infuse-hero-stats {
+    bottom: 58px;
+  }
+
+  .infuse-theme .infuse-hero-scrollcue {
+    bottom: 168px;
+  }
+}
+
+/* Tablets and phones: keep content and proof separate. */
 @media (max-width: 860px) {
   .infuse-theme .infuse-hero {
-    height: clamp(900px, 118svh, 1040px);
+    height: auto;
+    min-height: 900px;
   }
 
   .infuse-theme .infuse-hero-content {
     top: 92px;
     bottom: auto;
+    left: 16px;
+    right: 16px;
+    width: auto;
+    transform: none;
   }
 
   .infuse-theme .infuse-hero-textpanel {
-    padding: 24px 22px 26px;
+    padding: 22px 22px 24px;
   }
 
   .infuse-theme .infuse-hero-actions {
-    margin-top: 20px;
+    margin-top: 18px;
   }
 
   .infuse-theme .infuse-hero-stats {
-    bottom: 18px;
-    padding: 15px 16px;
+    bottom: 24px;
+    padding: 17px 16px;
+    background: rgba(18, 15, 19, 0.74);
+  }
+
+  .infuse-theme .infuse-hero-stat strong {
+    font-size: clamp(27px, 7vw, 34px);
+    color: #ffffff;
+  }
+
+  .infuse-theme .infuse-hero-stat span {
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
   }
 }
 
 @media (max-width: 520px) {
   .infuse-theme .infuse-hero {
-    height: clamp(940px, 124svh, 1080px);
+    min-height: 940px;
   }
 
   .infuse-theme .infuse-hero-content {
@@ -100,5 +184,126 @@
   .infuse-theme .infuse-hero-actions .infuse-btn {
     flex: 1 1 100%;
     width: 100%;
+  }
+}
+
+/* ── Selected hospitality experience ────────────────────────────────────
+   The repository does not contain official artwork for these client brands,
+   so this uses restrained monochrome wordmarks rather than inventing logos.
+   The framing states experience/support, not partnership or endorsement. */
+.infuse-theme .infuse-client-experience {
+  padding: 30px 0 38px;
+  background: #131116;
+  color: #ffffff;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.infuse-client-experience-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 70px);
+}
+
+.infuse-client-experience-eyebrow {
+  display: block;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--infuse-coral);
+}
+
+.infuse-client-experience-copy {
+  margin: 7px 0 0;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.infuse-client-wordmarks {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.infuse-client-wordmark {
+  min-width: 0;
+  min-height: 76px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+  border-left: 1px solid rgba(255, 255, 255, 0.09);
+  font-family: var(--font-luxury-serif), Georgia, serif;
+  font-size: clamp(16px, 1.45vw, 22px);
+  font-weight: 500;
+  line-height: 1.05;
+  opacity: 0.94;
+}
+
+.infuse-client-wordmark:first-child {
+  border-left: 0;
+}
+
+.infuse-client-wordmark-ihg {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-weight: 750;
+  letter-spacing: 0.035em;
+}
+
+.infuse-client-wordmark-hampton {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-weight: 650;
+}
+
+.infuse-client-wordmark-indigo {
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+.infuse-client-wordmark-eliza {
+  font-size: clamp(20px, 1.8vw, 27px);
+  font-style: italic;
+}
+
+.infuse-client-wordmark-elements {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: clamp(14px, 1.2vw, 18px);
+  font-weight: 550;
+  letter-spacing: 0.025em;
+}
+
+@media (max-width: 820px) {
+  .infuse-theme .infuse-client-experience {
+    padding: 28px 0 32px;
+  }
+
+  .infuse-client-wordmarks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .infuse-client-wordmark {
+    min-height: 68px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .infuse-client-wordmark:nth-child(odd) {
+    border-left: 0;
+  }
+
+  .infuse-client-wordmark:nth-child(-n + 2) {
+    border-top: 0;
+  }
+
+  .infuse-client-wordmark:last-child {
+    grid-column: 1 / -1;
+    border-left: 0;
   }
 }
