@@ -1,0 +1,104 @@
+/* Hero spacing correction for the personalized Infuse page.
+   Keeps the floating nav, content panel, proof stats and scroll cue in
+   separate vertical zones so they do not collide at shorter desktop
+   viewports or browser zoom levels. */
+
+@media (min-width: 861px) {
+  .infuse-theme .infuse-hero {
+    height: clamp(860px, 96vh, 1040px);
+  }
+
+  .infuse-theme .infuse-hero-content {
+    top: clamp(118px, 14vh, 148px);
+    transform: none;
+    width: min(600px, calc(100% - 150px));
+  }
+
+  .infuse-theme .infuse-hero-textpanel {
+    padding: clamp(30px, 3vw, 42px);
+  }
+
+  .infuse-theme .infuse-hero h1 {
+    margin: 16px 0 12px;
+    font-size: clamp(36px, 3.55vw, 50px);
+    line-height: 1.02;
+  }
+
+  .infuse-theme .infuse-hero-copy {
+    max-width: 48ch;
+  }
+
+  .infuse-theme .infuse-hero-actions {
+    margin-top: 22px;
+  }
+
+  .infuse-theme .infuse-hero-stats {
+    bottom: clamp(24px, 2.4vw, 34px);
+    padding: clamp(14px, 1.5vw, 18px) clamp(20px, 2.4vw, 34px);
+  }
+
+  .infuse-theme .infuse-hero-stat strong {
+    font-size: clamp(24px, 2.55vw, 34px);
+  }
+
+  .infuse-theme .infuse-hero-scrollcue {
+    bottom: clamp(142px, 15vw, 166px);
+  }
+}
+
+/* Tablets and phones need extra vertical room because the proof stats become
+   a two-column grid. The content panel is anchored below the nav instead of
+   being tied to the stats bar. */
+@media (max-width: 860px) {
+  .infuse-theme .infuse-hero {
+    height: clamp(900px, 118svh, 1040px);
+  }
+
+  .infuse-theme .infuse-hero-content {
+    top: 92px;
+    bottom: auto;
+  }
+
+  .infuse-theme .infuse-hero-textpanel {
+    padding: 24px 22px 26px;
+  }
+
+  .infuse-theme .infuse-hero-actions {
+    margin-top: 20px;
+  }
+
+  .infuse-theme .infuse-hero-stats {
+    bottom: 18px;
+    padding: 15px 16px;
+  }
+}
+
+@media (max-width: 520px) {
+  .infuse-theme .infuse-hero {
+    height: clamp(940px, 124svh, 1080px);
+  }
+
+  .infuse-theme .infuse-hero-content {
+    top: 84px;
+  }
+
+  .infuse-theme .infuse-hero h1 {
+    font-size: clamp(28px, 8.5vw, 36px);
+    line-height: 1.03;
+  }
+
+  .infuse-theme .infuse-hero-label {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    padding: 8px 12px;
+  }
+
+  .infuse-theme .infuse-hero-actions {
+    gap: 10px;
+  }
+
+  .infuse-theme .infuse-hero-actions .infuse-btn {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+}
