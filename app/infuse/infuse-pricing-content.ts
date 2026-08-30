@@ -25,6 +25,11 @@ export const PRICING_SUBCOPY =
 
 export const PRICING_PULL_QUOTE =
   "For substantially less than the cost of adding another marketing or creative hire, Infuse gets an experienced hospitality creative partner who can immediately support design, social, motion, campaigns and digital production — and the relationship can scale up or down as the workload changes.";
+/** Small clarifying line placed directly beneath the quote wherever it
+ * appears (InfuseValueQuote.tsx and here in InfusePricing.tsx) — the quote
+ * wording itself stays exactly as written above, unchanged. */
+export const PRICING_PULL_QUOTE_NOTE =
+  "Not a replacement for Infuse's leadership or strategy — additional execution capacity where the team needs it most.";
 
 /* ── 30-day pilot ──────────────────────────────────────────────────────── */
 export const PILOT_EYEBROW = "NOT SURE WHERE TO START?";
@@ -58,6 +63,10 @@ export type PricingTier = {
   includes: readonly string[];
   caption: string;
   note?: string;
+  /** Short "best for Infuse if..." line clarifying where this tier fits in
+   * the ladder relative to its neighbors — only the two tiers where that
+   * boundary needed spelling out (03 and 04) use it. */
+  bestForNote?: string;
   badge?: string;
   ctaLabel: string;
 };
@@ -68,7 +77,7 @@ export const TIERS: PricingTier[] = [
     name: "Essential Creative",
     price: "$1,299",
     cadence: "/ month",
-    positioning: "For teams that need reliable creative help without a large ongoing commitment.",
+    positioning: "Still primarily production — reliable creative help without a large ongoing commitment.",
     includes: [
       "Up to 10 hours of creative support per month",
       "Social graphics",
@@ -90,7 +99,7 @@ export const TIERS: PricingTier[] = [
     name: "Creative Support",
     price: "$2,500",
     cadence: "/ month",
-    positioning: "For ongoing overflow creative and regular hospitality marketing needs.",
+    positioning: "Broader production capacity — ongoing overflow creative across more categories.",
     includes: [
       "Approximately 20 hours of support per month",
       "Graphic design",
@@ -123,12 +132,15 @@ export const TIERS: PricingTier[] = [
       "Monthly content calendars",
       "Caption writing",
       "Scheduling and publishing",
-      "Campaign planning",
+      "Campaign planning and campaign execution",
       "Seasonal promotions",
       "Menu launches",
       "Events and activations",
       "Photo retouching, compositing and enhancement",
       "Motion graphics and reels, including turning existing stills into motion",
+      "Email marketing support",
+      "Landing-page creative",
+      "Sales / proposal support",
       "Light analytics / monthly performance review",
       "Content repurposing",
       "Priority turnaround",
@@ -136,6 +148,7 @@ export const TIERS: PricingTier[] = [
       "Weekly or biweekly marketing check-in",
     ],
     note: "Additional managed social account / concept: +$750–$1,000 per month depending on volume.",
+    bestForNote: "Best for Infuse if the need is broader than production design and includes ongoing marketing execution.",
     caption: "Best for ongoing creative + marketing execution.",
     badge: "Recommended",
     ctaLabel: "Talk through scope",
@@ -145,11 +158,12 @@ export const TIERS: PricingTier[] = [
     name: "Embedded Creative Partner",
     price: "$7,500",
     cadence: "/ month",
-    positioning: "For multi-concept teams that need substantial creative capacity without adding another full-time creative hire.",
+    positioning: "A fractional extension of the marketing team.",
     includes: [
       "Approximately 65–70 hours of monthly capacity",
       "Multi-concept creative support",
-      "Social + campaign execution",
+      "Ongoing social media management",
+      "Ongoing campaign execution",
       "Advanced photo retouching and compositing",
       "VFX-driven motion built from existing still photography",
       "Motion / reels",
@@ -157,16 +171,19 @@ export const TIERS: PricingTier[] = [
       "Events and activations",
       "Email / digital / web creative",
       "Landing pages when reasonably scoped",
-      "Marketing coordination",
+      "Sales enablement / proposal support",
+      "Lightweight monthly reporting",
+      "Content repurposing across formats",
+      "Asset / workflow organization",
       "Multi-brand template systems",
-      "Asset organization",
-      "Priority access",
+      "Priority production capacity",
       "Faster turnaround",
       "Up to 3 active projects at once",
       "Weekly planning call",
       "Direct collaboration with Infuse marketing / operations",
       "Support across multiple selected concepts",
     ],
+    note: "Designed for periods when Infuse needs meaningful additional marketing capacity without adding another full-time role.",
     caption: "Best for deeper multi-concept support.",
     ctaLabel: "Talk through scope",
   },
@@ -188,21 +205,23 @@ export const CUSTOM_INCLUDES = [
   "Priority turnaround",
   "Creative direction",
   "Design",
-  "Social",
+  "High-volume, multiple-concept creative",
+  "Social media execution",
   "Advanced image enhancement and VFX",
   "Motion built from existing still photography",
   "Campaign production",
   "Menu creative",
   "Event promotion",
-  "Digital signage",
+  "Digital signage and digital creative",
   "Landing-page creative",
-  "Marketing execution",
+  "Sales enablement / proposal support",
+  "Ongoing marketing execution",
   "Multi-concept production systems",
   "Weekly coordination",
   "High-priority access",
 ] as const;
 export const CUSTOM_SCOPE_NOTE =
-  "Large website builds, full brand-development projects, extensive video production, paid media spend, printing, photography, travel, and other major production costs are scoped separately.";
+  "Large website builds, full brand-development projects, extensive video production, paid media spend, printing, photography, travel, specialized technical services, and other major production costs are scoped separately.";
 export const CUSTOM_QUEUE_NOTE =
   "“Unlimited requests” refers to the request queue, not unlimited simultaneous production.";
 export const CUSTOM_CTA = "Talk through scope";

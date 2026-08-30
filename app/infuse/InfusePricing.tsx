@@ -6,6 +6,7 @@ import {
   PRICING_HEADLINE_LINE_2,
   PRICING_SUBCOPY,
   PRICING_PULL_QUOTE,
+  PRICING_PULL_QUOTE_NOTE,
   PILOT_EYEBROW,
   PILOT_HEADLINE,
   PILOT_PRICE,
@@ -69,6 +70,7 @@ export function InfusePricing() {
           <blockquote className="infuse-pull-quote infuse-serif">
             &ldquo;{PRICING_PULL_QUOTE}&rdquo;
           </blockquote>
+          <p className="infuse-pull-quote-note">{PRICING_PULL_QUOTE_NOTE}</p>
         </Reveal>
 
         {/* ── 30-day pilot ──────────────────────────────────────────── */}
@@ -116,6 +118,7 @@ export function InfusePricing() {
                   ))}
                 </ul>
                 {tier.note && <p className="infuse-tier-note">{tier.note}</p>}
+                {tier.bestForNote && <p className="infuse-tier-best-for">{tier.bestForNote}</p>}
                 <p className="infuse-tier-caption">{tier.caption}</p>
                 <a className="infuse-tier-cta" href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">
                   {tier.ctaLabel} <span aria-hidden="true">&rarr;</span>

@@ -13,6 +13,9 @@ import { InfuseStillToMotion } from "./InfuseStillToMotion";
 import { InfuseMotionGallery } from "./InfuseMotionGallery";
 import { InfuseValueQuote } from "./InfuseValueQuote";
 import { InfuseGraphicGallery } from "./InfuseGraphicGallery";
+import { InfuseBeyondProduction } from "./InfuseBeyondProduction";
+import { InfuseRepurposeAI } from "./InfuseRepurposeAI";
+import { InfuseSalesEnablement } from "./InfuseSalesEnablement";
 import { HERO_VIDEO_SRC, HERO_VIDEO_POSTER, HERO_VIDEO_ALT } from "./infuse-media";
 import {
   CALENDLY_URL,
@@ -26,6 +29,7 @@ import {
   HERO_CTA_SECONDARY,
   HERO_SCROLL_TARGET_ID,
   LOGO_LOCKUP_CAPTION_HERO,
+  POSITIONING_HEADLINE,
   SERVICES_EYEBROW,
   SERVICES_HEADLINE,
   SERVICES_SUBCOPY,
@@ -49,6 +53,8 @@ import {
   FINAL_CTA_PRIMARY,
   FINAL_CTA_SECONDARY,
   FINAL_CTA_SECONDARY_HREF,
+  FINAL_SECONDARY_NOTE,
+  FINAL_SECONDARY_NOTE_HREF,
   FINAL_LOGO_LINE,
   FOOTER_LOCKUP,
   FOOTER_DISCLOSURE_LINE,
@@ -150,6 +156,7 @@ export function InfuseShowcase() {
             <span className="infuse-eyebrow">{SERVICES_EYEBROW}</span>
             <div className="infuse-heading">
               <h2 className="infuse-serif">{SERVICES_HEADLINE}</h2>
+              <p className="infuse-services-positioning infuse-serif">{POSITIONING_HEADLINE}</p>
               <p>{SERVICES_SUBCOPY}</p>
             </div>
           </Reveal>
@@ -169,6 +176,15 @@ export function InfuseShowcase() {
           </Reveal>
         </div>
       </section>
+
+      {/* ── Beyond Creative Production — broadens the pitch into execution ── */}
+      <InfuseBeyondProduction />
+
+      {/* ── One asset, more output + AI-assisted, human-directed ─────────── */}
+      <InfuseRepurposeAI />
+
+      {/* ── New business / sales enablement editorial moment ─────────────── */}
+      <InfuseSalesEnablement />
 
       {/* ── First 30 days — floating glass cards ─────────────────────────── */}
       <section className="infuse-thirty" id="approach">
@@ -235,6 +251,9 @@ export function InfuseShowcase() {
                 {FINAL_CTA_SECONDARY}
               </Link>
             </div>
+            <a className="infuse-final-secondary-note" href={FINAL_SECONDARY_NOTE_HREF}>
+              {FINAL_SECONDARY_NOTE}
+            </a>
             <div className="infuse-final-logo">
               <InfuseLogoLockup infuseLogoSrc="/infuse/brand/infuse-hospitality-logo-light.webp" />
               <span className="infuse-final-logo-line">{FINAL_LOGO_LINE}</span>
