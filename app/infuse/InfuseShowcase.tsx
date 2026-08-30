@@ -60,6 +60,14 @@ import {
   FOOTER_DISCLOSURE_LINE,
 } from "./infuse-content";
 
+const HOSPITALITY_EXPERIENCE = [
+  { name: "IHG Hotels & Resorts", className: "infuse-client-wordmark-ihg" },
+  { name: "Hampton by Hilton", className: "infuse-client-wordmark-hampton" },
+  { name: "Hotel Indigo", className: "infuse-client-wordmark-indigo" },
+  { name: "Eliza", className: "infuse-client-wordmark-eliza" },
+  { name: "Elements Med Spa", className: "infuse-client-wordmark-elements" },
+] as const;
+
 export function InfuseShowcase() {
   return (
     <main className={`infuse-theme ${fraunces.variable}`}>
@@ -121,6 +129,22 @@ export function InfuseShowcase() {
             </div>
 
             <InfuseHeroScrollCue targetId={HERO_SCROLL_TARGET_ID} />
+          </div>
+        </div>
+      </section>
+
+      {/* Selected hospitality experience — intentionally framed as past/client
+          experience rather than a partnership or endorsement statement. */}
+      <section className="infuse-client-experience" aria-label="Selected hospitality experience">
+        <div className="infuse-client-experience-inner">
+          <span className="infuse-client-experience-eyebrow">Selected hospitality experience</span>
+          <p className="infuse-client-experience-copy">Brands and hospitality teams I&apos;ve supported.</p>
+          <div className="infuse-client-wordmarks" aria-label="Selected brands and hospitality teams">
+            {HOSPITALITY_EXPERIENCE.map((brand) => (
+              <div className={`infuse-client-wordmark ${brand.className}`} key={brand.name}>
+                {brand.name}
+              </div>
+            ))}
           </div>
         </div>
       </section>
