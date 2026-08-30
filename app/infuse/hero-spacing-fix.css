@@ -188,9 +188,7 @@
 }
 
 /* ── Selected hospitality experience ────────────────────────────────────
-   The repository does not contain official artwork for these client brands,
-   so this uses restrained monochrome wordmarks rather than inventing logos.
-   The framing states experience/support, not partnership or endorsement. */
+   Framed as past/client experience rather than a partnership or endorsement. */
 .infuse-theme .infuse-client-experience {
   padding: 30px 0 38px;
   background: #131116;
@@ -233,51 +231,73 @@
 
 .infuse-client-wordmark {
   min-width: 0;
-  min-height: 76px;
-  padding: 16px 18px;
+  min-height: 88px;
+  padding: 16px 22px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #ffffff;
+  color: transparent;
   border-left: 1px solid rgba(255, 255, 255, 0.09);
-  font-family: var(--font-luxury-serif), Georgia, serif;
-  font-size: clamp(16px, 1.45vw, 22px);
-  font-weight: 500;
-  line-height: 1.05;
-  opacity: 0.94;
+  font-size: 0;
+  line-height: 0;
 }
 
 .infuse-client-wordmark:first-child {
   border-left: 0;
 }
 
-.infuse-client-wordmark-ihg {
-  font-family: var(--font-geist-sans), sans-serif;
-  font-weight: 750;
-  letter-spacing: 0.035em;
+/* Actual client/brand marks recovered from Archer's existing portfolio asset
+   history. Using immutable Git commit URLs keeps the logos stable while the
+   current page remains lightweight. The alpha channel is used as a mask so
+   every mark reads as one consistent warm-white system on the dark band. */
+.infuse-client-wordmark::before {
+  content: "";
+  display: block;
+  width: min(82%, 190px);
+  height: 50px;
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
-.infuse-client-wordmark-hampton {
-  font-family: var(--font-geist-sans), sans-serif;
-  font-weight: 650;
+.infuse-client-wordmark-ihg::before {
+  width: min(78%, 185px);
+  height: 42px;
+  -webkit-mask-image: url("https://raw.githubusercontent.com/devon-gif/portfolio/8309c90/public/revenue-activation/logos/ihg-logo.png");
+  mask-image: url("https://raw.githubusercontent.com/devon-gif/portfolio/8309c90/public/revenue-activation/logos/ihg-logo.png");
 }
 
-.infuse-client-wordmark-indigo {
-  font-style: italic;
-  letter-spacing: 0.02em;
+.infuse-client-wordmark-hampton::before {
+  width: min(76%, 178px);
+  height: 54px;
+  -webkit-mask-image: url("https://raw.githubusercontent.com/devon-gif/portfolio/8309c90/public/revstudio/logos/hampton-by-hilton-full-color.png");
+  mask-image: url("https://raw.githubusercontent.com/devon-gif/portfolio/8309c90/public/revstudio/logos/hampton-by-hilton-full-color.png");
 }
 
-.infuse-client-wordmark-eliza {
-  font-size: clamp(20px, 1.8vw, 27px);
-  font-style: italic;
+.infuse-client-wordmark-indigo::before {
+  width: min(68%, 152px);
+  height: 56px;
+  -webkit-mask-image: url("https://raw.githubusercontent.com/devon-gif/portfolio/8309c90/public/revenue-activation/logos/hotel-indigo-logo.svg");
+  mask-image: url("https://raw.githubusercontent.com/devon-gif/portfolio/8309c90/public/revenue-activation/logos/hotel-indigo-logo.svg");
 }
 
-.infuse-client-wordmark-elements {
-  font-family: var(--font-geist-sans), sans-serif;
-  font-size: clamp(14px, 1.2vw, 18px);
-  font-weight: 550;
-  letter-spacing: 0.025em;
+.infuse-client-wordmark-eliza::before {
+  width: min(72%, 165px);
+  height: 58px;
+  -webkit-mask-image: url("https://raw.githubusercontent.com/devon-gif/portfolio/8309c90/public/revstudio/logos/eliza-hot-metal-bistro-white.png");
+  mask-image: url("https://raw.githubusercontent.com/devon-gif/portfolio/8309c90/public/revstudio/logos/eliza-hot-metal-bistro-white.png");
+}
+
+.infuse-client-wordmark-elements::before {
+  width: min(74%, 172px);
+  height: 56px;
+  -webkit-mask-image: url("https://raw.githubusercontent.com/devon-gif/portfolio/8309c90/public/revstudio/logos/elements-salon-wellness-full-color.png");
+  mask-image: url("https://raw.githubusercontent.com/devon-gif/portfolio/8309c90/public/revstudio/logos/elements-salon-wellness-full-color.png");
 }
 
 @media (max-width: 820px) {
@@ -290,7 +310,7 @@
   }
 
   .infuse-client-wordmark {
-    min-height: 68px;
+    min-height: 82px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
