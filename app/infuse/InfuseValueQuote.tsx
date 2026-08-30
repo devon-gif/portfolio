@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Reveal } from "./components/Reveal";
-import { PRICING_PULL_QUOTE } from "./infuse-pricing-content";
+import { PRICING_PULL_QUOTE, PRICING_PULL_QUOTE_NOTE } from "./infuse-pricing-content";
 
 // The exact phrase highlighted in coral within the quote below. Kept as a
 // substring match against PRICING_PULL_QUOTE (the single source of truth,
@@ -30,6 +30,7 @@ export function InfuseValueQuote() {
               <span className="infuse-vq-accent">{HIGHLIGHT_PHRASE}</span>
               {quoteAfter}
             </p>
+            <p className="infuse-vq-note">{PRICING_PULL_QUOTE_NOTE}</p>
           </div>
 
           <div className="infuse-vq-portrait">

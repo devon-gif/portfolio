@@ -46,10 +46,12 @@ export const HERO_SCROLL_TARGET_ID = "work";
 export const LOGO_LOCKUP_CAPTION_HERO = "Prepared for Jaimie DeLeon";
 
 /* ── Positioning ───────────────────────────────────────────────────────────
-   NOTE: as of the "proof first, explanation second" restructure, this
-   "How I'd fit in" section is no longer rendered in InfuseShowcase.tsx —
-   it wasn't part of the new requested section order or the preserve list.
-   Copy kept here in case it should come back somewhere. ───────────────── */
+   The standalone "How I'd fit in" section itself is no longer rendered
+   (removed in an earlier restructure), but POSITIONING_HEADLINE is back in
+   active use — it's the strongest recurring positioning line on the page,
+   now surfaced prominently in the Capabilities section (see
+   InfuseShowcase.tsx). Reused by reference rather than duplicating the
+   string. ─────────────────────────────────────────────────────────────── */
 export const POSITIONING_EYEBROW = "HOW I'D FIT IN";
 export const POSITIONING_HEADLINE = "An extension of your marketing team — not another agency layer.";
 export const POSITIONING_COPY =
@@ -182,10 +184,15 @@ export const FINAL_EYEBROW = "NEXT STEP";
 export const FINAL_HEADLINE_LINE_1 = "Send me one current project.";
 export const FINAL_HEADLINE_LINE_2 = "I'll show you how I'd approach it.";
 export const FINAL_COPY =
-  "Whether the immediate need is transition coverage, social management, overflow creative, a campaign, or support across a few specific concepts, I'm happy to start narrow and expand only where it proves useful.";
+  "It can be design, social, motion, email, a campaign, a sales presentation or something your team simply has not had time to get to.";
 export const FINAL_CTA_PRIMARY = "Book a quick intro";
 export const FINAL_CTA_SECONDARY = "View Full Archer Design Site";
 export const FINAL_CTA_SECONDARY_HREF = "/";
+/** Small optional secondary line beneath the CTA buttons, pointing to the
+ * lowest-commitment entry point (the 30-day pilot, anchored at #pilot in
+ * InfusePricing.tsx) for anyone not ready for "book an intro" yet. */
+export const FINAL_SECONDARY_NOTE = "Or start with the 30-Day Infuse Creative Pilot.";
+export const FINAL_SECONDARY_NOTE_HREF = "#pilot";
 export const FINAL_LOGO_LINE = "Prepared specifically for Infuse Hospitality.";
 
 /* ── Footer ────────────────────────────────────────────────────────────── */
