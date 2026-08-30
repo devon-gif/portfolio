@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import "./infuse.css";
+import "./hero-spacing-fix.css";
 
 // Scoped layout for the /infuse private, personalized page. Importing
 // infuse.css here (rather than adding it to globals.css) keeps every
