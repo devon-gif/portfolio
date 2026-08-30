@@ -28,6 +28,9 @@ const PUBLIC_ROUTES = [
   "/spa-salon-creative-support",
   "/hotel-creative-without-adding-headcount",
   "/promo-rescue",
+  // Infuse Hospitality × Archer Design personalized marketing proposal —
+  // direct-link sales page that must render full-bleed without CRM auth.
+  "/infuse",
   // Revstudio × Archer Design partnership landing page — early/unapproved,
   // noindex by default (see lib/revstudio.ts), but still needs to render
   // full-bleed like the other public marketing pages, not the CRM chrome.
