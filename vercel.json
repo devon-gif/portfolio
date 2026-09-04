@@ -8,7 +8,7 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/archer-preview/index.html"
+      "destination": "/legacy-home"
     }
   ]
 }
