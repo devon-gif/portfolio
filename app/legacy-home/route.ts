@@ -6,29 +6,34 @@ export const dynamic = "force-static";
 const ROI_PRICE_STACK = `
  <div class="price-stack">
  <div class="price-row">
- <span>One-off</span>
- <strong>$75 static / $95 motion</strong>
- <em>buy only what you need</em>
+ <span>30-day pilot</span>
+ <strong>$3,500 one-time</strong>
+ <em>up to 30 hours of focused creative support</em>
  </div>
  <div class="price-row">
- <span>Creative Lite</span>
- <strong>$299.99/mo</strong>
- <em>up to 4 finished assets each month</em>
+ <span>Essential Creative</span>
+ <strong>$1,299/mo</strong>
+ <em>up to 10 hours of dependable production support</em>
  </div>
  <div class="price-row">
- <span>Essentials</span>
- <strong>$800/mo</strong>
- <em>4–6 finished assets each month</em>
+ <span>Creative Support</span>
+ <strong>$2,500/mo</strong>
+ <em>approximately 20 hours of broader creative capacity</em>
  </div>
  <div class="price-row featured">
- <span>Growth</span>
- <strong>$1,000/mo</strong>
- <em>8–10 finished assets each month</em>
+ <span>Creative + Marketing</span>
+ <strong>$4,500/mo</strong>
+ <em>approximately 40 hours of production + marketing execution</em>
  </div>
  <div class="price-row">
- <span>Portfolio Studio</span>
- <strong>$1,200/mo</strong>
- <em>12–16 finished assets each month</em>
+ <span>Embedded Creative</span>
+ <strong>$7,500/mo</strong>
+ <em>approximately 65–70 hours of fractional team capacity</em>
+ </div>
+ <div class="price-row">
+ <span>Priority Partnership</span>
+ <strong>$10K–$12K+/mo</strong>
+ <em>high-volume, multi-property or multi-concept support</em>
  </div>
  </div>
 `;
@@ -46,7 +51,7 @@ const CURRENT_PRICING_SECTION = `
   }
 
   .current-pricing-section .packages-heading {
-    max-width: 900px;
+    max-width: 920px;
     margin: 0 auto 52px;
     text-align: center;
   }
@@ -63,13 +68,13 @@ const CURRENT_PRICING_SECTION = `
     gap: 20px;
   }
 
-  .current-pricing-low-grid {
+  .current-pricing-low-grid,
+  .current-pricing-main-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-bottom: 56px;
   }
 
-  .current-pricing-main-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .current-pricing-low-grid {
+    margin-bottom: 56px;
   }
 
   .current-pricing-card {
@@ -179,7 +184,7 @@ const CURRENT_PRICING_SECTION = `
   }
 
   .current-pricing-monthly-head h3 {
-    max-width: 760px;
+    max-width: 820px;
     margin: 10px 0 0;
     color: #fff8ec;
     font-family: "Cormorant Garamond", Georgia, serif;
@@ -211,11 +216,11 @@ const CURRENT_PRICING_SECTION = `
   }
 
   .current-pricing-note {
-    max-width: 800px;
+    max-width: 920px;
     margin: 30px auto 0;
     color: rgba(248, 241, 230, 0.48);
     font-size: 12px;
-    line-height: 1.6;
+    line-height: 1.65;
     text-align: center;
   }
 
@@ -259,114 +264,146 @@ const CURRENT_PRICING_SECTION = `
 <section id="packages" class="packages-section current-pricing-section luxe-reveal">
   <div class="packages-inner">
     <div class="packages-heading">
-      <p class="packages-kicker">Pricing</p>
-      <h2>Start small, stay flexible, or plug Archer in as your monthly creative team.</h2>
+      <p class="packages-kicker">Engagement options</p>
+      <h2>Flexible support. Built around the workload.</h2>
       <p>
-        You do not have to start with a large retainer. Buy a single asset when you need it, keep a small monthly creative lane open, or choose a fuller property-level partnership.
+        Your team may need anything from occasional creative help to hands-on support across multiple properties or concepts. Start at the level that makes sense now and expand only where additional support proves useful.
       </p>
     </div>
 
     <div class="current-pricing-low-grid">
-      <article class="current-pricing-card">
-        <p class="current-pricing-label">One-off creative</p>
-        <h3>Buy only what you need.</h3>
-        <div class="current-pricing-price">$75<span>static</span></div>
-        <div class="current-pricing-price" style="font-size: 31px; margin-top: 12px;">$95<span>motion</span></div>
+      <article class="current-pricing-card is-featured">
+        <p class="current-pricing-label">Not sure where to start?</p>
+        <h3>30-Day Creative Pilot</h3>
+        <div class="current-pricing-price">$3,500<span>one-time</span></div>
         <p class="current-pricing-copy">
-          Need one graphic for an event, restaurant special, package, or quick motion piece? Choose the exact mix with no monthly commitment.
+          A short first engagement designed to learn your workflow, take pressure off the current team, and determine what level of ongoing support actually makes sense.
         </p>
         <ul>
-          <li>Static graphic — $75 each</li>
-          <li>Motion graphic — $95 each</li>
-          <li>One consolidated minor revision round</li>
-          <li>Finished campaign-ready files</li>
-          <li>One property or brand</li>
+          <li>Up to 30 hours of support</li>
+          <li>Design and creative production</li>
+          <li>Social content and motion / reels</li>
+          <li>Menus, events, campaigns, and promotional assets</li>
+          <li>One weekly check-in</li>
+          <li>Priority turnaround</li>
+          <li>Review of the current workflow and creative queue</li>
+          <li>End-of-month recommendation for ongoing support</li>
         </ul>
-        <a class="pricing-button" href="/contact?service=one-off-creative">Request one-off creative →</a>
+        <a class="pricing-button" href="/contact?plan=30-day-creative-pilot">Start with the pilot →</a>
       </article>
 
-      <article class="current-pricing-card is-featured">
-        <p class="current-pricing-label">Low-commitment monthly</p>
-        <h3>Creative Lite</h3>
-        <div class="current-pricing-price">$299.99<span>/mo</span></div>
+      <article class="current-pricing-card">
+        <p class="current-pricing-label">High-volume / multi-property</p>
+        <h3>Priority Creative Partnership</h3>
+        <div class="current-pricing-price">$10K<span>+/mo</span></div>
         <p class="current-pricing-copy">
-          A small recurring creative lane for properties that need dependable support but are not ready for a full monthly program.
+          For high-volume, multi-property or multi-concept teams that want Archer functioning as an embedded external creative department. Typical scopes land around $10K–$12K+ per month depending on workload.
         </p>
         <ul>
-          <li>Up to 4 finished assets each month</li>
-          <li>Up to 1 motion piece; remaining assets are static</li>
-          <li>Captions included</li>
-          <li>One consolidated minor revision round</li>
-          <li>One property or brand</li>
-          <li>Month-to-month — cancel anytime</li>
+          <li>Unlimited request queue</li>
+          <li>2–3 active projects at a time</li>
+          <li>Priority turnaround and high-priority access</li>
+          <li>Creative direction, design, social, motion, and campaign production</li>
+          <li>Multi-property / multi-concept production systems</li>
+          <li>Weekly coordination</li>
         </ul>
-        <a class="pricing-button" href="/contact?plan=creative-lite-299">Choose Creative Lite →</a>
+        <a class="pricing-button" href="/contact?plan=priority-creative-partnership">Talk through scope →</a>
       </article>
     </div>
 
     <div class="current-pricing-monthly-head">
       <div>
         <p class="current-pricing-subhead">Monthly partnerships</p>
-        <h3>Property-level creative support at $800, $1,000, or $1,200 per month.</h3>
+        <h3>Choose the amount of creative and marketing capacity your team actually needs.</h3>
       </div>
-      <p>Rates are per active property or brand. Multi-property scopes can be coordinated under one workflow and invoice.</p>
+      <p>Each step up adds more availability, faster turnaround, and more responsibility — not simply more graphics.</p>
     </div>
 
     <div class="current-pricing-main-grid">
       <article class="current-pricing-card">
-        <p class="current-pricing-label">Essentials</p>
-        <h3>Focused monthly support</h3>
-        <div class="current-pricing-price">$800<span>/mo</span></div>
-        <p class="current-pricing-copy">A focused monthly creative rhythm for one active property or brand.</p>
+        <p class="current-pricing-label">Essential Creative</p>
+        <h3>Reliable production support</h3>
+        <div class="current-pricing-price">$1,299<span>/mo</span></div>
+        <p class="current-pricing-copy">Still primarily production — dependable creative help without a large ongoing commitment.</p>
         <ul>
-          <li>4–6 finished creative assets each month</li>
-          <li>Static + short-form motion mix</li>
-          <li>Seasonal, local-demand, F&B, or event promos</li>
-          <li>Captions included</li>
-          <li>One monthly planning touchpoint</li>
+          <li>Up to 10 hours of creative support per month</li>
+          <li>Social graphics, menus, flyers, event creative, and email graphics</li>
+          <li>Digital signage and existing-template updates</li>
+          <li>Light motion / simple animated assets where appropriate</li>
+          <li>One active request at a time</li>
+          <li>Standard turnaround</li>
+          <li>Monthly check-in</li>
         </ul>
-        <a class="pricing-button" href="/contact?plan=essentials-800">Choose Essentials →</a>
+        <a class="pricing-button" href="/contact?plan=essential-creative-1299">Discuss this level →</a>
+      </article>
+
+      <article class="current-pricing-card">
+        <p class="current-pricing-label">Creative Support</p>
+        <h3>Broader creative capacity</h3>
+        <div class="current-pricing-price">$2,500<span>/mo</span></div>
+        <p class="current-pricing-copy">Broader production capacity for steady creative overflow across more categories.</p>
+        <ul>
+          <li>Approximately 20 hours of support per month</li>
+          <li>Graphic design, menus, social creative, and campaign assets</li>
+          <li>Event promotion, digital signage, and email creative</li>
+          <li>Sales collateral and quick-turn marketing requests</li>
+          <li>Photo retouching and cleanup</li>
+          <li>Turning existing stills into short-form motion</li>
+          <li>Up to 2 active requests at a time</li>
+          <li>Regular monthly planning call</li>
+        </ul>
+        <a class="pricing-button" href="/contact?plan=creative-support-2500">Discuss this level →</a>
       </article>
 
       <article class="current-pricing-card is-featured">
         <span class="current-pricing-recommended">Recommended</span>
-        <p class="current-pricing-label">Growth</p>
-        <h3>Active campaign support</h3>
-        <div class="current-pricing-price">$1,000<span>/mo</span></div>
-        <p class="current-pricing-copy">More room for active campaigns, motion, events, F&B, and ongoing property storytelling.</p>
+        <p class="current-pricing-label">Creative + Marketing Partner</p>
+        <h3>Production + ongoing marketing execution</h3>
+        <div class="current-pricing-price">$4,500<span>/mo</span></div>
+        <p class="current-pricing-copy">For teams that want Archer involved in both creative production and recurring marketing execution.</p>
         <ul>
-          <li>8–10 finished creative assets each month</li>
-          <li>Regular motion / short-form video</li>
-          <li>Campaign planning across property revenue moments</li>
-          <li>F&B, event, package, meeting, or wedding support</li>
-          <li>Monthly performance recap</li>
+          <li>Approximately 40 hours of monthly support</li>
+          <li>Everything in Creative Support</li>
+          <li>Social media management for up to 3 selected concepts / accounts</li>
+          <li>Content calendars, captions, scheduling, and publishing</li>
+          <li>Campaign planning and execution</li>
+          <li>Motion graphics, reels, and still-to-motion creative</li>
+          <li>Email marketing and landing-page creative</li>
+          <li>Sales / proposal support and content repurposing</li>
+          <li>Light analytics / monthly performance review</li>
+          <li>Priority turnaround and 2–3 active projects at once</li>
+          <li>Weekly or biweekly marketing check-in</li>
         </ul>
-        <a class="pricing-button" href="/contact?plan=growth-1000">Choose Growth →</a>
+        <a class="pricing-button" href="/contact?plan=creative-marketing-partner-4500">Talk through scope →</a>
       </article>
 
       <article class="current-pricing-card">
-        <p class="current-pricing-label">Portfolio Studio</p>
-        <h3>Broader outside creative studio</h3>
-        <div class="current-pricing-price">$1,200<span>/mo</span></div>
-        <p class="current-pricing-copy">The broader outside creative-studio role for properties with higher volume and more channels to support.</p>
+        <p class="current-pricing-label">Embedded Creative Partner</p>
+        <h3>A fractional extension of the marketing team</h3>
+        <div class="current-pricing-price">$7,500<span>/mo</span></div>
+        <p class="current-pricing-copy">Designed for periods when a hospitality team needs meaningful additional marketing capacity without adding another full-time role.</p>
         <ul>
-          <li>12–16 finished creative assets each month</li>
-          <li>Priority motion and campaign production</li>
-          <li>Full monthly content calendar</li>
-          <li>Email / landing-page creative support</li>
-          <li>Event, F&B, seasonal, and sales-campaign support</li>
-          <li>Reporting and monthly optimization</li>
+          <li>Approximately 65–70 hours of monthly capacity</li>
+          <li>Multi-property / multi-concept creative support</li>
+          <li>Ongoing social media management and campaign execution</li>
+          <li>Advanced photo retouching, compositing, and VFX-driven motion</li>
+          <li>Menus, events, email, digital, web, and landing-page creative</li>
+          <li>Sales enablement / proposal support</li>
+          <li>Asset and workflow organization + multi-brand template systems</li>
+          <li>Priority production capacity and faster turnaround</li>
+          <li>Up to 3 active projects at once</li>
+          <li>Weekly planning and direct team collaboration</li>
         </ul>
-        <a class="pricing-button" href="/contact?plan=portfolio-studio-1200">Choose Portfolio Studio →</a>
+        <a class="pricing-button" href="/contact?plan=embedded-creative-partner-7500">Talk through scope →</a>
       </article>
     </div>
 
     <p class="current-pricing-note">
-      All monthly plans are month-to-month unless a separate agreement says otherwise. Final scope is confirmed before kickoff so the asset mix matches the property's actual campaign calendar.
+      Additional or outside-scope support can be quoted separately or handled at $125/hour with approval. Large website builds, full brand development, extensive video production, paid media spend, printing, photography, travel, and specialized technical services are scoped separately. Reasonable revisions within the approved project scope are included; turnaround depends on complexity and the active production queue.
     </p>
 
     <div class="current-pricing-cta">
-      <a href="https://calendly.com/devonavich0/30min" target="_blank" rel="noopener">Talk through the right fit →</a>
+      <a href="https://calendly.com/devonavich0/30min" target="_blank" rel="noopener">Talk through the workload →</a>
     </div>
   </div>
 </section>
@@ -384,18 +421,15 @@ export async function GET() {
   );
 
   html = html
+    .replace("One creative desk gets cheaper as your portfolio grows.", "One creative partner, scaled to the workload.")
     .replace("One monthly creative system", "Flexible creative support")
     .replace(
       "One workflow for photos, clips, reels, social graphics, F&B promos, event creative, and approval-ready content. Built to scale across a hospitality portfolio.",
-      "One workflow for one-off assets, monthly creative, F&B promos, event support, and approval-ready content. Built to scale from one property to a hospitality portfolio.",
+      "One workflow for design, social, motion, campaigns, F&B, events, digital creative, and approval-ready content. Start with a focused lane and scale into embedded support as the workload grows.",
     )
     .replace(
-      "<strong>Portfolio advantage:</strong>\n the more properties you add, the more the creative system, templates, approvals, and brand standards compound.",
-      "<strong>Start where you need:</strong> choose a single asset, a small monthly lane, or fuller property-level creative support — then scale when the workload justifies it.",
-    )
-    .replace(
-      '<a class="roi-cta" href="/archer-preview/book/">Build a portfolio creative plan →</a>',
-      '<a class="roi-cta" href="/contact">Talk through the right fit →</a>',
+      /<div class="roi-callout">[\s\S]*?<\/div>\s*<a class="roi-cta"[^>]*>[^<]*<\/a>/,
+      `<div class="roi-callout"><strong>Capacity, not asset-count pricing:</strong> each level adds more availability, faster turnaround, and more responsibility — not simply more graphics.</div>\n <a class="roi-cta" href="/contact">Talk through the right fit →</a>`,
     );
 
   html = html.replace(
@@ -403,8 +437,8 @@ export async function GET() {
     CURRENT_PRICING_SECTION,
   );
 
-  if (!html.includes("$299.99") || !html.includes("$1,200")) {
-    throw new Error("Current Archer pricing was not injected into the legacy homepage.");
+  if (!html.includes("$1,299") || !html.includes("$4,500") || !html.includes("$7,500")) {
+    throw new Error("Updated Archer engagement pricing was not injected into the legacy homepage.");
   }
 
   return new Response(html, {
