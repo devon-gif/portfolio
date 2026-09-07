@@ -28,14 +28,6 @@ const nextConfig: NextConfig = {
           destination: "/lark/index.html",
         },
         {
-          source: "/oxford",
-          destination: "/oxford/index.html",
-        },
-        {
-          source: "/coraltree",
-          destination: "/coraltree/index.html",
-        },
-        {
           source: "/valencia",
           destination: "/valencia/index.html",
         },

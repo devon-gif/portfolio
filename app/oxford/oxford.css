@@ -1,0 +1,943 @@
+/* ============================================================================
+   OXFORD HOTELS & RESORTS, private creative concept (/oxford)
+   Editorial system in the same family as the static /valencia concept page
+   (public/valencia/index.html): large serif headlines, generous negative
+   space, thin hairline rules, a restrained scroll-reveal system, alternating
+   ink/white section rhythm. Palette is Oxford-specific rather than
+   Valencia's warm parchment/oxblood: deep midnight navy, white and warm
+   off-white, muted cool blue-gray, and a single restrained bronze accent.
+   No teal (kept out deliberately, to stay visually distinct from /tcrm).
+
+   Scoped ENTIRELY under .oxford-theme (ox- prefix, matching this project's
+   other private-proposal pages: .tcrm-theme/tl-, .topline-theme/tl-, etc.)
+   so it can never affect /valencia, /tcrm, or the main site. Kept in its own
+   stylesheet (imported by app/oxford/layout.tsx) rather than globals.css.
+   ============================================================================ */
+
+.oxford-theme {
+  /* Ink (near-black midnight navy) */
+  --ox-ink: #0b1220;
+  --ox-ink-deep: #060a12;
+  --ox-ink-raise: #111a2c;
+  --ox-ink-soft: rgba(247, 245, 240, 0.72);
+  --ox-ink-faint: rgba(247, 245, 240, 0.46);
+
+  /* White / warm off-white */
+  --ox-white: #ffffff;
+  --ox-paper: #f7f5f0;
+  --ox-paper-2: #f0ede4;
+
+  /* Muted cool blue-gray (body ink on light surfaces) */
+  --ox-slate: #333c4d;
+  --ox-slate-soft: rgba(51, 60, 77, 0.66);
+  --ox-slate-faint: rgba(51, 60, 77, 0.42);
+
+  /* Restrained bronze / muted gold accent, used sparingly */
+  --ox-bronze: #ab8a5c;
+  --ox-bronze-soft: rgba(171, 138, 92, 0.55);
+  --ox-bronze-line: rgba(171, 138, 92, 0.32);
+
+  --ox-line-on-white: rgba(11, 18, 32, 0.12);
+  --ox-line-on-ink: rgba(247, 245, 240, 0.14);
+
+  /* Restrained luxury-glass system. Used selectively (header, the process
+     panel/steps beneath the hero, small video-category labels, selected
+     pricing cards, workflow steps, compact video cards, final CTA) -- never
+     as a blanket wrapper around every section. Light = warm-white glass for
+     surfaces that sit on .ox-on-white(-alt); dark = smoke glass for surfaces
+     on .ox-on-ink(-deep); elevated = slightly richer/bordered variant for
+     the single most important panel in a section (pricing anchor, CTA). */
+  --ox-glass-light-bg: rgba(255, 255, 255, 0.5);
+  --ox-glass-light-border: rgba(11, 18, 32, 0.1);
+  --ox-glass-dark-bg: rgba(11, 18, 32, 0.56);
+  --ox-glass-dark-border: rgba(247, 245, 240, 0.14);
+  --ox-glass-elevated-bg: rgba(11, 18, 32, 0.94);
+  --ox-glass-elevated-border: rgba(171, 138, 92, 0.24);
+  --ox-glass-blur: blur(18px) saturate(150%);
+  --ox-glass-shadow: 0 28px 64px -38px rgba(11, 18, 32, 0.32);
+  --ox-glass-shadow-ink: 0 28px 64px -34px rgba(0, 0, 0, 0.5);
+  --ox-glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  --ox-glass-inset-ink: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  --ox-ease: cubic-bezier(0.22, 0.61, 0.19, 0.99);
+
+  position: relative;
+  background: var(--ox-paper);
+  color: var(--ox-slate);
+  font-family: var(--font-geist-sans, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+.oxford-theme img,
+.oxford-theme video { max-width: 100%; display: block; }
+.oxford-theme a { color: inherit; text-decoration: none; }
+
+.oxford-theme a:focus-visible,
+.oxford-theme button:focus-visible,
+.oxford-theme [tabindex]:focus-visible {
+  outline: 2px solid var(--ox-bronze);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.oxford-theme .ox-serif,
+.oxford-theme h1,
+.oxford-theme h2,
+.oxford-theme h3 {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.oxford-theme .ox-shell {
+  width: min(1280px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.oxford-theme .ox-eyebrow {
+  font-size: 11.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ox-bronze);
+}
+
+.oxford-theme .ox-label-row { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+.oxford-theme .ox-label-row .ox-rule { width: 32px; height: 1px; background: var(--ox-bronze-line); }
+
+/* ---------- buttons ---------- */
+.oxford-theme .ox-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 15px 30px;
+  border-radius: 2px;
+  transition: background 0.4s var(--ox-ease), color 0.4s var(--ox-ease), border-color 0.4s var(--ox-ease), transform 0.3s var(--ox-ease);
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.oxford-theme .ox-btn-primary {
+  background: var(--ox-bronze);
+  color: var(--ox-ink-deep);
+  border-color: var(--ox-bronze);
+}
+.oxford-theme .ox-btn-primary:hover { background: transparent; color: var(--ox-bronze); transform: translateY(-1px); }
+.oxford-theme .ox-on-ink .ox-btn-primary { color: var(--ox-ink-deep); }
+.oxford-theme .ox-on-ink .ox-btn-primary:hover { background: transparent; color: var(--ox-bronze); border-color: var(--ox-bronze); }
+.oxford-theme .ox-btn-ghost-light {
+  border-color: rgba(247, 245, 240, 0.35);
+  color: var(--ox-paper);
+  background: transparent;
+}
+.oxford-theme .ox-btn-ghost-light:hover { background: rgba(247, 245, 240, 0.08); border-color: rgba(247, 245, 240, 0.65); }
+.oxford-theme .ox-btn-ghost-dark {
+  border-color: rgba(11, 18, 32, 0.28);
+  color: var(--ox-slate);
+  background: transparent;
+}
+.oxford-theme .ox-btn-ghost-dark:hover { background: rgba(11, 18, 32, 0.05); border-color: rgba(11, 18, 32, 0.5); }
+.oxford-theme .ox-text-link {
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  opacity: 0.86;
+  transition: opacity 0.3s var(--ox-ease);
+}
+.oxford-theme .ox-text-link:hover { opacity: 1; }
+
+/* ---------- reveal system ---------- */
+.oxford-theme .ox-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.9s var(--ox-ease), transform 0.9s var(--ox-ease);
+}
+.oxford-theme .ox-reveal.is-visible { opacity: 1; transform: translateY(0); }
+.oxford-theme .ox-reveal-d1 { transition-delay: 0.08s; }
+.oxford-theme .ox-reveal-d2 { transition-delay: 0.16s; }
+.oxford-theme .ox-reveal-d3 { transition-delay: 0.24s; }
+.oxford-theme .ox-reveal-d4 { transition-delay: 0.32s; }
+@media (prefers-reduced-motion: reduce) {
+  .oxford-theme .ox-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* ---------- glass utilities ---------- */
+.oxford-theme .ox-glass {
+  background: var(--ox-glass-light-bg);
+  border: 1px solid var(--ox-glass-light-border);
+  backdrop-filter: var(--ox-glass-blur);
+  -webkit-backdrop-filter: var(--ox-glass-blur);
+  box-shadow: var(--ox-glass-shadow), var(--ox-glass-inset);
+  border-radius: 16px;
+}
+.oxford-theme .ox-glass-dark {
+  background: var(--ox-glass-dark-bg);
+  border: 1px solid var(--ox-glass-dark-border);
+  backdrop-filter: var(--ox-glass-blur);
+  -webkit-backdrop-filter: var(--ox-glass-blur);
+  box-shadow: var(--ox-glass-shadow-ink), var(--ox-glass-inset-ink);
+  border-radius: 16px;
+}
+.oxford-theme .ox-glass-elevated {
+  background: var(--ox-glass-elevated-bg);
+  border: 1px solid var(--ox-glass-elevated-border);
+  backdrop-filter: var(--ox-glass-blur);
+  -webkit-backdrop-filter: var(--ox-glass-blur);
+  box-shadow: var(--ox-glass-shadow-ink), var(--ox-glass-inset-ink);
+  border-radius: 18px;
+}
+/* Backdrop-filter fallback: if unsupported, fall back to a more opaque flat
+   surface so text stays readable rather than relying on transparency alone. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .oxford-theme .ox-glass { background: rgba(255, 255, 255, 0.86); }
+  .oxford-theme .ox-glass-dark { background: rgba(11, 18, 32, 0.88); }
+  .oxford-theme .ox-glass-elevated { background: rgba(17, 26, 44, 0.92); }
+}
+/* Lighter blur radius on small screens -- restrained perf guard, backdrop
+   blur is the single most expensive property here and phones re-paint it
+   on every scroll frame. */
+@media (max-width: 640px) {
+  .oxford-theme .ox-glass,
+  .oxford-theme .ox-glass-dark,
+  .oxford-theme .ox-glass-elevated { backdrop-filter: blur(10px) saturate(140%); -webkit-backdrop-filter: blur(10px) saturate(140%); }
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.oxford-theme .ox-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(6, 10, 18, 0.56);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border-bottom: 1px solid rgba(247, 245, 240, 0.08);
+  transition: background 0.4s var(--ox-ease), border-color 0.4s var(--ox-ease), padding 0.4s var(--ox-ease);
+}
+.oxford-theme .ox-header.is-scrolled {
+  background: rgba(6, 10, 18, 0.82);
+  border-bottom-color: var(--ox-line-on-ink);
+  box-shadow: 0 14px 32px -22px rgba(0, 0, 0, 0.6);
+}
+@media (max-width: 640px) {
+  .oxford-theme .ox-header { backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%); }
+}
+/* Thin vertical hairline between the logo lockup and the nav, for refined
+   logo separation rather than raw whitespace. */
+.oxford-theme .ox-logo-group { display: flex; min-width: 0; align-items: center; gap: 10px; flex-wrap: wrap; position: relative; padding-right: 24px; }
+.oxford-theme .ox-logo-group::after {
+  content: ""; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+  width: 1px; height: 22px; background: rgba(247, 245, 240, 0.16);
+}
+@media (max-width: 900px) { .oxford-theme .ox-logo-group::after { display: none; } }
+.oxford-theme .ox-logo-mark { height: 22px; width: auto; display: block; }
+.oxford-theme .ox-logo-word {
+  font-family: var(--font-luxury-serif), ui-serif, Georgia, serif;
+  font-size: 13.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ox-paper);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.oxford-theme .ox-logo-word--client { color: var(--ox-bronze); }
+.oxford-theme .ox-logo-x { color: rgba(247, 245, 240, 0.4); font-size: 12px; }
+@media (max-width: 560px) { .oxford-theme .ox-logo-mark { height: 18px; } }
+.oxford-theme .ox-logo-microcopy {
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247, 245, 240, 0.46);
+  font-weight: 500;
+}
+.oxford-theme .ox-header-nav-link {
+  color: rgba(247, 245, 240, 0.78);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: color 0.25s var(--ox-ease);
+}
+.oxford-theme .ox-header-nav-link:hover,
+.oxford-theme .ox-header-nav-link:focus-visible { color: var(--ox-bronze); }
+.oxford-theme .ox-header-menu-btn {
+  border-color: rgba(247, 245, 240, 0.28);
+  color: rgba(247, 245, 240, 0.88);
+  background: transparent;
+}
+.oxford-theme .ox-mobile-nav {
+  background: rgba(6, 10, 18, 0.98);
+  border-color: var(--ox-line-on-ink);
+}
+.oxford-theme .ox-progress {
+  position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%;
+  background: var(--ox-bronze); transform-origin: left center; transform: scaleX(0);
+  display: block;
+}
+@media (max-width: 900px) { .oxford-theme .ox-logo-microcopy { display: none; } }
+@media (max-width: 560px) { .oxford-theme .ox-logo-word { font-size: 11.5px; } }
+
+/* ============================================================
+   MEDIA FRAME + PLACEHOLDER SYSTEM
+   ============================================================ */
+.oxford-theme .ox-media-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--ox-ink);
+  isolation: isolate;
+  width: 100%;
+}
+.oxford-theme .ox-media-frame.ox-fill { position: absolute; inset: 0; border-radius: 0; }
+
+.oxford-theme .ox-placeholder {
+  background:
+    linear-gradient(155deg, rgba(171, 138, 92, 0.16), transparent 55%),
+    linear-gradient(325deg, rgba(171, 138, 92, 0.1), transparent 60%),
+    linear-gradient(160deg, #0f1728 0%, #17223a 48%, #0b1220 100%);
+  border: 1px solid rgba(247, 245, 240, 0.08);
+}
+.oxford-theme .ox-placeholder::before,
+.oxford-theme .ox-placeholder::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--ox-bronze-line);
+  pointer-events: none;
+}
+.oxford-theme .ox-placeholder::before { top: 14px; left: 14px; border-right: 0; border-bottom: 0; }
+.oxford-theme .ox-placeholder::after { bottom: 14px; right: 14px; border-left: 0; border-top: 0; }
+.oxford-theme .ox-placeholder-inner {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 26px; gap: 8px;
+}
+.oxford-theme .ox-placeholder-eyebrow {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ox-bronze-soft); font-weight: 600;
+}
+.oxford-theme .ox-placeholder-category {
+  font-family: var(--font-luxury-serif), serif; font-style: italic; font-size: clamp(15px, 2vw, 19px);
+  color: var(--ox-paper); margin: 0;
+}
+.oxford-theme .ox-placeholder-recommended {
+  font-size: 12.5px; line-height: 1.6; color: var(--ox-ink-faint); max-width: 34ch; margin: 0;
+}
+.oxford-theme .ox-placeholder-path {
+  margin-top: 6px; font-size: 10.5px; letter-spacing: 0.02em; color: rgba(171, 138, 92, 0.75);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* ============================================================
+   HERO — Langham.mp4, contained cinematic box (~90-95vw wide,
+   ~85-95vh tall on large desktop), not literally edge-to-edge
+   ============================================================ */
+.oxford-theme .ox-hero-cinematic {
+  width: 100%;
+  background: var(--ox-ink);
+  padding: clamp(28px, 4vw, 56px) 0;
+}
+.oxford-theme .ox-hero-shell { width: min(94vw, 2200px); margin: 0 auto; }
+.oxford-theme .ox-hero-media-box {
+  position: relative;
+  width: 100%;
+  height: clamp(560px, 85vh, 1080px);
+  border-radius: 10px;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  box-shadow: 0 60px 120px -60px rgba(6, 10, 18, 0.75);
+}
+@media (min-width: 900px) { .oxford-theme .ox-hero-media-box { height: clamp(600px, 90vh, 1120px); } }
+@media (min-width: 1400px) { .oxford-theme .ox-hero-media-box { height: clamp(640px, 95vh, 1180px); } }
+.oxford-theme .ox-hero-overlay {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(6, 10, 18, 0.1) 0%, rgba(6, 10, 18, 0.28) 45%, rgba(6, 10, 18, 0.86) 100%);
+}
+.oxford-theme .ox-hero-cinematic-copy {
+  position: relative; z-index: 2; width: 100%;
+  padding: clamp(28px, 4vw, 48px) clamp(24px, 4vw, 56px) clamp(32px, 5vw, 56px);
+}
+.oxford-theme .ox-hero-cinematic-copy .ox-eyebrow { color: var(--ox-bronze); margin-bottom: 18px; display: block; font-size: 13px; letter-spacing: 0.24em; font-weight: 700; }
+.oxford-theme .ox-hero-cinematic-copy h1 {
+  margin: 0 0 20px;
+  color: var(--ox-paper);
+  font-size: clamp(2.1rem, 4.8vw, 3.9rem);
+  line-height: 1.1;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  max-width: 16ch;
+}
+.oxford-theme .ox-hero-cinematic-copy p.ox-sub {
+  color: rgba(247, 245, 240, 0.84);
+  font-size: clamp(15px, 1.4vw, 17.5px);
+  max-width: 600px;
+  line-height: 1.7;
+  margin: 0 0 28px;
+}
+.oxford-theme .ox-hero-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+@media (max-width: 640px) {
+  .oxford-theme .ox-hero-shell { width: 100%; }
+  .oxford-theme .ox-hero-media-box { height: 78vh; border-radius: 0; }
+}
+
+/* Thin strip directly beneath the hero video carrying the expanded private-
+   concept disclaimer, deliberately kept off the video itself. */
+.oxford-theme .ox-notice-bar {
+  background: var(--ox-paper); border-bottom: 1px solid var(--ox-line-on-white);
+  padding: 18px 0;
+}
+.oxford-theme .ox-notice-bar p {
+  margin: 0; font-size: 12px; line-height: 1.6; font-style: italic;
+  color: var(--ox-slate-faint); max-width: 720px;
+}
+
+/* ============================================================
+   MOTION FROM EXISTING PHOTOGRAPHY — premium two-column editorial intro,
+   read immediately after the hero and before any of the motion work. This
+   is now the only explanatory section between the hero and the video
+   sequence (the former "Opportunity" section was removed). Wider
+   contained shell (88-92vw, capped ~1550px) rather than the standard
+   1280px .ox-shell, so the composition has real editorial scale.
+   ============================================================ */
+.oxford-theme .ox-process-intro { padding-top: clamp(56px, 7vw, 88px); padding-bottom: clamp(56px, 7vw, 88px); }
+.oxford-theme .ox-process-shell { width: min(90vw, 1550px); margin: 0 auto; }
+.oxford-theme .ox-process-grid {
+  display: grid;
+  grid-template-columns: 43% 1fr;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+.oxford-theme .ox-process-left { padding-top: 4px; }
+.oxford-theme .ox-process-heading {
+  font-size: clamp(1.9rem, 2.9vw, 2.7rem);
+  font-weight: 400;
+  line-height: 1.22;
+  color: var(--ox-slate);
+  margin: 0;
+}
+.oxford-theme .ox-process-panel { padding: clamp(28px, 3.4vw, 40px); }
+.oxford-theme .ox-process-panel p {
+  font-size: 15.5px; line-height: 1.8; color: var(--ox-slate); margin: 0 0 18px;
+}
+.oxford-theme .ox-process-panel p:last-child { margin-bottom: 0; }
+@media (max-width: 900px) {
+  .oxford-theme .ox-process-grid { grid-template-columns: 1fr; }
+  .oxford-theme .ox-process-heading { max-width: 34ch; }
+}
+
+/* Three-step glass process strip. Equal-height cells (CSS grid's default
+   row stretch), thin arrow connectors between on desktop, stacked with a
+   small vertical connector on mobile. */
+.oxford-theme .ox-process-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 2vw, 24px);
+  margin-top: clamp(44px, 5vw, 64px);
+}
+.oxford-theme .ox-process-step {
+  position: relative;
+  padding: clamp(22px, 2.4vw, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.oxford-theme .ox-process-step-num {
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  color: var(--ox-bronze);
+}
+.oxford-theme .ox-process-step h3 { font-size: 16px; font-weight: 400; color: var(--ox-slate); margin: 0; line-height: 1.3; }
+.oxford-theme .ox-process-step p { font-size: 13px; line-height: 1.6; color: var(--ox-slate-soft); margin: 0; }
+.oxford-theme .ox-process-step:not(:last-child)::after {
+  content: "\2192";
+  position: absolute;
+  top: 50%;
+  right: clamp(-20px, -2.2vw, -16px);
+  transform: translateY(-50%);
+  color: var(--ox-bronze-soft);
+  font-size: 15px;
+  z-index: 1;
+}
+@media (max-width: 820px) {
+  .oxford-theme .ox-process-steps { grid-template-columns: 1fr; gap: 28px; }
+  .oxford-theme .ox-process-step:not(:last-child)::after {
+    content: "\2193";
+    top: auto; right: auto; bottom: -22px; left: 50%; transform: translateX(-50%);
+  }
+}
+
+/* Separate, subtle speculative-work note -- deliberately not part of the
+   glass panel above so it reads as fine print, not primary copy. */
+.oxford-theme .ox-process-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: clamp(32px, 4vw, 44px);
+  padding: 14px 18px;
+  max-width: 640px;
+  border-radius: 10px;
+  background: rgba(51, 60, 77, 0.05);
+  border: 1px solid var(--ox-line-on-white);
+}
+.oxford-theme .ox-process-note svg { color: var(--ox-bronze-soft); flex-shrink: 0; margin-top: 2px; }
+.oxford-theme .ox-process-note p { margin: 0; font-size: 13px; line-height: 1.65; color: var(--ox-slate-soft); }
+
+/* Small caption on a motion clip, matching the /valencia concept page's
+   .reel-tag treatment (public/valencia/index.html). */
+.oxford-theme .ox-reel-tag {
+  position: absolute; left: 16px; bottom: 14px; z-index: 3;
+  display: flex; align-items: center; gap: 9px;
+  font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(247, 245, 240, 0.72); font-weight: 500;
+  pointer-events: none;
+}
+.oxford-theme .ox-reel-tag::before { content: ""; width: 14px; height: 1px; background: var(--ox-bronze-soft); }
+
+/* Video frames: no native controls ever show (muted/no controls videos
+   don't render them anyway, this just removes any inherited default), and
+   a very subtle hover lift on the alternating-sequence clips so they read
+   as interactive/premium rather than flat photo tiles. */
+.oxford-theme .ox-video-frame video::-webkit-media-controls { display: none !important; }
+.oxford-theme .ox-video-frame { transition: transform 0.5s var(--ox-ease), box-shadow 0.5s var(--ox-ease); }
+.oxford-theme .ox-alt-media .ox-video-frame:hover,
+.oxford-theme .ox-compact-card .ox-video-frame:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 24px 48px -26px rgba(6, 10, 18, 0.55);
+}
+@media (prefers-reduced-motion: reduce) {
+  .oxford-theme .ox-video-frame { transition: none; }
+  .oxford-theme .ox-alt-media .ox-video-frame:hover,
+  .oxford-theme .ox-compact-card .ox-video-frame:hover { transform: none; }
+}
+
+/* ============================================================
+   THE WORK — immersive portrait feature, three large standalone
+   features (square / wide-landscape / split-portrait), alternating
+   editorial sequence, compact supporting grid. Every clip in
+   public/oxford/videos appears once, sized to its own real aspect
+   ratio rather than forced into a uniform box.
+   ============================================================ */
+.oxford-theme .ox-work-cinematic { padding: clamp(64px, 8vw, 100px) 0 clamp(80px, 9vw, 120px); }
+.oxford-theme .ox-work-cinematic > .ox-shell:first-child { margin-bottom: clamp(48px, 6vw, 76px); }
+
+.oxford-theme .ox-fill-rounded { border-radius: 8px !important; }
+
+.oxford-theme .ox-feature-copy { margin-bottom: clamp(24px, 3vw, 36px); }
+/* Small glass category chip, used on every video's label throughout "the
+   work" (dark ink section) -- restrained dark glass rather than plain text,
+   so each clip reads as a labeled piece rather than a caption fragment. */
+.oxford-theme .ox-motion-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ox-bronze); font-weight: 600; margin-bottom: 14px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: var(--ox-glass-dark-bg);
+  border: 1px solid var(--ox-glass-dark-border);
+  backdrop-filter: var(--ox-glass-blur);
+  -webkit-backdrop-filter: var(--ox-glass-blur);
+}
+.oxford-theme .ox-feature-copy h2 { color: var(--ox-paper); font-size: clamp(1.8rem, 3.4vw, 2.6rem); font-weight: 400; line-height: 1.2; margin: 0 0 14px; max-width: 20ch; }
+.oxford-theme .ox-feature-copy p { color: var(--ox-ink-soft); font-size: 16px; line-height: 1.8; max-width: 62ch; margin: 0; }
+
+/* Immersive: Lexington.mp4 -- large centered portrait (real source is
+   1248x1664 / 3:4, a vertical night exterior). Forcing a wide landscape box
+   here would crop away most of the building, so this is a tall centered
+   column instead, sized to read as the single largest feature after the
+   hero. */
+.oxford-theme .ox-feature-immersive {
+  width: min(92vw, 1300px);
+  margin: 0 auto clamp(72px, 8vw, 108px);
+  text-align: center;
+}
+.oxford-theme .ox-feature-immersive .ox-feature-copy { max-width: 640px; margin-left: auto; margin-right: auto; }
+/* .ox-feature-copy h2/p each carry their own narrower max-width (20ch /
+   62ch) for the left-aligned feature sections -- inside this centered
+   section that left them flush against the shared parent's left edge
+   instead of independently centered, so headline and paragraph read as
+   two different center points. Force each to center on its own axis. */
+.oxford-theme .ox-feature-immersive .ox-feature-copy h2,
+.oxford-theme .ox-feature-immersive .ox-feature-copy p { margin-left: auto; margin-right: auto; }
+.oxford-theme .ox-feature-immersive .ox-feature-media {
+  position: relative; margin: 0 auto; height: clamp(520px, 82vh, 1040px); width: auto; aspect-ratio: 3 / 4;
+  border-radius: 8px; overflow: hidden; isolation: isolate;
+  box-shadow: 0 52px 100px -50px rgba(6, 10, 18, 0.72);
+}
+
+/* Feature: Sushi.mp4 -- large genuine square (source is 1440x1440). */
+.oxford-theme .ox-feature-square {
+  width: min(88vw, 1300px);
+  margin: 0 auto clamp(72px, 8vw, 108px);
+}
+.oxford-theme .ox-feature-square .ox-feature-media {
+  position: relative; margin: 0 auto; height: clamp(440px, 68vh, 880px); width: auto; aspect-ratio: 1 / 1;
+  border-radius: 8px; overflow: hidden; isolation: isolate;
+  box-shadow: 0 48px 96px -48px rgba(6, 10, 18, 0.7);
+}
+
+/* Feature: rooftop.mp4 -- near-full-screen landscape. */
+.oxford-theme .ox-feature-wide {
+  width: min(94vw, 1700px);
+  margin: 0 auto clamp(80px, 9vw, 120px);
+}
+.oxford-theme .ox-feature-wide .ox-feature-media {
+  position: relative; width: 100%; height: clamp(420px, 74vh, 900px);
+  border-radius: 8px; overflow: hidden; isolation: isolate;
+  box-shadow: 0 52px 100px -50px rgba(6, 10, 18, 0.72);
+}
+
+/* Feature: sailboat.mp4 -- portrait split two-column, media ~56% / copy
+   ~44%, source (834x1112, 3:4) never stretched horizontally. */
+.oxford-theme .ox-feature-split {
+  width: min(90vw, 1500px);
+  margin: 0 auto clamp(80px, 9vw, 120px);
+  display: grid;
+  grid-template-columns: 56% 1fr;
+  gap: clamp(32px, 4vw, 64px);
+  align-items: center;
+}
+.oxford-theme .ox-feature-split .ox-feature-copy { margin-bottom: 0; }
+.oxford-theme .ox-feature-split .ox-feature-media {
+  position: relative; height: clamp(460px, 74vh, 900px); width: auto; aspect-ratio: 3 / 4;
+  border-radius: 8px; overflow: hidden; isolation: isolate;
+  box-shadow: 0 48px 96px -48px rgba(6, 10, 18, 0.7);
+}
+@media (max-width: 640px) {
+  .oxford-theme .ox-feature-immersive, .oxford-theme .ox-feature-square { width: min(94vw, 640px); }
+  .oxford-theme .ox-feature-immersive .ox-feature-media,
+  .oxford-theme .ox-feature-square .ox-feature-media { height: auto; width: 100%; }
+  .oxford-theme .ox-feature-wide { width: min(94vw, 640px); }
+  .oxford-theme .ox-feature-wide .ox-feature-media { height: 68vw; min-height: 320px; max-height: none; }
+  .oxford-theme .ox-feature-split { grid-template-columns: 1fr; width: min(94vw, 640px); }
+  .oxford-theme .ox-feature-split .ox-feature-media { height: auto; width: 100%; margin: 0 auto; }
+}
+
+/* Alternating editorial sequence: Lobby, Fountain, galaxy. Media at ~60-70%
+   of the row width, text alongside, left/right/wide alternation, no card
+   chrome, generous vertical rhythm between rows. */
+.oxford-theme .ox-alt-sequence {
+  width: min(92vw, 1400px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(64px, 8vw, 112px);
+}
+.oxford-theme .ox-alt-row {
+  display: grid;
+  grid-template-columns: 64% 1fr;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+}
+.oxford-theme .ox-alt-row--right { grid-template-columns: 1fr 64%; }
+.oxford-theme .ox-alt-row--right .ox-alt-media { order: 2; }
+.oxford-theme .ox-alt-row--right .ox-alt-copy { order: 1; }
+.oxford-theme .ox-alt-row--wide { grid-template-columns: 1fr; text-align: center; }
+.oxford-theme .ox-alt-row--wide .ox-alt-media { width: min(100%, 1100px); margin: 0 auto; }
+.oxford-theme .ox-alt-row--wide .ox-alt-copy { max-width: 60ch; margin: 20px auto 0; }
+/* Same fix as the immersive feature above: .ox-alt-copy h3/p have their own
+   narrower max-width (18ch / 42ch) for the left/right rows, which left them
+   flush-left inside this centered wide row instead of sharing one center
+   axis with the eyebrow chip above them. */
+.oxford-theme .ox-alt-row--wide .ox-alt-copy h3,
+.oxford-theme .ox-alt-row--wide .ox-alt-copy p { margin-left: auto; margin-right: auto; }
+/* Portrait clips (e.g. Fountain.mp4, 3:4) get much taller than landscape
+   ones at the same 64% column width -- narrow the media column and cap its
+   width so the frame stays in proportion with the row instead of towering
+   over the copy / overflowing the viewport. */
+.oxford-theme .ox-alt-row--portrait { grid-template-columns: 36% 1fr; }
+.oxford-theme .ox-alt-row--portrait.ox-alt-row--right { grid-template-columns: 1fr 36%; }
+.oxford-theme .ox-alt-row--portrait .ox-alt-media { max-width: 360px; margin: 0 auto; }
+.oxford-theme .ox-alt-media .ox-media-frame { box-shadow: 0 36px 72px -40px rgba(6, 10, 18, 0.6); }
+.oxford-theme .ox-alt-copy h3 { color: var(--ox-paper); font-size: clamp(1.2rem, 1.8vw, 1.5rem); font-weight: 400; margin: 0 0 10px; max-width: 18ch; }
+.oxford-theme .ox-alt-copy p { color: var(--ox-ink-soft); font-size: 15px; line-height: 1.75; margin: 0; max-width: 42ch; }
+@media (max-width: 900px) {
+  .oxford-theme .ox-alt-row,
+  .oxford-theme .ox-alt-row--right,
+  .oxford-theme .ox-alt-row--portrait,
+  .oxford-theme .ox-alt-row--portrait.ox-alt-row--right { grid-template-columns: 1fr; }
+  .oxford-theme .ox-alt-row--right .ox-alt-media,
+  .oxford-theme .ox-alt-row--right .ox-alt-copy { order: initial; }
+  .oxford-theme .ox-alt-row--portrait .ox-alt-media { max-width: 320px; }
+  .oxford-theme .ox-alt-copy p { max-width: 60ch; }
+}
+
+/* Compact supporting grid: pool, Drink, Wedding -- intentionally smaller
+   than the features above, still substantial (not thumbnails), natural
+   source aspect ratios preserved per card. */
+.oxford-theme .ox-compact-head { margin-top: clamp(72px, 8vw, 108px); margin-bottom: clamp(32px, 4vw, 44px); text-align: center; }
+.oxford-theme .ox-compact-head h2 { color: var(--ox-paper); font-size: clamp(1.6rem, 2.8vw, 2.2rem); font-weight: 400; margin: 0; }
+.oxford-theme .ox-compact-head .ox-motion-label { text-align: center; }
+.oxford-theme .ox-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
+  gap: clamp(20px, 2.4vw, 28px);
+}
+.oxford-theme .ox-compact-card .ox-media-frame { margin-bottom: 14px; }
+.oxford-theme .ox-work-badge {
+  position: absolute; top: 12px; left: 12px; z-index: 2;
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700;
+  color: var(--ox-ink-deep); background: var(--ox-bronze);
+  padding: 5px 10px; border-radius: 2px;
+}
+/* Premium caption panel beneath each compact card's video -- glass instead
+   of plain text sitting directly on the section background. */
+.oxford-theme .ox-compact-caption { padding: 16px 18px 18px; }
+.oxford-theme .ox-work-category {
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ox-bronze); font-weight: 600; margin-bottom: 6px;
+}
+.oxford-theme .ox-work-sentence { font-size: 13.5px; line-height: 1.6; color: var(--ox-ink-soft); margin: 0; }
+@media (max-width: 900px) { .oxford-theme .ox-compact-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .oxford-theme .ox-compact-grid { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   SECTION SCAFFOLDING
+   ============================================================ */
+.oxford-theme section { position: relative; }
+.oxford-theme .ox-section-pad { padding: clamp(72px, 10vw, 132px) 0; }
+.oxford-theme .ox-on-white { background: var(--ox-paper); color: var(--ox-slate); }
+.oxford-theme .ox-on-white-alt { background: var(--ox-white); color: var(--ox-slate); }
+.oxford-theme .ox-on-ink { background: var(--ox-ink); color: var(--ox-paper); }
+.oxford-theme .ox-on-ink-deep { background: var(--ox-ink-deep); color: var(--ox-paper); }
+.oxford-theme .ox-on-white .ox-eyebrow,
+.oxford-theme .ox-on-white-alt .ox-eyebrow { color: var(--ox-bronze); }
+.oxford-theme .ox-on-white .ox-label-row .ox-rule,
+.oxford-theme .ox-on-white-alt .ox-label-row .ox-rule { background: var(--ox-bronze-line); }
+
+.oxford-theme .ox-section-head { max-width: 700px; margin-bottom: clamp(40px, 5vw, 60px); }
+.oxford-theme .ox-section-head h2 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); font-weight: 400; line-height: 1.2; margin: 0 0 18px; }
+.oxford-theme .ox-section-head p { font-size: 16px; line-height: 1.8; margin: 0 0 14px; max-width: 58ch; }
+.oxford-theme .ox-on-white .ox-section-head p,
+.oxford-theme .ox-on-white-alt .ox-section-head p { color: var(--ox-slate-soft); }
+.oxford-theme .ox-on-ink .ox-section-head p,
+.oxford-theme .ox-on-ink-deep .ox-section-head p { color: var(--ox-ink-soft); }
+
+.oxford-theme .ox-section-disclaimer {
+  margin: -8px 0 0;
+  font-size: 12.5px;
+  font-style: italic;
+  line-height: 1.6;
+  max-width: 62ch;
+}
+.oxford-theme .ox-on-white .ox-section-disclaimer,
+.oxford-theme .ox-on-white-alt .ox-section-disclaimer { color: var(--ox-slate-faint); }
+.oxford-theme .ox-on-ink .ox-section-disclaimer,
+.oxford-theme .ox-on-ink-deep .ox-section-disclaimer { color: rgba(247, 245, 240, 0.46); }
+
+/* ============================================================
+   CAPABILITIES grid
+   ============================================================ */
+.oxford-theme .ox-cap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--ox-line-on-white);
+  border-left: 1px solid var(--ox-line-on-white);
+  margin-top: clamp(40px, 5vw, 56px);
+}
+.oxford-theme .ox-cap-item {
+  padding: 22px clamp(16px, 2vw, 26px);
+  border-right: 1px solid var(--ox-line-on-white);
+  border-bottom: 1px solid var(--ox-line-on-white);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ox-slate);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.oxford-theme .ox-cap-item svg { color: var(--ox-bronze); flex-shrink: 0; margin-top: 2px; }
+@media (max-width: 820px) { .oxford-theme .ox-cap-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .oxford-theme .ox-cap-grid { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   PROOF — metrics row + Hotel Indigo qualified callout
+   ============================================================ */
+.oxford-theme .ox-metrics {
+  margin-top: clamp(44px, 5vw, 60px);
+  display: flex;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--ox-line-on-white);
+}
+.oxford-theme .ox-metric {
+  flex: 1 1 200px;
+  padding: 26px clamp(14px, 2vw, 28px) 4px 0;
+  border-right: 1px solid var(--ox-line-on-white);
+}
+.oxford-theme .ox-metric:last-child { border-right: none; }
+.oxford-theme .ox-metric .ox-num {
+  font-family: var(--font-luxury-serif), serif; font-weight: 400; letter-spacing: -0.02em;
+  font-size: clamp(1.8rem, 2.8vw, 2.4rem); color: var(--ox-slate); display: block;
+}
+.oxford-theme .ox-metric .ox-lbl { margin-top: 8px; font-size: 11.5px; letter-spacing: 0.05em; color: var(--ox-slate-faint); line-height: 1.5; max-width: 22ch; }
+.oxford-theme .ox-proof-note { margin-top: 20px; font-size: 12px; line-height: 1.7; color: var(--ox-slate-faint); max-width: 68ch; }
+@media (max-width: 900px) { .oxford-theme .ox-metric { flex: 1 1 44%; border-right: none; border-bottom: 1px solid var(--ox-line-on-white); padding-bottom: 16px; } }
+
+.oxford-theme .ox-indigo-card {
+  margin-top: clamp(48px, 5vw, 64px);
+  padding: clamp(28px, 3.5vw, 44px);
+  background: var(--ox-white);
+  border: 1px solid var(--ox-line-on-white);
+  border-left: 3px solid var(--ox-bronze);
+  border-radius: 4px;
+}
+.oxford-theme .ox-indigo-quote {
+  font-family: var(--font-luxury-serif), serif;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  line-height: 1.45;
+  color: var(--ox-slate);
+  margin: 0 0 18px;
+}
+.oxford-theme .ox-indigo-support { font-size: 14px; line-height: 1.75; color: var(--ox-slate-soft); margin: 0 0 16px; max-width: 62ch; }
+.oxford-theme .ox-indigo-name { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ox-slate-faint); margin: 0 0 16px; }
+.oxford-theme .ox-indigo-qualification { font-size: 11px; line-height: 1.7; color: var(--ox-slate-faint); max-width: 68ch; margin: 0; }
+
+/* Ink-background variant, used where the metrics row / Hotel Indigo card
+   sit inside the dark "the work" section instead of a white section. */
+.oxford-theme .ox-metrics-ink { border-top-color: var(--ox-line-on-ink); }
+.oxford-theme .ox-metrics-ink .ox-metric { border-right-color: var(--ox-line-on-ink); }
+.oxford-theme .ox-metrics-ink .ox-num { color: var(--ox-paper); }
+.oxford-theme .ox-metrics-ink .ox-lbl { color: var(--ox-ink-faint); }
+.oxford-theme .ox-work-cinematic .ox-proof-note { color: var(--ox-ink-faint); }
+.oxford-theme .ox-work-cinematic .ox-indigo-card {
+  background: var(--ox-ink-raise);
+  border-color: var(--ox-line-on-ink);
+}
+.oxford-theme .ox-work-cinematic .ox-indigo-quote { color: var(--ox-paper); }
+.oxford-theme .ox-work-cinematic .ox-indigo-support { color: var(--ox-ink-soft); }
+.oxford-theme .ox-work-cinematic .ox-indigo-name,
+.oxford-theme .ox-work-cinematic .ox-indigo-qualification { color: var(--ox-ink-faint); }
+
+/* ============================================================
+   PRICING
+   ============================================================ */
+.oxford-theme .ox-pricing-primary {
+  margin-top: clamp(40px, 5vw, 56px);
+  padding: clamp(32px, 4vw, 48px);
+  color: var(--ox-paper);
+}
+.oxford-theme .ox-pricing-primary-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px 16px; margin-bottom: clamp(24px, 3vw, 32px); }
+.oxford-theme .ox-pricing-primary-head .ox-eyebrow { width: 100%; color: var(--ox-bronze); }
+.oxford-theme .ox-pricing-amount { font-size: clamp(2.4rem, 4.4vw, 3.4rem); font-weight: 400; color: var(--ox-paper); line-height: 1; }
+.oxford-theme .ox-pricing-unit { font-size: 13px; letter-spacing: 0.04em; color: var(--ox-ink-soft); }
+.oxford-theme .ox-pricing-includes {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 28px;
+}
+.oxford-theme .ox-pricing-includes li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.6; color: var(--ox-ink-soft); }
+.oxford-theme .ox-pricing-includes svg { color: var(--ox-bronze); flex-shrink: 0; margin-top: 3px; }
+.oxford-theme .ox-pricing-footnote { margin: 20px 0 0; padding-top: 16px; border-top: 1px solid var(--ox-line-on-ink); font-size: 12px; line-height: 1.6; color: var(--ox-ink-faint); font-style: italic; }
+@media (max-width: 640px) { .oxford-theme .ox-pricing-includes { grid-template-columns: 1fr; } }
+
+.oxford-theme .ox-pricing-tiers {
+  margin-top: clamp(32px, 4vw, 44px);
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 2.6vw, 28px);
+}
+.oxford-theme .ox-pricing-tier { padding: clamp(22px, 2.6vw, 28px); }
+.oxford-theme .ox-pricing-tier .ox-eyebrow { display: block; margin-bottom: 12px; }
+.oxford-theme .ox-pricing-tier h3 { font-size: clamp(1.15rem, 1.8vw, 1.4rem); font-weight: 400; color: var(--ox-slate); margin: 0 0 12px; }
+.oxford-theme .ox-pricing-tier p { font-size: 13.5px; line-height: 1.7; color: var(--ox-slate-soft); margin: 0; }
+.oxford-theme .ox-pricing-sub { list-style: none; margin: 14px 0 0; padding: 0; }
+.oxford-theme .ox-pricing-sub li {
+  font-size: 12.5px; line-height: 1.6; color: var(--ox-slate-faint);
+  padding: 6px 0 6px 14px; position: relative;
+}
+.oxford-theme .ox-pricing-sub li::before { content: ""; position: absolute; left: 0; top: 14px; width: 5px; height: 1px; background: var(--ox-bronze-line); }
+@media (max-width: 820px) { .oxford-theme .ox-pricing-tiers { grid-template-columns: 1fr; } }
+
+.oxford-theme .ox-pricing-note {
+  margin-top: clamp(32px, 4vw, 44px); padding-top: 20px; border-top: 1px solid var(--ox-line-on-white);
+  font-size: 12.5px; line-height: 1.7; color: var(--ox-slate-faint); font-style: italic; max-width: 68ch;
+}
+
+/* ============================================================
+   WORKFLOW — four-step row
+   ============================================================ */
+.oxford-theme .ox-workflow-cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 2vw, 22px);
+  margin-top: clamp(40px, 5vw, 56px);
+}
+.oxford-theme .ox-workflow-col { position: relative; padding: clamp(22px, 2.4vw, 28px); }
+.oxford-theme .ox-workflow-col .ox-idx {
+  font-family: var(--font-luxury-serif), serif; font-size: clamp(1.3rem, 2vw, 1.7rem); color: var(--ox-bronze);
+  display: block; margin-bottom: 14px;
+}
+.oxford-theme .ox-workflow-col h3 { font-family: var(--font-luxury-serif), serif; font-weight: 400; font-size: 17px; margin: 0 0 10px; color: var(--ox-slate); line-height: 1.3; }
+.oxford-theme .ox-workflow-col p { font-size: 13.5px; line-height: 1.65; color: var(--ox-slate-soft); margin: 0; }
+/* Fine connector between steps, same restrained language as the process
+   strip above the video work -- not a dense bordered grid. */
+.oxford-theme .ox-workflow-col:not(:last-child)::after {
+  content: "\2192";
+  position: absolute; top: 50%; right: clamp(-19px, -2.1vw, -15px); transform: translateY(-50%);
+  color: var(--ox-bronze-soft); font-size: 14px; z-index: 1;
+}
+.oxford-theme .ox-workflow-note {
+  margin-top: clamp(32px, 4vw, 44px); padding-top: 20px; border-top: 1px solid var(--ox-line-on-white);
+  font-size: 13.5px; line-height: 1.7; color: var(--ox-slate-soft); font-style: italic; max-width: 62ch;
+}
+@media (max-width: 820px) {
+  .oxford-theme .ox-workflow-cols { grid-template-columns: 1fr 1fr; }
+  .oxford-theme .ox-workflow-col:not(:last-child)::after { display: none; }
+}
+@media (max-width: 560px) { .oxford-theme .ox-workflow-cols { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   ROLLOUT
+   ============================================================ */
+.oxford-theme .ox-pilot-copy { font-size: 15px; line-height: 1.8; color: var(--ox-ink-soft); max-width: 62ch; margin: 0; }
+
+.oxford-theme .ox-rollout-choices {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+  margin-top: clamp(36px, 4.5vw, 52px);
+  border-top: 1px solid var(--ox-line-on-ink);
+  border-left: 1px solid var(--ox-line-on-ink);
+}
+.oxford-theme .ox-rollout-choice {
+  display: flex; align-items: center; gap: 12px;
+  padding: 22px clamp(16px, 2vw, 26px);
+  border-right: 1px solid var(--ox-line-on-ink);
+  border-bottom: 1px solid var(--ox-line-on-ink);
+  font-family: var(--font-luxury-serif), serif; font-size: 15.5px; color: var(--ox-paper);
+}
+.oxford-theme .ox-rollout-choice svg { color: var(--ox-bronze); flex-shrink: 0; }
+@media (max-width: 820px) { .oxford-theme .ox-rollout-choices { grid-template-columns: 1fr; } }
+
+.oxford-theme .ox-pilot-note {
+  margin-top: clamp(32px, 4vw, 44px); padding-top: 20px; border-top: 1px solid var(--ox-line-on-ink);
+  font-size: 13px; line-height: 1.7; color: var(--ox-ink-faint); font-style: italic; max-width: 62ch;
+}
+
+/* ============================================================
+   FINAL CTA
+   ============================================================ */
+.oxford-theme .ox-cta { min-height: 62vh; display: flex; align-items: center; }
+.oxford-theme .ox-cta-inner { width: 100%; text-align: center; }
+.oxford-theme .ox-cta-panel {
+  width: min(100%, 780px);
+  margin: 0 auto;
+  padding: clamp(40px, 5vw, 64px) clamp(28px, 4vw, 56px);
+}
+.oxford-theme .ox-cta h2 {
+  font-size: clamp(1.9rem, 4.2vw, 3.1rem); font-weight: 400; color: var(--ox-paper); margin: 0 auto 22px; max-width: 24ch; line-height: 1.2;
+}
+.oxford-theme .ox-cta p { font-size: 16px; line-height: 1.85; color: rgba(247, 245, 240, 0.72); max-width: 58ch; margin: 0 auto 36px; }
+.oxford-theme .ox-cta-actions { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.oxford-theme .ox-cta-links-row { display: flex; gap: 22px; flex-wrap: wrap; justify-content: center; align-items: center; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.oxford-theme .ox-footer { border-top: 1px solid var(--ox-line-on-ink); padding: 28px 0; }
+.oxford-theme .ox-footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+.oxford-theme .ox-footer-word { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ox-ink-faint); }
+.oxford-theme .ox-footer-note { font-size: 11px; color: var(--ox-ink-faint); letter-spacing: 0.02em; text-align: right; line-height: 1.6; }
