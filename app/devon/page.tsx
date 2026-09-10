@@ -66,7 +66,7 @@ const builds = [
     title: "Baseten Inference Lab",
     category: "Design engineering / AI infrastructure",
     description:
-      "An independent design-engineering concept for Baseten that turns a model request into a visible five-stage experience — Request, Prepare, Route, Compute, Respond — then carries the idea through responsive implementation and deployment.",
+      "An independent design-engineering concept for Baseten that turns a model request into a visible five-step experience — Request, Prepare, Route, Compute, Respond — then carries the idea through responsive implementation and deployment.",
     image: "/devon/projects/baseten-inference-lab.png",
     href: "https://baseten-inference-lab.vercel.app/",
     cta: "View live build",
@@ -97,10 +97,10 @@ export default function DevonCreativeTechnologistPage() {
             DA
           </a>
           <nav>
+            <a href="#builds">Builds</a>
             <a href="#archer">Studio</a>
             <a href="#motion">Motion</a>
             <a href="#graphics">Creative</a>
-            <a href="#builds">Builds</a>
           </nav>
           <span className="rz-copyright">© 2026 DEVON ARCHER</span>
         </div>
@@ -121,7 +121,7 @@ export default function DevonCreativeTechnologistPage() {
               and rough concepts to working experiences in production.
             </p>
             <div className="rz-actions">
-              <a href="#archer" className="rz-btn rz-btn-primary">
+              <a href="#builds" className="rz-btn rz-btn-primary">
                 Explore the work <ArrowDownRight size={16} aria-hidden="true" />
               </a>
               <a href="mailto:heydevon@gmail.com" className="rz-btn rz-btn-outline">
@@ -133,7 +133,7 @@ export default function DevonCreativeTechnologistPage() {
           <div className="rz-hero-portrait" aria-label="Portrait of Devon Archer">
             <div className="rz-portrait-art" aria-hidden="true">
               <Image
-                src="/tcrm/images/hampton-inn-greensburg-elements-floating-sound-bath.png"
+                src="/tcrm/images/hotel-indigo-pittsburgh-room-collage.png"
                 alt=""
                 fill
                 sizes="(min-width: 900px) 30vw, 80vw"
@@ -156,6 +156,56 @@ export default function DevonCreativeTechnologistPage() {
           </div>
         </section>
 
+        <section className="rz-section rz-builds" id="builds">
+          <div className="rz-section-head">
+            <div>
+              <div className="rz-section-number">01 / BUILDS</div>
+              <p className="rz-kicker">PRODUCT UX / DESIGN ENGINEERING / AI</p>
+              <h2>Working products, not portfolio-only mockups.</h2>
+            </div>
+            <p>
+              I move between interface design, code, states, QA, and deployment so ideas can become real
+              experiences quickly. These projects show the product thinking and technical depth behind the
+              visual craft.
+            </p>
+          </div>
+
+          <div className="rz-build-list">
+            {builds.map((build) => (
+              <article className="rz-build" key={build.title}>
+                <a className="rz-build-image" href={build.href} target="_blank" rel="noreferrer">
+                  <Image src={build.image} alt={`${build.title} website`} fill sizes="(min-width: 900px) 48vw, 94vw" />
+                </a>
+                <div className="rz-build-copy">
+                  <span className="rz-build-index">{build.index}</span>
+                  <p className="rz-kicker">{build.category}</p>
+                  <h3>{build.title}</h3>
+                  <p>{build.description}</p>
+                  <div className="rz-tags">
+                    {build.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                  </div>
+                  <a className="rz-text-link inverse" href={build.href} target="_blank" rel="noreferrer">
+                    {build.cta} <ArrowUpRight size={15} aria-hidden="true" />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="rz-system-links">
+            <a href="/devon/auto">
+              <Code2 size={17} aria-hidden="true" />
+              <span><strong>Auto Creative OS</strong><small>Production system / Next.js / TypeScript</small></span>
+              <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+            <a href="/hotel-creative-scorecard">
+              <Sparkles size={17} aria-hidden="true" />
+              <span><strong>Hotel Creative Scorecard</strong><small>AI website analysis / structured output</small></span>
+              <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+          </div>
+        </section>
+
         <section className="rz-proof" aria-label="Selected proof points">
           <div><strong>14.8M+</strong><span>tracked campaign impressions</span></div>
           <div><strong>565K+</strong><span>direct engagements</span></div>
@@ -164,7 +214,7 @@ export default function DevonCreativeTechnologistPage() {
         </section>
 
         <section className="rz-studio" id="archer">
-          <div className="rz-section-number">01 / ARCHER DESIGN</div>
+          <div className="rz-section-number">02 / ARCHER DESIGN</div>
           <div className="rz-studio-copy">
             <p className="rz-kicker dark">INDEPENDENT CREATIVE STUDIO</p>
             <h2>Creative direction with production muscle.</h2>
@@ -213,7 +263,7 @@ export default function DevonCreativeTechnologistPage() {
         <section className="rz-section rz-motion" id="motion">
           <div className="rz-section-head">
             <div>
-              <div className="rz-section-number">02 / MOTION</div>
+              <div className="rz-section-number">03 / MOTION</div>
               <p className="rz-kicker">GENERATIVE R&D / EDITING / STORYTELLING</p>
               <h2>Motion that starts with the shot, not the tool.</h2>
             </div>
@@ -236,7 +286,7 @@ export default function DevonCreativeTechnologistPage() {
         <section className="rz-section rz-graphics" id="graphics">
           <div className="rz-section-head light">
             <div>
-              <div className="rz-section-number">03 / CREATIVE</div>
+              <div className="rz-section-number">04 / CREATIVE</div>
               <p className="rz-kicker dark">GRAPHICS / CAMPAIGNS / ART DIRECTION</p>
               <h2>Brand work built for real campaigns.</h2>
             </div>
@@ -259,55 +309,6 @@ export default function DevonCreativeTechnologistPage() {
           <div className="rz-more-row dark-row">
             <a className="rz-btn rz-btn-dark" href="/">
               See more Archer Design work <ArrowUpRight size={15} aria-hidden="true" />
-            </a>
-          </div>
-        </section>
-
-        <section className="rz-section rz-builds" id="builds">
-          <div className="rz-section-head">
-            <div>
-              <div className="rz-section-number">04 / BUILDS</div>
-              <p className="rz-kicker">PRODUCT UX / DESIGN ENGINEERING / AI</p>
-              <h2>Interfaces I stayed with until they worked.</h2>
-            </div>
-            <p>
-              Product and systems work lives here — lower in the story, where it can prove the technical depth
-              without taking over the first impression. These are working builds, not static case-study mockups.
-            </p>
-          </div>
-
-          <div className="rz-build-list">
-            {builds.map((build) => (
-              <article className="rz-build" key={build.title}>
-                <a className="rz-build-image" href={build.href} target="_blank" rel="noreferrer">
-                  <Image src={build.image} alt={`${build.title} website`} fill sizes="(min-width: 900px) 48vw, 94vw" />
-                </a>
-                <div className="rz-build-copy">
-                  <span className="rz-build-index">{build.index}</span>
-                  <p className="rz-kicker">{build.category}</p>
-                  <h3>{build.title}</h3>
-                  <p>{build.description}</p>
-                  <div className="rz-tags">
-                    {build.tags.map((tag) => <span key={tag}>{tag}</span>)}
-                  </div>
-                  <a className="rz-text-link inverse" href={build.href} target="_blank" rel="noreferrer">
-                    {build.cta} <ArrowUpRight size={15} aria-hidden="true" />
-                  </a>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div className="rz-system-links">
-            <a href="/devon/auto">
-              <Code2 size={17} aria-hidden="true" />
-              <span><strong>Auto Creative OS</strong><small>Production system / Next.js / TypeScript</small></span>
-              <ArrowUpRight size={16} aria-hidden="true" />
-            </a>
-            <a href="/hotel-creative-scorecard">
-              <Sparkles size={17} aria-hidden="true" />
-              <span><strong>Hotel Creative Scorecard</strong><small>AI website analysis / structured output</small></span>
-              <ArrowUpRight size={16} aria-hidden="true" />
             </a>
           </div>
         </section>
