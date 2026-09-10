@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 
 const SUSHI_STORY_SRC =
   "https://j8byvflzmlnitcvt.public.blob.vercel-storage.com/tcrm-motion/Sushi-b6e99999.mp4";
-const PREMIUM_STAGE_SRC = "/tcrm/videos/Baker.mp4";
+const PREMIUM_STAGE_SRC = "/tcrm/videos/food.mp4";
 
 const extraMotion = [
   { src: "/tcrm/videos/pancake-pour.mp4", label: "Pancake motion" },
@@ -35,7 +35,7 @@ export function CootohExtraMotion() {
     // Lead with the human chef/plating moment rather than the stylized red sushi.
     swapVideo(".cootoh-hero-video", "/infuse/videos/chef-plating.mp4", true);
 
-    // Give the premium chef launch panel its own food-focused motion not used elsewhere on the page.
+    // Use a food-only motion clip in the premium chef launch panel.
     swapVideo(".cootoh-output-stage video", PREMIUM_STAGE_SRC);
 
     // Use the chef lifting sushi with chopsticks for the full-bleed visual-story beat.
