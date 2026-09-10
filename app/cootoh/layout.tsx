@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./cootoh.css";
+import { CootohExtraMotion } from "./CootohExtraMotion";
 
 export const metadata: Metadata = {
   title: "Cootoh × Archer Design | Premium Chef Launch System",
@@ -10,5 +11,10 @@ export const metadata: Metadata = {
 };
 
 export default function CootohLayout({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <CootohExtraMotion />
+    </>
+  );
 }
