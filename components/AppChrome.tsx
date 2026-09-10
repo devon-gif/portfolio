@@ -105,7 +105,10 @@ const AUTH_ROUTES = ["/login", "/auth/callback"];
 // "/rcc" is the RCC Hospitality Consulting × Archer Design private working
 // partnership concept prepared for Rachel Cimino — noindex, never linked
 // from nav/sitemap/footer, direct URL only.
-const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/devon", "/review", "/topline", "/george", "/emma", "/vision", "/tcrm", "/oxford", "/first-hospitality", "/pyramid", "/bridgetown", "/hotel-commercial-growth", "/grant-hospitality", "/jacaruso", "/clientconcierge", "/commercial-growth", "/cana", "/rcc"];
+// "/cootoh" is the Cootoh × Archer Design private premium-chef launch
+// concept prepared for Jarrett Applewhite — noindex, never linked from the
+// main site navigation, direct URL only.
+const PUBLIC_PREFIXES = ["/unsubscribe", "/social-media-work", "/devon", "/review", "/topline", "/george", "/emma", "/vision", "/tcrm", "/oxford", "/first-hospitality", "/pyramid", "/bridgetown", "/hotel-commercial-growth", "/grant-hospitality", "/jacaruso", "/clientconcierge", "/commercial-growth", "/cana", "/rcc", "/cootoh"];
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_ROUTES.includes(pathname) || AUTH_ROUTES.includes(pathname)) return true;
