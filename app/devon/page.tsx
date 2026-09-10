@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArrowDownRight, ArrowUpRight, Mail, Play } from "lucide-react";
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  Code2,
+  Mail,
+  Play,
+  Sparkles,
+} from "lucide-react";
 import { absoluteUrl } from "@/lib/seo";
+import { DevonMotionSlideshow } from "./components/DevonMotionSlideshow";
 
-const PAGE_TITLE = "Devon Archer — Design Engineer & Creative Technologist";
+const PAGE_TITLE = "Devon Archer — Creative Technologist & Design Engineer";
 const PAGE_DESCRIPTION =
-  "Design engineering and creative technology portfolio spanning AI products, web experiences, motion, production systems, and shipped creative.";
+  "Portfolio of Devon Archer: product UX, AI-assisted frontend development, motion, brand systems, and creative production.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -19,302 +27,299 @@ export const metadata: Metadata = {
   },
 };
 
-const work = [
+const graphicWork = [
   {
     src: "/tcrm/images/hotel-indigo-pittsburgh-room-collage.png",
-    alt: "Hotel Indigo Pittsburgh campaign work",
+    alt: "Hotel Indigo Pittsburgh campaign design",
     label: "Hospitality campaign system",
   },
   {
-    src: "/tcrm/images/eliza-hot-metal-bistro-live-music-series.png",
-    alt: "Eliza Hot Metal Bistro live music campaign",
-    label: "Event creative",
+    src: "/tcrm/images/eliza-hot-metal-bistro-hotel-indigo-share-the-love.png",
+    alt: "Hotel Indigo and Eliza Hot Metal Bistro campaign",
+    label: "Campaign art direction",
+  },
+  {
+    src: "/tcrm/images/hampton-inn-greensburg-elements-floating-sound-bath.png",
+    alt: "Floating sound bath campaign for Hampton Inn Greensburg",
+    label: "Event campaign",
+  },
+  {
+    src: "/tcrm/images/eliza-hot-metal-bistro-burgers-poster.png",
+    alt: "Eliza Hot Metal Bistro burger poster",
+    label: "Food & beverage creative",
   },
   {
     src: "/tcrm/images/hampton-inn-johnstown-flood-city-music-festival.png",
-    alt: "Hampton Inn Johnstown local event campaign",
+    alt: "Hampton Inn Johnstown Flood City Music Festival design",
     label: "Local demand campaign",
   },
   {
     src: "/tcrm/images/minty-fresh-beverage-art-direction.png",
     alt: "Minty Fresh beverage art direction",
-    label: "Art direction",
-  },
-  {
-    src: "/tcrm/images/hotel-indigo-pittsburgh-wedding-room-block.png",
-    alt: "Hotel Indigo Pittsburgh wedding room block campaign",
-    label: "Group sales creative",
-  },
-  {
-    src: "/tcrm/images/eliza-hot-metal-bistro-holiday-billboard.png",
-    alt: "Eliza Hot Metal Bistro holiday billboard",
-    label: "Campaign adaptation",
+    label: "Art direction / concept",
   },
 ];
 
-const tools = [
-  "Figma",
-  "Next.js",
-  "TypeScript",
-  "Tailwind",
-  "Supabase",
-  "Vercel",
-  "GitHub",
-  "Claude",
-  "ChatGPT / Codex",
-  "Adobe Creative Suite",
-  "After Effects",
-  "Premiere Pro",
-  "Runway",
-  "Seedance",
-  "Flux",
+const builds = [
+  {
+    index: "01",
+    title: "Baseten Inference Lab",
+    category: "Design engineering / AI infrastructure",
+    description:
+      "An independent design-engineering concept for Baseten that turns a model request into a visible five-stage experience — Request, Prepare, Route, Compute, Respond — then carries the idea through responsive implementation and deployment.",
+    image: "/devon/projects/baseten-inference-lab.png",
+    href: "https://baseten-inference-lab.vercel.app/",
+    cta: "View live build",
+    tags: ["Next.js", "TypeScript", "Responsive UI", "Vercel"],
+  },
+  {
+    index: "02",
+    title: "CheckRay",
+    category: "Trust UX / AI product",
+    description:
+      "A live AI-assisted risk product for suspicious texts, links, jobs, bills, and emails. The interface turns model interpretation and deterministic guardrails into clear next steps without hiding uncertainty or removing human judgment.",
+    image: "/devon/projects/checkray-home.png",
+    href: "https://checkray.app",
+    cta: "Open CheckRay",
+    tags: ["AI product", "UX/UI", "Next.js", "Supabase", "Evaluation"],
+  },
 ];
 
-function TagList({ items }: { items: string[] }) {
-  return <div className="rz-tags">{items.map((item) => <span key={item}>{item}</span>)}</div>;
-}
-
-export default function DevonPortfolio() {
+export default function DevonCreativeTechnologistPage() {
   return (
-    <div className="rz-page" id="top">
+    <div className="realiz-page">
       <aside className="rz-rail" aria-label="Portfolio navigation">
-        <div className="rz-rail-strip"><span>Design — AI — Motion — Code — Systems</span></div>
+        <div className="rz-rail-accent">
+          <span>DESIGN — MOTION — CODE — SYSTEMS</span>
+        </div>
         <div className="rz-rail-main">
-          <a className="rz-monogram" href="#top" aria-label="Back to top">DA</a>
-          <nav className="rz-rail-links">
-            <a href="#work">Work</a>
+          <a className="rz-mark" href="#top" aria-label="Back to top">
+            DA
+          </a>
+          <nav>
+            <a href="#archer">Studio</a>
             <a href="#motion">Motion</a>
-            <a href="#creative">Creative</a>
+            <a href="#graphics">Creative</a>
+            <a href="#builds">Builds</a>
           </nav>
-          <span className="rz-rail-copy">© 2026 Devon Archer</span>
+          <span className="rz-copyright">© 2026 DEVON ARCHER</span>
         </div>
       </aside>
 
-      <div className="rz-main">
-        <header className="rz-mobile-nav">
-          <strong>Devon Archer</strong>
-          <nav><a href="#work">Work</a><a href="mailto:heydevon@gmail.com">Contact</a></nav>
-        </header>
-
-        <main>
-          <section className="rz-hero">
-            <div className="rz-shell rz-hero-grid">
-              <div>
-                <p className="rz-kicker">Design engineer / creative technologist</p>
-                <h1 className="rz-title">Design that<em>ships.</em></h1>
-                <p className="rz-intro">
-                  I start with the interface, stay with the system, and carry the work through implementation.
-                  My work spans product UX, AI-assisted frontend development, brand systems, motion, and creative
-                  production — from Figma and rough concepts to working experiences in production.
-                </p>
-                <div className="rz-actions">
-                  <a className="rz-btn" href="#work">Selected work <ArrowDownRight size={15} /></a>
-                  <a className="rz-btn-ghost" href="mailto:heydevon@gmail.com">Get in touch <Mail size={14} /></a>
-                </div>
-              </div>
-
-              <div className="rz-hero-media" aria-label="Selected work montage">
-                <a className="rz-frame rz-frame-a" href="https://baseten-inference-lab.vercel.app/" target="_blank" rel="noreferrer">
-                  <Image src="/devon/projects/baseten-inference-lab.png" alt="Baseten Inference Lab concept" fill sizes="(max-width: 780px) 80vw, 44vw" priority />
-                  <span className="rz-frame-tag">Baseten / design engineering</span>
-                </a>
-                <a className="rz-frame rz-frame-b" href="https://checkray.app" target="_blank" rel="noreferrer">
-                  <Image src="/devon/projects/checkray-home.png" alt="CheckRay AI risk product" fill sizes="(max-width: 780px) 70vw, 36vw" priority />
-                  <span className="rz-frame-tag">CheckRay / AI product</span>
-                </a>
-                <a className="rz-frame rz-frame-c" href="/devon/motion">
-                  <video src="/tcrm/videos/fall-to-winter-timelapse.mp4" autoPlay muted loop playsInline preload="metadata" />
-                  <span className="rz-frame-tag">Motion R&amp;D</span>
-                </a>
-              </div>
+      <main className="rz-main" id="top">
+        <section className="rz-hero">
+          <div className="rz-hero-copy">
+            <p className="rz-kicker">DEVON ARCHER / CREATIVE TECHNOLOGIST</p>
+            <h1>
+              <span>DESIGN.</span>
+              <span>BUILD.</span>
+              <em>SHIP.</em>
+            </h1>
+            <p className="rz-lead">
+              I start with the experience and stay with the work through implementation. My work spans product
+              UX, AI-assisted frontend development, brand systems, motion, and creative production — from Figma
+              and rough concepts to working experiences in production.
+            </p>
+            <div className="rz-actions">
+              <a href="#archer" className="rz-btn rz-btn-primary">
+                Explore the work <ArrowDownRight size={16} aria-hidden="true" />
+              </a>
+              <a href="mailto:heydevon@gmail.com" className="rz-btn rz-btn-outline">
+                Get in touch <Mail size={15} aria-hidden="true" />
+              </a>
             </div>
-          </section>
-
-          <section className="rz-index" aria-label="Selected proof points">
-            <div className="rz-shell rz-index-grid">
-              <div className="rz-stat"><strong>14.8M+</strong><span>Tracked impressions</span></div>
-              <div className="rz-stat"><strong>565K+</strong><span>Direct engagements</span></div>
-              <div className="rz-stat"><strong>5+</strong><span>Years design + digital</span></div>
-              <div className="rz-stat"><strong>Live</strong><span>Products, not mockups</span></div>
-            </div>
-          </section>
-
-          <section className="rz-section" id="work">
-            <div className="rz-shell">
-              <div className="rz-section-head">
-                <div>
-                  <p className="rz-eyebrow">Selected work / design → code</p>
-                  <h2>Working systems with visual judgment.</h2>
-                </div>
-                <p>
-                  The strongest thread across my work is ownership. I define the experience, prototype it,
-                  build enough of the interface to make the idea real, then keep refining the details that
-                  separate “works” from “good.”
-                </p>
-              </div>
-
-              <div className="rz-projects">
-                <article className="rz-project">
-                  <div className="rz-project-num">01 / AI INFRASTRUCTURE</div>
-                  <div className="rz-project-copy">
-                    <p className="rz-eyebrow">Independent Baseten concept</p>
-                    <h3>Baseten Inference Lab</h3>
-                    <p>
-                      A developer-facing design-engineering concept that turns a model request into a visible
-                      five-stage experience: Request → Prepare → Route → Compute → Respond. I designed the visual
-                      system, product narrative, interaction states, and responsive experience, then shipped it on Vercel.
-                    </p>
-                    <TagList items={["Next.js", "TypeScript", "Responsive UI", "Technical storytelling", "Vercel"]} />
-                    <a className="rz-project-link" href="https://baseten-inference-lab.vercel.app/" target="_blank" rel="noreferrer">View live build <ArrowUpRight size={14} /></a>
-                  </div>
-                  <a className="rz-project-media" href="https://baseten-inference-lab.vercel.app/" target="_blank" rel="noreferrer">
-                    <Image src="/devon/projects/baseten-inference-lab.png" alt="Baseten Inference Lab homepage" fill sizes="(max-width: 1100px) 78vw, 44vw" />
-                  </a>
-                </article>
-
-                <article className="rz-project">
-                  <div className="rz-project-num">02 / TRUST UX</div>
-                  <div className="rz-project-copy">
-                    <p className="rz-eyebrow">Live AI product</p>
-                    <h3>CheckRay</h3>
-                    <p>
-                      An AI-assisted risk product for suspicious texts, links, bills, jobs, and emails. The UX
-                      turns probabilistic model interpretation, deterministic guardrails, confidence, and safer
-                      next steps into something clear enough to use under uncertainty.
-                    </p>
-                    <TagList items={["AI product", "UX/UI", "Next.js", "Supabase", "Evaluation"]} />
-                    <a className="rz-project-link" href="https://checkray.app" target="_blank" rel="noreferrer">Open CheckRay <ArrowUpRight size={14} /></a>
-                  </div>
-                  <a className="rz-project-media" href="https://checkray.app" target="_blank" rel="noreferrer">
-                    <Image src="/devon/projects/checkray-home.png" alt="CheckRay homepage" fill sizes="(max-width: 1100px) 78vw, 44vw" />
-                  </a>
-                </article>
-
-                <article className="rz-project">
-                  <div className="rz-project-num">03 / CREATIVE SYSTEMS</div>
-                  <div className="rz-project-copy">
-                    <p className="rz-eyebrow">Production workflow prototype</p>
-                    <h3>Auto Creative OS</h3>
-                    <p>
-                      A system for turning one approved campaign into repeatable creative across placement
-                      families without flattening hierarchy. The workflow models semantic creative roles,
-                      validation states, review, and export instead of relying on blind resizing.
-                    </p>
-                    <TagList items={["Next.js", "TypeScript", "Canvas", "PSD ingestion", "42 tests"]} />
-                    <a className="rz-project-link" href="/devon/auto">Open system <ArrowUpRight size={14} /></a>
-                  </div>
-                  <a className="rz-project-media" href="/devon/auto">
-                    <div className="rz-system-visual" aria-label="Auto Creative OS workflow">
-                      <div className="rz-system-bar"><span>Auto Creative OS / production pipeline</span><span className="rz-dots"><i /><i /><i /></span></div>
-                      <div className="rz-system-row"><b>01 SOURCE</b><span>Ingest approved master</span><em>Ready</em></div>
-                      <div className="rz-system-row"><b>02 MAP</b><span>Assign semantic roles</span><em>Mapped</em></div>
-                      <div className="rz-system-row"><b>03 COMPOSE</b><span>Recompose placements</span><em>Built</em></div>
-                      <div className="rz-system-row"><b>04 REVIEW</b><span>Run production constraints</span><em>Warning</em></div>
-                      <div className="rz-system-row"><b>05 EXPORT</b><span>Ship reviewed output</span><em>Human OK</em></div>
-                    </div>
-                  </a>
-                </article>
-
-                <article className="rz-project">
-                  <div className="rz-project-num">04 / AI ANALYSIS</div>
-                  <div className="rz-project-copy">
-                    <p className="rz-eyebrow">Working web analysis tool</p>
-                    <h3>Hotel Creative Scorecard</h3>
-                    <p>
-                      A structured website-audit flow that gathers bounded evidence from public pages, runs AI
-                      analysis, returns a strict scorecard, and keeps confidence and fallback states explicit
-                      when the available evidence is incomplete.
-                    </p>
-                    <TagList items={["AI analysis", "Structured output", "UX", "Web tooling", "Human review"]} />
-                    <a className="rz-project-link" href="/hotel-creative-scorecard">Open scorecard <ArrowUpRight size={14} /></a>
-                  </div>
-                  <a className="rz-project-media" href="/hotel-creative-scorecard">
-                    <div className="rz-system-visual">
-                      <div className="rz-system-bar"><span>Creative scorecard / evidence flow</span><span className="rz-dots"><i /><i /><i /></span></div>
-                      <div className="rz-system-row"><b>01 FETCH</b><span>Public website evidence</span><em>Input</em></div>
-                      <div className="rz-system-row"><b>02 EXTRACT</b><span>Usable text + signals</span><em>Bounded</em></div>
-                      <div className="rz-system-row"><b>03 ANALYZE</b><span>AI assessment</span><em>Model</em></div>
-                      <div className="rz-system-row"><b>04 SCORE</b><span>Structured JSON result</span><em>Schema</em></div>
-                      <div className="rz-system-row"><b>05 REVIEW</b><span>Confidence + next steps</span><em>Human</em></div>
-                    </div>
-                  </a>
-                </article>
-              </div>
-            </div>
-          </section>
-
-          <section className="rz-section rz-motion" id="motion">
-            <div className="rz-shell">
-              <div className="rz-section-head">
-                <div>
-                  <p className="rz-eyebrow">Motion / generative R&amp;D</p>
-                  <h2>Start with the shot, not the model.</h2>
-                </div>
-                <p>
-                  I use generative video as a production tool: define the intended shot, test movement and
-                  continuity, inspect artifacts, select the strongest output, then finish with traditional
-                  editing and design tools.
-                </p>
-              </div>
-              <div className="rz-motion-grid">
-                <a className="rz-video large" href="/devon/motion">
-                  <video src="/tcrm/videos/luxury-hotel-entrance-night-concept.mp4" autoPlay muted loop playsInline preload="metadata" />
-                  <span className="rz-video-label"><Play size={11} /> AI motion R&amp;D</span>
-                </a>
-                <div className="rz-motion-stack">
-                  <a className="rz-video" href="/devon/motion"><video src="/tcrm/videos/courtyard-couple.mp4" autoPlay muted loop playsInline preload="metadata" /><span className="rz-video-label">Character + environment</span></a>
-                  <a className="rz-video" href="/devon/motion"><video src="/tcrm/videos/fall-to-winter-timelapse.mp4" autoPlay muted loop playsInline preload="metadata" /><span className="rz-video-label">Transition study</span></a>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section className="rz-section" id="creative">
-            <div className="rz-shell">
-              <div className="rz-section-head">
-                <div>
-                  <p className="rz-eyebrow">Creative production</p>
-                  <h2>Systems underneath. Taste on the surface.</h2>
-                </div>
-                <p>
-                  My technical work grew out of real production: brand systems, hospitality campaigns, social,
-                  motion, events, F&amp;B, and client delivery. The point of the system is still the output.
-                </p>
-              </div>
-              <div className="rz-creative-grid">
-                {work.map((item) => (
-                  <div className="rz-work" key={item.src}>
-                    <Image src={item.src} alt={item.alt} fill sizes="(max-width: 780px) 100vw, 50vw" />
-                    <span>{item.label}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="rz-tools">{tools.map((tool) => <span key={tool}>{tool}</span>)}</div>
-            </div>
-          </section>
-
-          <section className="rz-contact">
-            <div className="rz-shell rz-contact-grid">
-              <div>
-                <p className="rz-eyebrow">Available for the right design + technology team</p>
-                <h2>Make it real.</h2>
-                <p>
-                  I am interested in design engineering, creative technology, AI product design, and roles where
-                  the person shaping the experience can stay close enough to the implementation to improve what ships.
-                </p>
-              </div>
-              <a href="mailto:heydevon@gmail.com">heydevon@gmail.com <ArrowUpRight size={15} /></a>
-            </div>
-          </section>
-        </main>
-
-        <footer className="rz-footer">
-          <div className="rz-shell rz-footer-inner">
-            <span>Devon Archer / Design Engineer + Creative Technologist</span>
-            <span>Salt Lake City, Utah / Remote</span>
           </div>
-        </footer>
-      </div>
+
+          <div className="rz-hero-portrait" aria-label="Portrait of Devon Archer">
+            <div className="rz-portrait-art" aria-hidden="true">
+              <Image
+                src="/tcrm/images/hampton-inn-greensburg-elements-floating-sound-bath.png"
+                alt=""
+                fill
+                sizes="(min-width: 900px) 30vw, 80vw"
+              />
+            </div>
+            <div className="rz-portrait-frame">
+              <Image
+                src="/infuse/brand/devon-archer-portrait.png"
+                alt="Devon Archer"
+                fill
+                priority
+                sizes="(min-width: 900px) 34vw, 84vw"
+              />
+            </div>
+            <div className="rz-portrait-label">
+              <span>DEVON ARCHER</span>
+              <small>UX / BRAND / AI / MOTION</small>
+            </div>
+            <div className="rz-orbit-note">Designer first. Builder when the idea needs to become real.</div>
+          </div>
+        </section>
+
+        <section className="rz-proof" aria-label="Selected proof points">
+          <div><strong>14.8M+</strong><span>tracked campaign impressions</span></div>
+          <div><strong>565K+</strong><span>direct engagements</span></div>
+          <div><strong>5+ yrs</strong><span>designing and shipping</span></div>
+          <div><strong>Live</strong><span>products, not portfolio-only mockups</span></div>
+        </section>
+
+        <section className="rz-studio" id="archer">
+          <div className="rz-section-number">01 / ARCHER DESIGN</div>
+          <div className="rz-studio-copy">
+            <p className="rz-kicker dark">INDEPENDENT CREATIVE STUDIO</p>
+            <h2>Creative direction with production muscle.</h2>
+            <p>
+              Archer Design is my independent studio for hospitality, restaurants, startups, and digital
+              products. I work across brand systems, campaign creative, motion, landing pages, product visuals,
+              and AI-assisted production — giving clients senior-level creative thinking without separating the
+              idea from the execution.
+            </p>
+            <p>
+              The through-line is simple: make the work distinctive, make it usable, and make sure it actually
+              ships.
+            </p>
+            <a className="rz-text-link" href="/">
+              Visit Archer Design <ArrowUpRight size={15} aria-hidden="true" />
+            </a>
+          </div>
+          <div className="rz-studio-mosaic">
+            <div className="rz-mosaic-large">
+              <Image
+                src="/tcrm/images/eliza-hot-metal-bistro-hotel-indigo-share-the-love.png"
+                alt="Selected Archer Design campaign artwork"
+                fill
+                sizes="(min-width: 900px) 36vw, 90vw"
+              />
+            </div>
+            <div className="rz-mosaic-small top">
+              <Image
+                src="/tcrm/images/minty-fresh-beverage-art-direction.png"
+                alt="Selected Archer Design art direction"
+                fill
+                sizes="(min-width: 900px) 18vw, 45vw"
+              />
+            </div>
+            <div className="rz-mosaic-small bottom">
+              <Image
+                src="/tcrm/images/eliza-hot-metal-bistro-burgers-poster.png"
+                alt="Selected Archer Design food and beverage poster"
+                fill
+                sizes="(min-width: 900px) 18vw, 45vw"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section className="rz-section rz-motion" id="motion">
+          <div className="rz-section-head">
+            <div>
+              <div className="rz-section-number">02 / MOTION</div>
+              <p className="rz-kicker">GENERATIVE R&D / EDITING / STORYTELLING</p>
+              <h2>Motion that starts with the shot, not the tool.</h2>
+            </div>
+            <p>
+              Generative motion, cinematic experiments, hospitality promos, and branded edits. I define the
+              intended shot, test movement and continuity, select the strongest result, then finish with
+              traditional editing and design craft.
+            </p>
+          </div>
+
+          <DevonMotionSlideshow showFullLibraryLink={false} />
+
+          <div className="rz-more-row">
+            <a className="rz-btn rz-btn-primary" href="/devon/motion">
+              <Play size={15} aria-hidden="true" /> See more motion work
+            </a>
+          </div>
+        </section>
+
+        <section className="rz-section rz-graphics" id="graphics">
+          <div className="rz-section-head light">
+            <div>
+              <div className="rz-section-number">03 / CREATIVE</div>
+              <p className="rz-kicker dark">GRAPHICS / CAMPAIGNS / ART DIRECTION</p>
+              <h2>Brand work built for real campaigns.</h2>
+            </div>
+            <p>
+              Social systems, hospitality campaigns, food and beverage creative, events, packages, and launch
+              work — designed to feel polished at the individual asset level while still holding together as a
+              larger brand system.
+            </p>
+          </div>
+
+          <div className="rz-art-grid">
+            {graphicWork.map((item, index) => (
+              <figure className={`rz-art rz-art-${index + 1}`} key={item.src}>
+                <Image src={item.src} alt={item.alt} fill sizes="(min-width: 900px) 32vw, 90vw" />
+                <figcaption>{item.label}</figcaption>
+              </figure>
+            ))}
+          </div>
+
+          <div className="rz-more-row dark-row">
+            <a className="rz-btn rz-btn-dark" href="/">
+              See more Archer Design work <ArrowUpRight size={15} aria-hidden="true" />
+            </a>
+          </div>
+        </section>
+
+        <section className="rz-section rz-builds" id="builds">
+          <div className="rz-section-head">
+            <div>
+              <div className="rz-section-number">04 / BUILDS</div>
+              <p className="rz-kicker">PRODUCT UX / DESIGN ENGINEERING / AI</p>
+              <h2>Interfaces I stayed with until they worked.</h2>
+            </div>
+            <p>
+              Product and systems work lives here — lower in the story, where it can prove the technical depth
+              without taking over the first impression. These are working builds, not static case-study mockups.
+            </p>
+          </div>
+
+          <div className="rz-build-list">
+            {builds.map((build) => (
+              <article className="rz-build" key={build.title}>
+                <a className="rz-build-image" href={build.href} target="_blank" rel="noreferrer">
+                  <Image src={build.image} alt={`${build.title} website`} fill sizes="(min-width: 900px) 48vw, 94vw" />
+                </a>
+                <div className="rz-build-copy">
+                  <span className="rz-build-index">{build.index}</span>
+                  <p className="rz-kicker">{build.category}</p>
+                  <h3>{build.title}</h3>
+                  <p>{build.description}</p>
+                  <div className="rz-tags">
+                    {build.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                  </div>
+                  <a className="rz-text-link inverse" href={build.href} target="_blank" rel="noreferrer">
+                    {build.cta} <ArrowUpRight size={15} aria-hidden="true" />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="rz-system-links">
+            <a href="/devon/auto">
+              <Code2 size={17} aria-hidden="true" />
+              <span><strong>Auto Creative OS</strong><small>Production system / Next.js / TypeScript</small></span>
+              <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+            <a href="/hotel-creative-scorecard">
+              <Sparkles size={17} aria-hidden="true" />
+              <span><strong>Hotel Creative Scorecard</strong><small>AI website analysis / structured output</small></span>
+              <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+          </div>
+        </section>
+
+        <section className="rz-contact" id="contact">
+          <p className="rz-kicker dark">AVAILABLE FOR THE RIGHT TEAM / PROJECT</p>
+          <h2>Have something worth making?</h2>
+          <a href="mailto:heydevon@gmail.com">
+            heydevon@gmail.com <ArrowUpRight size={28} aria-hidden="true" />
+          </a>
+        </section>
+      </main>
     </div>
   );
 }
