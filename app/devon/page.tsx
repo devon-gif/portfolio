@@ -63,6 +63,17 @@ const graphicWork = [
 const builds = [
   {
     index: "01",
+    title: "VibeCode+",
+    category: "Creative technology / AI developer tooling",
+    description:
+      "A GitHub-native AI repair system I designed and engineered across product UX and implementation. The build combines Next.js and TypeScript with Supabase authentication, GitHub App repository access, customer-owned Anthropic or OpenAI credentials, deterministic guardrails, GitHub Actions verification, and human-reviewed draft pull requests.",
+    image: "/devon/projects/vibecode-home.webp",
+    href: "https://vibe-code-final.vercel.app/",
+    cta: "Open VibeCode+",
+    tags: ["Product UX", "Next.js", "TypeScript", "GitHub Apps", "Supabase", "AI systems"],
+  },
+  {
+    index: "02",
     title: "Baseten Inference Lab",
     category: "Design engineering / AI infrastructure",
     description:
@@ -73,7 +84,7 @@ const builds = [
     tags: ["Next.js", "TypeScript", "Responsive UI", "Vercel"],
   },
   {
-    index: "02",
+    index: "03",
     title: "CheckRay",
     category: "Trust UX / AI product",
     description:
