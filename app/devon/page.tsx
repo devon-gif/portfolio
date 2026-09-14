@@ -67,7 +67,7 @@ const builds = [
     category: "Creative technology / AI developer tooling",
     description:
       "A GitHub-native AI repair system I designed and engineered across product UX and implementation. The build combines Next.js and TypeScript with Supabase authentication, GitHub App repository access, customer-owned Anthropic or OpenAI credentials, deterministic guardrails, GitHub Actions verification, and human-reviewed draft pull requests.",
-    image: "/devon/projects/vibecode-home.webp",
+    image: "/devon/projects/vibecode-home.svg",
     href: "https://vibe-code-final.vercel.app/",
     cta: "Open VibeCode+",
     tags: ["Product UX", "Next.js", "TypeScript", "GitHub Apps", "Supabase", "AI systems"],
@@ -184,9 +184,14 @@ export default function DevonCreativeTechnologistPage() {
           <div className="rz-build-list">
             {builds.map((build) => (
               <article className="rz-build" key={build.title}>
-                <a className="rz-build-image" href={build.href} target="_blank" rel="noreferrer">
-                  <Image src={build.image} alt={`${build.title} website`} fill sizes="(min-width: 900px) 48vw, 94vw" />
-                </a>
+                <a
+                  className="rz-build-image"
+                  href={build.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${build.title} website`}
+                  style={{ backgroundImage: `url(${build.image})`, backgroundSize: "cover", backgroundPosition: "center" }}
+                />
                 <div className="rz-build-copy">
                   <span className="rz-build-index">{build.index}</span>
                   <p className="rz-kicker">{build.category}</p>
