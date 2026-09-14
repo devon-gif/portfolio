@@ -67,7 +67,7 @@ const builds = [
     category: "Creative technology / AI developer tooling",
     description:
       "A GitHub-native AI repair system I designed and engineered across product UX and implementation. The build combines Next.js and TypeScript with Supabase authentication, GitHub App repository access, customer-owned Anthropic or OpenAI credentials, deterministic guardrails, GitHub Actions verification, and human-reviewed draft pull requests.",
-    image: "/devon/projects/vibecode-home.svg",
+    image: "/devon/projects/vibecode-neon-code-repair-hero.png",
     href: "https://vibe-code-final.vercel.app/",
     cta: "Open VibeCode+",
     tags: ["Product UX", "Next.js", "TypeScript", "GitHub Apps", "Supabase", "AI systems"],
