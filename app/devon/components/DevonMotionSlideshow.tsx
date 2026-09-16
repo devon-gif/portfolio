@@ -19,6 +19,7 @@ export function DevonMotionSlideshow({
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const filmstripRef = useRef<HTMLDivElement | null>(null);
+  const skipInitialScrollRef = useRef(true);
   const active = items[activeIndex] ?? items[0];
 
   const goTo = useCallback((direction: number) => {
@@ -30,6 +31,13 @@ export function DevonMotionSlideshow({
   }, [activeIndex, items.length]);
 
   useEffect(() => {
+    // Keep the initial page load at the hero. Only scroll the filmstrip after
+    // a visitor actively changes the selected motion item.
+    if (skipInitialScrollRef.current) {
+      skipInitialScrollRef.current = false;
+      return;
+    }
+
     const selected = filmstripRef.current?.querySelector(`[data-motion-index="${activeIndex}"]`);
     selected?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   }, [activeIndex]);
