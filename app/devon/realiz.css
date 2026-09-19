@@ -417,12 +417,53 @@
 .realiz-page .ct-motion-filmstrip::-webkit-scrollbar { display: none; }
 .realiz-page .ct-motion-thumb { position: relative; flex: 0 0 118px; aspect-ratio: 1.6; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.12); background: #000; opacity: .5; cursor: pointer; }
 .realiz-page .ct-motion-thumb.active { opacity: 1; border-color: var(--rz-lime); }
-.realiz-page .ct-motion-thumb video { width: 100%; height: 100%; object-fit: cover; }
+.realiz-page .ct-motion-thumb video { width: 100%; height: 100%; object-fit: contain; background: #000; }
 .realiz-page .ct-motion-thumb-index { position: absolute; left: 7px; bottom: 5px; font: 800 8px/1 ui-monospace, SFMono-Regular, Menlo, monospace; color: #fff; }
 .realiz-page .ct-motion-lightbox { position: fixed; inset: 0; z-index: 120; display: grid; place-items: center; padding: 4vw; background: rgba(0,0,0,.94); }
 .realiz-page .ct-motion-lightbox video { max-width: 94vw; max-height: 90vh; }
 .realiz-page .ct-motion-lightbox-close { position: fixed; right: 26px; top: 26px; z-index: 2; width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.25); background: #111; color: #fff; }
 
+.rz-motion-groups {
+  display: grid;
+  gap: 72px;
+}
+.rz-motion-group {
+  padding-top: 28px;
+  border-top: 1px solid rgba(241,239,231,.16);
+}
+.rz-motion-group:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+.rz-motion-group-head {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(280px, .65fr);
+  gap: 40px;
+  align-items: end;
+  margin-bottom: 22px;
+}
+.rz-motion-group-head > div {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.rz-motion-group-index {
+  color: var(--rz-lime);
+  font: 800 10px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .12em;
+}
+.rz-motion-group-head h3 {
+  margin: 0;
+  color: #f1efe7;
+  font-size: clamp(24px, 3vw, 40px);
+  letter-spacing: -.04em;
+}
+.rz-motion-group-head p {
+  margin: 0;
+  color: var(--rz-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
 .rz-more-row { display: flex; justify-content: center; margin-top: 34px; }
 .rz-more-row.dark-row { margin-top: 42px; }
 
@@ -555,4 +596,15 @@
   .rz-art-1 { grid-column: auto; grid-row: auto; }
   .rz-build { padding: 34px 0; gap: 28px; }
   .rz-build-copy h3 { font-size: 44px; }
+}
+
+
+@media (max-width: 760px) {
+  .rz-motion-groups { gap: 52px; }
+  .rz-motion-group-head {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+  .rz-motion-group-head h3 { font-size: clamp(24px, 8vw, 34px); }
 }
