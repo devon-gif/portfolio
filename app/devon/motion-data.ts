@@ -7,6 +7,7 @@ export type DevonMotionItem = {
 };
 
 export const DEVON_EXTRA_MOTION: DevonMotionItem[] = [
+  { src: "/infuse/videos/chef-plating.mp4", title: "Chef Plating", category: "f&b" },
   { src: "/tcrm/videos/Nike.mp4", title: "Nike Product Motion", category: "commercial" },
   { src: "/tcrm/videos/App.mp4", title: "App Motion Study", category: "commercial" },
   { src: "/tcrm/videos/kid eating.mp4", title: "Lifestyle Food Moment", category: "f&b" },
@@ -81,7 +82,12 @@ const TCRM_UNIQUE = TCRM_BLOB_MOTION
     category: item.group,
   }));
 
+function isLarkCoastal(item: DevonMotionItem) {
+  return normalize(item.title) === "lark coastal fnb";
+}
+
 function isFnb(item: DevonMotionItem) {
+  if (isLarkCoastal(item)) return false;
   const haystack = normalize(`${item.title} ${item.category}`);
   return FNB_KEYWORDS.some((keyword) => haystack.includes(normalize(keyword)));
 }
@@ -114,8 +120,12 @@ function prioritize(items: DevonMotionItem[], firstTitles: string[]) {
 // wedding-, arrival-, or place-oriented lives here, including motion from
 // CoralTree, First Hospitality, Oxford, Pyramid, Dovetail, Lark, Valencia,
 // and Archer's hospitality motion library.
-export const DEVON_HOTEL_MOTION = prioritize(
-  uniqueBySrc(TCRM_UNIQUE.filter((item) => !isFnb(item) && !isCommercial(item))),
+const HOTEL_BASE = prioritize(
+  uniqueBySrc(
+    TCRM_UNIQUE.filter(
+      (item) => !isFnb(item) && !isCommercial(item) && !isLarkCoastal(item),
+    ),
+  ),
   [
     "Hotel Arrival Vintage Car",
     "Lady",
@@ -128,6 +138,13 @@ export const DEVON_HOTEL_MOTION = prioritize(
   ],
 );
 
+const LARK_COASTAL = TCRM_UNIQUE.filter(isLarkCoastal);
+
+export const DEVON_HOTEL_MOTION = uniqueBySrc([
+  ...HOTEL_BASE,
+  ...LARK_COASTAL,
+]);
+
 // FOOD & BEVERAGE
 export const DEVON_FNB_MOTION = prioritize(
   uniqueBySrc([
@@ -135,7 +152,7 @@ export const DEVON_FNB_MOTION = prioritize(
     ...DEVON_EXTRA_MOTION.filter((item) => item.category === "f&b"),
   ]),
   [
-    "Lark Coastal Fnb",
+    "Chef Plating",
     "Bar And Cocktails",
     "Signature Cocktail",
     "Sushi",
