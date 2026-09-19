@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { absoluteUrl } from "@/lib/seo";
 import { DevonMotionSlideshow } from "./components/DevonMotionSlideshow";
-import { DEVON_ALL_MOTION } from "./motion-data";
+import { DEVON_COMMERCIAL_MOTION, DEVON_FNB_MOTION, DEVON_HOTEL_MOTION } from "./motion-data";
 
 const PAGE_TITLE = "Devon Archer — Creative Technologist & Design Engineer";
 const PAGE_DESCRIPTION =
@@ -290,7 +290,46 @@ export default function DevonCreativeTechnologistPage() {
             </p>
           </div>
 
-          <DevonMotionSlideshow items={DEVON_ALL_MOTION} showFullLibraryLink={false} />
+          <div className="rz-motion-groups">
+            <div className="rz-motion-group">
+              <div className="rz-motion-group-head">
+                <div>
+                  <span className="rz-motion-group-index">01</span>
+                  <h3>Hotel &amp; Hospitality</h3>
+                </div>
+                <p>
+                  Hotels, resorts, rooms, lobbies, arrivals, pools, weddings, property experiences, and destination-led motion.
+                </p>
+              </div>
+              <DevonMotionSlideshow items={DEVON_HOTEL_MOTION} showFullLibraryLink={false} />
+            </div>
+
+            <div className="rz-motion-group">
+              <div className="rz-motion-group-head">
+                <div>
+                  <span className="rz-motion-group-index">02</span>
+                  <h3>Food &amp; Beverage</h3>
+                </div>
+                <p>
+                  Restaurants, bars, cocktails, breakfast, plated food, coffee, and culinary storytelling.
+                </p>
+              </div>
+              <DevonMotionSlideshow items={DEVON_FNB_MOTION} showFullLibraryLink={false} />
+            </div>
+
+            <div className="rz-motion-group">
+              <div className="rz-motion-group-head">
+                <div>
+                  <span className="rz-motion-group-index">03</span>
+                  <h3>Commercial</h3>
+                </div>
+                <p>
+                  Product, brand, interface, campaign, and experimental motion — including Nike and other non-hospitality work.
+                </p>
+              </div>
+              <DevonMotionSlideshow items={DEVON_COMMERCIAL_MOTION} showFullLibraryLink={false} />
+            </div>
+          </div>
         </section>
 
         <section className="rz-section rz-graphics" id="graphics">
