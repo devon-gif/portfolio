@@ -5,7 +5,6 @@ import {
   ArrowUpRight,
   Code2,
   Mail,
-  Play,
   Sparkles,
 } from "lucide-react";
 import { absoluteUrl } from "@/lib/seo";
