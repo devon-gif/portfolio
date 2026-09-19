@@ -21,59 +21,70 @@ export const DEVON_EXTRA_MOTION: DevonMotionItem[] = [
   { src: "/tcrm/videos/SEO thing.mp4", title: "SEO Interface Motion", category: "digital product motion" },
 ];
 
-const mixedTcrmIndexes = [
-  3, 10, 17, 22,
-  1, 11, 18, 23,
-  31, 12, 19, 24,
-  0, 13, 20, 25,
-  2, 14, 21, 26,
-  4, 15, 27, 29,
-  5, 16, 28, 30,
-  6, 9, 7, 8,
-];
-
-const mixedTcrm: DevonMotionItem[] = mixedTcrmIndexes.map((index) => {
+function tcrm(index: number): DevonMotionItem {
   const item = TCRM_VIDEOS[index];
   return { src: item.src, title: item.title, category: item.category };
-});
-
-function buildMixedLibrary() {
-  const result: DevonMotionItem[] = [];
-  let extraIndex = 0;
-
-  // Nike is intentionally first.
-  result.push(DEVON_EXTRA_MOTION[extraIndex++]);
-
-  mixedTcrm.forEach((item, index) => {
-    result.push(item);
-    if ((index + 1) % 2 === 0 && extraIndex < DEVON_EXTRA_MOTION.length) {
-      result.push(DEVON_EXTRA_MOTION[extraIndex++]);
-    }
-  });
-
-  while (extraIndex < DEVON_EXTRA_MOTION.length) {
-    result.push(DEVON_EXTRA_MOTION[extraIndex++]);
-  }
-
-  return result;
 }
 
-export const DEVON_ALL_MOTION = buildMixedLibrary();
+function unique(items: DevonMotionItem[]) {
+  const seen = new Set<string>();
+  return items.filter((item) => {
+    if (seen.has(item.src)) return false;
+    seen.add(item.src);
+    return true;
+  });
+}
 
-export const DEVON_MOTION_HIGHLIGHTS: DevonMotionItem[] = [
-  DEVON_EXTRA_MOTION[0],
-  { src: TCRM_VIDEOS[3].src, title: TCRM_VIDEOS[3].title, category: TCRM_VIDEOS[3].category },
-  DEVON_EXTRA_MOTION[1],
-  { src: TCRM_VIDEOS[30].src, title: TCRM_VIDEOS[30].title, category: TCRM_VIDEOS[30].category },
-  DEVON_EXTRA_MOTION[6],
-  { src: TCRM_VIDEOS[17].src, title: TCRM_VIDEOS[17].title, category: TCRM_VIDEOS[17].category },
-  DEVON_EXTRA_MOTION[10],
-  { src: TCRM_VIDEOS[22].src, title: TCRM_VIDEOS[22].title, category: TCRM_VIDEOS[22].category },
-  DEVON_EXTRA_MOTION[4],
-  { src: TCRM_VIDEOS[31].src, title: TCRM_VIDEOS[31].title, category: TCRM_VIDEOS[31].category },
-  DEVON_EXTRA_MOTION[7],
-  { src: TCRM_VIDEOS[29].src, title: TCRM_VIDEOS[29].title, category: TCRM_VIDEOS[29].category },
-  DEVON_EXTRA_MOTION[5],
-  { src: TCRM_VIDEOS[20].src, title: TCRM_VIDEOS[20].title, category: TCRM_VIDEOS[20].category },
-  DEVON_EXTRA_MOTION[9],
-];
+// Curated for the /devon reel rather than mirroring every source asset.
+// The hotel-arrival shot opens the reel, Nike follows, then the strongest
+// hospitality, product, F&B, campaign and experimental pieces. Alternate
+// cuts and near-duplicate studies are intentionally omitted.
+export const DEVON_ALL_MOTION: DevonMotionItem[] = unique([
+  tcrm(31), // Hotel Arrival, Vintage Car — car pulls up / guest exits
+  DEVON_EXTRA_MOTION[0], // Nike
+
+  // Hospitality / cinematic
+  tcrm(3),  // Luxury Hotel Entrance, Night
+  tcrm(1),  // Tropical Resort Daylight
+  tcrm(0),  // Luxury Bedroom Sequence
+  tcrm(2),  // Hotel Exterior Transition
+  tcrm(4),  // Elegant Hospitality Moment
+  tcrm(6),  // Suite, Window Light
+  tcrm(7),  // Palm Trees, Light Wind
+  tcrm(8),  // Poolside Lounge
+
+  // Product / interface
+  DEVON_EXTRA_MOTION[1],  // App
+  DEVON_EXTRA_MOTION[6],  // White Sneaker
+  DEVON_EXTRA_MOTION[4],  // Headphones
+  DEVON_EXTRA_MOTION[10], // Dashboard — keep one dashboard study
+  DEVON_EXTRA_MOTION[11], // SEO interface
+  DEVON_EXTRA_MOTION[5],  // Miniature Building
+
+  // Food / beverage / lifestyle
+  tcrm(10), // Bar & Cocktails
+  tcrm(12), // Breakfast, Coffee Steam
+  tcrm(14), // Chocolate Sauce, Pancakes
+  tcrm(15), // Waffle Pour
+  tcrm(30), // Signature Cocktail
+  DEVON_EXTRA_MOTION[9], // Baker
+  DEVON_EXTRA_MOTION[2], // Lifestyle Food Moment
+
+  // Campaign / people
+  tcrm(17), // Couple, Orbit Shot
+  tcrm(18), // Champagne Detail
+  tcrm(20), // Courtyard Couple
+  tcrm(19), // Bridal Portrait, Alt Cut
+
+  // Experimental / transitions
+  tcrm(28), // Fall to Winter Timelapse
+  tcrm(26), // Grayscale to Color Transition
+  tcrm(25), // Environment Transition
+  tcrm(23), // Image-to-Image Transition — keep one cut only
+  tcrm(21), // Luxury Room Timelapse
+  tcrm(29), // Logo Animation
+]);
+
+// Highlights now match the beginning of the curated reel so any other
+// consumer gets the same strongest opening sequence.
+export const DEVON_MOTION_HIGHLIGHTS: DevonMotionItem[] = DEVON_ALL_MOTION.slice(0, 15);
