@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { absoluteUrl } from "@/lib/seo";
 import { DevonMotionSlideshow } from "./components/DevonMotionSlideshow";
+import { DEVON_ALL_MOTION } from "./motion-data";
 
 const PAGE_TITLE = "Devon Archer — Creative Technologist & Design Engineer";
 const PAGE_DESCRIPTION =
@@ -290,13 +291,7 @@ export default function DevonCreativeTechnologistPage() {
             </p>
           </div>
 
-          <DevonMotionSlideshow showFullLibraryLink={false} />
-
-          <div className="rz-more-row">
-            <a className="rz-btn rz-btn-primary" href="/devon/motion">
-              <Play size={15} aria-hidden="true" /> See more motion work
-            </a>
-          </div>
+          <DevonMotionSlideshow items={DEVON_ALL_MOTION} showFullLibraryLink={false} />
         </section>
 
         <section className="rz-section rz-graphics" id="graphics">
