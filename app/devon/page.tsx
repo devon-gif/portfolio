@@ -9,6 +9,8 @@ import {
 } from "lucide-react";
 import { absoluteUrl } from "@/lib/seo";
 import { DevonMotionSlideshow } from "./components/DevonMotionSlideshow";
+import { DevonGraphicSlideshow } from "./components/DevonGraphicSlideshow";
+import { TCRM_IMAGES } from "@/app/tcrm/tcrm-media";
 import { DEVON_COMMERCIAL_MOTION, DEVON_FNB_MOTION, DEVON_HOTEL_MOTION } from "./motion-data";
 
 const PAGE_TITLE = "Devon Archer — Creative Technologist & Design Engineer";
@@ -26,39 +28,6 @@ export const metadata: Metadata = {
     googleBot: { index: false, follow: false },
   },
 };
-
-const graphicWork = [
-  {
-    src: "/tcrm/images/hotel-indigo-pittsburgh-room-collage.png",
-    alt: "Hotel Indigo Pittsburgh campaign design",
-    label: "Hospitality campaign system",
-  },
-  {
-    src: "/tcrm/images/eliza-hot-metal-bistro-hotel-indigo-share-the-love.png",
-    alt: "Hotel Indigo and Eliza Hot Metal Bistro campaign",
-    label: "Campaign art direction",
-  },
-  {
-    src: "/tcrm/images/hampton-inn-greensburg-elements-floating-sound-bath.png",
-    alt: "Floating sound bath campaign for Hampton Inn Greensburg",
-    label: "Event campaign",
-  },
-  {
-    src: "/tcrm/images/eliza-hot-metal-bistro-burgers-poster.png",
-    alt: "Eliza Hot Metal Bistro burger poster",
-    label: "Food & beverage creative",
-  },
-  {
-    src: "/tcrm/images/hampton-inn-johnstown-flood-city-music-festival.png",
-    alt: "Hampton Inn Johnstown Flood City Music Festival design",
-    label: "Local demand campaign",
-  },
-  {
-    src: "/tcrm/images/minty-fresh-beverage-art-direction.png",
-    alt: "Minty Fresh beverage art direction",
-    label: "Art direction / concept",
-  },
-];
 
 const builds = [
   {
@@ -346,20 +315,16 @@ export default function DevonCreativeTechnologistPage() {
             </p>
           </div>
 
-          <div className="rz-art-grid">
-            {graphicWork.map((item, index) => (
-              <figure className={`rz-art rz-art-${index + 1}`} key={item.src}>
-                <Image src={item.src} alt={item.alt} fill sizes="(min-width: 900px) 32vw, 90vw" />
-                <figcaption>{item.label}</figcaption>
-              </figure>
-            ))}
-          </div>
-
-          <div className="rz-more-row dark-row">
-            <a className="rz-btn rz-btn-dark" href="/">
-              See more Archer Design work <ArrowUpRight size={15} aria-hidden="true" />
-            </a>
-          </div>
+          <DevonGraphicSlideshow
+            items={TCRM_IMAGES.map((item) => ({
+              src: item.src,
+              alt: item.title,
+              title: item.title,
+              category: item.category,
+              width: item.width,
+              height: item.height,
+            }))}
+          />
         </section>
 
         <section className="rz-contact" id="contact">
