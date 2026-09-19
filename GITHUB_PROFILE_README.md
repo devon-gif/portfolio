@@ -14,8 +14,8 @@ AI-assisted risk analysis for suspicious messages, links, bills and digital inte
 ### 🎧 [Audia](https://github.com/devon-gif/Audia)
 AI audio intelligence for long-form conversations. Product design, transcription, summarization, generated audio, motion and full-stack prototyping.
 
-### ⚙️ VibeCode+
-GitHub-native AI repair system designed around observable agent state, deterministic health checks, bounded autonomy and human-reviewed draft pull requests. The production repository is private; a sanitized architecture case study is available in my portfolio repo.
+### ⚙️ [VibeCode+ — architecture case study](https://github.com/devon-gif/portfolio/blob/main/docs/case-studies/vibecode-plus.md)
+GitHub-native AI repair system designed around observable agent state, deterministic health checks, bounded autonomy and human-reviewed draft pull requests. The production repository is private; this public write-up documents the product and system design.
 
 ### 🎥 [Personalized Video Outreach CRM](https://github.com/devon-gif/Devon-project-mini)
 Functional CRM prototype connecting prospects, personalized video, public share experiences and engagement analytics.
