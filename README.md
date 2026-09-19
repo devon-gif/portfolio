@@ -62,11 +62,26 @@ Technical products still need clarity. Much of the work here focuses on making c
 
 ---
 
+## Featured technical case study
+
+### [VibeCode+ — Designing a Human-Controlled AI Repair System](docs/case-studies/vibecode-plus.md)
+
+A sanitized architecture case study for a private GitHub-native AI repair prototype. It covers observable agent state, deterministic health checks, bounded repair, protected code surfaces, verification, human review, failure handling and the documented 216/216 validation pass.
+
+---
+
 ## Related projects
 
 - [CheckRay / CheckMate](https://github.com/devon-gif/checkmate) — AI-assisted risk analysis and scam intelligence
 - [Audia](https://github.com/devon-gif/Audia) — AI audio intelligence and podcast summarization
-- [VibeCode Safety Kit](https://github.com/devon-gif/vibecodesafety) — product and landing experience for safer AI-assisted development
+- [Personalized Video Outreach CRM](https://github.com/devon-gif/Devon-project-mini) — workflow / CRM / video-engagement prototype
+- [VibeCode Safety](https://github.com/devon-gif/vibecodesafety) — guardrails and review workflows for AI-assisted development
+
+---
+
+## GitHub profile copy
+
+A ready-to-use profile README is included at [`GITHUB_PROFILE_README.md`](GITHUB_PROFILE_README.md). It is designed for the special public repository named `devon-gif` that GitHub renders at the top of the profile.
 
 ---
 
