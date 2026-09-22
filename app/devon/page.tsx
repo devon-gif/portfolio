@@ -4,7 +4,6 @@ import {
   ArrowDownRight,
   ArrowUpRight,
   Code2,
-  Github,
   Mail,
   Sparkles,
 } from "lucide-react";
@@ -22,17 +21,6 @@ export const metadata: Metadata = {
   title: PAGE_TITLE,
   description: PAGE_DESCRIPTION,
   alternates: { canonical: absoluteUrl("/devon") },
-  openGraph: {
-    title: PAGE_TITLE,
-    description: PAGE_DESCRIPTION,
-    url: absoluteUrl("/devon"),
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: PAGE_TITLE,
-    description: PAGE_DESCRIPTION,
-  },
   robots: {
     index: true,
     follow: true,
@@ -185,7 +173,7 @@ export default function DevonCreativeTechnologistPage() {
                 Explore the work <ArrowDownRight size={16} aria-hidden="true" />
               </a>
               <a href="https://github.com/devon-gif" target="_blank" rel="noreferrer" className="rz-btn rz-btn-outline">
-                GitHub <Github size={15} aria-hidden="true" />
+                GitHub <Code2 size={15} aria-hidden="true" />
               </a>
               <a href="mailto:heydevon@gmail.com" className="rz-btn rz-btn-outline">
                 Get in touch <Mail size={15} aria-hidden="true" />
@@ -348,7 +336,7 @@ export default function DevonCreativeTechnologistPage() {
                 when a problem needs deeper specialization.
               </p>
               <a className="rz-text-link inverse" href="https://github.com/devon-gif" target="_blank" rel="noreferrer">
-                Review the GitHub <Github size={15} aria-hidden="true" />
+                Review the GitHub <Code2 size={15} aria-hidden="true" />
               </a>
             </div>
             <div className="rz-stack-list">
