@@ -466,7 +466,9 @@ async function maybePrepareCandidateEmail(
         candidate: {
           ...candidate,
           email: currentEmail,
-          email_status: "high_confidence",
+          // Keep the existing DB-supported candidate classification. The
+          // promoted contact records it as high_confidence instead.
+          email_status: "direct_email_public",
           email_confidence: Math.max(Number(candidate.email_confidence || 0), Number(candidate.confidence_score || 0), 85),
         },
         hunterCalls,
@@ -578,7 +580,7 @@ async function maybePrepareCandidateEmail(
 async function promoteContact(admin: SupabaseClient, candidate: AnyRow, company: AnyRow): Promise<AnyRow | null> {
   const email = String(candidate.email || "").trim().toLowerCase();
   const status = String(candidate.email_status || "");
-  if (!email || !["verified", "high_confidence", "direct_email_public"].includes(status)) return null;
+  if (!email || !["verified", "direct_email_public"].includes(status)) return null;
 
   const { data: suppressed } = await admin
     .from("suppression_list")
@@ -875,20 +877,8 @@ export async function runAiSdr(
         counts.hunter_lookups += prepared.hunterCalls;
 
         const candidate = prepared.candidate;
-        if (!candidate.email || !["verified", "high_confidence", "direct_email_public"].includes(String(candidate.email_status || ""))) {
+        if (!candidate.email || !["verified", "direct_email_public"].includes(String(candidate.email_status || ""))) {
           continue;
-        }
-
-        // Persist the public-email high-confidence classification so the next
-        // run does not repeat work.
-        if (candidate.email_status === "high_confidence") {
-          await admin.from("contact_candidates").update({
-            email: candidate.email,
-            email_status: "high_confidence",
-            email_confidence: candidate.email_confidence,
-            recommended_channel: "email",
-            recommended_action: "create_email_draft",
-          }).eq("id", candidate.id);
         }
 
         const contact = await promoteContact(admin, candidate, company);
