@@ -5,7 +5,6 @@ import Link from "next/link";
 import {
   Bot,
   CalendarClock,
-  CheckCircle2,
   ExternalLink,
   Loader2,
   Play,
