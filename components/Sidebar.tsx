@@ -12,6 +12,7 @@ import {
   FileSearch,
   Share2,
   LogOut,
+  Bot,
 } from "lucide-react";
 import clsx from "clsx";
 import { supabase } from "@/lib/supabase";
@@ -20,6 +21,7 @@ import { supabase } from "@/lib/supabase";
 const NAV = [
   { href: "/dashboard",  label: "Dashboard",   icon: LayoutDashboard },
   { href: "/prospects",  label: "Prospects",   icon: Target },
+  { href: "/ai-sdr",     label: "AI SDR",      icon: Bot },
   { href: "/messages",   label: "Messages",    icon: MessageSquare },
   { href: "/followups",  label: "Follow-ups",  icon: Bell },
   { href: "/scorecard-submissions", label: "Scorecard", icon: ClipboardList },
