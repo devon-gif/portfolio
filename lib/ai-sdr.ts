@@ -103,6 +103,17 @@ const EXCLUDED_HOSTS = [
   "hotels.com",
   "wikipedia.org",
   "youtube.com",
+  // Industry media / PR domains are useful evidence sources, but they are not
+  // prospect company websites. The first scout deliberately prefers owned
+  // company domains so downstream contact research stays grounded.
+  "hotelmanagement.net",
+  "hotelbusiness.com",
+  "hospitalitynet.org",
+  "lodgingmagazine.com",
+  "hotelexecutive.com",
+  "prnewswire.com",
+  "businesswire.com",
+  "globenewswire.com",
 ];
 
 const ENTERPRISE_HOST_HINTS = [
@@ -119,6 +130,21 @@ const ENTERPRISE_HOST_HINTS = [
 
 const BUYER_TITLE_RE =
   /(chief marketing|cmo|vp .*marketing|vice president .*marketing|director .*marketing|sales.*marketing|marketing.*sales|digital|e-?commerce|commercial|revenue|general manager|\bgm\b|owner|founder|president|chief executive|\bceo\b)/i;
+
+const COMPANY_TYPES = new Set([
+  "hotel_management_company",
+  "hospitality_group",
+  "boutique_hotel_group",
+  "resort_group",
+  "independent_lifestyle_hotel",
+  "branded_hotel",
+  "other",
+]);
+
+function normalizeCompanyType(raw: unknown): string {
+  const value = String(raw || "").trim();
+  return COMPANY_TYPES.has(value) ? value : "other";
+}
 
 const counts0 = (): RunCounts => ({
   prospects_found: 0,
@@ -396,7 +422,7 @@ async function promoteCompany(admin: SupabaseClient, discovered: AnyRow): Promis
 
   const base = {
     name: discovered.name,
-    type: discovered.company_category || "other",
+    type: normalizeCompanyType(discovered.company_category),
     website,
     notes: `AI SDR discovery. ${discovered.fit_reason || ""}`.trim(),
   };
@@ -604,7 +630,7 @@ async function promoteContact(admin: SupabaseClient, candidate: AnyRow, company:
     title: candidate.title || "",
     company_id: company.id,
     company_name: company.name || "",
-    company_type: company.company_type || company.type || "other",
+    company_type: normalizeCompanyType(company.company_type || company.type),
     type: "decision_maker",
     status: "new",
     email,
@@ -808,6 +834,7 @@ export async function runAiSdr(
     const sources = await ensureLeadSources(admin);
     const perSource = Math.max(2, Math.ceil(settings.dailyProspectLimit / Math.max(1, sources.length)));
     const discovered: AnyRow[] = [];
+    const discoveredIds = new Set<string>();
 
     for (const source of sources) {
       if (discovered.length >= settings.dailyProspectLimit) break;
@@ -818,8 +845,15 @@ export async function runAiSdr(
       for (const hit of hits) {
         if (discovered.length >= settings.dailyProspectLimit) break;
         const saved = await saveDiscovery(admin, source, hit);
-        if (saved.inserted && saved.row) {
-          discovered.push(saved.row);
+        if (saved.row && !discoveredIds.has(String(saved.row.id))) {
+          // A previously discovered but still-unprocessed prospect is allowed
+          // back into today's qualification pass; it is not counted as "new".
+          if (saved.inserted || saved.row.status === "new") {
+            discovered.push(saved.row);
+            discoveredIds.add(String(saved.row.id));
+          }
+        }
+        if (saved.inserted) {
           counts.prospects_found += 1;
           sourceCount += 1;
         }
