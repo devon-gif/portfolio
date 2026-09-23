@@ -366,7 +366,7 @@ async function saveDiscovery(
 
   const { data: existing } = await admin
     .from("discovered_companies")
-    .select("id,status,company_id,confidence_score")
+    .select("*")
     .eq("dedupe_key", host)
     .maybeSingle();
   if (existing) return { inserted: false, row: existing as AnyRow };
