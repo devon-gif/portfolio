@@ -61,10 +61,38 @@ const featured: Array<[string, string, string, InvestorAtlasTile]> = [
 ];
 
 const cr91Deliverables = [
-  ["Private investor proof room", "A polished investor-facing hub for secure access, diligence materials, proof, documents, and project artwork."],
-  ["Pitch deck + numbers updates", "Presentation revisions, investor narrative, financial-material cleanup, and ongoing updates as feedback came in."],
-  ["Project website system", "A public-facing CR-91 experience with hospitality positioning, visual storytelling, and a path into the investor room."],
-  ["Rapid founder support", "Fast edits, new sections, investor-meeting updates, collateral cleanup, and practical support from concept through deployment."],
+  {
+    eyebrow: "CR-91 PARK PLAZA",
+    title: "Live investor proof room",
+    body: "A secure investor-facing destination for documents, proof, access, artwork, and project updates.",
+    image: "/devon/investor/cr91-live-investor-room.png",
+    href: "https://cr-91-website-first-draft.vercel.app/investor",
+    linkLabel: "View CR-91 room",
+  },
+  {
+    eyebrow: "CR-91 DELIVERABLE",
+    title: "Private investor proof room",
+    body: "A polished investor-facing hub for secure access, diligence materials, proof, documents, and project artwork.",
+    image: "/devon/investor/cr91-private-proof-room.png",
+  },
+  {
+    eyebrow: "CR-91 DELIVERABLE",
+    title: "Pitch deck + numbers updates",
+    body: "Presentation revisions, investor narrative, financial-material cleanup, and ongoing updates as feedback came in.",
+    image: "/devon/investor/cr91-pitch-deck-updates.png",
+  },
+  {
+    eyebrow: "CR-91 DELIVERABLE",
+    title: "Project website system",
+    body: "A public-facing CR-91 experience with hospitality positioning, visual storytelling, and a path into the investor room.",
+    image: "/devon/investor/cr91-project-website-system.png",
+  },
+  {
+    eyebrow: "CR-91 DELIVERABLE",
+    title: "Rapid founder support",
+    body: "Fast edits, new sections, investor-meeting updates, collateral cleanup, and practical support from concept through deployment.",
+    image: "/devon/investor/cr91-rapid-founder-support.png",
+  },
 ] as const;
 
 export default function InvestorDealRoomsPage() {
@@ -200,41 +228,40 @@ export default function InvestorDealRoomsPage() {
           </div>
 
           <div className="rz-investor-featured-grid">
-            <article>
-              <a
-                className="rz-investor-feature-card-art rz-investor-feature-card-generated"
-                href="https://cr-91-website-first-draft.vercel.app/investor-room"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Open CR-91 investor room"
-                style={{
-                  display: "block",
-                  backgroundImage:
-                    "url('/devon/investor/cr91-site-screenshot.png'), url('/devon/investor/investor-system-composition.png')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              />
-              <small>CR-91 PARK PLAZA</small>
-              <h3>Live investor proof room</h3>
-              <p>
-                A secure investor-facing destination for documents, proof, access, artwork, and project updates.
-              </p>
-              <a className="rz-text-link inverse" href="https://cr-91-website-first-draft.vercel.app/investor-room" target="_blank" rel="noreferrer">
-                View CR-91 room <ArrowUpRight size={15} aria-hidden="true" />
-              </a>
-            </article>
+            {cr91Deliverables.map(({ eyebrow, title, body, image, href, linkLabel }) => {
+              const cardArt = (
+                <div
+                  className="rz-investor-feature-card-art rz-investor-feature-card-generated"
+                  role="img"
+                  aria-label={`${title} visual`}
+                  style={{
+                    backgroundImage: `url('${image}')`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                />
+              );
 
-            {cr91Deliverables.map(([title, body]) => (
-              <article key={title}>
-                <div className="rz-investor-feature-card-art rz-investor-feature-card-generated">
-                  <InvestorImageAtlas tile="dashboard" className="rz-investor-feature-generated-image" />
-                </div>
-                <small>CR-91 DELIVERABLE</small>
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </article>
-            ))}
+              return (
+                <article key={title}>
+                  {href ? (
+                    <a href={href} target="_blank" rel="noreferrer" aria-label={`Open ${title}`}>
+                      {cardArt}
+                    </a>
+                  ) : (
+                    cardArt
+                  )}
+                  <small>{eyebrow}</small>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                  {href ? (
+                    <a className="rz-text-link inverse" href={href} target="_blank" rel="noreferrer">
+                      {linkLabel} <ArrowUpRight size={15} aria-hidden="true" />
+                    </a>
+                  ) : null}
+                </article>
+              );
+            })}
           </div>
         </section>
 
