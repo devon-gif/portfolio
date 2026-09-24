@@ -841,6 +841,10 @@
   height: 50px;
   object-fit: contain;
 }
+.rz-brand-logo-darken img {
+  filter: grayscale(1) brightness(.34) contrast(1.5);
+  opacity: .82;
+}
 .rz-brand-wordmark {
   text-align: center;
   font: 900 10px/1.25 ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
