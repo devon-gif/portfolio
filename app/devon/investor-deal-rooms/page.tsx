@@ -60,6 +60,13 @@ const featured: Array<[string, string, string, InvestorAtlasTile]> = [
   ["PROJECT VISUALIZATION", "Hospitality development imagery", "Investor-facing architectural imagery that gives the opportunity a believable visual identity before opening.", "building"],
 ];
 
+const cr91Deliverables = [
+  ["Private investor proof room", "A polished investor-facing hub for secure access, diligence materials, proof, documents, and project artwork."],
+  ["Pitch deck + numbers updates", "Presentation revisions, investor narrative, financial-material cleanup, and ongoing updates as feedback came in."],
+  ["Project website system", "A public-facing CR-91 experience with hospitality positioning, visual storytelling, and a path into the investor room."],
+  ["Rapid founder support", "Fast edits, new sections, investor-meeting updates, collateral cleanup, and practical support from concept through deployment."],
+] as const;
+
 export default function InvestorDealRoomsPage() {
   return (
     <div className="realiz-page investor-page">
@@ -81,7 +88,7 @@ export default function InvestorDealRoomsPage() {
             <a href="/devon#restaurants">Restaurants</a>
             <a href="/devon#commercial">Commercial</a>
           </nav>
-          <a className="rz-investor-nav-cta" href="mailto:heydevon@gmail.com">Get in touch <ArrowUpRight size={14} /></a>
+          <a className="rz-investor-nav-cta" href="/contact">Get in touch <ArrowUpRight size={14} /></a>
         </header>
 
         <section className="rz-investor-page-hero">
@@ -99,7 +106,7 @@ export default function InvestorDealRoomsPage() {
             </p>
             <div className="rz-actions">
               <a className="rz-btn rz-btn-primary" href="#featured">Explore the work <ArrowRight size={15} /></a>
-              <a className="rz-btn rz-btn-outline" href="mailto:heydevon@gmail.com">Start a project <Mail size={15} /></a>
+              <a className="rz-btn rz-btn-outline" href="/contact">Start a project <Mail size={15} /></a>
             </div>
           </div>
           <div className="rz-investor-page-generated-hero">
@@ -180,6 +187,57 @@ export default function InvestorDealRoomsPage() {
           </div>
         </section>
 
+        <section className="rz-investor-featured" id="cr91">
+          <div className="rz-investor-featured-head">
+            <div>
+              <p className="rz-kicker">REAL PROJECT SYSTEM</p>
+              <h2>CR-91 Park Plaza investor room.</h2>
+            </div>
+            <p>
+              CR-91 is a live example of the investor-room work: a project website, secure proof room, pitch materials,
+              diligence structure, and rapid update system built around an active hospitality-development raise.
+            </p>
+          </div>
+
+          <div className="rz-investor-featured-grid">
+            <article>
+              <a
+                className="rz-investor-feature-card-art rz-investor-feature-card-generated"
+                href="https://cr-91-website-first-draft.vercel.app/investor-room"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Open CR-91 investor room"
+                style={{
+                  display: "block",
+                  backgroundImage:
+                    "url('/devon/investor/cr91-site-screenshot.png'), url('/devon/investor/investor-system-composition.png')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+              <small>CR-91 PARK PLAZA</small>
+              <h3>Live investor proof room</h3>
+              <p>
+                A secure investor-facing destination for documents, proof, access, artwork, and project updates.
+              </p>
+              <a className="rz-text-link inverse" href="https://cr-91-website-first-draft.vercel.app/investor-room" target="_blank" rel="noreferrer">
+                View CR-91 room <ArrowUpRight size={15} aria-hidden="true" />
+              </a>
+            </article>
+
+            {cr91Deliverables.map(([title, body]) => (
+              <article key={title}>
+                <div className="rz-investor-feature-card-art rz-investor-feature-card-generated">
+                  <InvestorImageAtlas tile="dashboard" className="rz-investor-feature-generated-image" />
+                </div>
+                <small>CR-91 DELIVERABLE</small>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className="rz-investor-cta">
           <div>
             <p className="rz-kicker">LET&apos;S BUILD SOMETHING GREAT</p>
@@ -192,7 +250,7 @@ export default function InvestorDealRoomsPage() {
               understand, trust, and act on.
             </p>
             <div className="rz-actions">
-              <a className="rz-btn rz-btn-primary" href="mailto:heydevon@gmail.com">Start a project <ArrowUpRight size={15} /></a>
+              <a className="rz-btn rz-btn-primary" href="/contact">Start a project <ArrowUpRight size={15} /></a>
               <a className="rz-btn rz-btn-outline" href="/devon">View full portfolio <ArrowRight size={15} /></a>
             </div>
           </div>
