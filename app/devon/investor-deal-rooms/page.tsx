@@ -60,7 +60,16 @@ const featured: Array<[string, string, string, InvestorAtlasTile]> = [
   ["PROJECT VISUALIZATION", "Hospitality development imagery", "Investor-facing architectural imagery that gives the opportunity a believable visual identity before opening.", "building"],
 ];
 
-const cr91Deliverables = [
+type Cr91Deliverable = {
+  eyebrow: string;
+  title: string;
+  body: string;
+  image: string;
+  href?: string;
+  linkLabel?: string;
+};
+
+const cr91Deliverables: Cr91Deliverable[] = [
   {
     eyebrow: "CR-91 PARK PLAZA",
     title: "Live investor proof room",
@@ -93,7 +102,7 @@ const cr91Deliverables = [
     body: "Fast edits, new sections, investor-meeting updates, collateral cleanup, and practical support from concept through deployment.",
     image: "/devon/investor/cr91-rapid-founder-support.png",
   },
-] as const;
+];
 
 export default function InvestorDealRoomsPage() {
   return (
@@ -254,7 +263,7 @@ export default function InvestorDealRoomsPage() {
                   <small>{eyebrow}</small>
                   <h3>{title}</h3>
                   <p>{body}</p>
-                  {href ? (
+                  {href && linkLabel ? (
                     <a className="rz-text-link inverse" href={href} target="_blank" rel="noreferrer">
                       {linkLabel} <ArrowUpRight size={15} aria-hidden="true" />
                     </a>
