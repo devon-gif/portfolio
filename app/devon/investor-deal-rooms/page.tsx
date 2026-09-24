@@ -74,7 +74,7 @@ const cr91Deliverables: Cr91Deliverable[] = [
     eyebrow: "CR-91 PARK PLAZA",
     title: "Live investor proof room",
     body: "A secure investor-facing destination for documents, proof, access, artwork, and project updates.",
-    image: "/devon/investor/cr91-live-investor-room.png",
+    image: "https://raw.githubusercontent.com/devon-gif/portfolio/main/public/devon/investor/cr91-live-investor-room.png",
     href: "https://cr-91-website-first-draft.vercel.app/investor",
     linkLabel: "View CR-91 room",
   },
@@ -82,25 +82,25 @@ const cr91Deliverables: Cr91Deliverable[] = [
     eyebrow: "CR-91 DELIVERABLE",
     title: "Private investor proof room",
     body: "A polished investor-facing hub for secure access, diligence materials, proof, documents, and project artwork.",
-    image: "/devon/investor/cr91-private-proof-room.png",
+    image: "https://raw.githubusercontent.com/devon-gif/portfolio/main/public/devon/investor/cr91-private-proof-room.png",
   },
   {
     eyebrow: "CR-91 DELIVERABLE",
     title: "Pitch deck + numbers updates",
     body: "Presentation revisions, investor narrative, financial-material cleanup, and ongoing updates as feedback came in.",
-    image: "/devon/investor/cr91-pitch-deck-updates.png",
+    image: "https://raw.githubusercontent.com/devon-gif/portfolio/main/public/devon/investor/cr91-pitch-deck-updates.png",
   },
   {
     eyebrow: "CR-91 DELIVERABLE",
     title: "Project website system",
     body: "A public-facing CR-91 experience with hospitality positioning, visual storytelling, and a path into the investor room.",
-    image: "/devon/investor/cr91-project-website-system.png",
+    image: "https://raw.githubusercontent.com/devon-gif/portfolio/main/public/devon/investor/cr91-project-website-system.png",
   },
   {
     eyebrow: "CR-91 DELIVERABLE",
     title: "Rapid founder support",
     body: "Fast edits, new sections, investor-meeting updates, collateral cleanup, and practical support from concept through deployment.",
-    image: "/devon/investor/cr91-rapid-founder-support.png",
+    image: "https://raw.githubusercontent.com/devon-gif/portfolio/main/public/devon/investor/cr91-rapid-founder-support.png",
   },
 ];
 
