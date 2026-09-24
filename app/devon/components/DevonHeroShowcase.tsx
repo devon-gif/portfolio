@@ -448,7 +448,7 @@ function FeatureCard({ feature, active, index }: { feature: Feature; active: Sec
 }
 
 export function DevonHeroShowcase() {
-  const [active, setActive] = useState<SectionKey>("work");
+  const [active, setActive] = useState<SectionKey>("investor");
   const section = sections[active];
 
   const choose = (key: SectionKey) => {
