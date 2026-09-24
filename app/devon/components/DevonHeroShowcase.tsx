@@ -449,7 +449,7 @@ function FeatureCard({ feature, active, index }: { feature: Feature; active: Sec
 }
 
 export function DevonHeroShowcase() {
-  const [active, setActive] = useState<SectionKey>("investor");
+  const [active, setActive] = useState<SectionKey>("work");
   const section = sections[active];
 
   const choose = (key: SectionKey) => {
@@ -476,7 +476,7 @@ export function DevonHeroShowcase() {
             </button>
           ))}
         </nav>
-        <a className="rz-dynamic-contact" href="mailto:heydevon@gmail.com">Get in touch <ArrowUpRight size={14} /></a>
+        <a className="rz-dynamic-contact" href="/contact">Get in touch <ArrowUpRight size={14} /></a>
       </header>
 
       <section className={`rz-dynamic-hero is-${active}`} aria-live="polite">
@@ -501,7 +501,7 @@ export function DevonHeroShowcase() {
                 GitHub <Code2 size={15} />
               </a>
             )}
-            <a className="rz-btn rz-btn-outline" href="mailto:heydevon@gmail.com">
+            <a className="rz-btn rz-btn-outline" href="/contact">
               Get in touch <Mail size={15} />
             </a>
           </div>
@@ -642,7 +642,7 @@ export function DevonHeroShowcase() {
               <span>LEGACY / FOUNDING CLIENTS</span>
               <p>Existing relationships can stay on legacy pricing while new major initiatives are scoped separately.</p>
             </div>
-            <a className="rz-btn rz-btn-primary" href="mailto:heydevon@gmail.com">
+            <a className="rz-btn rz-btn-primary" href="/contact">
               Talk about your project <Mail size={15} />
             </a>
           </div>

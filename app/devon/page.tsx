@@ -203,6 +203,55 @@ export default function DevonCreativeTechnologistPage() {
           </div>
         </section>
 
+        <section className="rz-section rz-motion rz-motion-shortcuts" id="motion-shortcuts">
+          <div className="rz-section-head">
+            <div>
+              <div className="rz-section-number">MOTION / QUICK VIEW</div>
+              <p className="rz-kicker">HOTELS / RESTAURANTS / COMMERCIAL</p>
+              <h2>Motion work, moved up where people can actually see it.</h2>
+            </div>
+            <p>
+              A quick look at the video and motion work by audience, placed near the top so hotel, restaurant,
+              and commercial visitors do not have to scroll through the entire portfolio to find the relevant examples.
+            </p>
+          </div>
+
+          <div className="rz-motion-groups">
+            <div className="rz-motion-group" id="hotels">
+              <div className="rz-motion-group-head">
+                <div>
+                  <span className="rz-motion-group-index">01</span>
+                  <h3>Hotel &amp; Hospitality Motion</h3>
+                </div>
+                <p>Rooms, lobbies, arrivals, pools, events, weddings, property experiences, and destination-led motion.</p>
+              </div>
+              <DevonMotionSlideshow items={DEVON_HOTEL_MOTION} showFullLibraryLink={false} />
+            </div>
+
+            <div className="rz-motion-group" id="restaurants">
+              <div className="rz-motion-group-head">
+                <div>
+                  <span className="rz-motion-group-index">02</span>
+                  <h3>Restaurant &amp; Food Motion</h3>
+                </div>
+                <p>Restaurants, bars, cocktails, breakfast, plated food, coffee, and culinary storytelling.</p>
+              </div>
+              <DevonMotionSlideshow items={DEVON_FNB_MOTION} showFullLibraryLink={false} />
+            </div>
+
+            <div className="rz-motion-group" id="commercial">
+              <div className="rz-motion-group-head">
+                <div>
+                  <span className="rz-motion-group-index">03</span>
+                  <h3>Commercial Motion</h3>
+                </div>
+                <p>Product, brand, interface, campaign, and experimental motion for non-hospitality work.</p>
+              </div>
+              <DevonMotionSlideshow items={DEVON_COMMERCIAL_MOTION} showFullLibraryLink={false} />
+            </div>
+          </div>
+        </section>
+
         <section className="rz-resume" id="about-resume">
           <div className="rz-resume-intro">
             <div>
@@ -218,7 +267,7 @@ export default function DevonCreativeTechnologistPage() {
                 actually becomes real.
               </p>
               <div className="rz-resume-actions">
-                <a className="rz-btn rz-btn-dark" href="mailto:heydevon@gmail.com">
+                <a className="rz-btn rz-btn-dark" href="/contact">
                   Work with me <Mail size={15} aria-hidden="true" />
                 </a>
                 <a className="rz-btn rz-btn-outline rz-resume-github" href="https://github.com/devon-gif" target="_blank" rel="noreferrer">
@@ -457,62 +506,6 @@ export default function DevonCreativeTechnologistPage() {
           </div>
         </section>
 
-        <section className="rz-section rz-motion" id="motion">
-          <div className="rz-section-head">
-            <div>
-              <div className="rz-section-number">04 / MOTION</div>
-              <p className="rz-kicker">GENERATIVE R&D / EDITING / STORYTELLING</p>
-              <h2>Motion that starts with the shot, not the tool.</h2>
-            </div>
-            <p>
-              Generative motion, cinematic experiments, hospitality promos, and branded edits. I define the
-              intended shot, test movement and continuity, select the strongest result, then finish with
-              traditional editing and design craft.
-            </p>
-          </div>
-
-          <div className="rz-motion-groups">
-            <div className="rz-motion-group" id="hotels">
-              <div className="rz-motion-group-head">
-                <div>
-                  <span className="rz-motion-group-index">01</span>
-                  <h3>Hotel &amp; Hospitality</h3>
-                </div>
-                <p>
-                  Hotels, resorts, rooms, lobbies, arrivals, pools, weddings, property experiences, and destination-led motion.
-                </p>
-              </div>
-              <DevonMotionSlideshow items={DEVON_HOTEL_MOTION} showFullLibraryLink={false} />
-            </div>
-
-            <div className="rz-motion-group" id="restaurants">
-              <div className="rz-motion-group-head">
-                <div>
-                  <span className="rz-motion-group-index">02</span>
-                  <h3>Food &amp; Beverage</h3>
-                </div>
-                <p>
-                  Restaurants, bars, cocktails, breakfast, plated food, coffee, and culinary storytelling.
-                </p>
-              </div>
-              <DevonMotionSlideshow items={DEVON_FNB_MOTION} showFullLibraryLink={false} />
-            </div>
-
-            <div className="rz-motion-group" id="commercial">
-              <div className="rz-motion-group-head">
-                <div>
-                  <span className="rz-motion-group-index">03</span>
-                  <h3>Commercial</h3>
-                </div>
-                <p>
-                  Product, brand, interface, campaign, and experimental motion — including Nike and other non-hospitality work.
-                </p>
-              </div>
-              <DevonMotionSlideshow items={DEVON_COMMERCIAL_MOTION} showFullLibraryLink={false} />
-            </div>
-          </div>
-        </section>
-
         <section className="rz-section rz-graphics" id="graphics">
           <div className="rz-section-head light">
             <div>
@@ -562,8 +555,8 @@ export default function DevonCreativeTechnologistPage() {
         <section className="rz-contact" id="contact">
           <p className="rz-kicker dark">AVAILABLE FOR THE RIGHT TEAM / PROJECT</p>
           <h2>Have something worth making?</h2>
-          <a href="mailto:heydevon@gmail.com">
-            heydevon@gmail.com <ArrowUpRight size={28} aria-hidden="true" />
+          <a href="/contact">
+            Start a project <ArrowUpRight size={28} aria-hidden="true" />
           </a>
         </section>
       </main>
