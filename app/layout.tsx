@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { AppChrome } from "@/components/AppChrome";
+import { ContactLinkRewriter } from "@/components/ContactLinkRewriter";
 import { JsonLd } from "@/components/marketing/JsonLd";
 import {
   DEFAULT_DESCRIPTION,
@@ -66,6 +67,7 @@ export default function RootLayout({
       </head>
       <body className="h-full bg-zinc-950 text-zinc-100 antialiased">
         <JsonLd data={organizationJsonLd()} />
+        <ContactLinkRewriter />
         <AppChrome>{children}</AppChrome>
       </body>
     </html>
