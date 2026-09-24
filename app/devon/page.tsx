@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import {
-  ArrowDownRight,
   ArrowUpRight,
   Code2,
   Mail,
@@ -10,7 +9,7 @@ import {
 import { absoluteUrl } from "@/lib/seo";
 import { DevonMotionSlideshow } from "./components/DevonMotionSlideshow";
 import { DevonGraphicSlideshow } from "./components/DevonGraphicSlideshow";
-import { InvestorSystemVisual } from "./components/InvestorSystemVisual";
+import { DevonHeroShowcase } from "./components/DevonHeroShowcase";
 import { TCRM_IMAGES } from "@/app/tcrm/tcrm-media";
 import { DEVON_COMMERCIAL_MOTION, DEVON_FNB_MOTION, DEVON_HOTEL_MOTION } from "./motion-data";
 
@@ -135,6 +134,40 @@ const stackGroups = [
   ["Creative", "Figma · Adobe Creative Suite · motion · video · AI image / video"],
 ];
 
+const experience = [
+  {
+    role: "Founder — Archer Design",
+    years: "2021–Present",
+    body:
+      "Hospitality-focused creative, motion, campaign systems, websites, landing pages, investor materials, product visuals, and AI-assisted digital implementation.",
+  },
+  {
+    role: "Graphic Designer & Client-Facing Operator — SHAIPE Agency",
+    years: "2021–2025",
+    body:
+      "Multi-account digital design, campaign visuals, brand assets, social creative, and direct client collaboration from brief through final delivery.",
+  },
+  {
+    role: "Co-Founder, Growth Systems & Product Positioning — JobGhost",
+    years: "2025–2026",
+    body:
+      "Product positioning, candidate communication workflows, outreach systems, growth experiments, and AI-assisted product thinking for recruiting SaaS.",
+  },
+] as const;
+
+const education = [
+  ["M.S. UX Design", "Full Sail University"],
+  ["B.S. UX/UI Design", "Full Sail University"],
+  ["Graphic Design Certificate", "California Institute of the Arts"],
+] as const;
+
+const resumeHighlights = [
+  ["9.13M", "tracked social impressions"],
+  ["4.69M", "tracked reach"],
+  ["636K+", "tracked engagements"],
+  ["2,970", "tracked posts / creative pieces"],
+] as const;
+
 export default function DevonCreativeTechnologistPage() {
   return (
     <div className="realiz-page">
@@ -151,113 +184,7 @@ export default function DevonCreativeTechnologistPage() {
       </aside>
 
       <main className="rz-main" id="top">
-        <header className="rz-topnav" aria-label="Portfolio categories">
-          <a className="rz-topnav-home" href="#top">DEVON ARCHER</a>
-          <nav>
-            <a href="#builds">Work</a>
-            <a className="rz-nav-investor" href="/devon/investor-deal-rooms">Investor / Deal Rooms</a>
-            <a href="#hotels">Hotels</a>
-            <a href="#restaurants">Restaurants</a>
-            <a href="#commercial">Commercial</a>
-          </nav>
-        </header>
-        <section className="rz-hero rz-hero-investor">
-          <div className="rz-hero-copy">
-            <p className="rz-kicker">DEVON ARCHER / DESIGN ENGINEER + CREATIVE TECHNOLOGIST</p>
-            <h1>
-              <span>DESIGN.</span>
-              <span>BUILD.</span>
-              <em>LAUNCH.</em>
-            </h1>
-            <p className="rz-lead">
-              I turn complex ideas into clear, compelling experiences. Product design, investor materials,
-              brand systems, and web experiences for hospitality, real estate, startups, and ambitious founders.
-              I can stay with the work from early story through the materials, systems, build, launch, and iteration.
-            </p>
-            <div className="rz-actions">
-              <a href="#investor-systems" className="rz-btn rz-btn-primary">
-                Explore investor work <ArrowDownRight size={16} aria-hidden="true" />
-              </a>
-              <a href="#builds" className="rz-btn rz-btn-outline">
-                Product work <Code2 size={15} aria-hidden="true" />
-              </a>
-              <a href="mailto:heydevon@gmail.com" className="rz-btn rz-btn-outline">
-                Get in touch <Mail size={15} aria-hidden="true" />
-              </a>
-            </div>
-          </div>
-
-          <InvestorSystemVisual />
-        </section>
-
-        <section className="rz-investor-home" id="investor-systems">
-          <div className="rz-investor-home-head">
-            <div>
-              <p className="rz-kicker">INVESTOR SYSTEMS</p>
-              <h2>Everything you need to raise, in one place.</h2>
-            </div>
-            <div>
-              <p>
-                I help founders, developers, operators, and hospitality projects create the materials, systems,
-                and experiences they need to raise capital and move projects forward, from the first narrative
-                through diligence and launch.
-              </p>
-              <a className="rz-text-link inverse" href="/devon/investor-deal-rooms">
-                Explore investor / deal room work <ArrowUpRight size={15} aria-hidden="true" />
-              </a>
-            </div>
-          </div>
-
-          <div className="rz-investor-home-services">
-            {[
-              ["Investor decks", "Pitch narrative, slide design, and financial storytelling."],
-              ["Investor room / data room design", "Secure, organized, professional project systems."],
-              ["Diligence dashboards", "Track readiness, proof, gaps, and validation."],
-              ["Proof registers & document organization", "Structure evidence and reduce investor friction."],
-              ["Market research summaries", "Turn dense research into clear, visual insights."],
-              ["Financial snapshot visuals", "Key metrics, scenarios, assumptions, and milestones."],
-              ["Project websites & landing pages", "Private or public sites for investor outreach."],
-              ["Launch materials", "One-pagers, brochures, partner decks, and brand assets."],
-              ["Motion / explainer visuals", "Videos, diagrams, walkthroughs, and concept storytelling."],
-              ["Ongoing design support", "From first deck through investor meetings and final revisions."],
-            ].map(([title, body]) => (
-              <article key={title}>
-                <span className="rz-investor-service-mark" />
-                <div>
-                  <h3>{title}</h3>
-                  <p>{body}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div className="rz-investor-home-featured">
-            <article>
-              <div className="rz-investor-home-thumb thumb-room"><InvestorSystemVisual compact /></div>
-              <small>INVESTOR / DEAL ROOM</small>
-              <h3>CR 91 Investor Room</h3>
-              <p>Secure diligence dashboard, proof register, documents, permissions, and investor access.</p>
-            </article>
-            <article>
-              <div className="rz-investor-home-thumb thumb-deck"><div><small>INVESTOR DECK</small><strong>PARK PLAZA</strong><span>Investment opportunity</span></div></div>
-              <small>INVESTOR DECKS</small>
-              <h3>CR 91 Pitch Deck</h3>
-              <p>Narrative, opportunity framing, research, financial visuals, and ongoing revision support.</p>
-            </article>
-            <article>
-              <div className="rz-investor-home-thumb thumb-site"><div><small>PROJECT WEBSITE</small><strong>RIVERTON</strong><span>Investor-facing project story</span></div></div>
-              <small>PROJECT WEBSITES</small>
-              <h3>Investor-facing project sites</h3>
-              <p>Brand, content, research, visuals, and a polished home for investor and partner outreach.</p>
-            </article>
-            <article>
-              <div className="rz-investor-home-thumb thumb-proof"><div><span>Claims & proof</span><span>Financials</span><span>Research</span><span>Permits</span></div></div>
-              <small>DILIGENCE SYSTEMS</small>
-              <h3>Proof & readiness systems</h3>
-              <p>Document organization, evidence tracking, gaps, access, and clear readiness workflows.</p>
-            </article>
-          </div>
-        </section>
+        <DevonHeroShowcase />
 
         <section className="rz-brand-proof" aria-label="Selected brand and property experience">
           <div className="rz-brand-proof-copy">
@@ -273,6 +200,86 @@ export default function DevonCreativeTechnologistPage() {
                 <Image src={brand.src} alt={brand.alt} width={190} height={72} sizes="190px" />
               </div>
             ))}
+          </div>
+        </section>
+
+        <section className="rz-resume" id="about-resume">
+          <div className="rz-resume-intro">
+            <div>
+              <div className="rz-section-number">ABOUT / RESUME</div>
+              <p className="rz-kicker dark">DEVON ARCHER · DESIGN ENGINEER + CREATIVE TECHNOLOGIST</p>
+              <h2>Creative range, grounded in execution.</h2>
+            </div>
+            <div className="rz-resume-summary">
+              <p>
+                I work across product UX, design engineering, hospitality creative, motion, AI-assisted production,
+                investor materials, and web experiences. My strongest engagements are the ones where the work needs
+                both creative judgment and someone who can stay close enough to the build to make sure the idea
+                actually becomes real.
+              </p>
+              <div className="rz-resume-actions">
+                <a className="rz-btn rz-btn-dark" href="mailto:heydevon@gmail.com">
+                  Work with me <Mail size={15} aria-hidden="true" />
+                </a>
+                <a className="rz-btn rz-btn-outline rz-resume-github" href="https://github.com/devon-gif" target="_blank" rel="noreferrer">
+                  GitHub <Code2 size={15} aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="rz-resume-highlights" aria-label="Selected accomplishments">
+            {resumeHighlights.map(([value, label]) => (
+              <div key={label}>
+                <strong>{value}</strong>
+                <span>{label}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="rz-resume-grid">
+            <div className="rz-resume-experience">
+              <div className="rz-resume-subhead">
+                <span>EXPERIENCE</span>
+                <p>Selected roles and the through-line across the work.</p>
+              </div>
+              {experience.map((item) => (
+                <article key={item.role}>
+                  <div>
+                    <span>{item.years}</span>
+                    <h3>{item.role}</h3>
+                  </div>
+                  <p>{item.body}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="rz-resume-side">
+              <div className="rz-resume-panel">
+                <span>EDUCATION</span>
+                {education.map(([degree, school]) => (
+                  <div key={degree}>
+                    <strong>{degree}</strong>
+                    <p>{school}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="rz-resume-panel">
+                <span>CORE PRACTICE</span>
+                <div><strong>Product + UX</strong><p>Figma, interaction design, flows, prototypes, systems, decision support.</p></div>
+                <div><strong>Design engineering</strong><p>React, Next.js, TypeScript, Supabase, APIs, GitHub, Vercel, QA.</p></div>
+                <div><strong>Creative direction</strong><p>Hospitality, restaurants, campaigns, motion, video, investor materials, AI image/video.</p></div>
+              </div>
+
+              <div className="rz-resume-panel rz-resume-recommendation">
+                <span>RECOMMENDATION</span>
+                <blockquote>
+                  “Devon is an amazing employee and graphic designer here at SHAIPE... I would highly recommend Devon.”
+                </blockquote>
+                <p>Ellie P. · SHAIPE / Vigilant · LinkedIn recommendation</p>
+              </div>
+            </div>
           </div>
         </section>
 
