@@ -69,6 +69,8 @@ type Cr91Deliverable = {
   linkLabel?: string;
 };
 
+const cr91ImageBase = "https://raw.githubusercontent.com/devon-gif/portfolio/main/public/devon/investor";
+
 const cr91Deliverables: Cr91Deliverable[] = [
   {
     eyebrow: "CR-91 PARK PLAZA",
@@ -239,16 +241,9 @@ export default function InvestorDealRoomsPage() {
           <div className="rz-investor-featured-grid">
             {cr91Deliverables.map(({ eyebrow, title, body, image, href, linkLabel }) => {
               const cardArt = (
-                <div
-                  className="rz-investor-feature-card-art rz-investor-feature-card-generated"
-                  role="img"
-                  aria-label={`${title} visual`}
-                  style={{
-                    backgroundImage: `url('${image}')`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                />
+                <div className="rz-investor-feature-card-art rz-investor-feature-card-generated">
+                  <img src={image} alt={`${title} visual`} loading="lazy" decoding="async" />
+                </div>
               );
 
               return (

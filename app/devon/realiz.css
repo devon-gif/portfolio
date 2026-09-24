@@ -3206,3 +3206,11 @@
     min-width: 0;
   }
 }
+
+/* CR-91 investor case study images */
+.rz-investor-feature-card-art img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
