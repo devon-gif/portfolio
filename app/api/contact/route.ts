@@ -29,7 +29,7 @@ export async function POST(req: Request) {
   }
 
   const { firstName, lastName, company, email, message } = parsed.data;
-  const subject = `Archer Design contact form: 7-Day Trial request from ${company}`;
+  const subject = `Archer Design contact form: Project inquiry from ${company}`;
   const text = [
     `New contact form submission from the Archer Design website.`,
     "",
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
 
   try {
     await sendEmail({
-      to: "heydevon@gmail.com",
+      to: "hello@archerdesign.shop",
       subject,
       text,
       replyTo: email,
