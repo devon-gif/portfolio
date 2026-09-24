@@ -144,11 +144,9 @@ export default function DevonCreativeTechnologistPage() {
             DA
           </a>
           <nav>
-            <a href="#builds">Builds</a>
-            <a href="#process">Process</a>
-            <a href="#archer">Studio</a>
-            <a href="#motion">Motion</a>
-            <a href="#graphics">Creative</a>
+            <a href="#hotels">Hotels</a>
+            <a href="#restaurants">Restaurants</a>
+            <a href="#commercial">Commercial</a>
           </nav>
           <span className="rz-copyright">© 2026 DEVON ARCHER</span>
         </div>
@@ -412,7 +410,7 @@ export default function DevonCreativeTechnologistPage() {
           </div>
 
           <div className="rz-motion-groups">
-            <div className="rz-motion-group">
+            <div className="rz-motion-group" id="hotels">
               <div className="rz-motion-group-head">
                 <div>
                   <span className="rz-motion-group-index">01</span>
@@ -425,7 +423,7 @@ export default function DevonCreativeTechnologistPage() {
               <DevonMotionSlideshow items={DEVON_HOTEL_MOTION} showFullLibraryLink={false} />
             </div>
 
-            <div className="rz-motion-group">
+            <div className="rz-motion-group" id="restaurants">
               <div className="rz-motion-group-head">
                 <div>
                   <span className="rz-motion-group-index">02</span>
@@ -438,7 +436,7 @@ export default function DevonCreativeTechnologistPage() {
               <DevonMotionSlideshow items={DEVON_FNB_MOTION} showFullLibraryLink={false} />
             </div>
 
-            <div className="rz-motion-group">
+            <div className="rz-motion-group" id="commercial">
               <div className="rz-motion-group-head">
                 <div>
                   <span className="rz-motion-group-index">03</span>
