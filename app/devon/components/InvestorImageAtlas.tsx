@@ -1,5 +1,3 @@
-import { INVESTOR_ATLAS_DATA_URI } from "../investor-atlas/data";
-
 export type InvestorAtlasTile =
   | "system"
   | "building"
@@ -9,14 +7,24 @@ export type InvestorAtlasTile =
   | "research"
   | "financial";
 
+const imagePaths: Record<InvestorAtlasTile, string> = {
+  system: "/devon/investor/investor-system-composition.png",
+  building: "/devon/investor/investor-building.png",
+  dashboard: "/devon/investor/investor-dashboard.png",
+  deck: "/devon/investor/investor-pitch-deck.png",
+  diligence: "/devon/investor/investor-proof-register.png",
+  research: "/devon/investor/investor-research-report.png",
+  financial: "/devon/investor/investor-financial-spread.png",
+};
+
 const positions: Record<InvestorAtlasTile, string> = {
-  system: "0% 0%",
-  building: "100% 0%",
-  dashboard: "0% 33.333%",
-  deck: "100% 33.333%",
-  diligence: "0% 66.667%",
-  research: "100% 66.667%",
-  financial: "0% 100%",
+  system: "center",
+  building: "center",
+  dashboard: "center",
+  deck: "center",
+  diligence: "center top",
+  research: "center",
+  financial: "center",
 };
 
 const labels: Record<InvestorAtlasTile, string> = {
@@ -42,8 +50,8 @@ export function InvestorImageAtlas({
       role="img"
       aria-label={labels[tile]}
       style={{
-        backgroundImage: `url("${INVESTOR_ATLAS_DATA_URI}")`,
-        backgroundSize: "200% 400%",
+        backgroundImage: `url("${imagePaths[tile]}")`,
+        backgroundSize: "cover",
         backgroundPosition: positions[tile],
         backgroundRepeat: "no-repeat",
       }}
