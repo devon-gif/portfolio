@@ -37,6 +37,8 @@ const brandProof = [
   },
   { src: pub("Elements Full logo- NO BACK GROUND.png"), alt: "Elements Salon & Wellness" },
   { src: pub("Untitled.png"), alt: "Eliza Hot Metal Bistro" },
+  { src: "/archer-preview/logos/rev.png", alt: "Revest Properties" },
+  { src: "/archer-preview/logos/PRIMARY-1.png", alt: "Vigilant" },
 ] as const;
 
 const builds = [
@@ -215,12 +217,13 @@ export default function DevonCreativeTechnologistPage() {
           </div>
           <div className="rz-brand-logo-grid">
             {brandProof.map((brand) => (
-              <div className="rz-brand-logo" key={brand.alt}>
+              <div
+                className={`rz-brand-logo${brand.alt === "Vigilant" ? " rz-brand-logo-darken" : ""}`}
+                key={brand.alt}
+              >
                 <Image src={brand.src} alt={brand.alt} width={190} height={72} sizes="190px" />
               </div>
             ))}
-            <div className="rz-brand-wordmark">REVEST PROPERTIES</div>
-            <div className="rz-brand-wordmark">VIGILANT</div>
           </div>
         </section>
 
