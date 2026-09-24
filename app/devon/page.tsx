@@ -10,6 +10,7 @@ import {
 import { absoluteUrl } from "@/lib/seo";
 import { DevonMotionSlideshow } from "./components/DevonMotionSlideshow";
 import { DevonGraphicSlideshow } from "./components/DevonGraphicSlideshow";
+import { InvestorSystemVisual } from "./components/InvestorSystemVisual";
 import { TCRM_IMAGES } from "@/app/tcrm/tcrm-media";
 import { DEVON_COMMERCIAL_MOTION, DEVON_FNB_MOTION, DEVON_HOTEL_MOTION } from "./motion-data";
 
@@ -150,33 +151,35 @@ export default function DevonCreativeTechnologistPage() {
       </aside>
 
       <main className="rz-main" id="top">
-        <header className="rz-topnav" aria-label="Motion portfolio categories">
+        <header className="rz-topnav" aria-label="Portfolio categories">
           <a className="rz-topnav-home" href="#top">DEVON ARCHER</a>
           <nav>
+            <a href="#builds">Work</a>
+            <a className="rz-nav-investor" href="/devon/investor-deal-rooms">Investor / Deal Rooms</a>
             <a href="#hotels">Hotels</a>
             <a href="#restaurants">Restaurants</a>
             <a href="#commercial">Commercial</a>
           </nav>
         </header>
-        <section className="rz-hero">
+        <section className="rz-hero rz-hero-investor">
           <div className="rz-hero-copy">
             <p className="rz-kicker">DEVON ARCHER / DESIGN ENGINEER + CREATIVE TECHNOLOGIST</p>
             <h1>
               <span>DESIGN.</span>
               <span>BUILD.</span>
-              <em>SHIP.</em>
+              <em>LAUNCH.</em>
             </h1>
             <p className="rz-lead">
-              I turn ambiguous ideas into working experiences. My strongest work lives between product design
-              and engineering: shaping the interaction, modeling the system, prototyping quickly, and staying
-              with the build through real states, QA, deployment, and iteration.
+              I turn complex ideas into clear, compelling experiences. Product design, investor materials,
+              brand systems, and web experiences for hospitality, real estate, startups, and ambitious founders.
+              I can stay with the work from early story through the materials, systems, build, launch, and iteration.
             </p>
             <div className="rz-actions">
-              <a href="#builds" className="rz-btn rz-btn-primary">
-                Explore the work <ArrowDownRight size={16} aria-hidden="true" />
+              <a href="#investor-systems" className="rz-btn rz-btn-primary">
+                Explore investor work <ArrowDownRight size={16} aria-hidden="true" />
               </a>
-              <a href="https://github.com/devon-gif" target="_blank" rel="noreferrer" className="rz-btn rz-btn-outline">
-                GitHub <Code2 size={15} aria-hidden="true" />
+              <a href="#builds" className="rz-btn rz-btn-outline">
+                Product work <Code2 size={15} aria-hidden="true" />
               </a>
               <a href="mailto:heydevon@gmail.com" className="rz-btn rz-btn-outline">
                 Get in touch <Mail size={15} aria-hidden="true" />
@@ -184,29 +187,75 @@ export default function DevonCreativeTechnologistPage() {
             </div>
           </div>
 
-          <div className="rz-hero-portrait" aria-label="Portrait of Devon Archer">
-            <div className="rz-portrait-art" aria-hidden="true">
-              <Image
-                src="/tcrm/images/hotel-indigo-pittsburgh-room-collage.png"
-                alt=""
-                fill
-                sizes="(min-width: 900px) 30vw, 80vw"
-              />
+          <InvestorSystemVisual />
+        </section>
+
+        <section className="rz-investor-home" id="investor-systems">
+          <div className="rz-investor-home-head">
+            <div>
+              <p className="rz-kicker">INVESTOR SYSTEMS</p>
+              <h2>Everything you need to raise, in one place.</h2>
             </div>
-            <div className="rz-portrait-frame">
-              <Image
-                src="/infuse/brand/devon-archer-portrait.png"
-                alt="Devon Archer"
-                fill
-                priority
-                sizes="(min-width: 900px) 34vw, 84vw"
-              />
+            <div>
+              <p>
+                I help founders, developers, operators, and hospitality projects create the materials, systems,
+                and experiences they need to raise capital and move projects forward, from the first narrative
+                through diligence and launch.
+              </p>
+              <a className="rz-text-link inverse" href="/devon/investor-deal-rooms">
+                Explore investor / deal room work <ArrowUpRight size={15} aria-hidden="true" />
+              </a>
             </div>
-            <div className="rz-portrait-label">
-              <span>DEVON ARCHER</span>
-              <small>PRODUCT / AI / UX / MOTION</small>
-            </div>
-            <div className="rz-orbit-note">Designer first. Builder when the idea needs to become real.</div>
+          </div>
+
+          <div className="rz-investor-home-services">
+            {[
+              ["Investor decks", "Pitch narrative, slide design, and financial storytelling."],
+              ["Investor room / data room design", "Secure, organized, professional project systems."],
+              ["Diligence dashboards", "Track readiness, proof, gaps, and validation."],
+              ["Proof registers & document organization", "Structure evidence and reduce investor friction."],
+              ["Market research summaries", "Turn dense research into clear, visual insights."],
+              ["Financial snapshot visuals", "Key metrics, scenarios, assumptions, and milestones."],
+              ["Project websites & landing pages", "Private or public sites for investor outreach."],
+              ["Launch materials", "One-pagers, brochures, partner decks, and brand assets."],
+              ["Motion / explainer visuals", "Videos, diagrams, walkthroughs, and concept storytelling."],
+              ["Ongoing design support", "From first deck through investor meetings and final revisions."],
+            ].map(([title, body]) => (
+              <article key={title}>
+                <span className="rz-investor-service-mark" />
+                <div>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="rz-investor-home-featured">
+            <article>
+              <div className="rz-investor-home-thumb thumb-room"><InvestorSystemVisual compact /></div>
+              <small>INVESTOR / DEAL ROOM</small>
+              <h3>CR 91 Investor Room</h3>
+              <p>Secure diligence dashboard, proof register, documents, permissions, and investor access.</p>
+            </article>
+            <article>
+              <div className="rz-investor-home-thumb thumb-deck"><div><small>INVESTOR DECK</small><strong>PARK PLAZA</strong><span>Investment opportunity</span></div></div>
+              <small>INVESTOR DECKS</small>
+              <h3>CR 91 Pitch Deck</h3>
+              <p>Narrative, opportunity framing, research, financial visuals, and ongoing revision support.</p>
+            </article>
+            <article>
+              <div className="rz-investor-home-thumb thumb-site"><div><small>PROJECT WEBSITE</small><strong>RIVERTON</strong><span>Investor-facing project story</span></div></div>
+              <small>PROJECT WEBSITES</small>
+              <h3>Investor-facing project sites</h3>
+              <p>Brand, content, research, visuals, and a polished home for investor and partner outreach.</p>
+            </article>
+            <article>
+              <div className="rz-investor-home-thumb thumb-proof"><div><span>Claims & proof</span><span>Financials</span><span>Research</span><span>Permits</span></div></div>
+              <small>DILIGENCE SYSTEMS</small>
+              <h3>Proof & readiness systems</h3>
+              <p>Document organization, evidence tracking, gaps, access, and clear readiness workflows.</p>
+            </article>
           </div>
         </section>
 
