@@ -295,10 +295,10 @@ const sections: Record<SectionKey, SectionConfig> = {
       ["Creative stack", "Figma, Adobe Creative Suite, motion, video, social systems, AI image/video, art direction, and presentation design."],
     ],
     features: [
-      { eyebrow: "TRACKED IMPRESSIONS", title: "9.13M", body: "Across tracked hospitality, restaurant, event, and wellness social work." },
-      { eyebrow: "TRACKED REACH", title: "4.69M", body: "Aggregate reach across tracked campaigns and profiles." },
-      { eyebrow: "TRACKED ENGAGEMENTS", title: "636K+", body: "Engagements across tracked social work." },
-      { eyebrow: "CREATIVE PIECES / POSTS", title: "2,970", body: "Tracked output across client and campaign work." },
+      { eyebrow: "IMPRESSIONS", title: "18.6M+", body: "Across supported hospitality, restaurant, event, and wellness campaign work." },
+      { eyebrow: "REACH", title: "4.9M+", body: "Aggregate reach across supported campaigns and profiles." },
+      { eyebrow: "ENGAGEMENTS", title: "612K+", body: "Engagements across supported social and campaign work." },
+      { eyebrow: "CREATIVE PIECES", title: "2.7K+", body: "Creative pieces delivered across client and campaign work." },
     ],
   },
 };
@@ -556,6 +556,96 @@ export function DevonHeroShowcase() {
             <FeatureCard feature={feature} active={active} index={index} key={feature.title} />
           ))}
         </div>
+
+        <section className="rz-engagement-pricing" id="pricing">
+          <div className="rz-engagement-pricing-head">
+            <div>
+              <p className="rz-kicker">WAYS TO WORK TOGETHER</p>
+              <h2>Choose the level of support the project actually needs.</h2>
+            </div>
+            <p>
+              These are starting structures, not one-size-fits-all packages. Scope, turnaround, meeting load,
+              technical complexity, and major builds can change the final quote.
+            </p>
+          </div>
+
+          <div className="rz-engagement-pricing-grid">
+            <article>
+              <div className="rz-pricing-tier-head">
+                <span>ESSENTIALS</span>
+                <strong>$1,500<small>/mo</small></strong>
+              </div>
+              <p>Light ongoing support for teams that already have the core system in place.</p>
+              <ul>
+                <li>Up to roughly 10–12 hours per month</li>
+                <li>Deck and presentation updates</li>
+                <li>Investor-room or website maintenance</li>
+                <li>Routine revisions and small creative requests</li>
+                <li>One active priority at a time</li>
+              </ul>
+              <small>Major builds are scoped separately.</small>
+            </article>
+
+            <article className="is-featured">
+              <div className="rz-pricing-badge">MOST COMMON FIT</div>
+              <div className="rz-pricing-tier-head">
+                <span>INVESTOR CREATIVE PARTNER</span>
+                <strong>$2.5K–$3.5K<small>/mo</small></strong>
+              </div>
+              <p>Ongoing multidisciplinary creative support for an active raise, development, or launch.</p>
+              <ul>
+                <li>Investor deck + data-room / dashboard support</li>
+                <li>Project webpages and investor updates</li>
+                <li>Research and data visualization</li>
+                <li>Marketing collateral and presentation design</li>
+                <li>Ongoing iteration, meetings, and priority support</li>
+              </ul>
+              <small>Best fit for the kind of embedded support shown in the investor work.</small>
+            </article>
+
+            <article>
+              <div className="rz-pricing-tier-head">
+                <span>FRACTIONAL CREATIVE TECHNOLOGIST</span>
+                <strong>$4K–$6K+<small>/mo</small></strong>
+              </div>
+              <p>Embedded support when the work spans strategy, design, product, web, motion, and rapid builds.</p>
+              <ul>
+                <li>Multiple active creative and product workstreams</li>
+                <li>Decks, portals, websites, motion, and brand systems</li>
+                <li>AI-assisted technical implementation</li>
+                <li>Rapid founder / leadership-team iteration</li>
+                <li>Launch support and higher-touch availability</li>
+              </ul>
+              <small>Designed for teams that need range without several separate hires.</small>
+            </article>
+
+            <article>
+              <div className="rz-pricing-tier-head">
+                <span>MAJOR BUILD</span>
+                <strong>$4K–$8K+<small> one-time</small></strong>
+              </div>
+              <p>For a defined build that should not be buried inside a monthly retainer.</p>
+              <ul>
+                <li>Investor portal, deal room, or dashboard</li>
+                <li>Major pitch-deck system or presentation build</li>
+                <li>Project website or investor landing experience</li>
+                <li>Defined scope, milestones, and launch handoff</li>
+                <li>Optional ongoing retainer after launch</li>
+              </ul>
+              <small>Complex products or larger websites are quoted separately.</small>
+            </article>
+          </div>
+
+          <div className="rz-engagement-pricing-footer">
+            <div>
+              <span>LEGACY / FOUNDING CLIENTS</span>
+              <p>Existing relationships can stay on legacy pricing while new major initiatives are scoped separately.</p>
+            </div>
+            <a className="rz-btn rz-btn-primary" href="mailto:heydevon@gmail.com">
+              Talk about your project <Mail size={15} />
+            </a>
+          </div>
+        </section>
 
         {active === "about" ? (
           <div className="rz-dynamic-about-footer">

@@ -162,10 +162,10 @@ const education = [
 ] as const;
 
 const resumeHighlights = [
-  ["9.13M", "tracked social impressions"],
-  ["4.69M", "tracked reach"],
-  ["636K+", "tracked engagements"],
-  ["2,970", "tracked posts / creative pieces"],
+  ["18.6M+", "impressions"],
+  ["4.9M+", "reach"],
+  ["612K+", "engagements"],
+  ["2.7K+", "creative pieces"],
 ] as const;
 
 export default function DevonCreativeTechnologistPage() {
@@ -353,10 +353,10 @@ export default function DevonCreativeTechnologistPage() {
         </section>
 
         <section className="rz-proof" aria-label="Selected proof points">
-          <div><strong>9.13M</strong><span>tracked social impressions</span></div>
-          <div><strong>4.69M</strong><span>tracked reach</span></div>
-          <div><strong>636K+</strong><span>tracked engagements</span></div>
-          <div><strong>2,970</strong><span>tracked posts / creative pieces</span></div>
+          <div><strong>18.6M+</strong><span>impressions</span></div>
+          <div><strong>4.9M+</strong><span>reach</span></div>
+          <div><strong>612K+</strong><span>engagements</span></div>
+          <div><strong>2.7K+</strong><span>creative pieces</span></div>
         </section>
 
         <section className="rz-process" id="process">
