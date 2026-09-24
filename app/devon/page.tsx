@@ -7,11 +7,9 @@ import {
   Sparkles,
 } from "lucide-react";
 import { absoluteUrl } from "@/lib/seo";
-import { DevonMotionSlideshow } from "./components/DevonMotionSlideshow";
 import { DevonGraphicSlideshow } from "./components/DevonGraphicSlideshow";
 import { DevonHeroShowcase } from "./components/DevonHeroShowcase";
 import { TCRM_IMAGES } from "@/app/tcrm/tcrm-media";
-import { DEVON_COMMERCIAL_MOTION, DEVON_FNB_MOTION, DEVON_HOTEL_MOTION } from "./motion-data";
 
 const PAGE_TITLE = "Devon Archer — Design Engineer & Creative Technologist";
 const PAGE_DESCRIPTION =
@@ -185,72 +183,6 @@ export default function DevonCreativeTechnologistPage() {
 
       <main className="rz-main" id="top">
         <DevonHeroShowcase />
-
-        <section className="rz-brand-proof" aria-label="Selected brand and property experience">
-          <div className="rz-brand-proof-copy">
-            <span>SELECTED BRAND + PROPERTY EXPERIENCE</span>
-            <p>Property-level, hospitality, and client work — not a claim of corporate employment or endorsement.</p>
-          </div>
-          <div className="rz-brand-logo-grid">
-            {brandProof.map((brand) => (
-              <div
-                className={`rz-brand-logo${brand.alt === "Vigilant" ? " rz-brand-logo-darken" : ""}`}
-                key={brand.alt}
-              >
-                <Image src={brand.src} alt={brand.alt} width={190} height={72} sizes="190px" />
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="rz-section rz-motion rz-motion-shortcuts" id="motion-shortcuts">
-          <div className="rz-section-head">
-            <div>
-              <div className="rz-section-number">MOTION / QUICK VIEW</div>
-              <p className="rz-kicker">HOTELS / RESTAURANTS / COMMERCIAL</p>
-              <h2>Motion work, moved up where people can actually see it.</h2>
-            </div>
-            <p>
-              A quick look at the video and motion work by audience, placed near the top so hotel, restaurant,
-              and commercial visitors do not have to scroll through the entire portfolio to find the relevant examples.
-            </p>
-          </div>
-
-          <div className="rz-motion-groups">
-            <div className="rz-motion-group" id="hotels">
-              <div className="rz-motion-group-head">
-                <div>
-                  <span className="rz-motion-group-index">01</span>
-                  <h3>Hotel &amp; Hospitality Motion</h3>
-                </div>
-                <p>Rooms, lobbies, arrivals, pools, events, weddings, property experiences, and destination-led motion.</p>
-              </div>
-              <DevonMotionSlideshow items={DEVON_HOTEL_MOTION} showFullLibraryLink={false} />
-            </div>
-
-            <div className="rz-motion-group" id="restaurants">
-              <div className="rz-motion-group-head">
-                <div>
-                  <span className="rz-motion-group-index">02</span>
-                  <h3>Restaurant &amp; Food Motion</h3>
-                </div>
-                <p>Restaurants, bars, cocktails, breakfast, plated food, coffee, and culinary storytelling.</p>
-              </div>
-              <DevonMotionSlideshow items={DEVON_FNB_MOTION} showFullLibraryLink={false} />
-            </div>
-
-            <div className="rz-motion-group" id="commercial">
-              <div className="rz-motion-group-head">
-                <div>
-                  <span className="rz-motion-group-index">03</span>
-                  <h3>Commercial Motion</h3>
-                </div>
-                <p>Product, brand, interface, campaign, and experimental motion for non-hospitality work.</p>
-              </div>
-              <DevonMotionSlideshow items={DEVON_COMMERCIAL_MOTION} showFullLibraryLink={false} />
-            </div>
-          </div>
-        </section>
 
         <section className="rz-resume" id="about-resume">
           <div className="rz-resume-intro">

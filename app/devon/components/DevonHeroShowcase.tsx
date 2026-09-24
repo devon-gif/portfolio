@@ -14,6 +14,8 @@ import {
   Play,
 } from "lucide-react";
 import { InvestorImageAtlas, type InvestorAtlasTile } from "./InvestorImageAtlas";
+import { DevonMotionSlideshow } from "./DevonMotionSlideshow";
+import { DEVON_COMMERCIAL_MOTION, DEVON_FNB_MOTION, DEVON_HOTEL_MOTION } from "../motion-data";
 
 type SectionKey = "work" | "investor" | "hotels" | "restaurants" | "commercial" | "about";
 
@@ -303,6 +305,83 @@ const sections: Record<SectionKey, SectionConfig> = {
   },
 };
 
+
+const heroLogoProof = [
+  { src: "/Hampton-Brand-Logo_TM_CMYK_Full-Color.png", alt: "Hampton by Hilton" },
+  { src: "/PITTSBURGH UNI-OAK_RGB_canvas_white_on_indigo_blue.png", alt: "Hotel Indigo Pittsburgh University-Oakland" },
+  { src: "/Elements Full logo- NO BACK GROUND.png", alt: "Elements Salon & Wellness" },
+  { src: "/Untitled.png", alt: "Eliza Hot Metal Bistro" },
+  { src: "/archer-preview/logos/rev.png", alt: "Revest Properties" },
+  { src: "/archer-preview/logos/PRIMARY-1.png", alt: "Vigilant" },
+] as const;
+
+function DynamicLogoProof() {
+  return (
+    <section className="rz-brand-proof rz-dynamic-logo-proof" aria-label="Selected brand and property experience">
+      <div className="rz-brand-proof-copy">
+        <span>SELECTED BRAND + PROPERTY EXPERIENCE</span>
+        <p>Property-level, hospitality, and client work — not a claim of corporate employment or endorsement.</p>
+      </div>
+      <div className="rz-brand-logo-grid">
+        {heroLogoProof.map((brand) => (
+          <div
+            className={`rz-brand-logo${brand.alt === "Vigilant" ? " rz-brand-logo-darken" : ""}`}
+            key={brand.alt}
+          >
+            <Image src={brand.src} alt={brand.alt} width={190} height={72} sizes="190px" />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ActiveMotionShowcase({ active }: { active: SectionKey }) {
+  const config =
+    active === "hotels"
+      ? {
+          index: "01",
+          title: "Hotel & Hospitality Motion",
+          body: "Rooms, lobbies, arrivals, pools, events, weddings, property experiences, and destination-led motion.",
+          items: DEVON_HOTEL_MOTION,
+        }
+      : active === "restaurants"
+        ? {
+            index: "02",
+            title: "Restaurant & Food Motion",
+            body: "Restaurants, bars, cocktails, breakfast, plated food, coffee, and culinary storytelling.",
+            items: DEVON_FNB_MOTION,
+          }
+        : active === "commercial"
+          ? {
+              index: "03",
+              title: "Commercial Motion",
+              body: "Product, brand, interface, campaign, and experimental motion for non-hospitality work.",
+              items: DEVON_COMMERCIAL_MOTION,
+            }
+          : null;
+
+  if (!config) return null;
+
+  return (
+    <section className="rz-section rz-motion rz-motion-inline" id={`${active}-motion`}>
+      <div className="rz-motion-groups">
+        <div className="rz-motion-group">
+          <div className="rz-motion-group-head">
+            <div>
+              <span className="rz-motion-group-index">{config.index}</span>
+              <h3>{config.title}</h3>
+            </div>
+            <p>{config.body}</p>
+          </div>
+          <DevonMotionSlideshow items={config.items} showFullLibraryLink={false} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
 function PhotoStack({
   images,
   portrait = false,
@@ -508,6 +587,9 @@ export function DevonHeroShowcase() {
         </div>
         <HeroVisual active={active} />
       </section>
+
+      {active !== "investor" ? <DynamicLogoProof /> : null}
+      <ActiveMotionShowcase active={active} />
 
       <section className={`rz-dynamic-detail is-${active}`}>
         <div className="rz-dynamic-detail-head">
