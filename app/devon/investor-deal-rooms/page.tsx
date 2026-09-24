@@ -16,7 +16,7 @@ import {
   Search,
 } from "lucide-react";
 import { absoluteUrl } from "@/lib/seo";
-import { InvestorSystemVisual } from "../components/InvestorSystemVisual";
+import { InvestorImageAtlas, type InvestorAtlasTile } from "../components/InvestorImageAtlas";
 
 const PAGE_TITLE = "Investor Rooms, Pitch Decks & Diligence Systems — Devon Archer";
 const PAGE_DESCRIPTION =
@@ -50,12 +50,15 @@ const process = [
   ["04", "Launch & support", "Share with investors, support meetings, revise quickly, add new proof, and keep the system current."],
 ] as const;
 
-const featured = [
-  ["INVESTOR / DEAL ROOM", "CR 91 Investor Room", "Secure diligence dashboard, proof register, document organization, investor access, and ongoing updates."],
-  ["INVESTOR DECK", "CR 91 Park Plaza Deck", "Investor narrative, slide design, opportunity framing, market context, financial visuals, and revision support."],
-  ["PROJECT WEBSITE", "Investor-facing project site", "A polished web experience that gives the opportunity a credible home for investors, partners, and outreach."],
-  ["DILIGENCE SYSTEM", "Proof & readiness system", "A structured way to track evidence, missing items, claims, research, permissions, and validation status."],
-] as const;
+const featured: Array<[string, string, string, InvestorAtlasTile]> = [
+  ["INVESTOR SYSTEM", "Full investor ecosystem", "A cohesive presentation of the dashboard, deck, website, diligence, research, and supporting materials.", "system"],
+  ["INVESTOR / DEAL ROOM", "Investor dashboard", "A controlled home for project status, documents, financial snapshots, permissions, proof, and investor access.", "dashboard"],
+  ["INVESTOR DECK", "Pitch deck system", "Narrative, opportunity framing, visual hierarchy, architecture, market context, and financial storytelling.", "deck"],
+  ["DILIGENCE SYSTEM", "Diligence & proof register", "A structured view of evidence, completion status, document counts, proof gaps, and readiness.", "diligence"],
+  ["MARKET RESEARCH", "Research & demand story", "Competitive context, demand trends, regional insight, tourism indicators, and investor-facing research design.", "research"],
+  ["FINANCIAL STORYTELLING", "Financial snapshot visuals", "Charts, scenarios, assumptions, milestones, and capital-story visuals designed to be legible at a glance.", "financial"],
+  ["PROJECT VISUALIZATION", "Hospitality development imagery", "Investor-facing architectural imagery that gives the opportunity a believable visual identity before opening.", "building"],
+];
 
 export default function InvestorDealRoomsPage() {
   return (
@@ -99,7 +102,13 @@ export default function InvestorDealRoomsPage() {
               <a className="rz-btn rz-btn-outline" href="mailto:heydevon@gmail.com">Start a project <Mail size={15} /></a>
             </div>
           </div>
-          <InvestorSystemVisual />
+          <div className="rz-investor-page-generated-hero">
+            <InvestorImageAtlas tile="system" className="rz-investor-page-generated-hero-image" />
+            <div className="rz-investor-page-generated-caption">
+              <span>CONCEPT VISUALIZATION</span>
+              <strong>Investor ecosystem for a luxury hospitality development</strong>
+            </div>
+          </div>
         </section>
 
         <section className="rz-investor-services" id="capabilities">
@@ -153,18 +162,15 @@ export default function InvestorDealRoomsPage() {
               <h2>Systems, materials, and proof.</h2>
             </div>
             <p>
-              The CR 91 work shown here is an example of the kind of end-to-end support I can provide: deck,
-              research, investor room, proof organization, project site, and continuous revisions.
+              These anonymized concept visuals show the kind of end-to-end investor system I can provide: deck,
+              research, data room, proof organization, financial storytelling, project imagery, and continuous revisions.
             </p>
           </div>
           <div className="rz-investor-featured-grid">
-            {featured.map(([category, title, body], index) => (
+            {featured.map(([category, title, body, tile]) => (
               <article key={title}>
-                <div className={`rz-investor-feature-card-art art-${index + 1}`}>
-                  {index === 0 ? <InvestorSystemVisual compact /> : null}
-                  {index === 1 ? <div className="rz-mini-deck"><small>INVESTOR DECK</small><strong>PARK PLAZA</strong><span>Investment opportunity</span></div> : null}
-                  {index === 2 ? <div className="rz-mini-site"><small>PROJECT WEBSITE</small><strong>RIVERTON</strong><span>Investor-facing project story</span></div> : null}
-                  {index === 3 ? <div className="rz-mini-proof"><span>Claims & proof</span><span>Financials</span><span>Research</span><span>Permits</span></div> : null}
+                <div className="rz-investor-feature-card-art rz-investor-feature-card-generated">
+                  <InvestorImageAtlas tile={tile} className="rz-investor-feature-generated-image" />
                 </div>
                 <small>{category}</small>
                 <h3>{title}</h3>
