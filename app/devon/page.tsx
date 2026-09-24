@@ -143,16 +143,19 @@ export default function DevonCreativeTechnologistPage() {
           <a className="rz-mark" href="#top" aria-label="Back to top">
             DA
           </a>
-          <nav>
-            <a href="#hotels">Hotels</a>
-            <a href="#restaurants">Restaurants</a>
-            <a href="#commercial">Commercial</a>
-          </nav>
           <span className="rz-copyright">© 2026 DEVON ARCHER</span>
         </div>
       </aside>
 
       <main className="rz-main" id="top">
+        <header className="rz-topnav" aria-label="Motion portfolio categories">
+          <a className="rz-topnav-home" href="#top">DEVON ARCHER</a>
+          <nav>
+            <a href="#hotels">Hotels</a>
+            <a href="#restaurants">Restaurants</a>
+            <a href="#commercial">Commercial</a>
+          </nav>
+        </header>
         <section className="rz-hero">
           <div className="rz-hero-copy">
             <p className="rz-kicker">DEVON ARCHER / DESIGN ENGINEER + CREATIVE TECHNOLOGIST</p>
