@@ -114,23 +114,23 @@ const sections: Record<SectionKey, SectionConfig> = {
     features: [
       {
         eyebrow: "INVESTOR / DEAL ROOM",
-        title: "CR 91 Investor Room",
-        body: "A secure diligence dashboard for proof, documents, permissions, research, and investor access.",
+        title: "Investor dashboard",
+        body: "A polished control center for project status, documents, permissions, proof, financials, and investor access.",
       },
       {
         eyebrow: "INVESTOR DECK",
-        title: "CR 91 Park Plaza Deck",
-        body: "Opportunity framing, research, slide design, visual hierarchy, and financial storytelling.",
+        title: "Pitch deck system",
+        body: "Opportunity framing, research, architectural storytelling, slide design, and financial narrative.",
       },
       {
-        eyebrow: "PROJECT WEBSITE",
-        title: "Investor-facing project site",
-        body: "A polished home for the opportunity, supporting evidence, project story, and investor outreach.",
+        eyebrow: "MARKET RESEARCH",
+        title: "Research & demand story",
+        body: "Regional context, competitive positioning, demand trends, tourism indicators, and investor-facing insight.",
       },
       {
         eyebrow: "DILIGENCE SYSTEM",
-        title: "Proof & readiness register",
-        body: "Document organization, evidence tracking, claims, gaps, permissions, and clear readiness workflows.",
+        title: "Diligence & proof register",
+        body: "Document organization, evidence tracking, completion status, gaps, permissions, and readiness workflows.",
       },
     ],
   },
