@@ -13,7 +13,7 @@ import {
   Mail,
   Play,
 } from "lucide-react";
-import { InvestorSystemVisual } from "./InvestorSystemVisual";
+import { InvestorImageAtlas, type InvestorAtlasTile } from "./InvestorImageAtlas";
 
 type SectionKey = "work" | "investor" | "hotels" | "restaurants" | "commercial" | "about";
 
@@ -325,8 +325,12 @@ function PhotoStack({
 function HeroVisual({ active }: { active: SectionKey }) {
   if (active === "investor") {
     return (
-      <div className="rz-dynamic-investor-visual">
-        <InvestorSystemVisual />
+      <div className="rz-dynamic-investor-visual rz-generated-investor-hero">
+        <InvestorImageAtlas tile="system" className="rz-generated-investor-hero-image" />
+        <div className="rz-generated-investor-hero-label">
+          <span>INVESTOR SYSTEM</span>
+          <strong>Deck · Data room · Research · Financials · Launch</strong>
+        </div>
       </div>
     );
   }
@@ -415,14 +419,11 @@ function FeatureCard({ feature, active, index }: { feature: Feature; active: Sec
       <div className={`rz-dynamic-feature-art art-${index + 1} is-${active}`}>
         {feature.image ? (
           <Image src={feature.image} alt="" fill sizes="(min-width: 1100px) 22vw, 44vw" />
-        ) : active === "investor" && index === 0 ? (
-          <InvestorSystemVisual compact />
-        ) : active === "investor" && index === 1 ? (
-          <div className="rz-dynamic-mini-deck"><small>INVESTOR DECK</small><strong>PARK PLAZA</strong><span>Investment opportunity</span></div>
-        ) : active === "investor" && index === 2 ? (
-          <div className="rz-dynamic-mini-site"><small>PROJECT WEBSITE</small><strong>CR 91</strong><span>Investor-facing project story</span></div>
         ) : active === "investor" ? (
-          <div className="rz-dynamic-mini-proof"><span>Claims & proof</span><span>Financials</span><span>Research</span><span>Permits</span></div>
+          <InvestorImageAtlas
+            tile={(["dashboard", "deck", "research", "diligence"][index] ?? "system") as InvestorAtlasTile}
+            className="rz-generated-investor-card-image"
+          />
         ) : active === "about" ? (
           <div className="rz-dynamic-number-art"><strong>{feature.title}</strong><span>{feature.eyebrow}</span></div>
         ) : (
