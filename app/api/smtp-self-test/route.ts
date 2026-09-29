@@ -4,7 +4,7 @@ import { sendEmail } from "@/lib/sending";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function POST() {
+async function runTest() {
   try {
     await sendEmail({
       to: "hello@archerdesign.shop",
@@ -17,4 +17,8 @@ export async function POST() {
     console.error("SMTP_SELF_TEST_FAILED", error);
     return NextResponse.json({ ok: false }, { status: 500 });
   }
+}
+
+export async function GET() {
+  return runTest();
 }
