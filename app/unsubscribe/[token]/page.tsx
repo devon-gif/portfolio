@@ -3,16 +3,59 @@ import { getAdminClient, isAdminConfigured } from "@/lib/supabase-admin";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-async function processUnsubscribe(token: string): Promise<"ok" | "notfound" | "error"> {
-  if (!isAdminConfigured) return "error";
-  const admin = getAdminClient();
+async function processNewOutreachUnsubscribe(admin: ReturnType<typeof getAdminClient>, token: string): Promise<"ok" | "notfound" | "error"> {
+  const { data: message, error } = await admin
+    .from("outreach_messages")
+    .select("id, contact_id")
+    .eq("unsubscribe_token", token)
+    .maybeSingle();
 
+  if (error) {
+    // If the new outreach tables are not present, allow the legacy flow below.
+    if (error.message?.includes("outreach_messages") || error.code === "42P01") return "notfound";
+    return "error";
+  }
+  if (!message?.contact_id) return "notfound";
+
+  const { data: contact, error: contactError } = await admin
+    .from("outreach_contacts")
+    .select("id, email, company_name, company_domain")
+    .eq("id", message.contact_id)
+    .maybeSingle();
+  if (contactError || !contact?.email) return "error";
+
+  const now = new Date().toISOString();
+  await Promise.all([
+    admin.from("outreach_contacts").update({ status: "unsubscribed", updated_at: now }).eq("id", contact.id),
+    admin.from("outreach_messages").update({ status: "unsubscribed", updated_at: now }).eq("contact_id", contact.id).in("status", ["draft", "approved", "sent"]),
+  ]);
+
+  const normalizedEmail = String(contact.email).trim().toLowerCase();
+  const { data: existing } = await admin
+    .from("outreach_suppressions")
+    .select("id")
+    .ilike("email", normalizedEmail)
+    .limit(1);
+
+  if (!existing?.length) {
+    await admin.from("outreach_suppressions").insert({
+      email: normalizedEmail,
+      reason: "Unsubscribed via email link",
+      source: "unsubscribe_link",
+      permanent: true,
+    });
+  }
+
+  return "ok";
+}
+
+async function processLegacyUnsubscribe(admin: ReturnType<typeof getAdminClient>, token: string): Promise<"ok" | "notfound" | "error"> {
   const { data: message, error } = await admin
     .from("messages")
     .select("id, contact_id")
     .eq("unsubscribe_token", token)
     .maybeSingle();
-  if (error) return "error";
+  if (error) return "notfound";
   if (!message?.contact_id) return "notfound";
 
   const { data: contact } = await admin
@@ -27,7 +70,6 @@ async function processUnsubscribe(token: string): Promise<"ok" | "notfound" | "e
     .eq("id", message.contact_id);
 
   if (contact?.email) {
-    // suppression_list.email is not unique — insert only if not already present.
     const { data: existing } = await admin
       .from("suppression_list")
       .select("id")
@@ -46,7 +88,6 @@ async function processUnsubscribe(token: string): Promise<"ok" | "notfound" | "e
     }
   }
 
-  // Stop any active drip enrollment.
   await admin
     .from("enrollments")
     .update({ status: "stopped", stopped_reason: "unsubscribed" })
@@ -54,6 +95,15 @@ async function processUnsubscribe(token: string): Promise<"ok" | "notfound" | "e
     .eq("status", "active");
 
   return "ok";
+}
+
+async function processUnsubscribe(token: string): Promise<"ok" | "notfound" | "error"> {
+  if (!isAdminConfigured) return "error";
+  const admin = getAdminClient();
+
+  const outreachResult = await processNewOutreachUnsubscribe(admin, token);
+  if (outreachResult === "ok" || outreachResult === "error") return outreachResult;
+  return processLegacyUnsubscribe(admin, token);
 }
 
 export default async function UnsubscribePage({
@@ -69,7 +119,7 @@ export default async function UnsubscribePage({
   const body =
     result === "error"
       ? "We couldn't process your request right now. Please reply to the email with the word UNSUBSCRIBE and we'll remove you manually."
-      : "You've been removed from this mailing list and won't receive further emails. If this was a mistake, simply reply to any previous email.";
+      : "You've been removed from future outreach and won't receive further emails. If this was a mistake, simply reply to any previous email.";
 
   return (
     <div className="min-h-screen flex items-center justify-center px-6 bg-zinc-950">
