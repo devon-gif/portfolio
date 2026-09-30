@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { absoluteUrl } from "@/lib/seo";
 import { InvestorImageAtlas, type InvestorAtlasTile } from "../components/InvestorImageAtlas";
+import { LuxuryDeckShowcase } from "./LuxuryDeckShowcase";
 
 const PAGE_TITLE = "Investor Rooms, Pitch Decks & Diligence Systems — Devon Archer";
 const PAGE_DESCRIPTION =
@@ -169,7 +170,7 @@ export default function InvestorDealRoomsPage() {
               websites, and the ongoing creative support that keeps everything current.
             </p>
             <div className="rz-actions">
-              <a className="rz-btn rz-btn-primary" href="#selected-work">Explore the work <ArrowRight size={15} /></a>
+              <a className="rz-btn rz-btn-primary" href="#luxury-investor-deck">View redesigned deck <ArrowRight size={15} /></a>
               <a className="rz-btn rz-btn-outline" href="/contact">Start a project <Mail size={15} /></a>
             </div>
           </div>
@@ -250,6 +251,8 @@ export default function InvestorDealRoomsPage() {
             ))}
           </div>
         </section>
+
+        <LuxuryDeckShowcase />
 
         <section className="rz-investor-featured" id="selected-work">
           <div className="rz-investor-featured-head">
