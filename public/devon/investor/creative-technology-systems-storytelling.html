@@ -1,0 +1,286 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Archer Design · Creative Technology, Systems & Storytelling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 16:9 slides on a 12-column Swiss grid, every measure in container units (cqw) so each slide scales as one drawing. */
+:root {
+  color-scheme: dark;
+  --ink: #0f0f10;
+  --paper: #f1f1ee;
+  --signal: #2b44f0;
+  --signal-dk: #7384ff;
+  --graphite: #5c5c61;
+  --ash: #9b9ba1;
+  --rule-l: #cfcec8;
+  --rule-d: #2d2d31;
+  --tint-l: #e3e2dd;
+  --tint-d: #1f1f22;
+  --ground: #19191b;
+  --display: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+html, body { background: var(--ground); color: var(--paper); }
+body { font-family: var(--sans); padding-inline: 16px; padding-block: 0; }
+
+/* Toolbar */
+.bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  max-width: 1440px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding-block: 14px; background: var(--ground);
+  font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ash);
+}
+.bar strong { color: var(--paper); font-weight: 500; }
+.bar .meta { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.btn {
+  font: inherit; letter-spacing: .08em; color: var(--ink); background: var(--paper);
+  border: 0; padding: 9px 14px; cursor: pointer;
+}
+.btn:hover { background: #fff; }
+.btn:focus-visible, a:focus-visible { outline: 2px solid var(--signal-dk); outline-offset: 3px; }
+
+.deck { max-width: 1440px; margin: 0 auto; padding-block: 8px 72px; display: grid; gap: 28px; }
+.frame { width: 100%; }
+
+/* Slide system */
+.slide {
+  --bg: var(--paper); --fg: var(--ink); --mute: var(--graphite); --rule: var(--rule-l); --sig: var(--signal); --tint: var(--tint-l);
+  container-type: inline-size;
+  position: relative; overflow: hidden;
+  width: 100%; max-width: 100%; aspect-ratio: 16 / 9;
+  background: var(--bg); color: var(--fg);
+  display: grid; grid-template-rows: auto 1fr auto; row-gap: 2cqw;
+  padding: 3.2cqw 4cqw 2.6cqw;
+  font-family: var(--sans);
+}
+.slide.dark { --bg: var(--ink); --fg: var(--paper); --mute: var(--ash); --rule: var(--rule-d); --sig: var(--signal-dk); --tint: var(--tint-d); }
+
+.head, .foot {
+  display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 1.6cqw; align-items: baseline;
+  font-family: var(--mono); font-size: .8cqw; letter-spacing: .08em; text-transform: uppercase; color: var(--mute);
+  position: relative; z-index: 1;
+}
+.head { border-bottom: 1px solid var(--rule); padding-bottom: .9cqw; }
+.head .brand { grid-column: 1 / 4; font-family: var(--sans); font-size: 1.05cqw; letter-spacing: -.01em; text-transform: none; color: var(--fg); font-weight: 600; }
+.head .sec { grid-column: 7 / 13; text-align: right; }
+.foot { border-top: 1px solid var(--rule); padding-top: .8cqw; font-size: .7cqw; }
+.foot .pc { grid-column: 1 / 4; display: flex; align-items: center; gap: .6cqw; }
+.foot .pc::before { content: ""; width: .5cqw; height: .5cqw; background: var(--sig); display: inline-block; }
+.foot .who { grid-column: 4 / 10; }
+.foot .pg { grid-column: 10 / 13; text-align: right; font-variant-numeric: tabular-nums; }
+
+.body { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 1.6cqw; min-height: 0; position: relative; z-index: 1; }
+.body > * { min-width: 0; }
+
+.eyebrow { font-family: var(--mono); font-size: .8cqw; letter-spacing: .1em; text-transform: uppercase; color: var(--sig); margin: 0 0 1cqw; }
+.h2 { font-family: var(--display); font-weight: 500; font-size: 3.1cqw; line-height: 1.02; letter-spacing: -.035em; margin: 0; text-wrap: balance; }
+.lead { font-size: 1.28cqw; line-height: 1.42; margin: 0; color: var(--fg); max-width: 34em; text-wrap: pretty; }
+.small { font-size: 1cqw; line-height: 1.45; margin: 0; color: var(--mute); text-wrap: pretty; }
+.mono { font-family: var(--mono); font-size: .78cqw; letter-spacing: .06em; text-transform: uppercase; color: var(--mute); }
+.sig { color: var(--sig); }
+.rule-top { border-top: 1px solid var(--fg); padding-top: .8cqw; }
+
+/* Slide 1 */
+.s1 .big { grid-column: 1 / 10; align-self: center; font-size: 6.5cqw; line-height: .88; letter-spacing: -.065em; font-weight: 500; margin: 0; }
+.s1 .big span { display: block; }
+.s1 .desc { grid-column: 10 / 13; align-self: end; padding-bottom: 1.2cqw; }
+.s1 .signal-line { position: absolute; left: 4cqw; right: 4cqw; top: 55%; height: 1px; background: var(--rule); }
+.s1 .signal-block { position: absolute; width: 1.2cqw; height: 1.2cqw; background: var(--sig); right: 4cqw; top: calc(55% - .6cqw); }
+
+/* Slide 2 */
+.s2 .left { grid-column: 1 / 6; align-self: center; }
+.s2 .right { grid-column: 7 / 13; align-self: center; display: grid; gap: 1.8cqw; }
+.axis { display: grid; grid-template-columns: 1fr 1.4fr; gap: 1.2cqw; padding-top: .9cqw; border-top: 1px solid var(--rule); }
+.axis .num { font-family: var(--mono); color: var(--sig); font-size: .85cqw; }
+.axis h3 { margin: 0 0 .35cqw; font-size: 1.3cqw; letter-spacing: -.02em; font-weight: 600; }
+.axis p { margin: 0; font-size: .9cqw; line-height: 1.45; color: var(--mute); }
+
+/* Slide 3 */
+.s3 .title { grid-column: 1 / 8; }
+.s3 .metrics { grid-column: 1 / 13; align-self: end; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.metric { padding: 1.5cqw 1.1cqw 1.35cqw 0; border-right: 1px solid var(--rule); }
+.metric:last-child { border-right: 0; padding-left: 1.1cqw; }
+.metric:not(:first-child) { padding-left: 1.1cqw; }
+.metric b { display: block; font-weight: 500; font-size: 3.05cqw; line-height: 1; letter-spacing: -.05em; color: var(--fg); font-variant-numeric: tabular-nums; }
+.metric span { display: block; margin-top: .65cqw; font-family: var(--mono); text-transform: uppercase; letter-spacing: .07em; font-size: .75cqw; color: var(--mute); }
+
+/* Slide 4 */
+.s4 .title { grid-column: 1 / 8; }
+.projects { grid-column: 1 / 13; align-self: end; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5cqw; }
+.project { border-top: 1px solid var(--fg); padding-top: 1cqw; min-height: 10cqw; display: flex; flex-direction: column; }
+.project .index { font-family: var(--mono); color: var(--sig); font-size: .8cqw; }
+.project h3 { font-size: 1.55cqw; line-height: 1.05; margin: .9cqw 0 .5cqw; letter-spacing: -.03em; font-weight: 600; }
+.project p { margin: 0; font-size: .88cqw; line-height: 1.45; color: var(--mute); }
+.project .tags { margin-top: auto; padding-top: .8cqw; display: flex; flex-wrap: wrap; gap: .35cqw; }
+.tag { font-family: var(--mono); font-size: .6cqw; letter-spacing: .04em; text-transform: uppercase; border: 1px solid var(--rule); padding: .3cqw .45cqw; }
+
+/* Slide 5 */
+.s5 .title { grid-column: 1 / 7; }
+.s5 .stack { grid-column: 8 / 13; display: grid; align-content: center; gap: 1.3cqw; }
+.stack-row { display: grid; grid-template-columns: 1.2fr 2fr; gap: 1cqw; align-items: baseline; border-top: 1px solid var(--rule); padding-top: .7cqw; }
+.stack-row b { font-size: 1.05cqw; font-weight: 600; }
+.stack-row span { font-size: .88cqw; line-height: 1.4; color: var(--mute); }
+.codebar { grid-column: 1 / 13; align-self: end; background: var(--tint); border-left: .7cqw solid var(--sig); padding: 1.1cqw 1.4cqw; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1cqw; font-family: var(--mono); font-size: .72cqw; text-transform: uppercase; letter-spacing: .05em; }
+
+/* Slide 6 */
+.s6 .title { grid-column: 1 / 7; }
+.flow { grid-column: 1 / 13; align-self: end; display: grid; grid-template-columns: repeat(5, 1fr); }
+.node { padding: 1.25cqw 1cqw 1cqw; min-height: 9.3cqw; border-top: 1px solid var(--fg); border-right: 1px solid var(--rule); position: relative; }
+.node:last-child { border-right: 0; }
+.node .n { font-family: var(--mono); font-size: .7cqw; color: var(--sig); }
+.node h3 { margin: 1cqw 0 .45cqw; font-size: 1.3cqw; line-height: 1.05; letter-spacing: -.025em; }
+.node p { margin: 0; font-size: .82cqw; line-height: 1.4; color: var(--mute); }
+.node::after { content: "→"; position: absolute; right: -.52cqw; top: 1cqw; z-index: 2; color: var(--sig); background: var(--bg); font-family: var(--mono); font-size: 1cqw; padding: 0 .1cqw; }
+.node:last-child::after { display: none; }
+
+/* Slide 7 */
+.s7 .title { grid-column: 1 / 7; }
+.outputs { grid-column: 1 / 13; align-self: end; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25cqw; }
+.output { aspect-ratio: 1 / .62; background: var(--tint); padding: 1.1cqw; display: flex; flex-direction: column; justify-content: space-between; }
+.output .shape { height: 52%; border: 1px solid var(--rule); position: relative; }
+.output .shape::before { content:""; position:absolute; left:10%; top:20%; width:52%; height:1px; background:var(--fg); box-shadow: 0 1.1cqw 0 var(--rule), 0 2.2cqw 0 var(--rule); }
+.output:nth-child(2) .shape::after { content:""; position:absolute; right:10%; bottom:16%; width:28%; height:45%; background:var(--sig); opacity:.9; }
+.output:nth-child(3) .shape { border-radius: 50%; width: 52%; aspect-ratio: 1; height: auto; align-self: center; }
+.output:nth-child(4) .shape::after { content:""; position:absolute; inset:18%; border:1px solid var(--sig); transform:rotate(45deg); }
+.output h3 { font-size: 1.05cqw; margin: .6cqw 0 0; }
+
+/* Slide 8 */
+.s8 .statement { grid-column: 1 / 11; align-self: center; font-size: 5.2cqw; line-height: .92; letter-spacing: -.055em; margin: 0; font-weight: 500; text-wrap: balance; }
+.s8 .statement .break { display: block; color: var(--sig); }
+.s8 .contact { grid-column: 10 / 13; align-self: end; font-size: .9cqw; line-height: 1.5; }
+.s8 .dot { position: absolute; width: 9cqw; height: 9cqw; background: var(--sig); border-radius: 50%; right: 8cqw; top: 8cqw; opacity: .95; }
+
+@media (max-width: 720px) {
+  body { padding-inline: 8px; }
+  .bar { align-items: flex-start; padding-block: 10px; }
+  .bar .meta { gap: 8px 12px; }
+  .bar .meta span:nth-child(2) { display: none; }
+  .deck { gap: 14px; padding-bottom: 40px; }
+}
+
+@media print {
+  @page { size: 16in 9in; margin: 0; }
+  html, body { background: white; padding: 0; }
+  .bar { display: none !important; }
+  .deck { max-width: none; padding: 0; gap: 0; display: block; }
+  .frame { width: 16in; height: 9in; page-break-after: always; break-after: page; }
+  .frame:last-child { page-break-after: auto; break-after: auto; }
+  .slide { width: 16in; height: 9in; aspect-ratio: auto; }
+}
+</style>
+
+<div class="bar">
+  <div class="meta"><strong>Archer Design</strong><span>Creative Technology · Systems · Storytelling</span><span>Portfolio concept</span></div>
+  <button class="btn" onclick="window.print()">Print / PDF</button>
+</div>
+
+<main class="deck">
+  <div class="frame"><section class="slide dark s1">
+    <header class="head"><div class="brand">Archer Design</div><div class="sec">Creative Technology · Systems · Storytelling</div></header>
+    <div class="body">
+      <div class="signal-line"></div><div class="signal-block"></div>
+      <h1 class="big"><span>Creative</span><span>Technology.</span><span class="sig">Systems.</span><span>Storytelling.</span></h1>
+      <div class="desc"><p class="eyebrow">Portfolio Concept</p><p class="lead">Design-led technology for complex products, investor stories, creative systems, and AI-assisted experiences.</p></div>
+    </div>
+    <footer class="foot"><div class="pc">Portfolio concept</div><div class="who">Devon Archer · Design-led Creative Technologist</div><div class="pg">01 / 08</div></footer>
+  </section></div>
+
+  <div class="frame"><section class="slide s2">
+    <header class="head"><div class="brand">Archer Design</div><div class="sec">Positioning</div></header>
+    <div class="body">
+      <div class="left"><p class="eyebrow">Design × Product × AI × Engineering</p><h2 class="h2">One practice across the visual, product, and technical layers.</h2></div>
+      <div class="right">
+        <div class="axis"><div class="num">01</div><div><h3>Design</h3><p>Brand systems, information design, campaigns, motion, decks, and interface craft.</p></div></div>
+        <div class="axis"><div class="num">02</div><div><h3>Product</h3><p>UX structure, workflows, dashboards, prototyping, product storytelling, and decision support.</p></div></div>
+        <div class="axis"><div class="num">03</div><div><h3>AI</h3><p>Applied AI experiences, analysis systems, creative automation, and human-in-the-loop interactions.</p></div></div>
+        <div class="axis"><div class="num">04</div><div><h3>Engineering</h3><p>Frontend implementation, Next.js systems, Supabase data layers, Vercel deployment, and integration logic.</p></div></div>
+      </div>
+    </div>
+    <footer class="foot"><div class="pc">Portfolio concept</div><div class="who">Archer Design</div><div class="pg">02 / 08</div></footer>
+  </section></div>
+
+  <div class="frame"><section class="slide dark s3">
+    <header class="head"><div class="brand">Archer Design</div><div class="sec">Creative scale</div></header>
+    <div class="body">
+      <div class="title"><p class="eyebrow">Proven Creative Scale</p><h2 class="h2">Systems that ship repeatedly, not one-off concepts.</h2></div>
+      <div class="metrics">
+        <div class="metric"><b>2,970</b><span>Social posts</span></div>
+        <div class="metric"><b>9.13M</b><span>Impressions</span></div>
+        <div class="metric"><b>4.69M</b><span>Reach</span></div>
+        <div class="metric"><b>636K+</b><span>Engagements</span></div>
+      </div>
+    </div>
+    <footer class="foot"><div class="pc">Portfolio concept</div><div class="who">Tracked client work</div><div class="pg">03 / 08</div></footer>
+  </section></div>
+
+  <div class="frame"><section class="slide s4">
+    <header class="head"><div class="brand">Archer Design</div><div class="sec">Product systems</div></header>
+    <div class="body">
+      <div class="title"><p class="eyebrow">Selected Product Systems</p><h2 class="h2">Complex workflows made understandable and usable.</h2></div>
+      <div class="projects">
+        <article class="project"><div class="index">01</div><h3>CheckRay</h3><p>AI-assisted scam analysis that turns suspicious messages, links, bills, and job offers into structured risk reports and evidence.</p><div class="tags"><span class="tag">AI UX</span><span class="tag">Next.js</span><span class="tag">Supabase</span></div></article>
+        <article class="project"><div class="index">02</div><h3>Recroo</h3><p>Recruiter workflow SaaS built around a daily candidate digest, saved candidates, decision SLAs, and no-ghosting assistance.</p><div class="tags"><span class="tag">Product UX</span><span class="tag">Workflow</span><span class="tag">Automation</span></div></article>
+        <article class="project"><div class="index">03</div><h3>Investor / Diligence Systems</h3><p>Private investor rooms and executive dashboards that organize proof, financials, market research, project readiness, and decision-making.</p><div class="tags"><span class="tag">Storytelling</span><span class="tag">Dashboard</span><span class="tag">Data room</span></div></article>
+      </div>
+    </div>
+    <footer class="foot"><div class="pc">Portfolio concept</div><div class="who">Product + systems</div><div class="pg">04 / 08</div></footer>
+  </section></div>
+
+  <div class="frame"><section class="slide dark s5">
+    <header class="head"><div class="brand">Archer Design</div><div class="sec">Technical capability</div></header>
+    <div class="body">
+      <div class="title"><p class="eyebrow">Technical Capability</p><h2 class="h2">Enough engineering context to design the real system.</h2></div>
+      <div class="stack">
+        <div class="stack-row"><b>Frontend</b><span>Next.js, React patterns, responsive UI, design systems, product prototyping.</span></div>
+        <div class="stack-row"><b>Data + auth</b><span>Supabase, relational product data, admin tooling, access and workflow states.</span></div>
+        <div class="stack-row"><b>Deployment</b><span>Vercel, production validation, environment setup, iterative shipping.</span></div>
+        <div class="stack-row"><b>AI-assisted build</b><span>Rapid prototyping, agent workflows, creative automation, model-assisted product development.</span></div>
+      </div>
+      <div class="codebar"><span>Next.js</span><span>Supabase</span><span>Vercel</span><span>Figma + Adobe</span></div>
+    </div>
+    <footer class="foot"><div class="pc">Portfolio concept</div><div class="who">Design-to-build capability</div><div class="pg">05 / 08</div></footer>
+  </section></div>
+
+  <div class="frame"><section class="slide s6">
+    <header class="head"><div class="brand">Archer Design</div><div class="sec">From complexity to clarity</div></header>
+    <div class="body">
+      <div class="title"><p class="eyebrow">Working Model</p><h2 class="h2">Turn complexity into a sequence people can act on.</h2></div>
+      <div class="flow">
+        <article class="node"><div class="n">01</div><h3>Research + data</h3><p>Business context, documents, user needs, evidence, constraints, and technical reality.</p></article>
+        <article class="node"><div class="n">02</div><h3>System</h3><p>Define the structure, states, hierarchy, decision logic, and source of truth.</p></article>
+        <article class="node"><div class="n">03</div><h3>Interface</h3><p>Translate the system into clear screens, diagrams, layouts, and interactions.</p></article>
+        <article class="node"><div class="n">04</div><h3>Story</h3><p>Explain what matters through visual narrative, presentation, motion, and proof.</p></article>
+        <article class="node"><div class="n">05</div><h3>Action</h3><p>Help the user, executive, customer, or investor understand what to do next.</p></article>
+      </div>
+    </div>
+    <footer class="foot"><div class="pc">Portfolio concept</div><div class="who">Information architecture + storytelling</div><div class="pg">06 / 08</div></footer>
+  </section></div>
+
+  <div class="frame"><section class="slide dark s7">
+    <header class="head"><div class="brand">Archer Design</div><div class="sec">Selected outputs</div></header>
+    <div class="body">
+      <div class="title"><p class="eyebrow">Selected Outputs</p><h2 class="h2">The format changes. The job stays the same: make the idea clear.</h2></div>
+      <div class="outputs">
+        <article class="output"><div class="shape"></div><h3>Investor rooms + decks</h3></article>
+        <article class="output"><div class="shape"></div><h3>Dashboards + product UI</h3></article>
+        <article class="output"><div class="shape"></div><h3>Campaign + brand systems</h3></article>
+        <article class="output"><div class="shape"></div><h3>Motion + technical explainers</h3></article>
+      </div>
+    </div>
+    <footer class="foot"><div class="pc">Portfolio concept</div><div class="who">Strategy → design → implementation</div><div class="pg">07 / 08</div></footer>
+  </section></div>
+
+  <div class="frame"><section class="slide s8">
+    <header class="head"><div class="brand">Archer Design</div><div class="sec">Closing</div></header>
+    <div class="body">
+      <div class="dot"></div>
+      <h2 class="statement">I design the system <span class="break">and the story around it.</span></h2>
+      <div class="contact"><p class="mono">Devon Archer</p><p class="lead">Creative Technologist · Designer · Builder</p><p class="small">archerdesign.shop/devon</p></div>
+    </div>
+    <footer class="foot"><div class="pc">Portfolio concept</div><div class="who">Archer Design</div><div class="pg">08 / 08</div></footer>
+  </section></div>
+</main>
+</body></html>
