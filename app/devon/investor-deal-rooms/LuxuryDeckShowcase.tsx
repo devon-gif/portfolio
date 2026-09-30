@@ -11,6 +11,7 @@ export function LuxuryDeckShowcase() {
       eyebrow: "INVESTMENT SUMMARY",
       title: "A rooms-led lifestyle hotel, sized to what downtown Salt Lake City pays today.",
       body: "A focused 220-room concept with efficient operations, an intimate food-and-beverage program, and a capital story designed to remain legible at a glance.",
+      dark: false,
       stats: ["220 keys", "9.2% levered IRR", "8.3% yield on cost", "$86.4M stabilized value"],
     },
     {
@@ -24,6 +25,7 @@ export function LuxuryDeckShowcase() {
       eyebrow: "MARKET PERFORMANCE",
       title: "Downtown hotels have added nearly ten points of occupancy since 2019.",
       body: "Market evidence is presented as a visual progression rather than a wall of research, letting the core operating thesis read quickly in an investor meeting.",
+      dark: false,
       stats: ["72.1% occupancy", "$176 ADR", "69.6% RevPAR recovery"],
     },
     {
@@ -37,12 +39,14 @@ export function LuxuryDeckShowcase() {
       eyebrow: "CAPITAL STACK",
       title: "Conservative leverage, with a proven Salt Lake City tool.",
       body: "Sources, uses, incentives, and stabilization are organized into a simple capital narrative designed for a fast first read, with the detailed model remaining behind the presentation.",
+      dark: false,
       stats: ["$70.6M total cost", "$23.3M common equity", "$38.8M senior construction loan"],
     },
     {
       eyebrow: "RETURNS",
       title: "A 9.2% levered IRR before any Olympic upside.",
       body: "The base case separates the core operating thesis from upside, giving the investment story a more disciplined risk-and-return frame.",
+      dark: false,
       stats: ["9.2% levered IRR", "1.98x equity multiple", "8.3% stabilized yield on cost"],
     },
     {
