@@ -60,6 +60,33 @@ const featured: Array<[string, string, string, InvestorAtlasTile]> = [
   ["PROJECT VISUALIZATION", "Hospitality development imagery", "Investor-facing architectural imagery that gives the opportunity a believable visual identity before opening.", "building"],
 ];
 
+const selectedWork = [
+  {
+    eyebrow: "TECHNICAL / PRODUCT STORYTELLING",
+    title: "Two Systems build story",
+    body:
+      "A 21-page case-study deck translating two complex product systems into a clear executive narrative: workflow, architecture, failure analysis, deterministic guardrails, human review, QA, and working-versus-roadmap boundaries.",
+    image: "/devon/investor/selected-technical-storytelling.svg",
+    note: "Based on real product work across Auto Creative OS and CheckRay.",
+  },
+  {
+    eyebrow: "PARTNERSHIP / PILOT STRATEGY",
+    title: "Hospitality specialist handoff concept",
+    body:
+      "A six-page strategy deck that turns a partnership idea into a concrete operating model: customer flow, signal detection, specialist boundaries, integration options, consent guardrails, and a measurable 30-day pilot.",
+    image: "/devon/investor/selected-partnership-system.svg",
+    note: "Client and partner names are anonymized for portfolio use.",
+  },
+  {
+    eyebrow: "EXECUTIVE GROWTH STRATEGY",
+    title: "Multi-property marketing operating plan",
+    body:
+      "A ten-page executive proposal that combines creative production, lifecycle marketing, SEO, landing pages, CRM, approvals, reporting, and a 90-day stabilize-build-scale roadmap across a hospitality portfolio.",
+    image: "/devon/investor/selected-growth-strategy.svg",
+    note: "Commercially sensitive property details are anonymized.",
+  },
+] as const;
+
 type Cr91Deliverable = {
   eyebrow: string;
   title: string;
@@ -68,8 +95,6 @@ type Cr91Deliverable = {
   href?: string;
   linkLabel?: string;
 };
-
-const cr91ImageBase = "https://raw.githubusercontent.com/devon-gif/portfolio/main/public/devon/investor";
 
 const cr91Deliverables: Cr91Deliverable[] = [
   {
@@ -144,7 +169,7 @@ export default function InvestorDealRoomsPage() {
               websites, and the ongoing creative support that keeps everything current.
             </p>
             <div className="rz-actions">
-              <a className="rz-btn rz-btn-primary" href="#featured">Explore the work <ArrowRight size={15} /></a>
+              <a className="rz-btn rz-btn-primary" href="#selected-work">Explore the work <ArrowRight size={15} /></a>
               <a className="rz-btn rz-btn-outline" href="/contact">Start a project <Mail size={15} /></a>
             </div>
           </div>
@@ -204,12 +229,12 @@ export default function InvestorDealRoomsPage() {
         <section className="rz-investor-featured" id="featured">
           <div className="rz-investor-featured-head">
             <div>
-              <p className="rz-kicker">FEATURED INVESTOR WORK</p>
+              <p className="rz-kicker">INVESTOR SYSTEM CAPABILITIES</p>
               <h2>Systems, materials, and proof.</h2>
             </div>
             <p>
-              These anonymized concept visuals show the kind of end-to-end investor system I can provide: deck,
-              research, data room, proof organization, financial storytelling, project imagery, and continuous revisions.
+              These concept visuals show the end-to-end investor system I can provide: deck, research, data room,
+              proof organization, financial storytelling, project imagery, and continuous revisions.
             </p>
           </div>
           <div className="rz-investor-featured-grid">
@@ -221,6 +246,32 @@ export default function InvestorDealRoomsPage() {
                 <small>{category}</small>
                 <h3>{title}</h3>
                 <p>{body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="rz-investor-featured" id="selected-work">
+          <div className="rz-investor-featured-head">
+            <div>
+              <p className="rz-kicker">SELECTED REAL-WORLD STORYTELLING</p>
+              <h2>Investor, strategy, and executive communication.</h2>
+            </div>
+            <p>
+              Beyond the CR-91 development work, I have built long-form product case studies, partnership concepts,
+              and executive operating proposals. Client and partner names are anonymized where the underlying work is commercially sensitive.
+            </p>
+          </div>
+          <div className="rz-investor-featured-grid">
+            {selectedWork.map(({ eyebrow, title, body, image, note }) => (
+              <article key={title}>
+                <div className="rz-investor-feature-card-art rz-investor-feature-card-generated">
+                  <img src={image} alt={`${title} preview`} loading="lazy" decoding="async" />
+                </div>
+                <small>{eyebrow}</small>
+                <h3>{title}</h3>
+                <p>{body}</p>
+                <p><small>{note}</small></p>
               </article>
             ))}
           </div>
@@ -277,7 +328,7 @@ export default function InvestorDealRoomsPage() {
           <div>
             <p>
               If you are raising for a hospitality project, real-estate development, destination concept, restaurant
-              group, or another founder-led venture, I can help turn the vision into materials and systems people can
+              group, startup, or another founder-led venture, I can help turn the vision into materials and systems people can
               understand, trust, and act on.
             </p>
             <div className="rz-actions">
