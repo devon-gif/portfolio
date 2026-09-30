@@ -1,7 +1,5 @@
 import styles from "./LuxuryDeckShowcase.module.css";
 
-const auraDeckPreview = "DATAURI_PLACEHOLDER";
-
 export function LuxuryDeckShowcase() {
   return (
     <>
@@ -79,55 +77,51 @@ export function LuxuryDeckShowcase() {
           </p>
         </div>
 
-        <div
-          style={{
-            background: "#f7f5ef",
-            border: "1px solid rgba(241,239,231,.16)",
-            padding: "clamp(16px, 2.5vw, 34px)",
-            boxShadow: "0 30px 90px rgba(0,0,0,.18)",
-          }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "minmax(0, .48fr) minmax(0, 1fr)",
-              gap: "clamp(22px, 4vw, 58px)",
-              alignItems: "center",
-              color: "#171717",
-            }}
-          >
-            <div>
-              <p className={styles.kicker} style={{ color: "#b5101a" }}>AURA TOWER HOTEL &amp; RESIDENCES</p>
-              <h3
-                style={{
-                  margin: 0,
-                  fontSize: "clamp(42px, 5.8vw, 86px)",
-                  lineHeight: ".9",
-                  letterSpacing: "-.07em",
-                  fontWeight: 500,
-                }}
-              >
-                Precision, demand, altitude.
-              </h3>
-              <p style={{ marginTop: 24, color: "rgba(23,23,23,.62)", fontSize: 15, lineHeight: 1.72, maxWidth: 520 }}>
-                An eight-slide portfolio concept for a vertical hospitality investment: hotel keys, branded residences,
-                sky club, rooftop F&amp;B, capital story, diligence room, and closing narrative.
-              </p>
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 24 }}>
-                <span style={{ background: "#b5101a", color: "#fff", padding: "9px 12px", fontSize: 10, letterSpacing: ".12em", fontWeight: 800 }}>PORTFOLIO CONCEPT</span>
-                <span style={{ border: "1px solid rgba(23,23,23,.16)", padding: "9px 12px", fontSize: 10, letterSpacing: ".12em", fontWeight: 800 }}>SWISS EDITORIAL SYSTEM</span>
-              </div>
-            </div>
+        <div className={styles.frame} style={{ background: "#f7f5ef", color: "#171717" }}>
+          <div className={styles.stage}>
+            <article className={styles.slide} style={{ background: "#f7f5ef" }}>
+              <div className={styles.meta}>Investment &amp; Development Overview</div>
+              <h3 className={styles.title} style={{ fontSize: "clamp(44px, 6vw, 86px)", lineHeight: ".9" }}>AURA<br />TOWER</h3>
+              <p className={styles.copy}>Vertical hospitality concept for a landmark mixed-use tower with hotel, branded residences, private club, and sky-level amenities.</p>
+              <div className={styles.pills}><span>62 stories</span><span>312 keys</span><span>148 residences</span></div>
+              <span className={styles.footerText}>AURA Tower · Portfolio Concept</span>
+              <span className={styles.number}>01 / 08</span>
+            </article>
 
-            <div style={{ background: "#fff", padding: 10, border: "1px solid rgba(23,23,23,.1)", boxShadow: "0 24px 70px rgba(0,0,0,.16)" }}>
-              <img
-                src={auraDeckPreview}
-                alt="AURA Tower Hotel and Residences Swiss-style investor deck preview"
-                loading="lazy"
-                decoding="async"
-                style={{ width: "100%", height: "auto", display: "block" }}
-              />
-            </div>
+            <article className={`${styles.slide} ${styles.dark}`}>
+              <div className={styles.meta}>Generated Architectural Imagery</div>
+              <div className={styles.star} />
+              <div className={styles.ruleH} style={{ bottom: "34%" }} />
+              <div className={styles.ruleV} style={{ left: "68%" }} />
+              <h3 className={styles.title} style={{ color: "#fff", maxWidth: "70%" }}>Precision, demand, altitude.</h3>
+              <p className={styles.copy}>A skyline hotel investment story built around vertical identity, hospitality revenue, residence sales, and destination amenities.</p>
+              <span className={styles.footerText}>Swiss editorial direction · Spec deck</span>
+              <span className={styles.number}>02 / 08</span>
+            </article>
+          </div>
+
+          <div className={styles.grid}>
+            <article className={styles.slide}>
+              <div className={styles.meta}>Demand Stack</div>
+              <h3 className={styles.title}>Four revenue layers designed to reinforce one another.</h3>
+              <div className={styles.columns}>
+                <div className={styles.column}><span className={styles.dot}>01</span><h3>Hotel keys</h3><p>Transient luxury, corporate demand, event compression.</p></div>
+                <div className={styles.column}><span className={styles.dot}>02</span><h3>Residences</h3><p>Premium sale velocity from service and identity.</p></div>
+                <div className={styles.column}><span className={styles.dot}>03</span><h3>Sky club</h3><p>Recurring membership, wellness, private events.</p></div>
+                <div className={styles.column}><span className={styles.dot}>04</span><h3>F&amp;B</h3><p>Public demand generator and resident amenity.</p></div>
+              </div>
+              <span className={styles.number}>03 / 08</span>
+            </article>
+
+            <article className={styles.slide}>
+              <div className={styles.meta}>Capital + Diligence</div>
+              <h3 className={styles.title}>Investor-ready structure, not decorative slides.</h3>
+              <div className={styles.room} style={{ transform: "none", width: "78%", left: "11%", top: "36%" }}>
+                <div className={styles.roomNav}><span>Overview</span><span>Docs</span><span>Financials</span><span>Diligence</span></div>
+                <div className={styles.roomMain}><h3>Diligence readiness</h3><div className={styles.tiles}><span>Market proof</span><span>Development proof</span><span>Financial proof</span><span>Visual proof</span></div></div>
+              </div>
+              <span className={styles.number}>07 / 08</span>
+            </article>
           </div>
         </div>
       </section>
