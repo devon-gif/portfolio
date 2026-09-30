@@ -58,7 +58,7 @@ export function LuxuryDeckShowcase() {
               lineHeight: 1.7,
             }}
           >
-            An 8-page hospitality investor presentation. Open the original PDF to view the full deck at native quality with the exact typography, imagery, charts, and layouts.
+            A 16-page hospitality investor presentation. Open the original PDF to view the full deck at native quality with the exact typography, imagery, charts, and layouts.
           </p>
 
           <a
@@ -95,7 +95,7 @@ export function LuxuryDeckShowcase() {
               textTransform: "uppercase",
             }}
           >
-            Original PDF · 8 pages · Opens in a new tab
+            Original PDF · 16 pages · Opens in a new tab
           </p>
         </div>
       </div>
