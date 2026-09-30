@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Technical product storytelling case study</title>
+  <desc id="desc">An anonymized visual summary showing two product systems, structured workflows, deterministic guardrails, and human review.</desc>
+  <rect width="1600" height="1000" fill="#0d0d0d"/>
+  <rect x="70" y="70" width="1460" height="860" rx="34" fill="#151515" stroke="#343434" stroke-width="2"/>
+  <text x="120" y="145" fill="#ff6b4a" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" letter-spacing="4">TECHNICAL PRODUCT STORYTELLING</text>
+  <text x="120" y="220" fill="#f6f0e6" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="700">Two systems. One clear architecture story.</text>
+  <text x="120" y="270" fill="#a8a8a8" font-family="Arial, Helvetica, sans-serif" font-size="24">Turning product logic, edge cases, validation and human review into an executive-ready narrative.</text>
+
+  <rect x="120" y="340" width="620" height="380" rx="24" fill="#1f1f1f" stroke="#3d3d3d"/>
+  <text x="160" y="395" fill="#f6f0e6" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">Creative Production System</text>
+  <text x="160" y="435" fill="#999" font-family="Arial, Helvetica, sans-serif" font-size="20">One approved campaign becomes many validated placements.</text>
+  <rect x="160" y="485" width="130" height="72" rx="12" fill="#2d2d2d"/><text x="195" y="530" fill="#f6f0e6" font-family="Arial" font-size="20">IMPORT</text>
+  <rect x="315" y="485" width="130" height="72" rx="12" fill="#2d2d2d"/><text x="352" y="530" fill="#f6f0e6" font-family="Arial" font-size="20">MODEL</text>
+  <rect x="470" y="485" width="130" height="72" rx="12" fill="#2d2d2d"/><text x="504" y="530" fill="#f6f0e6" font-family="Arial" font-size="20">RENDER</text>
+  <rect x="625" y="485" width="75" height="72" rx="12" fill="#ff6b4a"/><text x="641" y="530" fill="#111" font-family="Arial" font-size="17" font-weight="700">QA</text>
+  <text x="160" y="620" fill="#ff6b4a" font-family="Arial" font-size="18" font-weight="700">GUARANTEE LAYER</text>
+  <text x="160" y="655" fill="#d7d7d7" font-family="Arial" font-size="21">Brand rules • legal readability • fidelity • approval state</text>
+
+  <rect x="860" y="340" width="620" height="380" rx="24" fill="#1f1f1f" stroke="#3d3d3d"/>
+  <text x="900" y="395" fill="#f6f0e6" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">AI Risk Analysis Product</text>
+  <text x="900" y="435" fill="#999" font-family="Arial, Helvetica, sans-serif" font-size="20">Structured interpretation with deterministic safety beneath it.</text>
+  <rect x="900" y="485" width="130" height="72" rx="12" fill="#2d2d2d"/><text x="940" y="530" fill="#f6f0e6" font-family="Arial" font-size="20">INPUT</text>
+  <rect x="1055" y="485" width="130" height="72" rx="12" fill="#2d2d2d"/><text x="1086" y="530" fill="#f6f0e6" font-family="Arial" font-size="20">INTERPRET</text>
+  <rect x="1210" y="485" width="130" height="72" rx="12" fill="#2d2d2d"/><text x="1246" y="530" fill="#f6f0e6" font-family="Arial" font-size="20">POLICY</text>
+  <rect x="1365" y="485" width="75" height="72" rx="12" fill="#ff6b4a"/><text x="1380" y="530" fill="#111" font-family="Arial" font-size="17" font-weight="700">ACT</text>
+  <text x="900" y="620" fill="#ff6b4a" font-family="Arial" font-size="18" font-weight="700">TRUST LAYER</text>
+  <text x="900" y="655" fill="#d7d7d7" font-family="Arial" font-size="21">Evidence • uncertainty • safety floors • human judgment</text>
+
+  <line x1="120" y1="790" x2="1480" y2="790" stroke="#343434"/>
+  <text x="120" y="850" fill="#f6f0e6" font-family="Arial" font-size="24" font-weight="700">MODEL HANDLES AMBIGUITY</text>
+  <text x="560" y="850" fill="#f6f0e6" font-family="Arial" font-size="24" font-weight="700">DETERMINISTIC CODE HOLDS GUARANTEES</text>
+  <text x="1160" y="850" fill="#f6f0e6" font-family="Arial" font-size="24" font-weight="700">HUMAN OWNS JUDGMENT</text>
+  <text x="120" y="895" fill="#878787" font-family="Arial" font-size="18">Anonymized from a 21-page product / systems case-study deck.</text>
+</svg>
