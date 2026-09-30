@@ -18,7 +18,6 @@ export function LuxuryDeckShowcase() {
           gridTemplateColumns: "minmax(0,1.05fr) minmax(280px,.65fr)",
           gap: "clamp(28px, 6vw, 88px)",
           alignItems: "end",
-          marginBottom: "34px",
         }}
       >
         <div>
@@ -33,7 +32,7 @@ export function LuxuryDeckShowcase() {
               textTransform: "uppercase",
             }}
           >
-            FEATURED INVESTOR PRESENTATION · ORIGINAL PDF
+            FEATURED INVESTOR PRESENTATION
           </p>
           <h2
             style={{
@@ -59,17 +58,20 @@ export function LuxuryDeckShowcase() {
               lineHeight: 1.7,
             }}
           >
-            The actual 16-slide Halite investor presentation, shown here from the original PDF rather than a recreated web version. This preserves the real typography, imagery, layouts, charts, and visual system exactly as designed.
+            A 16-slide hospitality investor presentation. Open the original PDF to view the deck at full quality with the exact typography, imagery, charts, and layouts.
           </p>
+
           <a
             href={HALITE_PDF_URL}
             target="_blank"
             rel="noreferrer"
             style={{
               display: "inline-flex",
-              marginTop: "20px",
-              paddingBottom: "5px",
-              borderBottom: "1px solid currentColor",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: "24px",
+              padding: "14px 20px",
+              border: "1px solid rgba(241,241,238,.35)",
               color: "#f1f1ee",
               textDecoration: "none",
               fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, monospace",
@@ -77,50 +79,26 @@ export function LuxuryDeckShowcase() {
               fontWeight: 800,
               letterSpacing: ".11em",
               textTransform: "uppercase",
+              background: "rgba(255,255,255,.04)",
             }}
           >
-            Open original PDF ↗
+            View full Halite investor deck ↗
           </a>
+
+          <p
+            style={{
+              margin: "14px 0 0",
+              color: "rgba(241,241,238,.42)",
+              fontSize: "10px",
+              lineHeight: 1.6,
+              letterSpacing: ".08em",
+              textTransform: "uppercase",
+            }}
+          >
+            Original PDF · 16 slides · Opens in a new tab
+          </p>
         </div>
       </div>
-
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          height: "min(84vh, 980px)",
-          minHeight: "640px",
-          overflow: "hidden",
-          border: "1px solid rgba(241,241,238,.18)",
-          background: "#18181a",
-          boxShadow: "0 28px 80px rgba(0,0,0,.32)",
-        }}
-      >
-        <iframe
-          src={HALITE_PDF_URL}
-          title="The Halite investor presentation — original PDF"
-          loading="lazy"
-          style={{
-            width: "100%",
-            height: "100%",
-            border: 0,
-            background: "#18181a",
-          }}
-        />
-      </div>
-
-      <p
-        style={{
-          margin: "14px 0 0",
-          color: "rgba(241,241,238,.48)",
-          fontSize: "10px",
-          lineHeight: 1.6,
-          letterSpacing: ".08em",
-          textTransform: "uppercase",
-        }}
-      >
-        Original presentation PDF · 16 slides · Portfolio presentation sample
-      </p>
     </section>
   );
 }
