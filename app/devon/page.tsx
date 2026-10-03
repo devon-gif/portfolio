@@ -13,6 +13,22 @@ const PAGE_DESCRIPTION =
 export const metadata: Metadata = {
   title: PAGE_TITLE,
   description: PAGE_DESCRIPTION,
+  keywords: [
+    "Creative Technologist",
+    "Design Engineer",
+    "AI Product Designer",
+    "Design Technologist",
+    "Creative Developer",
+    "design engineering",
+    "interactive systems",
+    "creative coding",
+    "applied AI",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "Three.js",
+    "Devon Archer",
+  ],
   alternates: { canonical: absoluteUrl("/devon") },
   robots: { index: true, follow: true },
   openGraph: {
