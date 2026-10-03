@@ -22,44 +22,47 @@ function smoothstep(edge0: number, edge1: number, value: number) {
 }
 
 export default function LivingLobbyPreview() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const canvasNode = canvasRef.current;
+    if (!canvasNode) return;
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const contextNode = canvasNode.getContext("2d");
+    if (!contextNode) return;
 
-    let width = 0;
-    let height = 0;
-    let frame = 0;
+    const canvas: HTMLCanvasElement = canvasNode;
+    const ctx: CanvasRenderingContext2D = contextNode;
+
+    let width = 1;
+    let height = 1;
+    let animationFrame = 0;
     let particles: Particle[] = [];
     let targets: Array<{ x: number; y: number }> = [];
     const pointer = { x: 0, y: 0, active: false };
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    function buildTargets(w: number, h: number) {
+    const buildTargets = (w: number, h: number) => {
       const sample = document.createElement("canvas");
       sample.width = Math.max(640, Math.round(w));
       sample.height = Math.max(180, Math.round(h * 0.45));
-      const sctx = sample.getContext("2d");
-      if (!sctx) return [];
+      const sampleContext = sample.getContext("2d");
+      if (!sampleContext) return [] as Array<{ x: number; y: number }>;
 
-      sctx.clearRect(0, 0, sample.width, sample.height);
-      sctx.fillStyle = "#fff";
-      sctx.textAlign = "center";
-      sctx.textBaseline = "middle";
-      sctx.font = `800 ${Math.max(72, Math.round(sample.width * 0.15))}px Arial, sans-serif`;
-      sctx.fillText("ARCHER", sample.width / 2, sample.height / 2);
+      sampleContext.clearRect(0, 0, sample.width, sample.height);
+      sampleContext.fillStyle = "#fff";
+      sampleContext.textAlign = "center";
+      sampleContext.textBaseline = "middle";
+      sampleContext.font = `800 ${Math.max(72, Math.round(sample.width * 0.15))}px Arial, sans-serif`;
+      sampleContext.fillText("ARCHER", sample.width / 2, sample.height / 2);
 
-      const image = sctx.getImageData(0, 0, sample.width, sample.height).data;
+      const pixels = sampleContext.getImageData(0, 0, sample.width, sample.height).data;
       const points: Array<{ x: number; y: number }> = [];
       const step = Math.max(5, Math.round(sample.width / 145));
 
       for (let y = 0; y < sample.height; y += step) {
         for (let x = 0; x < sample.width; x += step) {
-          const alpha = image[(y * sample.width + x) * 4 + 3];
+          const alpha = pixels[(y * sample.width + x) * 4 + 3];
           if (alpha > 80) {
             points.push({
               x: (x / sample.width) * w,
@@ -70,13 +73,14 @@ export default function LivingLobbyPreview() {
       }
 
       return points;
-    }
+    };
 
-    function resize() {
+    const resize = () => {
       const rect = canvas.getBoundingClientRect();
       width = Math.max(1, rect.width);
       height = Math.max(1, rect.height);
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -89,6 +93,7 @@ export default function LivingLobbyPreview() {
           x: width / 2,
           y: height / 2,
         };
+
         return {
           x: Math.random() * width,
           y: Math.random() * height,
@@ -99,23 +104,24 @@ export default function LivingLobbyPreview() {
           seed: Math.random() * Math.PI * 2,
         };
       });
-    }
+    };
 
-    function pointerMove(event: PointerEvent) {
+    const onPointerMove = (event: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
       pointer.x = event.clientX - rect.left;
       pointer.y = event.clientY - rect.top;
       pointer.active = true;
-    }
+    };
 
-    function pointerLeave() {
+    const onPointerLeave = () => {
       pointer.active = false;
-    }
+    };
 
-    function draw(timeMs: number) {
+    const draw = (timeMs: number) => {
       const t = timeMs / 1000;
       const cycle = t % 18;
-      const gather = smoothstep(5.5, 8.0, cycle) * (1 - smoothstep(12.4, 15.2, cycle));
+      const gather =
+        smoothstep(5.5, 8.0, cycle) * (1 - smoothstep(12.4, 15.2, cycle));
 
       const gradient = ctx.createLinearGradient(0, 0, width, height);
       gradient.addColorStop(0, "#05070a");
@@ -141,11 +147,10 @@ export default function LivingLobbyPreview() {
       const targetAlpha = 0.6 + gather * 0.4;
 
       particles.forEach((particle, index) => {
-        const flowX = Math.sin(t * 0.32 + particle.seed + particle.y * 0.009) * 0.018;
-        const flowY = Math.cos(t * 0.27 + particle.seed + particle.x * 0.008) * 0.014;
-
-        particle.vx += flowX;
-        particle.vy += flowY;
+        particle.vx +=
+          Math.sin(t * 0.32 + particle.seed + particle.y * 0.009) * 0.018;
+        particle.vy +=
+          Math.cos(t * 0.27 + particle.seed + particle.x * 0.008) * 0.014;
 
         if (gather > 0.01) {
           particle.vx += (particle.tx - particle.x) * 0.0019 * gather;
@@ -155,10 +160,11 @@ export default function LivingLobbyPreview() {
         if (pointer.active) {
           const dx = particle.x - pointer.x;
           const dy = particle.y - pointer.y;
-          const dist2 = dx * dx + dy * dy;
+          const distanceSquared = dx * dx + dy * dy;
           const radius = 135;
-          if (dist2 < radius * radius && dist2 > 4) {
-            const distance = Math.sqrt(dist2);
+
+          if (distanceSquared < radius * radius && distanceSquared > 4) {
+            const distance = Math.sqrt(distanceSquared);
             const force = (1 - distance / radius) * 0.34;
             particle.vx += (dx / distance) * force;
             particle.vy += (dy / distance) * force;
@@ -196,29 +202,39 @@ export default function LivingLobbyPreview() {
       ctx.lineTo(width, height - 46);
       ctx.stroke();
 
-      if (!reduced) frame = requestAnimationFrame(draw);
-    }
+      if (!reducedMotion) {
+        animationFrame = window.requestAnimationFrame(draw);
+      }
+    };
 
     resize();
+
     const observer = new ResizeObserver(resize);
     observer.observe(canvas);
-    canvas.addEventListener("pointermove", pointerMove);
-    canvas.addEventListener("pointerleave", pointerLeave);
 
-    if (reduced) draw(8500);
-    else frame = requestAnimationFrame(draw);
+    canvas.addEventListener("pointermove", onPointerMove);
+    canvas.addEventListener("pointerleave", onPointerLeave);
+
+    if (reducedMotion) {
+      draw(8500);
+    } else {
+      animationFrame = window.requestAnimationFrame(draw);
+    }
 
     return () => {
-      cancelAnimationFrame(frame);
+      window.cancelAnimationFrame(animationFrame);
       observer.disconnect();
-      canvas.removeEventListener("pointermove", pointerMove);
-      canvas.removeEventListener("pointerleave", pointerLeave);
+      canvas.removeEventListener("pointermove", onPointerMove);
+      canvas.removeEventListener("pointerleave", onPointerLeave);
     };
   }, []);
 
   return (
     <div className="db-lobby-preview">
-      <canvas ref={canvasRef} aria-label="Interactive particle preview for Living Lobby" />
+      <canvas
+        ref={canvasRef}
+        aria-label="Interactive particle preview for Living Lobby"
+      />
       <div className="db-lobby-preview-top">
         <span>LIVE SYSTEM PREVIEW</span>
         <span>POINTER / PARTICLE INPUT</span>
