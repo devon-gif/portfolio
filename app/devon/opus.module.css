@@ -163,3 +163,18 @@
   .media{padding:14px;min-height:360px}.projectCopy{padding:26px}.browserShot{aspect-ratio:4/3}
   .studio{padding:28px}.mosaic{min-height:360px}.links{grid-template-columns:1fr}
 }
+
+:global(.opusLobby .db-lobby-preview){
+  min-height:100%;
+  height:100%;
+  border:0;
+  border-radius:0;
+}
+:global(.opusAI .db-ai){
+  min-height:650px;
+  box-shadow:none;
+  border-color:rgba(241,239,231,.16);
+}
+@media(max-width:760px){
+  :global(.opusAI .db-ai){min-height:0}
+}
