@@ -1,496 +1,449 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import {
-  ArrowUpRight,
-  Code2,
-  Mail,
-  Sparkles,
-} from "lucide-react";
+import Link from "next/link";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { absoluteUrl } from "@/lib/seo";
-import { DevonGraphicSlideshow } from "./components/DevonGraphicSlideshow";
-import { DevonHeroShowcase } from "./components/DevonHeroShowcase";
-import { TCRM_IMAGES } from "@/app/tcrm/tcrm-media";
+import DevonAIClone from "./components/DevonAIClone";
+import { HeroColorField } from "./components/HeroColorField";
+import LivingLobbyPreview from "./components/LivingLobbyPreview";
+import LiveSitePreview from "./components/LiveSitePreview";
+import ProjectVideo from "./components/ProjectVideo";
+import StudioReel from "./components/StudioReel";
+import OpusClock from "./components/OpusClock";
+import styles from "./opus.module.css";
 
-const PAGE_TITLE = "Devon Archer — Design Engineer & Creative Technologist";
+const PAGE_TITLE = "Devon Archer — Design Engineer + Creative Technologist";
 const PAGE_DESCRIPTION =
-  "Portfolio of Devon Archer: design engineering, applied AI, product UX, React/Next.js builds, motion, brand systems, and creative production.";
+  "Devon Archer designs and builds AI products, real-time interactive work, production software, motion, and hospitality creative.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
   description: PAGE_DESCRIPTION,
+  keywords: [
+    "Creative Technologist",
+    "Design Engineer",
+    "AI Product Designer",
+    "Design Technologist",
+    "Creative Developer",
+    "real-time graphics",
+    "creative coding",
+    "applied AI",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "Three.js",
+    "Devon Archer",
+  ],
   alternates: { canonical: absoluteUrl("/devon") },
-  robots: {
-    index: true,
-    follow: true,
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    url: absoluteUrl("/devon"),
+    type: "website",
+    images: [
+      {
+        url: absoluteUrl("/devon/projects/vibecode-neon-code-repair-hero.png"),
+        width: 1200,
+        height: 630,
+        alt: "Devon Archer creative technology portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    images: [absoluteUrl("/devon/projects/vibecode-neon-code-repair-hero.png")],
   },
 };
 
-const pub = (file: string) => `/${encodeURIComponent(file)}`;
-
-const brandProof = [
-  { src: pub("Hampton-Brand-Logo_TM_CMYK_Full-Color.png"), alt: "Hampton by Hilton" },
+const projects = [
   {
-    src: pub("PITTSBURGH UNI-OAK_RGB_canvas_white_on_indigo_blue.png"),
-    alt: "Hotel Indigo Pittsburgh University-Oakland",
+    slug: "living-lobby",
+    title: "Living Lobby",
+    status: "In development · Part 1 built",
+    tags: "Real-time graphics, GPU simulation, live data, installation",
+    summary:
+      "A generative brand installation for hotel lobbies. Particles move through a world shaped by live time and weather, gather into a wordmark, and respond to people in front of the screen. The system is designed to run unattended like an installation rather than behave like another portfolio demo.",
+    facts: ["26K–124K GPU particles", "Live sun + weather inputs", "Director mode + kiosk hardening"],
+    tone: "night",
+    image: null,
+    href: "/devon/living-lobby",
   },
-  { src: pub("Elements Full logo- NO BACK GROUND.png"), alt: "Elements Salon & Wellness" },
-  { src: pub("Untitled.png"), alt: "Eliza Hot Metal Bistro" },
-  { src: "/archer-preview/logos/rev.png", alt: "Revest Properties" },
-  { src: "/archer-preview/logos/PRIMARY-1.png", alt: "Vigilant" },
-] as const;
-
-const builds = [
   {
-    index: "01",
+    slug: "vibecode",
+    live: "https://vibe-code-final.vercel.app/",
     title: "VibeCode+",
-    category: "Creative technology / AI developer tooling",
-    thesis: "Making autonomous code repair inspectable instead of magical.",
-    description:
-      "A GitHub-native AI repair system I designed across product UX and implementation. It combines deterministic health checks, bounded AI repair, visible workflow state, verification, and human review so a developer can understand what the system is doing before accepting a change.",
+    status: "Live product",
+    tags: "AI developer tooling, Product UX, Next.js, GitHub",
+    summary:
+      "Inspectable AI code repair. Deterministic health checks, bounded AI fixes, GitHub verification, and human review let a developer see what the system did before accepting a change. Successful repairs land as draft pull requests instead of silent production changes.",
+    facts: ["216/216 automated tests in latest audit", "Draft PRs, never silent changes"],
+    tone: "night",
     image: "/devon/projects/vibecode-neon-code-repair-hero.png",
     href: "https://vibe-code-final.vercel.app/",
-    cta: "Open VibeCode+",
-    facts: [
-      ["Problem", "AI repair is risky when the user cannot inspect real state or evidence."],
-      ["System", "Health check → bounded repair → GitHub verification → review."],
-      ["Control", "Successful repairs end as draft pull requests, not silent production changes."],
-      ["Validation", "216/216 automated tests passing in the latest documented audit."],
-    ],
-    tags: ["Product UX", "Next.js", "TypeScript", "GitHub", "Supabase", "AI systems"],
   },
   {
-    index: "02",
+    slug: "checkray",
+    live: "https://www.checkray.app/",
     title: "CheckRay",
-    category: "Trust UX / applied AI",
-    thesis: "Risk analysis that shows its evidence, uncertainty, and next step.",
-    description:
-      "A live AI-assisted risk product for suspicious texts, links, jobs, bills, and emails. Instead of treating the model as an authority, the experience separates evidence from interpretation, uses deterministic safeguards where possible, and keeps newly collected scam intelligence behind review before it becomes authoritative.",
+    status: "Live product",
+    tags: "Trust UX, Applied AI, Evaluation, Supabase",
+    summary:
+      "Scam risk analysis for suspicious texts, links, job offers, bills, and emails. Evidence is separated from interpretation, uncertainty stays visible, and newly collected scam intelligence is reviewed before the product treats it as trusted context.",
+    facts: ["Evidence first, then a risk state", "Human review + regression workflows"],
+    tone: "mint",
     image: "/devon/projects/checkray-home.png",
     href: "https://checkray.app",
-    cta: "Open CheckRay",
-    facts: [
-      ["Problem", "People need useful guidance without false certainty from an AI model."],
-      ["System", "Structured analysis → evidence → risk state → recommended action."],
-      ["Control", "New scam intelligence is reviewed before promotion into trusted product context."],
-      ["Validation", "Offline regression and evaluation workflows protect core analyzer behavior."],
-    ],
-    tags: ["AI product", "Trust UX", "Next.js", "Supabase", "Evaluation", "Human review"],
   },
   {
-    index: "03",
+    slug: "baseten",
+    live: "https://baseten-inference-lab.vercel.app/",
     title: "Baseten Inference Lab",
-    category: "Design engineering / AI infrastructure",
-    thesis: "Turning infrastructure into an experience someone can actually see.",
-    description:
-      "An independent design-engineering concept for Baseten that turns a model request into a visible five-step experience — Request, Prepare, Route, Compute, Respond — and carries the idea through responsive implementation, live inference, motion, and deployment.",
+    status: "Independent concept",
+    tags: "Design engineering, AI infrastructure, Motion, Vercel",
+    summary:
+      "A model request made visible as five steps: request, prepare, route, compute, respond. Live inference, responsive layout, and motion turn invisible infrastructure into something a person evaluating the platform can actually understand.",
+    facts: ["Live model calls", "Independent concept, not affiliated with Baseten"],
+    tone: "lime",
     image: "/devon/projects/baseten-inference-lab.png",
     href: "https://baseten-inference-lab.vercel.app/",
-    cta: "View live build",
-    facts: [
-      ["Problem", "Infrastructure is powerful but often invisible to the person evaluating the product."],
-      ["Experience", "Request → Prepare → Route → Compute → Respond."],
-      ["Build", "Responsive React/Next.js interface with live model interaction and motion."],
-      ["Goal", "Make technical capability legible without oversimplifying what is happening."],
-    ],
-    tags: ["Next.js", "TypeScript", "AI inference", "Responsive UI", "Motion", "Vercel"],
-  },
-];
-
-const process = [
-  {
-    n: "01",
-    title: "Frame",
-    body: "Start with the user, desired outcome, constraints, and the riskiest assumption — not with a preferred technology.",
   },
   {
-    n: "02",
-    title: "Model",
-    body: "Map the data, states, permissions, system boundaries, and what the user needs to understand at each step.",
-  },
-  {
-    n: "03",
-    title: "Prototype",
-    body: "Build the smallest functional experience that can test the uncertain part instead of polishing a fake certainty.",
-  },
-  {
-    n: "04",
-    title: "Build",
-    body: "Move into React/Next.js, APIs, data, auth, and workflow logic so the product can be experienced as a real system.",
-  },
-  {
-    n: "05",
-    title: "Validate",
-    body: "Use builds, tests, evals, edge cases, and real state to prove that the interface is telling the truth about the system.",
-  },
-];
-
-const stackGroups = [
-  ["Frontend", "React · Next.js · TypeScript · Tailwind / CSS"],
-  ["Product + data", "Supabase · Postgres · REST APIs · auth · structured state"],
-  ["Delivery", "GitHub · Vercel · CI / automated validation · production QA"],
-  ["AI workflow", "ChatGPT / Codex · Claude / Claude Code · structured outputs · evals"],
-  ["Creative", "Figma · Adobe Creative Suite · motion · video · AI image / video"],
-];
-
-const experience = [
-  {
-    role: "Founder — Archer Design",
-    years: "2021–Present",
-    body:
-      "Hospitality-focused creative, motion, campaign systems, websites, landing pages, investor materials, product visuals, and AI-assisted digital implementation.",
-  },
-  {
-    role: "Graphic Designer & Client-Facing Operator — SHAIPE Agency",
-    years: "2021–2025",
-    body:
-      "Multi-account digital design, campaign visuals, brand assets, social creative, and direct client collaboration from brief through final delivery.",
-  },
-  {
-    role: "Co-Founder, Growth Systems & Product Positioning — JobGhost",
-    years: "2025–2026",
-    body:
-      "Product positioning, candidate communication workflows, outreach systems, growth experiments, and AI-assisted product thinking for recruiting SaaS.",
+    slug: "deal-rooms",
+    title: "Investor Deal Rooms",
+    status: "Client work",
+    tags: "Investor storytelling, Dashboards, Decks, Web",
+    summary:
+      "Pitch decks, private investor rooms, and project dashboards for hospitality and real-estate raises. The job is to turn a complicated deal into a story investors can follow, interrogate, and act on.",
+    facts: ["Deck, data room, and site as one system", "Built for active raises"],
+    tone: "paper",
+    image: "/devon/investor/investor-deal-rooms-poster.jpg",
+    video: "/devon/investor/investor-deal-rooms.mp4",
+    videoWebm: "/devon/investor/investor-deal-rooms.webm",
+    videoAlt: "Investor deal room dashboard with charts and metrics animating",
+    href: "/devon/investor-deal-rooms",
   },
 ] as const;
 
-const education = [
-  ["M.S. UX Design", "Full Sail University"],
-  ["B.S. UX/UI Design", "Full Sail University"],
-  ["Graphic Design Certificate", "California Institute of the Arts"],
+const skills = [
+  [
+    "Applied AI product design",
+    "AI features people can trust. I design what the model may do, what it shows as evidence, where uncertainty appears, and where a person stays in control. Then I build it.",
+  ],
+  [
+    "Design engineering",
+    "Design and code as one feedback loop. I take an idea from interaction model to deployed React and Next.js software with real states, data, auth, APIs, QA, and iteration.",
+  ],
+  [
+    "Real-time + interactive",
+    "Experiences that respond to people and the world around them: particle systems, shaders, live data, installation behavior, computer vision, and multi-device interaction.",
+  ],
+  [
+    "Rapid prototyping",
+    "Working prototypes that test the risky part first. I would rather expose an assumption with a real interaction than polish a fake certainty.",
+  ],
+  [
+    "Motion + campaign systems",
+    "Motion, social systems, short-form video, brand assets, and AI-assisted production designed to hold together across large volumes of real client work.",
+  ],
+  [
+    "Creative direction",
+    "Hospitality, F&B, events, investor storytelling, and visual systems, with enough production and technical depth to keep the idea connected to what ships.",
+  ],
 ] as const;
 
-const resumeHighlights = [
-  ["18.6M+", "impressions"],
-  ["4.9M+", "reach"],
-  ["612K+", "engagements"],
-  ["2.7K+", "creative pieces"],
+const faq = [
+  [
+    "Can you actually code, or do you only prototype?",
+    "I build and ship working software. My strongest ground is the line between design and frontend: React, Next.js, TypeScript, APIs, auth, Supabase, GitHub, and Vercel. I use AI-assisted development heavily and stay responsible for behavior, testing, and what goes live. I am not presenting myself as a senior infrastructure engineer, and I know when a problem needs one.",
+  ],
+  [
+    "How do you use AI in your work?",
+    "Use AI for ambiguity. Use deterministic systems for guarantees. Keep a human where judgment matters. The interface should make evidence, uncertainty, state, and control understandable instead of treating the model like an oracle.",
+  ],
+  [
+    "Where does hospitality fit into a Creative Technologist role?",
+    "Hotels and restaurants taught me to ship for real audiences on real deadlines. That domain experience now feeds projects like Living Lobby, where creative direction, real-time engineering, and physical guest experience meet.",
+  ],
+  [
+    "What kind of role fits best?",
+    "Creative Technologist, Design Technologist, Design Engineer, AI Product Designer, Creative Developer, or prototyping roles where visual craft, product behavior, and working software overlap.",
+  ],
 ] as const;
 
-export default function DevonCreativeTechnologistPage() {
+type ProjectMedia = { title: string; image: string | null; live?: string; video?: string; videoWebm?: string; videoAlt?: string };
+
+function ProjectCard({ project }: { project: (typeof projects)[number] }) {
+  const media: ProjectMedia = project;
   return (
-    <div className="realiz-page">
-      <aside className="rz-rail" aria-label="Portfolio navigation">
-        <div className="rz-rail-accent">
-          <span>DESIGN — AI — CODE — SYSTEMS</span>
+    <article className={styles.project} id={project.slug}>
+      <div className={styles.media} data-tone={project.tone}>
+        <div className={styles.browser}>
+          <div className={styles.browserBar} aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className={styles.browserShot}>
+            {project.slug === "living-lobby" ? (
+              <LivingLobbyPreview />
+            ) : media.video && media.image ? (
+              <ProjectVideo src={media.video} webm={media.videoWebm} poster={media.image} alt={media.videoAlt ?? media.title} objectPosition="center 40%" />
+            ) : media.live && media.image ? (
+              <LiveSitePreview src={media.live} poster={media.image} title={media.title} />
+            ) : media.image ? (
+              <Image
+                src={media.image}
+                alt={media.title}
+                fill
+                sizes="(min-width: 1000px) 62vw, 94vw"
+                style={{ objectFit: "cover", objectPosition: "top center" }}
+              />
+            ) : null}
+          </div>
         </div>
-        <div className="rz-rail-main">
-          <a className="rz-mark" href="#top" aria-label="Back to top">
-            DA
+      </div>
+      <div className={styles.projectCopy}>
+        <span className={styles.status}>{project.status}</span>
+        <h3>{project.title}</h3>
+        <p className={styles.tags}>{project.tags}</p>
+        <p className={styles.summary}>{project.summary}</p>
+        <ul className={styles.facts}>
+          {project.facts.map((fact) => <li key={fact}>{fact}</li>)}
+        </ul>
+        {project.href ? (
+          project.href.startsWith("http") ? (
+            <a className={styles.pill} href={project.href} target="_blank" rel="noreferrer">
+              View project <i><ArrowUpRight size={15} /></i>
+            </a>
+          ) : (
+            <Link className={styles.pill} href={project.href}>
+              View project <i><ArrowUpRight size={15} /></i>
+            </Link>
+          )
+        ) : (
+          <a className={styles.pill} href="#ask-ai">
+            Ask about the build <i><ArrowUpRight size={15} /></i>
           </a>
-          <span className="rz-copyright">© 2026 DEVON ARCHER</span>
-        </div>
-      </aside>
+        )}
+      </div>
+    </article>
+  );
+}
 
-      <main className="rz-main" id="top">
-        <DevonHeroShowcase />
+export default function DevonPortfolioPage() {
+  return (
+    <div className={styles.opusPage}>
+      <header className={styles.nav}>
+        <a className={styles.mark} href="#top" aria-label="Devon Archer, back to top">DA</a>
+        <nav className={styles.navLinks} aria-label="Portfolio sections">
+          <a href="#top">Home</a>
+          <a href="#work">Work</a>
+          <a href="#ask-ai">AI</a>
+          <a href="#skills">Skills</a>
+          <a href="#about">About</a>
+        </nav>
+        <a className={styles.cta} href="#contact">Get in touch <i>↗</i></a>
+      </header>
 
-        <section className="rz-resume" id="about-resume">
-          <div className="rz-resume-intro">
-            <div>
-              <div className="rz-section-number">ABOUT / RESUME</div>
-              <p className="rz-kicker dark">DEVON ARCHER · DESIGN ENGINEER + CREATIVE TECHNOLOGIST</p>
-              <h2>Creative range, grounded in execution.</h2>
-            </div>
-            <div className="rz-resume-summary">
-              <p>
-                I work across product UX, design engineering, hospitality creative, motion, AI-assisted production,
-                investor materials, and web experiences. My strongest engagements are the ones where the work needs
-                both creative judgment and someone who can stay close enough to the build to make sure the idea
-                actually becomes real.
-              </p>
-              <div className="rz-resume-actions">
-                <a className="rz-btn rz-btn-dark" href="/contact">
-                  Work with me <Mail size={15} aria-hidden="true" />
-                </a>
-                <a className="rz-btn rz-btn-outline rz-resume-github" href="https://github.com/devon-gif" target="_blank" rel="noreferrer">
-                  GitHub <Code2 size={15} aria-hidden="true" />
-                </a>
-              </div>
-            </div>
+      <main className={styles.shell}>
+        <section className={styles.hero} id="top">
+          <HeroColorField className={styles.field} />
+          <div className={styles.heroMeta}>
+            <span className={styles.live}><span className={styles.liveDot} /><OpusClock /></span>
+            <span className={styles.coords}>40.7608° N, 111.8910° W<br />SALT LAKE CITY | UTAH</span>
           </div>
 
-          <div className="rz-resume-highlights" aria-label="Selected accomplishments">
-            {resumeHighlights.map(([value, label]) => (
-              <div key={label}>
-                <strong>{value}</strong>
-                <span>{label}</span>
-              </div>
-            ))}
+          <svg className={styles.constellation} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M8 18 L48 10 L83 28 L35 48 L75 68 L10 77" vectorEffect="non-scaling-stroke" />
+          </svg>
+          <ul className={styles.nodes} aria-label="Focus areas">
+            <li className={styles.n1}>Applied AI</li>
+            <li className={styles.n2}>Design engineering</li>
+            <li className={styles.n3}>Real-time graphics</li>
+            <li className={styles.n4}>Product UX</li>
+            <li className={styles.n5}>Motion</li>
+            <li className={styles.n6}>Hospitality creative</li>
+          </ul>
+
+          <div className={styles.heroTitle}>
+            <h1>Devon Archer</h1>
+            <p className={styles.role}>Design Engineer + Creative Technologist</p>
           </div>
 
-          <div className="rz-resume-grid">
-            <div className="rz-resume-experience">
-              <div className="rz-resume-subhead">
-                <span>EXPERIENCE</span>
-                <p>Selected roles and the through-line across the work.</p>
-              </div>
-              {experience.map((item) => (
-                <article key={item.role}>
-                  <div>
-                    <span>{item.years}</span>
-                    <h3>{item.role}</h3>
-                  </div>
-                  <p>{item.body}</p>
-                </article>
-              ))}
-            </div>
-
-            <div className="rz-resume-side">
-              <div className="rz-resume-panel">
-                <span>EDUCATION</span>
-                {education.map(([degree, school]) => (
-                  <div key={degree}>
-                    <strong>{degree}</strong>
-                    <p>{school}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="rz-resume-panel">
-                <span>CORE PRACTICE</span>
-                <div><strong>Product + UX</strong><p>Figma, interaction design, flows, prototypes, systems, decision support.</p></div>
-                <div><strong>Design engineering</strong><p>React, Next.js, TypeScript, Supabase, APIs, GitHub, Vercel, QA.</p></div>
-                <div><strong>Creative direction</strong><p>Hospitality, restaurants, campaigns, motion, video, investor materials, AI image/video.</p></div>
-              </div>
-
-              <div className="rz-resume-panel rz-resume-recommendation">
-                <span>RECOMMENDATION</span>
-                <blockquote>
-                  “Devon is an amazing employee and graphic designer here at SHAIPE... I would highly recommend Devon.”
-                </blockquote>
-                <p>Ellie P. · SHAIPE / Vigilant · LinkedIn recommendation</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="rz-section rz-builds" id="builds">
-          <div className="rz-section-head">
-            <div>
-              <div className="rz-section-number">01 / BUILDS</div>
-              <p className="rz-kicker">PRODUCT UX / DESIGN ENGINEERING / APPLIED AI</p>
-              <h2>Systems I can explain, not just screens I can show.</h2>
-            </div>
-            <p>
-              The goal is not to make a prototype look technical. It is to make the underlying behavior clear
-              enough to test: what the system knows, what it is doing, what it is allowed to do, and where a
-              human stays in control.
-            </p>
-          </div>
-
-          <div className="rz-build-list">
-            {builds.map((build) => (
-              <article className="rz-build" key={build.title}>
-                <a
-                  className="rz-build-image"
-                  href={build.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`${build.title} website`}
-                  style={{ backgroundImage: `url(${build.image})`, backgroundSize: "cover", backgroundPosition: "center" }}
+          <div className={styles.heroFoot}>
+            <div className={styles.hireCard}>
+              <div className={styles.portrait}>
+                <Image
+                  src="/infuse/brand/devon-archer-portrait.png"
+                  alt="Devon Archer"
+                  fill
+                  priority
+                  sizes="120px"
                 />
-                <div className="rz-build-copy">
-                  <span className="rz-build-index">{build.index}</span>
-                  <p className="rz-kicker">{build.category}</p>
-                  <h3>{build.title}</h3>
-                  <h4>{build.thesis}</h4>
-                  <p>{build.description}</p>
-                  <div className="rz-build-facts">
-                    {build.facts.map(([label, value]) => (
-                      <div key={label}>
-                        <span>{label}</span>
-                        <p>{value}</p>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="rz-tags">
-                    {build.tags.map((tag) => <span key={tag}>{tag}</span>)}
-                  </div>
-                  <a className="rz-text-link inverse" href={build.href} target="_blank" rel="noreferrer">
-                    {build.cta} <ArrowUpRight size={15} aria-hidden="true" />
-                  </a>
-                </div>
-              </article>
-            ))}
-          </div>
+              </div>
+              <div className={styles.hireCopy}>
+                <p className={styles.hireTitle}>Hiring a creative technologist?<br />Start with what I&apos;ve shipped.</p>
+                <p className={styles.small}>Live products, real-time builds, and campaign work, all linked below.</p>
+                <a className={styles.pill} href="#work">See the work <i><ArrowDown size={15} /></i></a>
+              </div>
+            </div>
 
-          <div className="rz-system-links">
-            <a href="https://sfc-evaluator-workbench.vercel.app/en/dashboard" target="_blank" rel="noreferrer">
-              <Code2 size={17} aria-hidden="true" />
-              <span><strong>SFC Evaluator Workbench</strong><small>Decision-support concept / React / TypeScript</small></span>
-              <ArrowUpRight size={16} aria-hidden="true" />
-            </a>
-            <a href="/devon/auto">
-              <Code2 size={17} aria-hidden="true" />
-              <span><strong>Auto Creative OS</strong><small>Production system / Next.js / TypeScript</small></span>
-              <ArrowUpRight size={16} aria-hidden="true" />
-            </a>
-            <a href="/hotel-creative-scorecard">
-              <Sparkles size={17} aria-hidden="true" />
-              <span><strong>Hotel Creative Scorecard</strong><small>AI website analysis / structured output</small></span>
-              <ArrowUpRight size={16} aria-hidden="true" />
-            </a>
+            <p className={styles.bio}>
+              I&apos;m Devon Archer, a <strong>design engineer and creative technologist</strong> in Salt Lake City.
+              I design AI products people can trust, build real-time interactive work, and run a
+              <strong> hospitality creative studio</strong> that ships every week. Concept to deployed code, one loop.
+            </p>
+
+            <a className={styles.scroll} href="#work" aria-label="Scroll to work"><ArrowDown size={16} /></a>
           </div>
         </section>
 
-        <section className="rz-proof" aria-label="Selected proof points">
-          <div><strong>18.6M+</strong><span>impressions</span></div>
-          <div><strong>4.9M+</strong><span>reach</span></div>
-          <div><strong>612K+</strong><span>engagements</span></div>
-          <div><strong>2.7K+</strong><span>creative pieces</span></div>
-        </section>
-
-        <section className="rz-process" id="process">
-          <div className="rz-process-intro">
-            <div className="rz-section-number">02 / PROCESS</div>
-            <p className="rz-kicker dark">FROM AMBIGUOUS BRIEF TO WORKING PRODUCT</p>
-            <h2>Design the behavior, then prove it.</h2>
-            <p>
-              I use design and code as one feedback loop. The prototype is not the end of the process; it is the
-              fastest way to expose assumptions, technical constraints, missing states, and interaction problems.
+        <section className={styles.panel} id="work">
+          <div className={styles.sectionHead}>
+            <p className={styles.eyebrow}><b /> Selected work</p>
+            <h2><span>Built, shipped</span> and still running.</h2>
+            <p className={styles.lede}>
+              The portfolio is organized around working systems, not categories of deliverables.
+              Labels distinguish live products, client work, and independent concepts.
             </p>
           </div>
+        </section>
 
-          <div className="rz-process-grid">
-            {process.map((step) => (
-              <article key={step.n}>
-                <span>{step.n}</span>
-                <h3>{step.title}</h3>
-                <p>{step.body}</p>
-              </article>
-            ))}
-          </div>
+        {projects.map((project) => <ProjectCard key={project.slug} project={project} />)}
 
-          <div className="rz-technical-position">
-            <div>
-              <p className="rz-kicker">CAN I ACTUALLY BUILD?</p>
-              <h3>Yes — with an honest boundary.</h3>
-              <p>
-                My strongest area is the design-to-frontend boundary, but I build functional products rather than
-                stopping at Figma. I regularly work across React/Next.js, TypeScript, APIs, auth, Supabase/Postgres,
-                GitHub, and Vercel. I use AI-assisted development heavily while staying responsible for product
-                behavior, constraints, validation, testing, and what ships.
-              </p>
-              <p>
-                I am not presenting myself as a senior infrastructure engineer. I am a design-led technologist who
-                can take an idea much farther toward working software, communicate clearly with engineers, and know
-                when a problem needs deeper specialization.
-              </p>
-              <a className="rz-text-link inverse" href="https://github.com/devon-gif" target="_blank" rel="noreferrer">
-                Review the GitHub <Code2 size={15} aria-hidden="true" />
-              </a>
+        <section className={styles.studio}>
+          <div className={styles.studioCopy}>
+            <p className={styles.eyebrow}><b /> Studio practice</p>
+            <h3>Archer Design</h3>
+            <p>
+              My studio for hotels, restaurants, spas, startups, and investor projects.
+              Campaign systems, social creative, motion, web experiences, and visual storytelling
+              delivered for real teams with real deadlines.
+            </p>
+            <p className={styles.capabilities}>
+              {["Campaigns", "Motion", "Hospitality", "Product", "Investor Storytelling", "AI Creative"].map((c) => (
+                <span key={c}>{c}</span>
+              ))}
+            </p>
+            <div className={styles.stats}>
+              <div><strong>18.6M+</strong><span>impressions</span></div>
+              <div><strong>4.9M+</strong><span>reach</span></div>
+              <div><strong>612K+</strong><span>engagements</span></div>
+              <div><strong>2.7K+</strong><span>creative pieces</span></div>
             </div>
-            <div className="rz-stack-list">
-              {stackGroups.map(([label, value]) => (
-                <div key={label}>
-                  <span>{label}</span>
-                  <p>{value}</p>
-                </div>
+            <Link className={styles.studioLink} href="/devon/motion">
+              View studio work <span aria-hidden="true">↗</span>
+            </Link>
+          </div>
+          <div className={styles.reel}>
+            <StudioReel />
+          </div>
+        </section>
+
+        <nav className={styles.panel} aria-label="More builds">
+          <div className={styles.sectionHead}>
+            <p className={styles.eyebrow}><b /> More builds</p>
+            <h2><span>More systems,</span> more proof.</h2>
+            <ul className={styles.facts}>
+              <li><a href="https://sfc-evaluator-workbench.vercel.app/en/dashboard" target="_blank" rel="noreferrer">Evaluator Workbench ↗</a></li>
+              <li><Link href="/devon/auto">Auto Creative OS ↗</Link></li>
+              <li><Link href="/hotel-creative-scorecard">Hotel Creative Scorecard ↗</Link></li>
+              <li><Link href="/devon/motion">Motion library ↗</Link></li>
+            </ul>
+          </div>
+        </nav>
+
+        <section className={styles.aiPanel} id="ask-ai">
+          <div className={styles.aiIntro}>
+            <p className={styles.eyebrow}><b /> Ask my portfolio</p>
+            <h2><span>Skip the generic bio.</span> Ask what I can actually do.</h2>
+            <p className={styles.lede}>
+              Devon AI is grounded in the professional work on this portfolio. Ask about role fit,
+              technical depth, projects, process, or what I would own on a team.
+            </p>
+          </div>
+          <div
+            className="devon-best opusAI"
+            style={{ minHeight: 0, background: "transparent", color: "#f3f4ec" }}
+          >
+            <DevonAIClone />
+          </div>
+        </section>
+
+        <section className={styles.panel} id="skills">
+          <div className={styles.skillsGrid}>
+            <div>
+              <p className={styles.eyebrow}><b /> Skills</p>
+              <div className={styles.sectionHead} style={{ display: "block" }}>
+                <h2><span>What I bring</span> to a team.</h2>
+                <p className={styles.lede} style={{ marginTop: 22 }}>
+                  Product thinking, visual craft, creative direction, and enough engineering to ship the idea.
+                </p>
+              </div>
+            </div>
+            <div className={styles.skillList}>
+              {skills.map(([title, body], index) => (
+                <details className={styles.skill} key={title} open={index === 0}>
+                  <summary>{title}<i>+</i></summary>
+                  <p>{body}</p>
+                </details>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="rz-studio" id="archer">
-          <div className="rz-section-number">03 / ARCHER DESIGN</div>
-          <div className="rz-studio-copy">
-            <p className="rz-kicker dark">INDEPENDENT CREATIVE STUDIO</p>
-            <h2>Creative direction with production muscle.</h2>
-            <p>
-              Archer Design is my independent studio for hospitality, restaurants, startups, and digital
-              products. I work across brand systems, campaign creative, motion, landing pages, product visuals,
-              and AI-assisted production — giving clients senior-level creative thinking without separating the
-              idea from the execution.
-            </p>
-            <p>
-              The through-line is simple: make the work distinctive, make it usable, and make sure it actually
-              ships.
-            </p>
-            <a className="rz-text-link" href="/">
-              Visit Archer Design <ArrowUpRight size={15} aria-hidden="true" />
-            </a>
-          </div>
-          <div className="rz-studio-mosaic">
-            <div className="rz-mosaic-large">
-              <Image
-                src="/tcrm/images/eliza-hot-metal-bistro-hotel-indigo-share-the-love.png"
-                alt="Selected Archer Design campaign artwork"
-                fill
-                sizes="(min-width: 900px) 36vw, 90vw"
-              />
+        <section className={styles.aboutRow} id="about">
+          <div className={styles.panel + " " + styles.about}>
+            <div className={styles.aboutPhoto}>
+              <Image src="/infuse/brand/devon-archer-portrait.png" alt="Devon Archer" fill sizes="(min-width:900px) 40vw, 94vw" />
             </div>
-            <div className="rz-mosaic-small top">
-              <Image
-                src="/tcrm/images/minty-fresh-beverage-art-direction.png"
-                alt="Selected Archer Design art direction"
-                fill
-                sizes="(min-width: 900px) 18vw, 45vw"
-              />
-            </div>
-            <div className="rz-mosaic-small bottom">
-              <Image
-                src="/tcrm/images/eliza-hot-metal-bistro-burgers-poster.png"
-                alt="Selected Archer Design food and beverage poster"
-                fill
-                sizes="(min-width: 900px) 18vw, 45vw"
-              />
-            </div>
-          </div>
-        </section>
-
-        <section className="rz-section rz-graphics" id="graphics">
-          <div className="rz-section-head light">
-            <div>
-              <div className="rz-section-number">05 / CREATIVE</div>
-              <p className="rz-kicker dark">GRAPHICS / CAMPAIGNS / ART DIRECTION</p>
-              <h2>Brand work built for real campaigns.</h2>
-            </div>
-            <p>
-              Social systems, hospitality campaigns, food and beverage creative, events, packages, and launch
-              work — designed to feel polished at the individual asset level while still holding together as a
-              larger brand system.
+            <p className={styles.eyebrow}><b /> About</p>
+            <h2>Devon Archer</h2>
+            <ul className={styles.timeline}>
+              <li><span>2021 to now</span><div><strong>Founder, Archer Design</strong><small>Hospitality creative, motion, web, investor materials, and creative technology.</small></div></li>
+              <li><span>2025 to 2026</span><div><strong>Co-founder, JobGhost</strong><small>Product positioning, growth systems, and recruiting SaaS.</small></div></li>
+              <li><span>2021 to 2025</span><div><strong>Graphic Designer, SHAIPE</strong><small>Multi-account digital design and client delivery.</small></div></li>
+            </ul>
+            <p className={styles.small} style={{ marginTop: 20 }}>
+              M.S. UX Design, Full Sail University<br />
+              B.S. UX/UI Design, Full Sail University<br />
+              Graphic Design Certificate, CalArts
             </p>
           </div>
 
-          <DevonGraphicSlideshow
-            items={TCRM_IMAGES.map((item) => ({
-              src: item.src,
-              alt: item.title,
-              title: item.title,
-              category: item.category,
-              width: item.width,
-              height: item.height,
-            }))}
-          />
-        </section>
-
-        <section className="rz-recommendation" aria-label="Recommendation">
-          <div>
-            <p className="rz-kicker dark">RECOMMENDATION</p>
-            <blockquote>
-              “Devon is an amazing employee and graphic designer here at SHAIPE... I would highly recommend Devon.”
-            </blockquote>
-            <p className="rz-rec-context">
-              Ellie P. also highlights communication, judgment, customer-facing poise, web development, and video
-              editing / production in her public LinkedIn recommendation.
-            </p>
-          </div>
-          <div className="rz-rec-attribution">
-            <strong>Ellie P.</strong>
-            <span>SHAIPE / Vigilant · LinkedIn recommendation</span>
-            <a href="https://www.linkedin.com/in/devonarcher" target="_blank" rel="noreferrer">
-              View on LinkedIn <ArrowUpRight size={15} aria-hidden="true" />
-            </a>
+          <div className={styles.panel + " " + styles.faq}>
+            <p className={styles.eyebrow}><b /> Questions recruiters ask</p>
+            {faq.map(([q, a], index) => (
+              <details key={q} open={index === 0}>
+                <summary>{q}</summary>
+                <p>{a}</p>
+              </details>
+            ))}
+            <a className={styles.pill} href="#ask-ai">Ask something else <i><ArrowUpRight size={15} /></i></a>
           </div>
         </section>
 
-        <section className="rz-contact" id="contact">
-          <p className="rz-kicker dark">AVAILABLE FOR THE RIGHT TEAM / PROJECT</p>
-          <h2>Have something worth making?</h2>
-          <a href="/contact">
-            Start a project <ArrowUpRight size={28} aria-hidden="true" />
-          </a>
+        <section className={styles.contact} id="contact">
+          <div className={styles.panel + " " + styles.contactMain}>
+            <p className={styles.eyebrow}><b /> Work with me</p>
+            <h2>Let&apos;s build something people walk up to.</h2>
+            <Link className={styles.pill} href="/contact">Start a conversation <i><ArrowUpRight size={15} /></i></Link>
+          </div>
+          <div className={styles.links}>
+            <a className={styles.linkTile} href="https://github.com/devon-gif" target="_blank" rel="noreferrer"><span>GitHub</span><ArrowUpRight /></a>
+            <a className={styles.linkTile} href="https://www.linkedin.com/in/devonarcher" target="_blank" rel="noreferrer"><span>LinkedIn</span><ArrowUpRight /></a>
+            <Link className={styles.linkTile} href="/contact"><span>Contact</span><ArrowUpRight /></Link>
+            <Link className={styles.linkTile} href="/"><span>Archer Design</span><ArrowUpRight /></Link>
+          </div>
         </section>
+
+        <footer className={styles.footer}>
+          <span>© 2026 Devon Archer</span>
+          <span>Salt Lake City, Utah · Working remotely</span>
+        </footer>
       </main>
     </div>
   );

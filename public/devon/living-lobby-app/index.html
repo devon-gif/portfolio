@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#05070f" />
+    <title>Living Lobby</title>
+    <meta name="description" content="A real-time generative brand installation that responds to time of day, live weather and the people in the room." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..500&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+    <script type="module" crossorigin src="/devon/living-lobby-app/assets/index-Dyi6r2yo.js"></script>
+    <link rel="stylesheet" crossorigin href="/devon/living-lobby-app/assets/index-rfncvaiN.css">
+  </head>
+  <body>
+    <canvas id="stage" aria-label="Generative brand installation"></canvas>
+
+    <div id="overlay" class="overlay" aria-live="polite">
+      <div class="overlay__brand">
+        <span class="overlay__mark" data-brand-name></span>
+        <span class="overlay__rule"></span>
+        <span class="overlay__tagline" data-brand-tagline></span>
+      </div>
+      <div class="overlay__welcome">
+        <p class="overlay__greeting" data-greeting></p>
+        <p class="overlay__conditions" data-conditions></p>
+      </div>
+    </div>
+
+    <div id="attractor-layer" class="attractor-layer" aria-hidden="true"></div>
+    <aside id="director" class="director" hidden aria-label="Director mode"></aside>
+    <div id="notice" class="notice" hidden></div>
+
+  </body>
+</html>
