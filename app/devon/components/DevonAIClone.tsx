@@ -8,11 +8,23 @@ type Message = {
   content: string;
 };
 
+type Recognition = {
+  lang: string;
+  interimResults: boolean;
+  maxAlternatives: number;
+  onstart: (() => void) | null;
+  onend: (() => void) | null;
+  onerror: (() => void) | null;
+  onresult: ((event: { results?: ArrayLike<ArrayLike<{ transcript?: string }>> }) => void) | null;
+  start: () => void;
+};
+type RecognitionCtor = new () => Recognition;
+
 const STARTERS = [
-  "Would Devon fit a Creative Technologist role?",
-  "What has he actually built?",
-  "Can he code beyond prototypes?",
-  "What makes his hospitality background useful?",
+  "Would you fit a Creative Technologist role?",
+  "What tools do you use?",
+  "Can you actually code?",
+  "What is shipped in Living Lobby?",
 ];
 
 export default function DevonAIClone() {
@@ -20,7 +32,7 @@ export default function DevonAIClone() {
     {
       role: "assistant",
       content:
-        "Hi — I’m Devon AI, a portfolio guide built from Devon’s public professional work. Ask me about projects, technical depth, creative range, hospitality experience, or role fit.",
+        "Hi, I’m Devon AI, an AI guide built from Devon Archer’s public professional work. I answer in his first-person voice, but I’m not Devon live. Ask what I’ve built, what tools I use, how technical I am, or paste a role and I’ll tell you honestly how well it fits.",
     },
   ]);
   const [input, setInput] = useState("");
@@ -31,8 +43,12 @@ export default function DevonAIClone() {
   const [status, setStatus] = useState("PUBLIC PORTFOLIO CONTEXT");
   const endRef = useRef<HTMLDivElement>(null);
 
+  // Scroll only the message list, never the page. scrollIntoView on mount
+  // was jumping visitors past the hero straight down to this section.
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    const list = endRef.current?.parentElement;
+    if (!list || messages.length <= 1) return;
+    list.scrollTo({ top: list.scrollHeight, behavior: "smooth" });
   }, [messages, busy]);
 
   function speak(text: string) {
@@ -64,22 +80,32 @@ export default function DevonAIClone() {
         body: JSON.stringify({ messages: next.slice(-10) }),
       });
 
-      const data = (await response.json()) as { answer?: string; error?: string };
+      const data = (await response.json().catch(() => ({}))) as { answer?: string; error?: string; mode?: string };
       if (!response.ok || !data.answer) {
-        throw new Error(data.error || "The portfolio AI is unavailable right now.");
+        // The server explains rate limits and bad input in plain language; show that as the reply.
+        setMessages((current) => [
+          ...current,
+          {
+            role: "assistant",
+            content:
+              data.error ||
+              "I couldn’t answer that just now. You can still review the work on this page or contact Devon directly.",
+          },
+        ]);
+        setStatus(response.status === 429 ? "SLOW DOWN" : "TRY AGAIN");
+        return;
       }
 
       const answer = data.answer.trim();
       setMessages((current) => [...current, { role: "assistant", content: answer }]);
-      setStatus("READY");
+      setStatus(data.mode === "ai" ? "LIVE AI" : "PORTFOLIO ANSWERS");
       speak(answer);
     } catch {
       setMessages((current) => [
         ...current,
         {
           role: "assistant",
-          content:
-            "I’m having trouble reaching the portfolio model right now. You can still review the work below or contact Devon directly.",
+          content: "I couldn’t reach the server. Check your connection, or contact Devon directly through the section below.",
         },
       ]);
       setStatus("OFFLINE");
@@ -95,9 +121,8 @@ export default function DevonAIClone() {
 
   function startListening() {
     if (typeof window === "undefined") return;
-    const SpeechRecognition =
-      (window as unknown as { SpeechRecognition?: any }).SpeechRecognition ||
-      (window as unknown as { webkitSpeechRecognition?: any }).webkitSpeechRecognition;
+    const w = window as unknown as { SpeechRecognition?: RecognitionCtor; webkitSpeechRecognition?: RecognitionCtor };
+    const SpeechRecognition = w.SpeechRecognition || w.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
       setStatus("VOICE INPUT NOT SUPPORTED HERE");
@@ -120,7 +145,7 @@ export default function DevonAIClone() {
       setListening(false);
       setStatus("VOICE INPUT ERROR");
     };
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event) => {
       const transcript = event.results?.[0]?.[0]?.transcript ?? "";
       if (transcript) void ask(transcript);
     };
@@ -194,7 +219,7 @@ export default function DevonAIClone() {
             onChange={(event) => setInput(event.target.value)}
             placeholder="Ask about role fit, projects, tools, process..."
             aria-label="Ask Devon AI a question"
-            maxLength={600}
+            maxLength={800}
           />
           <button
             className={`db-ai-mic ${listening ? "is-listening" : ""}`}

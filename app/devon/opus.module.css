@@ -47,6 +47,14 @@
    linear-gradient(var(--paper),var(--paper));
   filter:saturate(1.04);
 }
+/* Generative color field (HeroColorField). Sits over the static gradient above,
+   which stays as the fallback when WebGL2 is unavailable. */
+.field{
+  position:absolute;inset:0;z-index:-2;width:100%;height:100%;display:block;
+  pointer-events:none;opacity:0;transition:opacity 1.2s ease;
+}
+.field[data-state="ready"]{opacity:1}
+.field[data-state="unsupported"]{display:none}
 .hero:after{
   content:"";position:absolute;inset:0;z-index:-1;
   background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
@@ -108,15 +116,18 @@
 .facts li{padding:7px 10px;border:1px solid var(--line);border-radius:999px;font:500 10.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace}
 .projectCopy .pill{margin-top:28px}
 
-.studio{position:relative;min-height:610px;border-radius:var(--radius);background:var(--night);overflow:hidden;padding:38px;color:var(--paper);display:grid;grid-template-columns:1.1fr .9fr;gap:28px}
+.studio{position:relative;min-height:680px;border-radius:var(--radius);background:var(--night);overflow:hidden;padding:38px;color:var(--paper);display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:40px}
 .studioCopy{align-self:end;max-width:600px}
 .studioCopy h3{margin:14px 0 0;font-size:clamp(3.2rem,5vw,6rem);line-height:.9;letter-spacing:-.06em}
 .studioCopy p{color:rgba(241,239,231,.68);font-size:15px;line-height:1.72}
+.capabilities{margin:14px 0 0;color:rgba(241,239,231,.5)!important;font:500 10.5px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace!important;letter-spacing:.08em;text-transform:uppercase}
+.capabilities span{display:inline-block;white-space:nowrap}.capabilities span:not(:last-child)::after{content:"·";margin:0 .7em;opacity:.6}
+.studioLink{display:inline-flex;align-items:center;gap:8px;margin-top:22px;color:rgba(241,239,231,.72);font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding-bottom:4px;border-bottom:1px solid rgba(241,239,231,.22);transition:color .2s,border-color .2s}
+.studioLink:hover,.studioLink:focus-visible{color:var(--lime);border-color:var(--lime)}
+.reel{position:relative;display:grid;align-items:center;align-self:stretch}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:26px}
 .stats div{padding:13px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.04)}
 .stats strong{display:block;color:var(--lime);font-size:24px;letter-spacing:-.04em}.stats span{font:500 9px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;color:rgba(241,239,231,.55);text-transform:uppercase}
-.mosaic{position:relative;min-height:500px}.mosaic figure{position:absolute;margin:0;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.14);box-shadow:0 28px 70px rgba(0,0,0,.28)}
-.mosaic figure:nth-child(1){inset:5% 21% 15% 0;transform:rotate(-4deg)}.mosaic figure:nth-child(2){width:45%;height:45%;right:2%;top:4%;transform:rotate(5deg)}.mosaic figure:nth-child(3){width:42%;height:42%;right:0;bottom:5%;transform:rotate(2deg)}.mosaic img{object-fit:cover}
 
 .aiPanel{padding:clamp(26px,3.8vw,58px);border-radius:var(--radius);background:var(--night);color:var(--paper)}
 .aiIntro{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end;margin-bottom:30px}
@@ -154,14 +165,14 @@
 @media(max-width:1000px){
   .project,.studio,.aboutRow,.contact,.skillsGrid,.sectionHead,.aiIntro{grid-template-columns:1fr}
   .heroFoot{grid-template-columns:1fr;align-items:start}.bio{justify-self:start}.scroll{display:none}
-  .constellation,.nodes{opacity:.65}.media{min-height:480px}.mosaic{min-height:440px}
+  .constellation,.nodes{opacity:.65}.media{min-height:480px}.reel{max-width:760px;width:100%;justify-self:center}
 }
 @media(max-width:760px){
   .navLinks{display:none}.shell{padding-top:76px}.hero{padding:22px;min-height:720px}.heroMeta{font-size:9px}
   .constellation,.nodes{display:none}.heroTitle{padding-top:100px}.heroTitle h1{font-size:clamp(4rem,19vw,7rem)}
   .hireCard{grid-template-columns:92px 1fr}.portrait{min-height:132px}.stats{grid-template-columns:repeat(2,1fr)}
   .media{padding:14px;min-height:360px}.projectCopy{padding:26px}.browserShot{aspect-ratio:4/3}
-  .studio{padding:28px}.mosaic{min-height:360px}.links{grid-template-columns:1fr}
+  .studio{padding:28px;gap:28px}.links{grid-template-columns:1fr}
 }
 
 :global(.opusLobby .db-lobby-preview){

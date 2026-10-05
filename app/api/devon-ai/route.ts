@@ -1,157 +1,213 @@
 import { NextResponse } from "next/server";
+import { appendFile } from "node:fs/promises";
+import path from "node:path";
+import { SYSTEM_PROMPT, answerFromKnowledge, referenceNotes } from "./knowledge";
 
-type ChatMessage = {
-  role: "user" | "assistant";
-  content: string;
-};
+/**
+ * Devon AI: a recruiter-facing guide grounded in the portfolio.
+ *
+ * Knowledge, voice and guardrails come from knowledge.ts (built from the Devon AI
+ * knowledge base). For each question the route retrieves the relevant knowledge
+ * entries and the role-fit classification and hands them to the model with the
+ * system prompt. Privacy, identity and prompt-injection questions are answered
+ * from the approved wording directly, without calling the model. If the key is
+ * missing or the model fails, it answers from the knowledge base alone, so
+ * visitors never hit a dead end.
+ *
+ * Abuse protection for a public endpoint that spends API credit:
+ *  - only same-origin browser requests are accepted
+ *  - per-visitor rate limit plus a per-instance hourly ceiling
+ *  - request size, message count and message length are capped
+ *  - output tokens are capped and nothing is stored on OpenAI's side
+ */
 
-const PORTFOLIO_CONTEXT = `
-You are Devon AI, a recruiter-facing portfolio guide for Devon Archer. You are an AI assistant, not the real Devon.
+type ChatMessage = { role: "user" | "assistant"; content: string };
+type Mode = "ai" | "portfolio";
 
-Use only the professional facts below. Never invent employers, clients, projects, metrics, technical depth, dates, or outcomes. If a question asks for something not supported here, say you do not have that information and suggest contacting Devon.
+const MAX_BODY_BYTES = 16_000;
+const MAX_MESSAGES = 10;
+const MAX_MESSAGE_CHARS = 800;
 
-Positioning:
-- Devon Archer is a design-led Creative Technologist, Design Engineer, and AI Product / UX Designer.
-- He works across product UX, design engineering, applied AI, interactive experiences, motion, hospitality creative, campaign systems, landing pages, investor materials, and AI-assisted production.
-- His strongest work sits between traditional design and traditional engineering: defining behavior, making complex systems understandable, and building enough of the real product to test and ship the idea.
-- He is hands-on with React, Next.js, TypeScript, Supabase, Postgres, APIs, auth, GitHub, Vercel, Figma, Adobe Creative Suite, motion/video, and AI-assisted development.
-- He does not position himself as a senior infrastructure engineer. His strongest technical lane is design-to-frontend, product behavior, prototyping, full-stack product implementation, workflow logic, validation, and collaborating clearly with deeper engineering specialists when needed.
+// Per-visitor: 12 questions per 10 minutes. Per server instance: 300 per hour.
+const VISITOR_LIMIT = 12;
+const VISITOR_WINDOW_MS = 10 * 60_000;
+const INSTANCE_LIMIT = 300;
+const INSTANCE_WINDOW_MS = 60 * 60_000;
 
-Selected builds:
-- VibeCode+: a GitHub-native AI repair system focused on inspectable health checks, bounded repair, visible workflow state, verification, human review, and draft pull requests rather than silent production changes. The latest documented audit on the portfolio cites 216/216 automated tests passing.
-- CheckRay: an AI-assisted risk analysis product for suspicious texts, links, jobs, bills, and emails. It separates evidence from interpretation, uses deterministic safeguards where possible, and keeps newly collected scam intelligence behind review before it becomes authoritative.
-- Baseten Inference Lab: an independent design-engineering concept that makes AI inference visible as Request → Prepare → Route → Compute → Respond, with responsive implementation, live model interaction, and motion.
-- SFC Evaluator Workbench: a decision-support concept built with React and TypeScript.
-- Auto Creative OS: a production system built around Next.js and TypeScript.
-- Living Lobby: a real-time generative hospitality installation prototype. Part 1 is built as Vite + TypeScript + Three.js. It includes GPU particle simulation, a live day cycle tied to sunrise/sunset, Open-Meteo weather inputs, director mode, adaptive quality, kiosk behavior, and a 24-second wordmark formation cycle. The supplied build supports roughly 26k to 124k particles depending on quality. Camera interaction, phone control, generative content, and take-home media are planned later phases.
+const visitors = new Map<string, number[]>();
+let instanceHits: number[] = [];
 
-Creative / hospitality proof:
-- 18.6M+ tracked impressions across supported hospitality campaigns.
-- 4.9M+ reach.
-- 612K+ engagements.
-- 2.7K+ creative pieces delivered.
-- His hospitality work includes social creative, motion, F&B, events, meeting and sales-support creative, landing pages, websites, and property-level campaigns.
+function rateLimited(ip: string, now: number) {
+  instanceHits = instanceHits.filter((t) => now - t < INSTANCE_WINDOW_MS);
+  if (instanceHits.length >= INSTANCE_LIMIT) return true;
 
-Education shown on the portfolio:
-- M.S. UX Design — Full Sail University.
-- B.S. UX/UI Design — Full Sail University.
-- Graphic Design Certificate — California Institute of the Arts.
+  const hits = (visitors.get(ip) ?? []).filter((t) => now - t < VISITOR_WINDOW_MS);
+  if (hits.length >= VISITOR_LIMIT) {
+    visitors.set(ip, hits);
+    return true;
+  }
+  hits.push(now);
+  visitors.set(ip, hits);
+  instanceHits.push(now);
 
-Current portfolio goal:
-- Present Devon first as a Creative Technologist / Design Engineer / AI product builder, while using hospitality as a differentiating domain advantage rather than the entire identity.
-- Strong role fits include Creative Technologist, Design Technologist, Design Engineer, AI Product Designer, Creative Developer, and product prototyping roles where visual design and working software overlap.
+  // Keep the map from growing without bound on a long-lived instance.
+  if (visitors.size > 5_000) {
+    for (const [key, times] of visitors) {
+      if (!times.some((t) => now - t < VISITOR_WINDOW_MS)) visitors.delete(key);
+    }
+  }
+  return false;
+}
 
-Answer style:
-- Be concise, direct, specific, and useful to recruiters, founders, and hiring managers.
-- Usually answer in 2 to 5 sentences.
-- Prefer concrete project evidence over adjectives.
-- If asked whether Devon is a fit for a role, name the strongest overlaps and any meaningful gaps rather than giving automatic praise.
-- Do not discuss private family, health, finances, home address, or other personal information.
-- If asked how to contact Devon, direct the visitor to the contact link on the portfolio.
-`.trim();
+function clientIp(request: Request) {
+  const fwd = request.headers.get("x-forwarded-for");
+  return (fwd?.split(",")[0] ?? request.headers.get("x-real-ip") ?? "local").trim();
+}
+
+function sameOrigin(request: Request) {
+  const origin = request.headers.get("origin");
+  if (!origin) return false;
+  try {
+    const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+    return new URL(origin).host === host;
+  } catch {
+    return false;
+  }
+}
 
 function cleanMessages(value: unknown): ChatMessage[] {
   if (!Array.isArray(value)) return [];
-
   return value
     .filter((item): item is ChatMessage => {
       if (!item || typeof item !== "object") return false;
-      const role = (item as { role?: unknown }).role;
-      const content = (item as { content?: unknown }).content;
+      const { role, content } = item as { role?: unknown; content?: unknown };
       return (role === "user" || role === "assistant") && typeof content === "string";
     })
-    .slice(-10)
-    .map((item) => ({
-      role: item.role,
-      content: item.content.slice(0, 1200),
-    }));
+    .slice(-MAX_MESSAGES)
+    .map((item) => ({ role: item.role, content: item.content.slice(0, MAX_MESSAGE_CHARS) }));
 }
 
-function extractText(payload: any): string {
-  if (typeof payload?.output_text === "string" && payload.output_text.trim()) {
-    return payload.output_text.trim();
-  }
+type ResponsesPayload = {
+  output_text?: unknown;
+  output?: Array<{ content?: Array<{ type?: string; text?: unknown }> }>;
+};
 
-  const items = Array.isArray(payload?.output) ? payload.output : [];
-  for (const item of items) {
-    const content = Array.isArray(item?.content) ? item.content : [];
-    for (const part of content) {
-      if (part?.type === "output_text" && typeof part?.text === "string") {
-        return part.text.trim();
-      }
+function extractText(payload: ResponsesPayload): string {
+  if (typeof payload.output_text === "string" && payload.output_text.trim()) return payload.output_text.trim();
+  for (const item of payload.output ?? []) {
+    for (const part of item.content ?? []) {
+      if (part.type === "output_text" && typeof part.text === "string" && part.text.trim()) return part.text.trim();
     }
   }
-
   return "";
 }
 
-export async function POST(request: Request) {
+/** House style: no em dashes, even if the model slips one in. */
+const tidy = (text: string) => text.replace(/\s*—\s*/g, ", ").replace(/\s*–\s*/g, " to ");
+
+/**
+ * During local development, keep a log of questions the knowledge base had no
+ * entry for, so the knowledge can be improved before deployment. Never in production.
+ */
+async function logGap(question: string, mode: Mode) {
+  if (process.env.NODE_ENV === "production") return;
   try {
-    const body = await request.json();
-    const messages = cleanMessages(body?.messages);
+    const line = JSON.stringify({ at: new Date().toISOString(), mode, question }) + "\n";
+    await appendFile(path.join(process.cwd(), ".next", "devon-ai-unmatched.jsonl"), line);
+  } catch {
+    // Logging is best effort.
+  }
+}
 
-    const lastUser = [...messages].reverse().find((message) => message.role === "user");
-    if (!lastUser?.content.trim()) {
-      return NextResponse.json({ error: "Ask a question first." }, { status: 400 });
-    }
+async function askModel(messages: ChatMessage[], notes: string): Promise<string> {
+  const apiKey = (process.env.OPENAI_API_KEY ?? "").trim();
+  if (!apiKey) throw new Error("OPENAI_API_KEY is not set");
 
-    const apiKey = (process.env.OPENAI_API_KEY ?? "").trim();
-    if (!apiKey) {
-      return NextResponse.json(
-        { error: "The portfolio AI is not configured yet." },
-        { status: 503 }
-      );
-    }
+  const model = process.env.DEVON_AI_MODEL || process.env.AI_AUDIT_MODEL || "gpt-5-nano";
+  const base = (process.env.OPENAI_BASE_URL || "https://api.openai.com/v1").replace(/\/$/, "");
+  // GPT-5 and o-series models spend output tokens on reasoning first; keep it minimal
+  // so the token cap goes to the actual answer.
+  const reasoning = /^(gpt-5|o\d)/.test(model) ? { reasoning: { effort: "minimal" } } : {};
 
-    const model =
-      process.env.DEVON_AI_MODEL ||
-      process.env.AI_AUDIT_MODEL ||
-      "gpt-5-nano";
-
-    const response = await fetch("https://api.openai.com/v1/responses", {
+  const call = (extra: object) =>
+    fetch(`${base}/responses`, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
+      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         model,
-        instructions: PORTFOLIO_CONTEXT,
-        input: messages.map((message) => ({
-          role: message.role,
-          content: message.content,
-        })),
-        max_output_tokens: 420,
+        instructions: notes ? `${SYSTEM_PROMPT}\n\n${notes}` : SYSTEM_PROMPT,
+        input: messages.map((m) => ({ role: m.role, content: m.content })),
+        max_output_tokens: 600,
         store: false,
+        ...extra,
       }),
-      signal: AbortSignal.timeout(30_000),
+      signal: AbortSignal.timeout(25_000),
     });
 
-    if (!response.ok) {
-      const detail = await response.text();
-      console.error("Devon AI response error:", response.status, detail.slice(0, 1000));
-      return NextResponse.json(
-        { error: "The portfolio AI is temporarily unavailable." },
-        { status: 502 }
-      );
-    }
+  let response = await call(reasoning);
+  // Some newer models name their lowest reasoning setting differently; retry once without it.
+  if (response.status === 400 && "reasoning" in reasoning) response = await call({});
 
-    const payload = await response.json();
-    const answer = extractText(payload);
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`OpenAI ${response.status}: ${detail.slice(0, 400)}`);
+  }
+  const text = extractText((await response.json()) as ResponsesPayload);
+  if (!text) throw new Error("Model returned no text");
+  return tidy(text);
+}
 
-    if (!answer) {
-      return NextResponse.json(
-        { error: "The portfolio AI returned an empty response." },
-        { status: 502 }
-      );
-    }
+export async function POST(request: Request) {
+  if (!sameOrigin(request)) {
+    return NextResponse.json({ error: "Requests are only accepted from the portfolio." }, { status: 403 });
+  }
 
-    return NextResponse.json({ answer });
-  } catch (error) {
-    console.error("Devon AI route error:", error);
+  const raw = await request.text();
+  if (raw.length > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: "That message is too long." }, { status: 413 });
+  }
+
+  let body: unknown;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    return NextResponse.json({ error: "Ask a question first." }, { status: 400 });
+  }
+
+  const messages = cleanMessages((body as { messages?: unknown })?.messages);
+  const lastUser = [...messages].reverse().find((m) => m.role === "user");
+  if (!lastUser?.content.trim()) {
+    return NextResponse.json({ error: "Ask a question first." }, { status: 400 });
+  }
+
+  if (rateLimited(clientIp(request), Date.now())) {
     return NextResponse.json(
-      { error: "The portfolio AI is temporarily unavailable." },
-      { status: 500 }
+      { error: "That is a lot of questions in a short time. Give it a few minutes, or reach Devon directly through the contact section." },
+      { status: 429 },
     );
   }
+
+  const local = answerFromKnowledge(messages);
+  const { notes, matched } = referenceNotes(messages);
+  const headers = { "Cache-Control": "no-store" };
+
+  // Privacy, identity and injection questions get the approved wording, not a model paraphrase.
+  if (local.topic && /^(injection|identity|salary|authorization|availability|secrets|contracts|references|personal)$/.test(local.topic)) {
+    const guardMode: Mode = (process.env.OPENAI_API_KEY ?? "").trim() ? "ai" : "portfolio";
+    return NextResponse.json({ answer: local.answer, mode: guardMode }, { headers });
+  }
+
+  let answer: string;
+  let mode: Mode = "ai";
+  try {
+    answer = await askModel(messages, notes);
+  } catch (error) {
+    // Missing key, quota, timeout or outage: answer from the knowledge base instead of failing.
+    if ((process.env.OPENAI_API_KEY ?? "").trim()) console.error("Devon AI model error:", error);
+    answer = local.answer;
+    mode = "portfolio";
+  }
+  if (!matched && !local.topic) void logGap(lastUser.content, mode);
+
+  return NextResponse.json({ answer, mode }, { headers });
 }

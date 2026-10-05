@@ -4,7 +4,11 @@ import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { absoluteUrl } from "@/lib/seo";
 import DevonAIClone from "./components/DevonAIClone";
+import { HeroColorField } from "./components/HeroColorField";
 import LivingLobbyPreview from "./components/LivingLobbyPreview";
+import LiveSitePreview from "./components/LiveSitePreview";
+import ProjectVideo from "./components/ProjectVideo";
+import StudioReel from "./components/StudioReel";
 import OpusClock from "./components/OpusClock";
 import styles from "./opus.module.css";
 
@@ -65,10 +69,11 @@ const projects = [
     facts: ["26K–124K GPU particles", "Live sun + weather inputs", "Director mode + kiosk hardening"],
     tone: "night",
     image: null,
-    href: null,
+    href: "/devon/living-lobby",
   },
   {
     slug: "vibecode",
+    live: "https://vibe-code-final.vercel.app/",
     title: "VibeCode+",
     status: "Live product",
     tags: "AI developer tooling, Product UX, Next.js, GitHub",
@@ -81,6 +86,7 @@ const projects = [
   },
   {
     slug: "checkray",
+    live: "https://www.checkray.app/",
     title: "CheckRay",
     status: "Live product",
     tags: "Trust UX, Applied AI, Evaluation, Supabase",
@@ -93,6 +99,7 @@ const projects = [
   },
   {
     slug: "baseten",
+    live: "https://baseten-inference-lab.vercel.app/",
     title: "Baseten Inference Lab",
     status: "Independent concept",
     tags: "Design engineering, AI infrastructure, Motion, Vercel",
@@ -112,7 +119,10 @@ const projects = [
       "Pitch decks, private investor rooms, and project dashboards for hospitality and real-estate raises. The job is to turn a complicated deal into a story investors can follow, interrogate, and act on.",
     facts: ["Deck, data room, and site as one system", "Built for active raises"],
     tone: "paper",
-    image: "/devon/investor/investor-dashboard.png",
+    image: "/devon/investor/investor-deal-rooms-poster.jpg",
+    video: "/devon/investor/investor-deal-rooms.mp4",
+    videoWebm: "/devon/investor/investor-deal-rooms.webm",
+    videoAlt: "Investor deal room dashboard with charts and metrics animating",
     href: "/devon/investor-deal-rooms",
   },
 ] as const;
@@ -163,7 +173,10 @@ const faq = [
   ],
 ] as const;
 
+type ProjectMedia = { title: string; image: string | null; live?: string; video?: string; videoWebm?: string; videoAlt?: string };
+
 function ProjectCard({ project }: { project: (typeof projects)[number] }) {
+  const media: ProjectMedia = project;
   return (
     <article className={styles.project} id={project.slug}>
       <div className={styles.media} data-tone={project.tone}>
@@ -175,21 +188,20 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
           </div>
           <div className={styles.browserShot}>
             {project.slug === "living-lobby" ? (
-              <div
-                className="devon-best opusLobby"
-                style={{ minHeight: 0, height: "100%", background: "transparent" }}
-              >
-                <LivingLobbyPreview />
-              </div>
-            ) : (
+              <LivingLobbyPreview />
+            ) : media.video && media.image ? (
+              <ProjectVideo src={media.video} webm={media.videoWebm} poster={media.image} alt={media.videoAlt ?? media.title} objectPosition="center 40%" />
+            ) : media.live && media.image ? (
+              <LiveSitePreview src={media.live} poster={media.image} title={media.title} />
+            ) : media.image ? (
               <Image
-                src={project.image!}
-                alt={project.title}
+                src={media.image}
+                alt={media.title}
                 fill
                 sizes="(min-width: 1000px) 62vw, 94vw"
                 style={{ objectFit: "cover", objectPosition: "top center" }}
               />
-            )}
+            ) : null}
           </div>
         </div>
       </div>
@@ -238,6 +250,7 @@ export default function DevonPortfolioPage() {
 
       <main className={styles.shell}>
         <section className={styles.hero} id="top">
+          <HeroColorField className={styles.field} />
           <div className={styles.heroMeta}>
             <span className={styles.live}><span className={styles.liveDot} /><OpusClock /></span>
             <span className={styles.coords}>40.7608° N, 111.8910° W<br />SALT LAKE CITY | UTAH</span>
@@ -310,17 +323,23 @@ export default function DevonPortfolioPage() {
               Campaign systems, social creative, motion, web experiences, and visual storytelling
               delivered for real teams with real deadlines.
             </p>
+            <p className={styles.capabilities}>
+              {["Campaigns", "Motion", "Hospitality", "Product", "Investor Storytelling", "AI Creative"].map((c) => (
+                <span key={c}>{c}</span>
+              ))}
+            </p>
             <div className={styles.stats}>
               <div><strong>18.6M+</strong><span>impressions</span></div>
               <div><strong>4.9M+</strong><span>reach</span></div>
               <div><strong>612K+</strong><span>engagements</span></div>
               <div><strong>2.7K+</strong><span>creative pieces</span></div>
             </div>
+            <Link className={styles.studioLink} href="/devon/motion">
+              View studio work <span aria-hidden="true">↗</span>
+            </Link>
           </div>
-          <div className={styles.mosaic}>
-            <figure><Image src="/tcrm/images/eliza-hot-metal-bistro-hotel-indigo-share-the-love.png" alt="Hospitality campaign artwork" fill sizes="30vw" /></figure>
-            <figure><Image src="/tcrm/images/minty-fresh-beverage-art-direction.png" alt="Beverage art direction" fill sizes="18vw" /></figure>
-            <figure><Image src="/tcrm/images/eliza-hot-metal-bistro-burgers-poster.png" alt="Food and beverage poster" fill sizes="18vw" /></figure>
+          <div className={styles.reel}>
+            <StudioReel />
           </div>
         </section>
 

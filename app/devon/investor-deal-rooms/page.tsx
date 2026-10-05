@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import {
-  ArrowRight,
   ArrowUpRight,
   BarChart3,
   Database,
@@ -10,16 +9,20 @@ import {
   FolderLock,
   Globe2,
   Layers3,
-  Mail,
   Presentation,
   Rocket,
   Search,
 } from "lucide-react";
+import type { ReactNode } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { absoluteUrl } from "@/lib/seo";
-import { InvestorImageAtlas, type InvestorAtlasTile } from "../components/InvestorImageAtlas";
-import { LuxuryDeckShowcase } from "./LuxuryDeckShowcase";
+import type { InvestorAtlasTile } from "../components/InvestorImageAtlas";
+import { Crumb, PortfolioContact, PortfolioFooter, PortfolioNav } from "../components/PortfolioChrome";
+import opus from "../opus.module.css";
+import sub from "../subpage.module.css";
 
-const PAGE_TITLE = "Investor Rooms, Pitch Decks & Diligence Systems — Devon Archer";
+const PAGE_TITLE = "Investor Rooms, Pitch Decks & Diligence Systems · Devon Archer";
 const PAGE_DESCRIPTION =
   "Investor-facing design and systems for founders, developers, hospitality projects, and real-estate ventures: pitch decks, investor rooms, diligence dashboards, proof registers, research, financial visuals, project websites, and ongoing creative support.";
 
@@ -102,7 +105,7 @@ const cr91Deliverables: Cr91Deliverable[] = [
     eyebrow: "CR-91 PARK PLAZA",
     title: "Live investor proof room",
     body: "A secure investor-facing destination for documents, proof, access, artwork, and project updates.",
-    image: "https://raw.githubusercontent.com/devon-gif/portfolio/main/public/devon/investor/cr91-live-investor-room.png",
+    image: "/devon/investor/cr91-live-investor-room.png",
     href: "https://cr-91-website-first-draft.vercel.app/investor",
     linkLabel: "View CR-91 room",
   },
@@ -110,140 +113,157 @@ const cr91Deliverables: Cr91Deliverable[] = [
     eyebrow: "CR-91 DELIVERABLE",
     title: "Private investor proof room",
     body: "A polished investor-facing hub for secure access, diligence materials, proof, documents, and project artwork.",
-    image: "https://raw.githubusercontent.com/devon-gif/portfolio/main/public/devon/investor/cr91-private-proof-room.png",
+    image: "/devon/investor/cr91-private-proof-room.png",
   },
   {
     eyebrow: "CR-91 DELIVERABLE",
     title: "Pitch deck + numbers updates",
     body: "Presentation revisions, investor narrative, financial-material cleanup, and ongoing updates as feedback came in.",
-    image: "https://raw.githubusercontent.com/devon-gif/portfolio/main/public/devon/investor/cr91-pitch-deck-updates.png",
+    image: "/devon/investor/cr91-pitch-deck-updates.png",
   },
   {
     eyebrow: "CR-91 DELIVERABLE",
     title: "Project website system",
     body: "A public-facing CR-91 experience with hospitality positioning, visual storytelling, and a path into the investor room.",
-    image: "https://raw.githubusercontent.com/devon-gif/portfolio/main/public/devon/investor/cr91-project-website-system.png",
+    image: "/devon/investor/cr91-project-website-system.png",
   },
   {
     eyebrow: "CR-91 DELIVERABLE",
     title: "Rapid founder support",
     body: "Fast edits, new sections, investor-meeting updates, collateral cleanup, and practical support from concept through deployment.",
-    image: "https://raw.githubusercontent.com/devon-gif/portfolio/main/public/devon/investor/cr91-rapid-founder-support.png",
+    image: "/devon/investor/cr91-rapid-founder-support.png",
   },
 ];
 
+const atlas: Record<InvestorAtlasTile, string> = {
+  system: "/devon/investor/investor-system-composition.png",
+  building: "/devon/investor/investor-building.png",
+  dashboard: "/devon/investor/investor-dashboard.png",
+  deck: "/devon/investor/investor-pitch-deck.png",
+  diligence: "/devon/investor/investor-proof-register.png",
+  research: "/devon/investor/investor-research-report.png",
+  financial: "/devon/investor/investor-financial-spread.png",
+};
+
+const presentations = [
+  {
+    eyebrow: "Hospitality investor presentation",
+    title: "The Halite.",
+    description:
+      "A 16-page hospitality investor presentation. Open the original PDF to see the full deck at native quality, with the exact typography, imagery, charts and layouts.",
+    href: "https://at.adobe.com/BcY5QLVuXF9KOT0j",
+    button: "View the Halite deck",
+    meta: "Original PDF · 16 pages · Opens in a new tab",
+  },
+  {
+    eyebrow: "Creative technology / executive storytelling",
+    title: "Creative Technology, Systems & Storytelling.",
+    description:
+      "An 8-page presentation on how I communicate complex product, AI, systems and creative-technology work through a clear executive narrative.",
+    href: "https://at.adobe.com/zTGCy850Nyt4aIxS",
+    button: "View the Creative Technology deck",
+    meta: "Original PDF · 8 pages · Opens in a new tab",
+  },
+] as const;
+
+function SectionHead({ eyebrow, title, muted, children }: { eyebrow: string; title: string; muted: string; children: ReactNode }) {
+  return (
+    <div className={sub.head}>
+      <p className={`${opus.eyebrow} ${sub.headEyebrow}`}>
+        <b /> {eyebrow}
+      </p>
+      <h2>
+        <span>{muted}</span> {title}
+      </h2>
+      <p>{children}</p>
+    </div>
+  );
+}
+
 export default function InvestorDealRoomsPage() {
   return (
-    <div className="realiz-page investor-page">
-      <aside className="rz-rail" aria-label="Portfolio navigation">
-        <div className="rz-rail-accent"><span>DESIGN — AI — CODE — SYSTEMS</span></div>
-        <div className="rz-rail-main">
-          <a className="rz-mark" href="/devon" aria-label="Back to Devon Archer portfolio">DA</a>
-          <span className="rz-copyright">© 2026 DEVON ARCHER</span>
-        </div>
-      </aside>
+    <div className={opus.opusPage}>
+      <PortfolioNav current="work" />
 
-      <main className="rz-main" id="top">
-        <header className="rz-topnav investor-topnav">
-          <a className="rz-topnav-home" href="/devon">DEVON ARCHER</a>
-          <nav>
-            <a href="/devon#builds">Work</a>
-            <a className="is-active" href="/devon/investor-deal-rooms">Investor / Deal Rooms</a>
-            <a href="/devon#hotels">Hotels</a>
-            <a href="/devon#restaurants">Restaurants</a>
-            <a href="/devon#commercial">Commercial</a>
-          </nav>
-          <a className="rz-investor-nav-cta" href="/contact">Get in touch <ArrowUpRight size={14} /></a>
-        </header>
-
-        <section className="rz-investor-page-hero">
-          <div className="rz-investor-page-copy">
-            <p className="rz-kicker">INVESTOR SYSTEMS + FUNDRAISING MATERIALS</p>
+      <main className={opus.shell}>
+        <section className={sub.hero} id="top">
+          <div className={sub.heroCopy}>
+            <Crumb label="Investor / deal rooms" />
             <h1>
-              <span>INVESTOR ROOMS.</span>
-              <span>PITCH DECKS.</span>
-              <em>DILIGENCE SYSTEMS.</em>
+              <span>Investor rooms.</span> Pitch decks. Diligence systems.
             </h1>
             <p>
-              I help founders, developers, operators, and hospitality projects turn complex raises into clear,
-              compelling investor-ready systems: pitch decks, data rooms, research, financial visuals, project
-              websites, and the ongoing creative support that keeps everything current.
+              I help founders, developers, operators and hospitality projects turn complex raises into clear,
+              investor-ready systems: pitch decks, data rooms, research, financial visuals, project websites, and the
+              ongoing creative support that keeps everything current.
             </p>
-            <div className="rz-actions">
-              <a className="rz-btn rz-btn-primary" href="#luxury-investor-deck">View redesigned deck <ArrowRight size={15} /></a>
-              <a className="rz-btn rz-btn-outline" href="/contact">Start a project <Mail size={15} /></a>
+            <div className={sub.actions}>
+              <a className={opus.pill} href="#decks">
+                View the decks{" "}
+                <i>
+                  <ArrowUpRight size={15} />
+                </i>
+              </a>
+              <a className={sub.ghost} href="#cr91">
+                See a live project
+              </a>
             </div>
           </div>
-          <div className="rz-investor-page-generated-hero">
-            <InvestorImageAtlas tile="system" className="rz-investor-page-generated-hero-image" />
-            <div className="rz-investor-page-generated-caption">
-              <span>CONCEPT VISUALIZATION</span>
+          <div className={sub.heroMedia}>
+            <Image src={atlas.system} alt="Investor system with dashboard, deck, website and supporting materials" fill priority sizes="(min-width: 1000px) 45vw, 94vw" />
+            <div className={sub.mediaCaption}>
+              <span>Concept visualization</span>
               <strong>Investor ecosystem for a luxury hospitality development</strong>
             </div>
           </div>
         </section>
 
-        <section className="rz-investor-services" id="capabilities">
-          <div className="rz-investor-services-head">
-            <div>
-              <p className="rz-kicker">WHAT I HELP WITH</p>
-              <h2>Everything you need to raise, in one place.</h2>
-            </div>
-            <p>
-              From early story to final close, I create the materials, systems, and experiences that give investors
-              clarity and give project teams one polished source of truth.
-            </p>
-          </div>
-          <div className="rz-investor-cap-grid">
+        <section className={opus.panel} id="capabilities">
+          <SectionHead eyebrow="What I help with" muted="Everything a raise needs," title="in one place.">
+            From early story to final close, I create the materials, systems and experiences that give investors clarity
+            and give project teams one polished source of truth.
+          </SectionHead>
+          <div className={sub.grid}>
             {capabilities.map(({ icon: Icon, title, body }) => (
-              <article key={title}>
-                <Icon size={25} strokeWidth={1.7} aria-hidden="true" />
-                <div>
-                  <h3>{title}</h3>
-                  <p>{body}</p>
-                </div>
+              <article className={sub.card} key={title}>
+                <span className={sub.icon}>
+                  <Icon size={19} strokeWidth={1.8} aria-hidden="true" />
+                </span>
+                <h3>{title}</h3>
+                <p>{body}</p>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="rz-investor-process">
-          <div className="rz-investor-process-head">
-            <div>
-              <p className="rz-kicker">A SIMPLE, FOCUSED PROCESS</p>
-              <h2>From idea to investment.</h2>
-            </div>
-            <p>A practical end-to-end workflow for turning a complex opportunity into a clear story, polished materials, and a system investors can navigate.</p>
-          </div>
-          <div className="rz-investor-process-grid">
-            {process.map(([n, title, body], index) => (
-              <article key={n}>
+        <section className={opus.panel}>
+          <SectionHead eyebrow="Process" muted="From idea" title="to investment.">
+            A practical end-to-end workflow for turning a complex opportunity into a clear story, polished materials, and a
+            system investors can navigate.
+          </SectionHead>
+          <div className={sub.grid4}>
+            {process.map(([n, title, body]) => (
+              <article className={sub.step} key={n}>
                 <span>{n}</span>
                 <h3>{title}</h3>
                 <p>{body}</p>
-                {index < process.length - 1 ? <ArrowRight className="rz-investor-process-arrow" size={18} /> : null}
               </article>
             ))}
           </div>
         </section>
 
-        <section className="rz-investor-featured" id="featured">
-          <div className="rz-investor-featured-head">
-            <div>
-              <p className="rz-kicker">INVESTOR SYSTEM CAPABILITIES</p>
-              <h2>Systems, materials, and proof.</h2>
-            </div>
-            <p>
-              These concept visuals show the end-to-end investor system I can provide: deck, research, data room,
-              proof organization, financial storytelling, project imagery, and continuous revisions.
-            </p>
-          </div>
-          <div className="rz-investor-featured-grid">
-            {featured.map(([category, title, body, tile]) => (
-              <article key={title}>
-                <div className="rz-investor-feature-card-art rz-investor-feature-card-generated">
-                  <InvestorImageAtlas tile={tile} className="rz-investor-feature-generated-image" />
-                </div>
+        <section className={opus.panel} id="featured">
+          <SectionHead eyebrow="Investor system capabilities" muted="Systems, materials" title="and proof.">
+            Concept visuals of the end-to-end investor system I can provide: deck, research, data room, proof
+            organization, financial storytelling, project imagery, and continuous revisions.
+          </SectionHead>
+          <div className={sub.grid}>
+            {/* The full-system composition is already the hero image, so the grid starts with the parts. */}
+            {featured.filter(([, , , tile]) => tile !== "system").map(([category, title, body, tile]) => (
+              <article className={sub.imageCard} key={title}>
+                <figure>
+                  <Image src={atlas[tile]} alt={title} fill sizes="(min-width: 1100px) 31vw, (min-width: 760px) 47vw, 94vw" />
+                </figure>
                 <small>{category}</small>
                 <h3>{title}</h3>
                 <p>{body}</p>
@@ -252,94 +272,83 @@ export default function InvestorDealRoomsPage() {
           </div>
         </section>
 
-        <LuxuryDeckShowcase />
-
-        <section className="rz-investor-featured" id="selected-work">
-          <div className="rz-investor-featured-head">
-            <div>
-              <p className="rz-kicker">SELECTED REAL-WORLD STORYTELLING</p>
-              <h2>Investor, strategy, and executive communication.</h2>
-            </div>
-            <p>
-              Beyond the CR-91 development work, I have built long-form product case studies, partnership concepts,
-              and executive operating proposals. Client and partner names are anonymized where the underlying work is commercially sensitive.
-            </p>
-          </div>
-          <div className="rz-investor-featured-grid">
-            {selectedWork.map(({ eyebrow, title, body, image, note }) => (
-              <article key={title}>
-                <div className="rz-investor-feature-card-art rz-investor-feature-card-generated">
-                  <img src={image} alt={`${title} preview`} loading="lazy" decoding="async" />
+        <section className={sub.dark} id="decks">
+          <SectionHead eyebrow="Featured presentation work" muted="Investor decks" title="and complex storytelling.">
+            Two full presentations, linked as the original PDFs so the typography, imagery and charts are exactly as
+            delivered.
+          </SectionHead>
+          <div className={sub.deckGrid}>
+            {presentations.map((d) => (
+              <article className={sub.deck} key={d.title}>
+                <div>
+                  <small>{d.eyebrow}</small>
+                  <h3>{d.title}</h3>
+                  <p>{d.description}</p>
                 </div>
-                <small>{eyebrow}</small>
-                <h3>{title}</h3>
-                <p>{body}</p>
-                <p><small>{note}</small></p>
+                <div className={sub.actions}>
+                  <a className={sub.limePill} href={d.href} target="_blank" rel="noreferrer">
+                    {d.button}{" "}
+                    <i>
+                      <ArrowUpRight size={15} />
+                    </i>
+                  </a>
+                  <span className={sub.deckMeta}>{d.meta}</span>
+                </div>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="rz-investor-featured" id="cr91">
-          <div className="rz-investor-featured-head">
-            <div>
-              <p className="rz-kicker">REAL PROJECT SYSTEM</p>
-              <h2>CR-91 Park Plaza investor room.</h2>
-            </div>
-            <p>
-              CR-91 is a live example of the investor-room work: a project website, secure proof room, pitch materials,
-              diligence structure, and rapid update system built around an active hospitality-development raise.
-            </p>
-          </div>
-
-          <div className="rz-investor-featured-grid">
-            {cr91Deliverables.map(({ eyebrow, title, body, image, href, linkLabel }) => {
-              const cardArt = (
-                <div className="rz-investor-feature-card-art rz-investor-feature-card-generated">
-                  <img src={image} alt={`${title} visual`} loading="lazy" decoding="async" />
-                </div>
-              );
-
-              return (
-                <article key={title}>
-                  {href ? (
-                    <a href={href} target="_blank" rel="noreferrer" aria-label={`Open ${title}`}>
-                      {cardArt}
-                    </a>
-                  ) : (
-                    cardArt
-                  )}
-                  <small>{eyebrow}</small>
-                  <h3>{title}</h3>
-                  <p>{body}</p>
-                  {href && linkLabel ? (
-                    <a className="rz-text-link inverse" href={href} target="_blank" rel="noreferrer">
-                      {linkLabel} <ArrowUpRight size={15} aria-hidden="true" />
-                    </a>
-                  ) : null}
-                </article>
-              );
-            })}
+        <section className={opus.panel} id="selected-work">
+          <SectionHead eyebrow="Selected real-world storytelling" muted="Investor, strategy and" title="executive communication.">
+            Long-form product case studies, partnership concepts and executive operating proposals. Client and partner
+            names are anonymized where the underlying work is commercially sensitive.
+          </SectionHead>
+          <div className={sub.grid}>
+            {selectedWork.map(({ eyebrow, title, body, image, note }) => (
+              <article className={sub.imageCard} key={title}>
+                <figure>
+                  {/* eslint-disable-next-line @next/next/no-img-element -- SVG previews */}
+                  <img src={image} alt={`${title} preview`} loading="lazy" decoding="async" />
+                </figure>
+                <small>{eyebrow}</small>
+                <h3>{title}</h3>
+                <p>{body}</p>
+                <p className={sub.note}>{note}</p>
+              </article>
+            ))}
           </div>
         </section>
 
-        <section className="rz-investor-cta">
-          <div>
-            <p className="rz-kicker">LET&apos;S BUILD SOMETHING GREAT</p>
-            <h2>Investor-ready systems for ambitious projects.</h2>
-          </div>
-          <div>
-            <p>
-              If you are raising for a hospitality project, real-estate development, destination concept, restaurant
-              group, startup, or another founder-led venture, I can help turn the vision into materials and systems people can
-              understand, trust, and act on.
-            </p>
-            <div className="rz-actions">
-              <a className="rz-btn rz-btn-primary" href="/contact">Start a project <ArrowUpRight size={15} /></a>
-              <a className="rz-btn rz-btn-outline" href="/devon">View full portfolio <ArrowRight size={15} /></a>
-            </div>
+        <section className={opus.panel} id="cr91">
+          <SectionHead eyebrow="Real project system" muted="CR-91 Park Plaza" title="investor room.">
+            A live example of the investor-room work: a project website, secure proof room, pitch materials, diligence
+            structure and rapid update system built around an active hospitality-development raise.
+          </SectionHead>
+          <div className={sub.grid}>
+            {cr91Deliverables.map(({ eyebrow, title, body, image, href, linkLabel }) => (
+              <article className={sub.imageCard} key={title}>
+                <figure>
+                  <Image src={image} alt={`${title} visual`} fill sizes="(min-width: 1100px) 31vw, (min-width: 760px) 47vw, 94vw" />
+                </figure>
+                <small>{eyebrow}</small>
+                <h3>{title}</h3>
+                <p>{body}</p>
+                {href && linkLabel ? (
+                  <a className={sub.textLink} href={href} target="_blank" rel="noreferrer">
+                    {linkLabel} <ArrowUpRight size={14} aria-hidden="true" />
+                  </a>
+                ) : null}
+              </article>
+            ))}
           </div>
         </section>
+
+        <PortfolioContact title="Investor-ready systems for ambitious projects." />
+        <p className={sub.crumb} style={{ padding: "4px 18px" }}>
+          <Link href="/devon">← Back to the full portfolio</Link>
+        </p>
+        <PortfolioFooter />
       </main>
     </div>
   );
