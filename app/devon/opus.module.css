@@ -95,9 +95,17 @@
 .brandHeading>p{margin:0;max-width:34ch;color:var(--soft);font-size:14px}
 .brandGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;padding:0;margin:0;list-style:none}
 .brandCard{min-width:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--paper)}
-.brandLogo{position:relative;height:112px;background:#fff}
+.brandLogo{position:relative;height:112px;background:#fff;overflow:hidden}
 .brandLogo[data-dark="true"]{background:var(--night)}
 .brandLogo img{object-fit:contain;padding:23px 20px}
+.brandLogo[data-brand="Eliza Hot Metal Bistro"] img{transform:scale(1.6)}
+.brandLogo[data-brand="Elements Salon & Wellness"] img{transform:scale(1.8)}
+.brandLogo[data-brand="IHG Hotels & Resorts"] img,
+.brandLogo[data-brand="Hotel Indigo Pittsburgh"] img,
+.brandLogo[data-brand="Revest Properties"] img,
+.brandLogo[data-brand="RCC Hospitality Consulting"] img{transform:scale(1.25)}
+.brandLogo[data-brand="GutID"] img,
+.brandLogo[data-brand="JobGhost"] img{transform:scale(.9)}
 .brandCaption{padding:14px 14px 16px;border-top:1px solid var(--line)}
 .brandCaption h3{margin:0;font-size:14px;line-height:1.35;font-weight:750;letter-spacing:-.015em}
 .brandCaption p{margin:5px 0 0;font-size:13px;line-height:1.45;color:var(--soft)}

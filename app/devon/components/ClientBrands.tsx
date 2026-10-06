@@ -28,7 +28,7 @@ export default function ClientBrands() {
       <ul className={styles.brandGrid}>
         {brands.map((brand) => (
           <li className={styles.brandCard} key={brand.name}>
-            <div className={styles.brandLogo} data-dark={brand.dark}>
+            <div className={styles.brandLogo} data-dark={brand.dark} data-brand={brand.name}>
               <Image src={brand.src} alt={`${brand.name} logo`} fill sizes="(max-width: 600px) 44vw, (max-width: 1100px) 28vw, 18vw" />
             </div>
             <div className={styles.brandCaption}>
