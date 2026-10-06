@@ -10,6 +10,7 @@ import LiveSitePreview from "./components/LiveSitePreview";
 import ProjectVideo from "./components/ProjectVideo";
 import StudioReel from "./components/StudioReel";
 import OpusClock from "./components/OpusClock";
+import ClientBrands from "./components/ClientBrands";
 import styles from "./opus.module.css";
 
 const PAGE_TITLE = "Devon Archer — Design Engineer + Creative Technologist";
@@ -300,6 +301,8 @@ export default function DevonPortfolioPage() {
             <a className={styles.scroll} href="#work" aria-label="Scroll to work"><ArrowDown size={16} /></a>
           </div>
         </section>
+
+        <ClientBrands />
 
         <section className={styles.panel} id="work">
           <div className={styles.sectionHead}>

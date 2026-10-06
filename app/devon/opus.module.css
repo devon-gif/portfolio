@@ -89,6 +89,24 @@
 .scroll{width:42px;height:72px;border:1px solid var(--line);border-radius:999px;display:grid;place-items:end center;padding-bottom:12px;background:rgba(251,250,246,.44)}
 
 .panel{padding:clamp(26px,3.8vw,58px);border-radius:var(--radius);background:var(--card)}
+.brandPanel{scroll-margin-top:90px}
+.brandHeading{display:flex;justify-content:space-between;align-items:end;gap:32px;margin-bottom:28px}
+.brandHeading h2{margin:0;font-size:clamp(1.8rem,3.2vw,3rem);line-height:1.05;letter-spacing:-.045em}
+.brandHeading>p{margin:0;max-width:34ch;color:var(--soft);font-size:14px}
+.brandGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;padding:0;margin:0;list-style:none}
+.brandCard{min-width:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--paper)}
+.brandLogo{position:relative;height:112px;background:#fff}
+.brandLogo[data-dark="true"]{background:var(--night)}
+.brandLogo img{object-fit:contain;padding:23px 20px}
+.brandCaption{padding:14px 14px 16px;border-top:1px solid var(--line)}
+.brandCaption h3{margin:0;font-size:14px;line-height:1.35;font-weight:750;letter-spacing:-.015em}
+.brandCaption p{margin:5px 0 0;font-size:13px;line-height:1.45;color:var(--soft)}
+.brandMore{margin:24px 0 0;font-size:14px;line-height:1.7;color:var(--soft)}
+.brandMore a{text-decoration:underline;text-underline-offset:3px}
+.brandMore a:hover{color:var(--ink)}
+.brandMore a:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+@media(max-width:1100px){.brandGrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.brandHeading{display:block}.brandHeading>p{margin-top:14px}.brandGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.brandLogo{height:100px}.brandLogo img{padding:20px 15px}.brandCaption{padding:12px}}
 .sectionHead{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end}
 .eyebrow{grid-column:1/-1;margin:0 0 18px;display:flex;align-items:center;gap:10px;color:var(--soft);font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase}
 .eyebrow b{width:9px;height:9px;display:inline-block;background:var(--lime);outline:1px solid var(--ink);transform:rotate(45deg)}
