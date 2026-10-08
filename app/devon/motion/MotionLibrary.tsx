@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Play, X } from "lucide-react";
 import type { DevonMotionItem } from "../motion-data";
 import opus from "../opus.module.css";
 import sub from "../subpage.module.css";
@@ -46,14 +46,27 @@ function Clip({ item, onOpen }: { item: DevonMotionItem; onOpen: () => void }) {
       onMouseLeave={() => ref.current?.pause()}
       aria-label={`Play ${item.title}`}
     >
-      <video
-        ref={ref}
-        src={near ? `${item.src}#t=0.1` : undefined}
-        muted
-        loop
-        playsInline
-        preload={near ? "metadata" : "none"}
-      />
+      {item.youtubeId ? (
+        <>
+          <span
+            className={sub.youtubeThumb}
+            style={{ backgroundImage: `url(https://i.ytimg.com/vi/${item.youtubeId}/hqdefault.jpg)` }}
+            aria-hidden="true"
+          />
+          <span className={sub.playBadge} aria-hidden="true">
+            <Play size={22} fill="currentColor" />
+          </span>
+        </>
+      ) : (
+        <video
+          ref={ref}
+          src={near && item.src ? `${item.src}#t=0.1` : undefined}
+          muted
+          loop
+          playsInline
+          preload={near ? "metadata" : "none"}
+        />
+      )}
       <span className={sub.clipLabel}>
         <strong>{item.title}</strong>
         <span>{item.category}</span>
@@ -115,7 +128,7 @@ export function MotionLibrary({ groups }: { groups: MotionGroup[] }) {
 
       <div className={sub.videoGrid} role="tabpanel">
         {items.slice(0, shown).map((item, i) => (
-          <Clip key={item.src} item={item} onOpen={() => setOpen(i)} />
+          <Clip key={item.youtubeId ?? item.src ?? item.title} item={item} onOpen={() => setOpen(i)} />
         ))}
       </div>
 
@@ -133,7 +146,19 @@ export function MotionLibrary({ groups }: { groups: MotionGroup[] }) {
       {current ? (
         <div className={sub.lightbox} role="dialog" aria-modal="true" aria-label={current.title} onClick={() => setOpen(null)}>
           <div className={sub.lightboxInner} onClick={(e) => e.stopPropagation()}>
-            <video key={current.src} src={current.src} controls autoPlay playsInline loop />
+            {current.youtubeId ? (
+              <div className={sub.youtubePlayer}>
+                <iframe
+                  key={current.youtubeId}
+                  src={`https://www.youtube-nocookie.com/embed/${current.youtubeId}?autoplay=1&rel=0`}
+                  title={current.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+            ) : (
+              <video key={current.src} src={current.src} controls autoPlay playsInline loop />
+            )}
             <div className={sub.lightboxBar}>
               <div>
                 <strong>{current.title}</strong>

@@ -1,10 +1,34 @@
 import { TCRM_BLOB_MOTION } from "@/app/tcrm/tcrm-motion-blob-manifest";
 
 export type DevonMotionItem = {
-  src: string;
+  src?: string;
+  youtubeId?: string;
   title: string;
   category: string;
 };
+
+const DEVON_FEATURED_YOUTUBE: DevonMotionItem[] = [
+  {
+    youtubeId: "I2uEgWTkNSg",
+    title: "7 WALLS — AI Cinematic Trailer",
+    category: "narrative / ai film",
+  },
+  {
+    youtubeId: "7gIJCHNmFts",
+    title: "GutID — Brand Commercial",
+    category: "health & wellness",
+  },
+  {
+    youtubeId: "-y1ZDJq33HY",
+    title: "GutID — Product Box Scene",
+    category: "health & wellness",
+  },
+  {
+    youtubeId: "q-FAWqOdBFM",
+    title: "Thrive Causemetics — Product Video",
+    category: "beauty / commercial",
+  },
+];
 
 export const DEVON_EXTRA_MOTION: DevonMotionItem[] = [
   { src: "/infuse/videos/chef-plating.mp4", title: "Chef Plating", category: "f&b" },
@@ -100,8 +124,9 @@ function isCommercial(item: DevonMotionItem) {
 function uniqueBySrc(items: DevonMotionItem[]) {
   const seen = new Set<string>();
   return items.filter((item) => {
-    if (seen.has(item.src)) return false;
-    seen.add(item.src);
+    const key = item.youtubeId ? `youtube:${item.youtubeId}` : item.src;
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
     return true;
   });
 }
@@ -166,10 +191,15 @@ export const DEVON_FNB_MOTION = prioritize(
 // COMMERCIAL / PRODUCT / DIGITAL / EXPERIMENTAL
 export const DEVON_COMMERCIAL_MOTION = prioritize(
   uniqueBySrc([
+    ...DEVON_FEATURED_YOUTUBE,
     ...DEVON_EXTRA_MOTION.filter((item) => item.category === "commercial"),
     ...TCRM_UNIQUE.filter(isCommercial),
   ]),
   [
+    "7 WALLS — AI Cinematic Trailer",
+    "GutID — Brand Commercial",
+    "GutID — Product Box Scene",
+    "Thrive Causemetics — Product Video",
     "Nike Product Motion",
     "App Motion Study",
     "White Sneaker Product Motion",
