@@ -17,9 +17,51 @@ const PAGE_TITLE = "Devon Archer — Design Engineer + Creative Technologist";
 const PAGE_DESCRIPTION =
   "Devon Archer designs and builds AI products, real-time interactive work, production software, motion, and hospitality creative.";
 
+const PROFILE_SCHEMA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": absoluteUrl("/devon#person"),
+      name: "Devon Archer",
+      url: absoluteUrl("/devon"),
+      image: absoluteUrl("/infuse/brand/devon-archer-portrait.png"),
+      jobTitle: "Design Engineer and Creative Technologist",
+      description: PAGE_DESCRIPTION,
+      homeLocation: { "@type": "Place", name: "Lehi, Utah, United States" },
+      worksFor: { "@id": absoluteUrl("/#organization") },
+      alumniOf: { "@type": "CollegeOrUniversity", name: "Full Sail University" },
+      sameAs: [
+        "https://www.linkedin.com/in/devonarcher",
+        "https://github.com/devon-gif",
+      ],
+      knowsAbout: [
+        "Creative technology",
+        "Design engineering",
+        "Applied AI product design",
+        "Real-time graphics",
+        "Product UX",
+        "Motion design",
+        "Hospitality creative",
+      ],
+    },
+    {
+      "@type": "Organization",
+      "@id": absoluteUrl("/#organization"),
+      name: "Archer Design",
+      legalName: "Archer Design LLC",
+      url: absoluteUrl("/"),
+      founder: { "@id": absoluteUrl("/devon#person") },
+    },
+  ],
+};
+
 export const metadata: Metadata = {
   title: PAGE_TITLE,
   description: PAGE_DESCRIPTION,
+  authors: [{ name: "Devon Archer", url: absoluteUrl("/devon") }],
+  creator: "Devon Archer",
+  publisher: "Archer Design LLC",
   keywords: [
     "Creative Technologist",
     "Design Engineer",
@@ -237,6 +279,10 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
 export default function DevonPortfolioPage() {
   return (
     <div className={styles.opusPage}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFILE_SCHEMA) }}
+      />
       <header className={styles.nav}>
         <a className={styles.mark} href="#top" aria-label="Devon Archer, back to top">DA</a>
         <nav className={styles.navLinks} aria-label="Portfolio sections">
@@ -254,7 +300,7 @@ export default function DevonPortfolioPage() {
           <HeroColorField className={styles.field} />
           <div className={styles.heroMeta}>
             <span className={styles.live}><span className={styles.liveDot} /><OpusClock /></span>
-            <span className={styles.coords}>40.7608° N, 111.8910° W<br />SALT LAKE CITY | UTAH</span>
+            <span className={styles.coords}>40.3916° N, 111.8508° W<br />LEHI | UTAH | SLC METRO</span>
           </div>
 
           <svg className={styles.constellation} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
@@ -293,7 +339,7 @@ export default function DevonPortfolioPage() {
             </div>
 
             <p className={styles.bio}>
-              I&apos;m Devon Archer, a <strong>design engineer and creative technologist</strong> in Salt Lake City.
+              I&apos;m Devon Archer, a <strong>design engineer and creative technologist</strong> in Lehi, Utah, part of the Salt Lake City metro.
               I design AI products people can trust, build real-time interactive work, and run a
               <strong> hospitality creative studio</strong> that ships every week. Concept to deployed code, one loop.
             </p>
@@ -337,6 +383,9 @@ export default function DevonPortfolioPage() {
               <div><strong>612K+</strong><span>engagements</span></div>
               <div><strong>2.7K+</strong><span>creative pieces</span></div>
             </div>
+            <p className={styles.metricNote}>
+              Aggregate tracked campaign results through October 2026. Creative performance only; no booking attribution implied.
+            </p>
             <Link className={styles.studioLink} href="/devon/motion">
               View studio work <span aria-hidden="true">↗</span>
             </Link>
@@ -445,7 +494,7 @@ export default function DevonPortfolioPage() {
 
         <footer className={styles.footer}>
           <span>© 2026 Devon Archer</span>
-          <span>Salt Lake City, Utah · Working remotely</span>
+          <span>Lehi, Utah · Salt Lake City metro · Working remotely</span>
         </footer>
       </main>
     </div>
