@@ -26,7 +26,7 @@ const SPEC_AD_IMAGES = [
     height: 1000,
   },
   {
-    src: "/devon/spec-ads/mercedes-benz-eqs-spec-ad.png",
+    src: "/devon/spec-ads/mercedes-benz-eqs-spec-ad.jpg",
     title: "Mercedes-Benz EQS — Display Ad (Independent Spec Concept)",
     alt: "Independent Mercedes-Benz EQS electric luxury sedan display advertising concept",
     width: 1374,
