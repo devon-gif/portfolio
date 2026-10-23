@@ -17,6 +17,23 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+const SPEC_AD_IMAGES = [
+  {
+    src: "/devon/spec-ads/lumaire-renewal-serum.png",
+    title: "LUMAIRE — Renewal Serum (Independent Spec Ad)",
+    alt: "LUMAIRE fictional skincare campaign, Renewal Serum display advertising concept",
+    width: 1200,
+    height: 1000,
+  },
+  {
+    src: "/devon/spec-ads/mercedes-benz-eqs-spec-ad.png",
+    title: "Mercedes-Benz EQS — Display Ad (Independent Spec Concept)",
+    alt: "Independent Mercedes-Benz EQS electric luxury sedan display advertising concept",
+    width: 1374,
+    height: 1145,
+  },
+] as const;
+
 const groups = [
   { key: "hotels", label: "Hotels & places", items: DEVON_HOTEL_MOTION },
   { key: "fnb", label: "Food & beverage", items: DEVON_FNB_MOTION },
@@ -92,10 +109,16 @@ export default function DevonMotionLibraryPage() {
             </h2>
             <p>
               Social systems, hospitality campaigns, menus, events and packaging, designed to hold up as single pieces and
-              as a system. Property-level work, not a claim of corporate endorsement.
+              as a system. Includes original independent advertising concepts, alongside client campaign work. Spec ads are not commissioned, authorized, or endorsed by the depicted brands.
             </p>
           </div>
           <div className={sub.gallery}>
+            {SPEC_AD_IMAGES.map((img) => (
+              <figure key={img.src}>
+                <Image src={img.src} alt={img.alt} width={img.width} height={img.height} sizes="(min-width: 1100px) 25vw, (min-width: 600px) 45vw, 92vw" />
+                <figcaption>{img.title}</figcaption>
+              </figure>
+            ))}
             {TCRM_IMAGES.map((img) => (
               <figure key={img.src}>
                 <Image src={img.src} alt={img.title} width={img.width} height={img.height} sizes="(min-width: 1100px) 25vw, (min-width: 600px) 45vw, 92vw" />
