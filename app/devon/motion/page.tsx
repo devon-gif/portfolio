@@ -34,6 +34,39 @@ const SPEC_AD_IMAGES = [
   },
 ] as const;
 
+// Existing source artwork from the original Archer Design gallery, previously
+// omitted from /devon/motion. These files are already in /public.
+const ADDITIONAL_GRAPHICS = [
+  {
+    src: "/Image%208.png",
+    title: "Hospitality Campaign — Sports Promotion",
+    alt: "Archer Design hotel sports-event promotion graphic",
+    width: 1080,
+    height: 1350,
+  },
+  {
+    src: "/Image%209.png",
+    title: "Hospitality Campaign — Football Promotion",
+    alt: "Archer Design hospitality football promotional design",
+    width: 1080,
+    height: 1350,
+  },
+  {
+    src: "/image%2010.png",
+    title: "Hampton Inn — Shuttle Promotion",
+    alt: "Hampton Inn Greensburg shuttle service promotion creative",
+    width: 1080,
+    height: 1350,
+  },
+  {
+    src: "/image%2011.png",
+    title: "Eliza Hot Metal Bistro — Brand Texture",
+    alt: "Eliza Hot Metal Bistro embossed plush-texture identity concept",
+    width: 1080,
+    height: 1350,
+  },
+] as const;
+
 const groups = [
   { key: "hotels", label: "Hotels & places", items: DEVON_HOTEL_MOTION },
   { key: "fnb", label: "Food & beverage", items: DEVON_FNB_MOTION },
@@ -41,10 +74,11 @@ const groups = [
 ].filter((g) => g.items.length > 0);
 
 const total = groups.reduce((n, g) => n + g.items.length, 0);
+const graphicsTotal = TCRM_IMAGES.length + SPEC_AD_IMAGES.length + ADDITIONAL_GRAPHICS.length;
 
 export default function DevonMotionLibraryPage() {
   return (
-    <div className={opus.opusPage}>
+    <div className={opus.opusPage} id="graphics">
       <PortfolioNav current="work" />
 
       <main className={opus.shell}>
@@ -56,7 +90,7 @@ export default function DevonMotionLibraryPage() {
             </h1>
             <p>
               Short-form motion, campaign graphics and art direction made for real hotels, restaurants and brands.
-              {` ${total}`} clips and {TCRM_IMAGES.length} graphics, delivered as part of week-to-week production at
+              {` ${total}`} clips and {graphicsTotal} graphics, including hospitality client work and independent advertising concepts at
               Archer Design.
             </p>
             <div className={sub.actions}>
@@ -66,7 +100,7 @@ export default function DevonMotionLibraryPage() {
                   <ArrowDown size={15} />
                 </i>
               </a>
-              <a className={sub.ghost} href="#graphics">
+              <a className={sub.ghost} href="#graphics-gallery">
                 See the graphics
               </a>
             </div>
@@ -99,7 +133,7 @@ export default function DevonMotionLibraryPage() {
           <MotionLibrary groups={groups} />
         </section>
 
-        <section className={opus.panel} id="graphics">
+        <section className={opus.panel} id="graphics-gallery">
           <div className={sub.head}>
             <p className={`${opus.eyebrow} ${sub.headEyebrow}`}>
               <b /> Graphics
@@ -114,6 +148,12 @@ export default function DevonMotionLibraryPage() {
           </div>
           <div className={sub.gallery}>
             {SPEC_AD_IMAGES.map((img) => (
+              <figure key={img.src}>
+                <Image src={img.src} alt={img.alt} width={img.width} height={img.height} sizes="(min-width: 1100px) 25vw, (min-width: 600px) 45vw, 92vw" />
+                <figcaption>{img.title}</figcaption>
+              </figure>
+            ))}
+            {ADDITIONAL_GRAPHICS.map((img) => (
               <figure key={img.src}>
                 <Image src={img.src} alt={img.alt} width={img.width} height={img.height} sizes="(min-width: 1100px) 25vw, (min-width: 600px) 45vw, 92vw" />
                 <figcaption>{img.title}</figcaption>
