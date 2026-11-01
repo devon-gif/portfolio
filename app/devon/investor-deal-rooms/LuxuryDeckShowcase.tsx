@@ -4,7 +4,7 @@ const presentations = [
     title: "The Halite.",
     description:
       "A 16-page hospitality investor presentation. Open the original PDF to view the full deck at native quality with the exact typography, imagery, charts, and layouts.",
-    href: "https://at.adobe.com/BcY5QLVuXF9KOT0j",
+    href: "https://drive.google.com/file/d/14qxF8cLoETSnEJTonjAIdOFTQjA4SnAY/view",
     button: "View full Halite investor deck ↗",
     meta: "Original PDF · 16 pages · Opens in a new tab",
   },
@@ -13,9 +13,25 @@ const presentations = [
     title: "Creative Technology, Systems & Storytelling.",
     description:
       "An 8-page presentation showing how I communicate complex product, AI, systems, and creative-technology work through a polished executive narrative. Open the original PDF at full quality.",
-    href: "https://at.adobe.com/zTGCy850Nyt4aIxS",
+    href: "https://drive.google.com/file/d/1WB4iaoyP0dE-IxtNgvbncHbuy4u1ZnYH/view",
     button: "View full Creative Technology deck ↗",
     meta: "Original PDF · 8 pages · Opens in a new tab",
+  },
+  {
+    eyebrow: "ACTIVE INVESTOR PROJECT · NOVEMBER 2026",
+    title: "CR-91 Park Plaza — Latest Investor Deck.",
+    description: "The November 1, 2026 investor pitch deck, documenting the latest Phase 1 narrative and financial overview.",
+    href: "https://drive.google.com/file/d/1Y3JsXVvpNOjCK8QwwNPNwMTcErj8dU-k/view",
+    button: "View the CR-91 investor deck ↗",
+    meta: "Original PDF · Updated November 1, 2026",
+  },
+  {
+    eyebrow: "HOSPITALITY CREATIVE OPERATIONS",
+    title: "Archer Design — Deliverables & KPIs.",
+    description: "Two-page client-facing overview of recurring hospitality creative production, deliverables, metrics and working process.",
+    href: "https://drive.google.com/file/d/10Zstvft-sAqqEMqCwU32jPVKs0HPHjOF/view",
+    button: "View the Archer Design overview ↗",
+    meta: "Original PDF · 2 pages",
   },
 ] as const;
 
