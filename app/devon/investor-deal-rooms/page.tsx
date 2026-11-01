@@ -147,6 +147,15 @@ const atlas: Record<InvestorAtlasTile, string> = {
 
 const presentations = [
   {
+    eyebrow: "Hospitality technology / seed deck concept",
+    title: "Stillroom.",
+    description:
+      "A 15-page seed pitch deck for a fictional hotel operations platform. A portfolio concept by Archer Design, covering the product, market and business model. Open the original PDF at full quality.",
+    href: "/devon/presentations/Stillroom-Seed-Deck.pdf",
+    button: "View the Stillroom deck",
+    meta: "Original PDF · 15 pages · Portfolio concept · Opens in a new tab",
+  },
+  {
     eyebrow: "Hospitality investor presentation",
     title: "The Halite.",
     description:
@@ -274,7 +283,7 @@ export default function InvestorDealRoomsPage() {
 
         <section className={sub.dark} id="decks">
           <SectionHead eyebrow="Featured presentation work" muted="Investor decks" title="and complex storytelling.">
-            Two full presentations, linked as the original PDFs so the typography, imagery and charts are exactly as
+            Three full presentations, linked as the original PDFs so the typography, imagery and charts are exactly as
             delivered.
           </SectionHead>
           <div className={sub.deckGrid}>
