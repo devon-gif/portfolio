@@ -182,12 +182,12 @@ const presentations = [
     meta: "Original PDF · Updated November 1, 2026 · Opens in a new tab",
   },
   {
-    eyebrow: "Hospitality creative operations",
-    title: "Archer Design — Deliverables & KPIs.",
-    description: "A concise client-facing overview of hospitality creative support, weekly and monthly deliverables, reporting, and the workflow behind ongoing campaigns.",
-    href: "https://drive.google.com/file/d/10Zstvft-sAqqEMqCwU32jPVKs0HPHjOF/view",
-    button: "View the Archer Design overview",
-    meta: "Original PDF · 2 pages · Opens in a new tab",
+    eyebrow: "Hospitality creative / brand presentation",
+    title: "Archer Design — Hospitality Creative.",
+    description: "The original 12-page Archer Design presentation, with ivory-and-gold editorial layouts, hospitality photography, colorful campaign samples, creative services and the portfolio support model.",
+    href: "https://drive.google.com/file/d/1Q3FnHhaOdwFKfomHefjP-HOYjLs82mFn/view",
+    button: "View the Archer Design presentation",
+    meta: "Original full-quality PDF · 12 pages · Opens in a new tab",
   },
 ] as const;
 
