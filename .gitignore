@@ -114,3 +114,6 @@ public/Screenshot 2026-*.png
 # Stray Next build output (sandbox verify)
 /tmp/
 tmp/
+
+# Original HD PDF assembled from source parts before each build
+/public/devon/presentations/Chicago-Exchange-HD.pdf

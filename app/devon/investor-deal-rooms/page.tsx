@@ -147,6 +147,14 @@ const atlas: Record<InvestorAtlasTile, string> = {
 
 const presentations = [
   {
+    eyebrow: "Mixed-use real estate / portfolio concept",
+    title: "Chicago Exchange.",
+    description: "A 24-page investor presentation for a fictional downtown Chicago development, combining a public plaza, premium retail, restaurants, workspaces and cultural programming. An Archer Design portfolio concept.",
+    href: "/devon/presentations/Chicago-Exchange-HD.pdf",
+    button: "View the Chicago Exchange HD deck",
+    meta: "Original HD PDF · 24 pages · Portfolio concept · Opens in a new tab",
+  },
+  {
     eyebrow: "Hospitality technology / seed deck concept",
     title: "Stillroom.",
     description:
@@ -160,7 +168,7 @@ const presentations = [
     title: "The Halite.",
     description:
       "A 16-page hospitality investor presentation. Open the original PDF to see the full deck at native quality, with the exact typography, imagery, charts and layouts.",
-    href: "https://drive.google.com/file/d/14qxF8cLoETSnEJTonjAIdOFTQjA4SnAY/view",
+    href: "/devon/presentations/The-Halite-Investor-Deck.pdf",
     button: "View the Halite deck",
     meta: "Original PDF · 16 pages · Opens in a new tab",
   },
@@ -169,7 +177,7 @@ const presentations = [
     title: "Creative Technology, Systems & Storytelling.",
     description:
       "An 8-page presentation on how I communicate complex product, AI, systems and creative-technology work through a clear executive narrative.",
-    href: "https://drive.google.com/file/d/1WB4iaoyP0dE-IxtNgvbncHbuy4u1ZnYH/view",
+    href: "/devon/presentations/Archer-Design-Creative-Technology.pdf",
     button: "View the Creative Technology deck",
     meta: "Original PDF · 8 pages · Opens in a new tab",
   },
@@ -177,7 +185,7 @@ const presentations = [
     eyebrow: "Active investor project · November 2026",
     title: "CR-91 Park Plaza — Latest Investor Deck.",
     description: "The November 1, 2026 investor presentation for CR-91 Park Plaza, including the updated Phase 1 investment narrative and financial overview.",
-    href: "https://drive.google.com/file/d/1Y3JsXVvpNOjCK8QwwNPNwMTcErj8dU-k/view",
+    href: "/devon/presentations/CR91-Investor-Deck-2026-11-01.pdf",
     button: "View the CR-91 investor deck",
     meta: "Original PDF · Updated November 1, 2026 · Opens in a new tab",
   },
@@ -299,7 +307,7 @@ export default function InvestorDealRoomsPage() {
 
         <section className={sub.dark} id="decks">
           <SectionHead eyebrow="Featured presentation work" muted="Investor decks" title="and complex storytelling.">
-            Three full presentations, linked as the original PDFs so the typography, imagery and charts are exactly as
+            Full presentations, linked as the original PDFs so the typography, imagery and charts are exactly as
             delivered.
           </SectionHead>
           <div className={sub.deckGrid}>
