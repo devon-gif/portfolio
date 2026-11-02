@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "prebuild": "node scripts/assemble-presentation-pdfs.mjs"
+    "prebuild": "node scripts/assemble-presentation-pdfs.mjs && node scripts/generate-contentstudio-performance-pdf.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.108.2",
