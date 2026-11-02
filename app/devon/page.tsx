@@ -383,6 +383,9 @@ export default function DevonPortfolioPage() {
               <div><strong>612K+</strong><span>engagements</span></div>
               <div><strong>2.7K+</strong><span>creative pieces</span></div>
             </div>
+            <Link className={styles.pill} href="/devon/social-performance" style={{marginTop:18}}>
+              View verified ContentStudio performance <i><ArrowUpRight size={15} /></i>
+            </Link>
             <p className={styles.metricNote}>
               Aggregate tracked campaign results through October 2026. Creative performance only; no booking attribution implied.
             </p>
