@@ -24,7 +24,7 @@ export default function ClientBrands() {
       </div>
       <ul className={styles.brandStrip} aria-label="Organizations Devon has created for">
         {brands.map((brand) => (
-          <li className={styles.brandMark} key={brand.name} title={`${brand.name} — ${brand.work}`}>
+          <li className={styles.brandMark} data-dark={brand.dark} key={brand.name} title={`${brand.name} — ${brand.work}`}>
             <Image
               src={brand.src}
               alt={brand.name}
