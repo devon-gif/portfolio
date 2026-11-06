@@ -504,7 +504,7 @@ export default function DevonPortfolioPage() {
           </div>
           <div className={styles.links}>
             <a className={styles.linkTile} href="https://github.com/devon-gif" target="_blank" rel="noreferrer"><span>GitHub</span><ArrowUpRight /></a>
-            <Link className={styles.linkTile} href="/devon/resume"><span>Resume</span><ArrowUpRight /></Link>
+            <a className={styles.linkTile} href="/devon/resume.pdf" target="_blank" rel="noreferrer"><span>Resume (PDF)</span><ArrowUpRight /></a>
             <a className={styles.linkTile} href="https://www.linkedin.com/in/devonarcher" target="_blank" rel="noreferrer"><span>LinkedIn</span><ArrowUpRight /></a>
             <Link className={styles.linkTile} href="/contact"><span>Contact</span><ArrowUpRight /></Link>
             <Link className={styles.linkTile} href="/"><span>Archer Design</span><ArrowUpRight /></Link>
