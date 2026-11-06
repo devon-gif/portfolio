@@ -6,6 +6,7 @@ import { absoluteUrl } from "@/lib/seo";
 import DevonAIClone from "./components/DevonAIClone";
 import { HeroColorField } from "./components/HeroColorField";
 import LivingLobbyPreview from "./components/LivingLobbyPreview";
+import AuraTeaser from "./components/AuraTeaser";
 import LiveSitePreview from "./components/LiveSitePreview";
 import ProjectVideo from "./components/ProjectVideo";
 import StudioReel from "./components/StudioReel";
@@ -102,6 +103,18 @@ export const metadata: Metadata = {
 };
 
 const projects = [
+  {
+    slug: "aura-one",
+    title: "AURA ONE",
+    status: "Independent concept · in development",
+    tags: "Interactive 3D, Blender, React Three Fiber, GSAP, Next.js",
+    summary:
+      "A fictional luxury headphone launch built as a full interactive product experience. Scroll-controlled exploded assemblies, material configuration, studio-rendered colorways, and cinematic lifestyle transitions bring the design system into working code.",
+    facts: ["Real 3D product model + exploded-view interaction", "Four studio colorways and editorial imagery", "Full interactive demo is being finalized locally"],
+    tone: "night",
+    image: null,
+    href: "/devon/aura-one",
+  },
   {
     slug: "living-lobby",
     title: "Living Lobby",
@@ -230,7 +243,9 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
             <span />
           </div>
           <div className={styles.browserShot}>
-            {project.slug === "living-lobby" ? (
+            {project.slug === "aura-one" ? (
+              <AuraTeaser />
+            ) : project.slug === "living-lobby" ? (
               <LivingLobbyPreview />
             ) : media.video && media.image ? (
               <ProjectVideo src={media.video} webm={media.videoWebm} poster={media.image} alt={media.videoAlt ?? media.title} objectPosition="center 40%" />
