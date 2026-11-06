@@ -9,7 +9,7 @@ const AURA_EMBED = AURA_ORIGIN + "/embed";
 /**
  * Live, moving AURA preview with a safe fallback.
  * AURA's /embed route sends { type: "aura:embed-ready" } from AURA_ORIGIN
- * after its headphone scene is fully rendered. Cross-origin iframe onLoad
+ * after its headphone scene is fully rendered. The preview only becomes visible after the animation sends its ready signal. Cross-origin iframe onLoad
  * alone is not sufficient because an unavailable domain can also fire onLoad.
  */
 export default function AuraLivePreview() {
