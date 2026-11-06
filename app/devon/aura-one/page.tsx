@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import AuraTeaser from "../components/AuraTeaser";
+import AuraLivePreview from "../components/AuraLivePreview";
 import styles from "../opus.module.css";
 
 export const metadata: Metadata = {
@@ -33,12 +33,12 @@ export default function AuraOneCaseStudy() {
             An immersive product launch for a fictional luxury headphone brand—where industrial visualization, scroll-driven 3D, and high-end editorial design meet.
           </p>
           <p style={{ fontSize: 12, color: "#677a76", margin: "26px 0 0" }}>
-            Status: interactive prototype in local development. The public live experience is not yet available.
+            Status: live interactive portfolio concept. Explore the full website at the public AURA ONE production URL.
           </p>
         </section>
 
         <div style={{ marginTop: 12, borderRadius: 28, overflow: "hidden" }}>
-          <AuraTeaser />
+          <div style={{ position: "relative", width: "100%", aspectRatio: "16 / 10", minHeight: 230 }}><AuraLivePreview /></div>
         </div>
 
         <section className={styles.panel} style={{ marginTop: 12, padding: "clamp(28px,5vw,64px)" }}>
@@ -63,10 +63,11 @@ export default function AuraOneCaseStudy() {
             Blender · Photoshop · Next.js · React · Three.js · React Three Fiber · GSAP / ScrollTrigger · AI-assisted development
           </p>
           <p style={{ maxWidth: 690, lineHeight: 1.7, color: "#617770" }}>
-            AURA ONE is an independent portfolio demonstration, not a real retail product or a commissioned client engagement. The interactive site is being developed separately; this page documents the concept while the public demo is prepared.
+            AURA ONE is an independent portfolio demonstration, not a real retail product or a commissioned client engagement. The interactive production site is now available publicly, including the Blender-rendered headphone hero, 3D engineering sequence, and interactive product experience.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 16, marginTop: 28 }}>
-            <Link className={styles.pill} href="/devon">Explore more work <i><ArrowUpRight size={15} /></i></Link>
+            <a className={styles.pill} href="https://aura-one-devon-gifs-projects.vercel.app" target="_blank" rel="noreferrer">Explore the live AURA site <i><ArrowUpRight size={15} /></i></a>
+            <Link className={styles.pill} href="/devon">More work <i><ArrowUpRight size={15} /></i></Link>
             <a className={styles.pill} href="https://www.linkedin.com/in/devonarcher" target="_blank" rel="noreferrer">
               Connect on LinkedIn <i><ArrowUpRight size={15} /></i>
             </a>
