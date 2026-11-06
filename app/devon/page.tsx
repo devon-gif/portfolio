@@ -106,14 +106,14 @@ const projects = [
   {
     slug: "aura-one",
     title: "AURA ONE",
-    status: "Independent concept · in development",
+    status: "Live interactive concept",
     tags: "Interactive 3D, Blender, React Three Fiber, GSAP, Next.js",
     summary:
       "A fictional luxury headphone launch built as a full interactive product experience. Scroll-controlled exploded assemblies, material configuration, studio-rendered colorways, and cinematic lifestyle transitions bring the design system into working code.",
-    facts: ["Real 3D product model + exploded-view interaction", "Four studio colorways and editorial imagery", "Full interactive demo is being finalized locally"],
+    facts: ["Real 3D product model + exploded-view interaction", "Four studio colorways and editorial imagery", "Explore the live 3D site and motion experience"],
     tone: "night",
     image: null,
-    href: "/devon/aura-one",
+    href: "https://aura-one-devon-gifs-projects.vercel.app",
   },
   {
     slug: "living-lobby",
