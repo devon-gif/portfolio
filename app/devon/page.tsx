@@ -6,7 +6,7 @@ import { absoluteUrl } from "@/lib/seo";
 import DevonAIClone from "./components/DevonAIClone";
 import { HeroColorField } from "./components/HeroColorField";
 import LivingLobbyPreview from "./components/LivingLobbyPreview";
-import AuraTeaser from "./components/AuraTeaser";
+import AuraLivePreview from "./components/AuraLivePreview";
 import LiveSitePreview from "./components/LiveSitePreview";
 import ProjectVideo from "./components/ProjectVideo";
 import StudioReel from "./components/StudioReel";
@@ -244,7 +244,7 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
           </div>
           <div className={styles.browserShot}>
             {project.slug === "aura-one" ? (
-              <AuraTeaser />
+              <AuraLivePreview />
             ) : project.slug === "living-lobby" ? (
               <LivingLobbyPreview />
             ) : media.video && media.image ? (
