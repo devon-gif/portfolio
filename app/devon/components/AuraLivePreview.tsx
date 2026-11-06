@@ -2,89 +2,84 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const AURA_ORIGIN = "https://aura-one-devon-gifs-projects.vercel.app";
-const AURA_EMBED = AURA_ORIGIN + "/embed";
-const HERO_POSTER = AURA_ORIGIN + "/video/hero/aura-hero-champagne-poster.webp";
-
 /**
- * Real AURA ONE Blender hero art and looping /embed preview.
- * The custom AURA subdomain can replace AURA_ORIGIN once external DNS is configured.
- * The public Vercel production hostname is intentionally used in the meantime.
+ * Real product photography and motion from the independently deployed AURA ONE website.
+ * Use the stable public Vercel production hostname until the branded subdomain has DNS.
  */
+const AURA_ORIGIN = "https://aura-one-devon-gifs-projects.vercel.app";
+const HERO_PATH = AURA_ORIGIN + "/video/hero/aura-hero-champagne";
+const HERO_POSTER = HERO_PATH + "-poster.webp";
+
+function chooseVideoSource(video: HTMLVideoElement) {
+  const safari = /Apple/.test(navigator.vendor) && video.canPlayType('video/mp4; codecs="hvc1"') !== "";
+  if (safari) return HERO_PATH + "-960-alpha.mov";
+  if (video.canPlayType('video/webm; codecs="vp9"') !== "") return HERO_PATH + "-960.webm";
+  return HERO_PATH + "-960.mp4";
+}
+
 export default function AuraLivePreview() {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const frameRef = useRef<HTMLIFrameElement>(null);
-  const [near, setNear] = useState(false);
-  const [ready, setReady] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const video = videoRef.current;
+    if (!video) return;
+
+    const motionDisabled = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
-    if (reducedMotion || saveData) return;
+    if (motionDisabled || saveData) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setNear(entry.isIntersecting);
-        if (!entry.isIntersecting) setReady(false);
-      },
-      { rootMargin: "45% 0px" },
-    );
-    observer.observe(root);
-
-    const onMessage = (event: MessageEvent) => {
-      if (event.origin !== AURA_ORIGIN || event.source !== frameRef.current?.contentWindow) return;
-      if (event.data?.type === "aura:embed-ready") setReady(true);
+    video.src = chooseVideoSource(video);
+    video.muted = true;
+    let visible = false;
+    const sync = () => {
+      if (visible && document.visibilityState === "visible") {
+        video.play().catch(() => setPlaying(false));
+      } else {
+        video.pause();
+      }
     };
-    window.addEventListener("message", onMessage);
+    const observer = new IntersectionObserver(
+      ([entry]) => { visible = entry.isIntersecting; sync(); },
+      { rootMargin: "30% 0px", threshold: 0.01 },
+    );
+    observer.observe(video);
+    video.addEventListener("canplay", sync);
+    document.addEventListener("visibilitychange", sync);
     return () => {
       observer.disconnect();
-      window.removeEventListener("message", onMessage);
+      video.pause();
+      video.removeEventListener("canplay", sync);
+      document.removeEventListener("visibilitychange", sync);
     };
   }, []);
 
-  return (
-    <div ref={rootRef} style={{ position: "absolute", inset: 0, overflow: "hidden", background: "#101115" }}>
-      {/* Actual first frame of the production Blender hero, not the old illustrated placeholder. */}
-      <div style={{
-        position: "absolute", inset: 0,
-        background: "radial-gradient(90% 85% at 60% 45%, #34353c, #1f2025 47%, #0b0b0d)",
-        opacity: ready ? 0 : 1,
-        transition: "opacity 550ms ease",
-        pointerEvents: "none",
-      }}>
-        {/* eslint-disable-next-line @next/next/no-img-element -- remote origin serves real Blender hero poster directly */}
-        <img
-          src={HERO_POSTER}
-          alt="AURA ONE Champagne headphones, a real Blender product render from the live website"
-          loading="lazy"
-          decoding="async"
-          style={{
-            position: "absolute", top: "-5%", left: "31%",
-            width: "74%", height: "111%", objectFit: "contain", objectPosition: "center",
-            filter: "drop-shadow(0 16px 40px rgba(0,0,0,.22))",
-          }}
-        />
-      </div>
+  const productStyle = {
+    position: "absolute", top: "-5%", left: "31%", width: "74%", height: "111%",
+    objectFit: "contain", objectPosition: "center",
+    filter: "drop-shadow(0 16px 40px rgba(0,0,0,.22))",
+  } as const;
 
-      {near && (
-        <iframe
-          ref={frameRef}
-          src={AURA_EMBED}
-          title="AURA ONE live animated Blender headphone hero"
-          loading="lazy"
-          tabIndex={-1}
-          aria-hidden="true"
-          allow="autoplay"
-          sandbox="allow-scripts allow-same-origin"
-          style={{
-            position: "absolute", inset: 0, width: "100%", height: "100%",
-            border: 0, background: "transparent", opacity: ready ? 1 : 0,
-            transition: "opacity 550ms ease", pointerEvents: "none",
-          }}
-        />
-      )}
+  return (
+    <div style={{
+      position: "absolute", inset: 0, overflow: "hidden",
+      background: "radial-gradient(90% 85% at 60% 45%, #34353c, #1f2025 47%, #0b0b0d)",
+    }}>
+      {/* First frame and reduced-motion fallback: actual Blender Cycles hero render. */}
+      {/* eslint-disable-next-line @next/next/no-img-element -- production asset from separate AURA deployment */}
+      <img src={HERO_POSTER}
+        alt="Photorealistic Champagne AURA ONE headphones from the live product experience"
+        loading="lazy" decoding="async"
+        style={{ ...productStyle, opacity: playing ? 0 : 1 }}
+      />
+      <video
+        ref={videoRef}
+        muted loop playsInline preload="none"
+        disablePictureInPicture aria-hidden="true" tabIndex={-1}
+        onPlaying={() => setPlaying(true)}
+        onError={() => setPlaying(false)}
+        style={{ ...productStyle, opacity: playing ? 1 : 0, transition: "opacity .25s ease", pointerEvents: "none" }}
+      />
 
       <div aria-hidden="true" style={{
         position: "absolute", zIndex: 2, top: "9%", left: "7%", width: "42%",
@@ -92,8 +87,8 @@ export default function AuraLivePreview() {
         textShadow: "0 2px 20px rgba(0,0,0,.28)",
       }}>
         <span style={{
-          display: "block", fontSize: "clamp(9px,1vw,13px)",
-          letterSpacing: ".34em", fontWeight: 600, marginBottom: "clamp(20px,5vw,70px)",
+          display: "block", fontSize: "clamp(9px,1vw,13px)", fontWeight: 600,
+          letterSpacing: ".34em", marginBottom: "clamp(20px,5vw,70px)",
         }}>AURA ONE</span>
         <strong style={{
           display: "block", fontWeight: 400, letterSpacing: "-.052em",
@@ -105,10 +100,7 @@ export default function AuraLivePreview() {
         }}>Interactive 3D / Blender / Next.js</span>
       </div>
 
-      <a
-        href={AURA_ORIGIN}
-        target="_blank"
-        rel="noreferrer"
+      <a href={AURA_ORIGIN} target="_blank" rel="noreferrer"
         aria-label="Open the live AURA ONE headphone website"
         style={{ position: "absolute", inset: 0, zIndex: 3, cursor: "pointer" }}
       />
@@ -117,7 +109,7 @@ export default function AuraLivePreview() {
         color: "#f7f8f8", background: "rgba(0,0,0,.42)", borderRadius: 999,
         padding: "7px 12px", font: "600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace",
         letterSpacing: ".1em", textTransform: "uppercase", pointerEvents: "none",
-      }}>{ready ? "● Live motion" : "● AURA ONE live project"}</span>
+      }}>{playing ? "● Live motion" : "● AURA ONE live project"}</span>
     </div>
   );
 }
