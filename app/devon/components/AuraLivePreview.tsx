@@ -1,10 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import AuraTeaser from "./AuraTeaser";
 
 const AURA_ORIGIN = "https://aura.archerdesign.shop";
 const AURA_EMBED = AURA_ORIGIN + "/embed";
+
+/** A real capture of the deployed AURA ONE homepage hero (not an illustration): shown until, or instead of, the live embed. */
+const AURA_POSTER = "/devon/projects/aura-one-live.webp";
 
 /**
  * Live, moving AURA preview with a safe fallback.
@@ -49,7 +52,7 @@ export default function AuraLivePreview() {
   }, []);
 
   return (
-    <div ref={rootRef} style={{ position: "absolute", inset: 0, overflow: "hidden", background: "#111a20" }}>
+    <div ref={rootRef} style={{ position: "absolute", inset: 0, overflow: "hidden", background: "#121317" }}>
       <div
         aria-hidden="true"
         style={{
@@ -60,7 +63,13 @@ export default function AuraLivePreview() {
           pointerEvents: "none",
         }}
       >
-        <AuraTeaser />
+        <Image
+          src={AURA_POSTER}
+          alt=""
+          fill
+          sizes="(min-width: 1000px) 62vw, 94vw"
+          style={{ objectFit: "cover", objectPosition: "center" }}
+        />
       </div>
       {near && (
         <iframe
@@ -86,10 +95,10 @@ export default function AuraLivePreview() {
         />
       )}
       <a
-        href={ready ? AURA_ORIGIN : "/devon/aura-one"}
-        target={ready ? "_blank" : undefined}
-        rel={ready ? "noreferrer" : undefined}
-        aria-label={ready ? "Open the live AURA ONE website" : "View the AURA ONE case study"}
+        href={AURA_ORIGIN}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Open the live AURA ONE website"
         style={{ position: "absolute", inset: 0, zIndex: 3, cursor: "pointer" }}
       />
       {ready && (

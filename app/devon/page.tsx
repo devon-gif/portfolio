@@ -106,14 +106,15 @@ const projects = [
   {
     slug: "aura-one",
     title: "AURA ONE",
-    status: "Independent concept · in development",
+    status: "Independent concept · live site",
     tags: "Interactive 3D, Blender, React Three Fiber, GSAP, Next.js",
     summary:
       "A fictional luxury headphone launch built as a full interactive product experience. Scroll-controlled exploded assemblies, material configuration, studio-rendered colorways, and cinematic lifestyle transitions bring the design system into working code.",
-    facts: ["Real 3D product model + exploded-view interaction", "Four studio colorways and editorial imagery", "Full interactive demo is being finalized locally"],
+    facts: ["Real 3D product model + exploded-view interaction", "Four studio colorways and editorial imagery", "Live interactive site at aura.archerdesign.shop"],
     tone: "night",
     image: null,
-    href: "/devon/aura-one",
+    href: "https://aura.archerdesign.shop",
+    caseStudy: "/devon/aura-one",
   },
   {
     slug: "living-lobby",
@@ -273,9 +274,20 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
         </ul>
         {project.href ? (
           project.href.startsWith("http") ? (
-            <a className={styles.pill} href={project.href} target="_blank" rel="noreferrer">
-              View project <i><ArrowUpRight size={15} /></i>
-            </a>
+            "caseStudy" in project ? (
+              <div className={styles.projectActions}>
+                <a className={styles.pill} href={project.href} target="_blank" rel="noreferrer">
+                  View live site <i><ArrowUpRight size={15} /></i>
+                </a>
+                <Link className={styles.secondaryLink} href={project.caseStudy}>
+                  Read the case study
+                </Link>
+              </div>
+            ) : (
+              <a className={styles.pill} href={project.href} target="_blank" rel="noreferrer">
+                View project <i><ArrowUpRight size={15} /></i>
+              </a>
+            )
           ) : (
             <Link className={styles.pill} href={project.href}>
               View project <i><ArrowUpRight size={15} /></i>
