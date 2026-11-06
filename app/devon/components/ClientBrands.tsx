@@ -17,30 +17,26 @@ const brands = [
 
 export default function ClientBrands() {
   return (
-    <section className={`${styles.panel} ${styles.brandPanel}`} id="clients" aria-labelledby="client-brands-title">
-      <div className={styles.brandHeading}>
-        <div>
-          <p className={styles.eyebrow}><b /> Clients & collaborations</p>
-          <h2 id="client-brands-title">Teams I&apos;ve created for.</h2>
-        </div>
-        <p>Selected client work, hospitality property brands, and founder work.</p>
+    <section className={`${styles.panel} ${styles.brandCompact}`} id="clients" aria-labelledby="client-brands-title">
+      <div className={styles.brandCompactHeading}>
+        <p id="client-brands-title">Selected clients &amp; collaborations</p>
+        <span>Hospitality, creative production &amp; product work</span>
       </div>
-      <ul className={styles.brandGrid}>
+      <ul className={styles.brandStrip} aria-label="Organizations Devon has created for">
         {brands.map((brand) => (
-          <li className={styles.brandCard} key={brand.name}>
-            <div className={styles.brandLogo} data-dark={brand.dark} data-brand={brand.name}>
-              <Image src={brand.src} alt={`${brand.name} logo`} fill sizes="(max-width: 600px) 44vw, (max-width: 1100px) 28vw, 18vw" />
-            </div>
-            <div className={styles.brandCaption}>
-              <h3>{brand.name}</h3>
-              <p>{brand.work}</p>
-            </div>
+          <li className={styles.brandMark} key={brand.name} title={`${brand.name} — ${brand.work}`}>
+            <Image
+              src={brand.src}
+              alt={brand.name}
+              fill
+              sizes="(min-width: 1200px) 10vw, 132px"
+              style={{ objectFit: "contain" }}
+            />
           </li>
         ))}
       </ul>
-      <p className={styles.brandMore}>
-        Additional work: <Link href="/devon/investor-deal-rooms">CR-91 Park Plaza · website & investor materials</Link>
-        <span aria-hidden="true"> / </span>Magic Housekeeping · website design
+      <p className={styles.brandCompactMore}>
+        Also: <Link href="/devon/investor-deal-rooms">CR-91 Park Plaza</Link> &amp; Magic Housekeeping
       </p>
     </section>
   );
