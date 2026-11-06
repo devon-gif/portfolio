@@ -271,7 +271,12 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
         <ul className={styles.facts}>
           {project.facts.map((fact) => <li key={fact}>{fact}</li>)}
         </ul>
-        {project.href ? (
+        {project.slug === "aura-one" ? (
+          <a className={styles.pill} data-aura-visit="true"
+             href="https://aura-one-devon-gifs-projects.vercel.app/" target="_blank" rel="noopener noreferrer">
+            Explore live AURA website <i><ArrowUpRight size={15} /></i>
+          </a>
+        ) : project.href ? (
           project.href.startsWith("http") ? (
             <a className={styles.pill} href={project.href} target="_blank" rel="noreferrer">
               View project <i><ArrowUpRight size={15} /></i>
