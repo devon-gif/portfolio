@@ -12,6 +12,7 @@ import sub from "../subpage.module.css";
 const LINKS = [
   { href: "/devon", label: "Home", key: "home" },
   { href: "/devon#work", label: "Work", key: "work" },
+  { href: "/devon/illustration", label: "Illustration", key: "illustration" },
   { href: "/devon#ask-ai", label: "AI", key: "ai" },
   { href: "/devon#skills", label: "Skills", key: "skills" },
   { href: "/devon#about", label: "About", key: "about" },

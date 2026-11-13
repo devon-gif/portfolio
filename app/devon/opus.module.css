@@ -236,3 +236,21 @@
 .auraProduct{width:min(66%,400px);height:auto;position:relative;z-index:1;filter:drop-shadow(0 20px 25px rgba(0,0,0,.65))}
 .auraCaption{position:absolute;z-index:2;bottom:8%;left:8%;font:500 11px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;text-transform:uppercase}
 @media(max-width:650px){.brandCompact{padding:20px 22px 16px}.brandCompactHeading{display:block}.brandCompactHeading span{display:block;margin-top:6px}.brandMark{flex-basis:115px}.auraShowcase{min-height:240px}}
+
+
+/* Original children's-book illustration feature on the main portfolio */
+.illustrationFeature{position:relative;isolation:isolate;overflow:hidden;border-radius:var(--radius);min-height:475px;display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);align-items:center;gap:clamp(30px,5vw,70px);padding:clamp(26px,4.2vw,64px);background:radial-gradient(ellipse at 24% 16%,#2d7a9f 0%,transparent 53%),radial-gradient(ellipse at 92% 92%,#56417d 0%,transparent 55%),#0b2037;color:#fffefa}
+.illustrationFeature:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(#faf4cc 1px,transparent 1px);background-size:105px 120px;opacity:.4}
+.illustrationFeatureCover{max-width:650px;transform:rotate(-2deg);box-shadow:0 34px 75px #0715258a;border-radius:8px;overflow:hidden;border:10px solid #fff}
+.illustrationFeatureCover img{display:block;width:100%;height:auto}
+.illustrationFeatureText{max-width:620px}
+.illustrationFeatureKicker{margin:0 0 19px;color:#d8f5ec;text-transform:uppercase;letter-spacing:.16em;font:700 11px/1.4 ui-monospace,monospace}
+.illustrationFeatureText h2{margin:0 0 20px;font-size:clamp(3rem,5.1vw,5.8rem);line-height:.93;letter-spacing:-.06em;text-transform:uppercase}
+.illustrationFeatureText h2 em{font-family:Georgia,serif;font-weight:400;color:#fff0b3;letter-spacing:-.045em;text-transform:none}
+.illustrationFeatureText p:not(.illustrationFeatureKicker){color:#d4e8e9;font-size:15px;line-height:1.75;margin:0 0 12px}
+.illustrationFeatureText strong{color:#fff;font-weight:750}
+.illustrationFeatureText .pill{margin:15px 0 20px;background:#fff4b6;color:#123039!important}
+.illustrationFeatureText .pill i{background:#0b2e42;color:#fff}
+.illustrationFeatureText small{display:block;color:#c3d2da;font-size:11px;line-height:1.55}
+@media(max-width:1000px){.illustrationFeature{grid-template-columns:1fr;gap:35px}.illustrationFeatureCover{max-width:640px;margin:0 auto}.illustrationFeatureText{max-width:720px}}
+@media(max-width:600px){.illustrationFeature{padding:27px}.illustrationFeatureText h2{font-size:3.1rem}.illustrationFeatureCover{border-width:6px}}

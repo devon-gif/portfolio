@@ -308,6 +308,7 @@ export default function DevonPortfolioPage() {
         <nav className={styles.navLinks} aria-label="Portfolio sections">
           <a href="#top">Home</a>
           <a href="#work">Work</a>
+          <Link href="/devon/illustration">Illustration</Link>
           <a href="#ask-ai">AI</a>
           <a href="#skills">Skills</a>
           <a href="#about">About</a>
@@ -370,6 +371,28 @@ export default function DevonPortfolioPage() {
 
         <ClientBrands />
 
+        <section className={styles.illustrationFeature} id="illustration">
+          <div className={styles.illustrationFeatureCover}>
+            <Image
+              src="/devon/illustration/pedro/page-01.jpg"
+              alt="Cover of Pedro the Star Catcher, an original illustrated children's book"
+              width={1600}
+              height={1200}
+              sizes="(min-width: 1100px) 41vw, 92vw"
+            />
+          </div>
+          <div className={styles.illustrationFeatureText}>
+            <p className={styles.illustrationFeatureKicker}>Illustration · Children's book · Original storytelling</p>
+            <h2>Meet Pedro.<br/><em>Chase the stars.</em></h2>
+            <p>Before the dashboards, motion work, and software, there was a story about a space-pirate monkey who helps a lost star find its way home.</p>
+            <p>Explore <strong>Pedro the Star Catcher</strong>, a complete 19-page illustrated book I wrote and co-illustrated.</p>
+            <Link className={styles.pill} href="/devon/illustration">
+              Read the illustrated book <i><ArrowUpRight size={15} /></i>
+            </Link>
+            <small>Story: Devon Archer · Illustrations &amp; coloring: Camille Alton and Devon Archer</small>
+          </div>
+        </section>
+
         <section className={styles.panel} id="work">
           <div className={styles.sectionHead}>
             <p className={styles.eyebrow}><b /> Selected work</p>
@@ -427,6 +450,7 @@ export default function DevonPortfolioPage() {
               <li><Link href="/devon/auto">Auto Creative OS ↗</Link></li>
               <li><Link href="/hotel-creative-scorecard">Hotel Creative Scorecard ↗</Link></li>
               <li><Link href="/devon/motion">Motion library ↗</Link></li>
+              <li><Link href="/devon/illustration">Illustration &amp; children&apos;s book ↗</Link></li>
             </ul>
           </div>
         </nav>
