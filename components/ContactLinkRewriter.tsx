@@ -17,9 +17,9 @@ export function ContactLinkRewriter() {
       anchors.forEach((anchor) => {
         const href = anchor.getAttribute("href") || "";
         const isLegacyContactLink = LEGACY_CONTACT_HREFS.some((legacyHref) => href.startsWith(legacyHref));
-        const looksLikeContactButton = /contact|touch|project|work with me|talk about/i.test(anchor.textContent || "");
-
-        if (isLegacyContactLink || looksLikeContactButton) {
+        // Preserve project destinations and in-page navigation. Only legacy
+        // email links should become contact-form links.
+        if (isLegacyContactLink) {
           anchor.setAttribute("href", "/contact");
           anchor.removeAttribute("target");
           anchor.removeAttribute("rel");

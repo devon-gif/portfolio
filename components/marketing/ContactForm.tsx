@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CONTACT_SERVICES } from "@/lib/contact-services";
 
 const INITIAL_STATE = {
   firstName: "",
@@ -8,10 +9,11 @@ const INITIAL_STATE = {
   company: "",
   email: "",
   message: "",
+  service: "",
 };
 
-export function ContactForm() {
-  const [form, setForm] = useState(INITIAL_STATE);
+export function ContactForm({ initialService = "", engagement = "" }: { initialService?: string; engagement?: string }) {
+  const [form, setForm] = useState(() => ({ ...INITIAL_STATE, service: initialService }));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<{ kind: "idle" | "success" | "error"; message: string }>({
     kind: "idle",
@@ -27,7 +29,15 @@ export function ContactForm() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          message: [
+            `Support needed: ${CONTACT_SERVICES.find((service) => service.value === form.service)?.label ?? form.service}`,
+            engagement ? `Selected engagement: ${engagement}` : "",
+            "",
+            form.message,
+          ].filter((line) => line !== "").join("\n"),
+        }),
       });
       const data = (await response.json()) as { ok?: boolean; error?: string };
 
@@ -37,7 +47,7 @@ export function ContactForm() {
       }
 
       setStatus({ kind: "success", message: "Thanks. Your message has been sent." });
-      setForm(INITIAL_STATE);
+      setForm({ ...INITIAL_STATE, service: initialService });
     } catch {
       setStatus({ kind: "error", message: "Something went wrong. Please try again." });
     } finally {
@@ -75,7 +85,7 @@ export function ContactForm() {
       </div>
 
       <label className="block">
-        <span className={labelClass}>Property or company</span>
+        <span className={labelClass}>Company, project or property</span>
         <input
           value={form.company}
           onChange={(event) => setForm((current) => ({ ...current, company: event.target.value }))}
@@ -97,19 +107,35 @@ export function ContactForm() {
         />
       </label>
 
+      {engagement ? <p className="rounded-xl border border-[var(--st-line)] p-4 text-sm text-[var(--st-ink-soft)]">Selected engagement: {engagement}</p> : null}
+
+      <label className="block">
+        <span className={labelClass}>Type of support</span>
+        <select
+          value={form.service}
+          onChange={(event) => setForm((current) => ({ ...current, service: event.target.value }))}
+          className={fieldClass}
+          required
+        >
+          <option value="" disabled>Choose the closest fit</option>
+          {CONTACT_SERVICES.map((service) => <option key={service.value} value={service.value}>{service.label}</option>)}
+        </select>
+      </label>
+
       <label className="block">
         <span className={labelClass}>What do you need?</span>
         <textarea
           value={form.message}
           onChange={(event) => setForm((current) => ({ ...current, message: event.target.value }))}
           className={`min-h-36 ${fieldClass}`}
-          placeholder="A property link, restaurant or event details, the assets you already have, and what you'd like to see."
+          placeholder="Share a project or website link, what you already have, your deadline and the outcome you need. Include a budget range if you have one."
+          minLength={10}
           required
         />
       </label>
 
       {status.kind !== "idle" ? (
-        <p className={status.kind === "success" ? "text-sm text-[var(--st-ink-soft)]" : "text-sm text-[#b4524a]"}>
+        <p role={status.kind === "error" ? "alert" : "status"} className={status.kind === "success" ? "text-sm text-[var(--st-ink-soft)]" : "text-sm text-[#b4524a]"}>
           {status.message}
         </p>
       ) : null}

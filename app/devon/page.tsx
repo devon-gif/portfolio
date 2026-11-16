@@ -16,7 +16,7 @@ import styles from "./opus.module.css";
 
 const PAGE_TITLE = "Devon Archer — Design Engineer + Creative Technologist";
 const PAGE_DESCRIPTION =
-  "Devon Archer designs and builds AI products, real-time interactive work, production software, motion, and hospitality creative.";
+  "Investor presentations, project websites, dashboards and ongoing creative support by Devon Archer, a design engineer and creative technologist in Lehi, Utah.";
 
 const PROFILE_SCHEMA = {
   "@context": "https://schema.org",
@@ -104,6 +104,21 @@ export const metadata: Metadata = {
 
 const projects = [
   {
+    slug: "deal-rooms",
+    title: "Investor Decks & Deal Rooms",
+    status: "Client work · CR91 Park Plaza",
+    tags: "Investor storytelling, Dashboards, Decks, Web",
+    summary:
+      "For CR91 Park Plaza, I built the investor presentation, project website and private materials experience. I help owners and founders bring the story, documents and project updates together in one practical system.",
+    facts: ["Investor deck + project website", "Private documents + project updates"],
+    tone: "paper",
+    image: "/devon/investor/investor-deal-rooms-poster.jpg",
+    video: "/devon/investor/investor-deal-rooms.mp4",
+    videoWebm: "/devon/investor/investor-deal-rooms.webm",
+    videoAlt: "Investor deal room dashboard with charts and metrics animating",
+    href: "/devon/investor-deal-rooms",
+  },
+  {
     slug: "aura-one",
     title: "AURA ONE",
     status: "Live interactive concept",
@@ -165,21 +180,6 @@ const projects = [
     tone: "lime",
     image: "/devon/projects/baseten-inference-lab.png",
     href: "https://baseten-inference-lab.vercel.app/",
-  },
-  {
-    slug: "deal-rooms",
-    title: "Investor Deal Rooms",
-    status: "Client work",
-    tags: "Investor storytelling, Dashboards, Decks, Web",
-    summary:
-      "Pitch decks, private investor rooms, and project dashboards for hospitality and real-estate raises. The job is to turn a complicated deal into a story investors can follow, interrogate, and act on.",
-    facts: ["Deck, data room, and site as one system", "Built for active raises"],
-    tone: "paper",
-    image: "/devon/investor/investor-deal-rooms-poster.jpg",
-    video: "/devon/investor/investor-deal-rooms.mp4",
-    videoWebm: "/devon/investor/investor-deal-rooms.webm",
-    videoAlt: "Investor deal room dashboard with charts and metrics animating",
-    href: "/devon/investor-deal-rooms",
   },
 ] as const;
 
@@ -306,14 +306,14 @@ export default function DevonPortfolioPage() {
       <header className={styles.nav}>
         <a className={styles.mark} href="#top" aria-label="Devon Archer, back to top">DA</a>
         <nav className={styles.navLinks} aria-label="Portfolio sections">
-          <a href="#top">Home</a>
           <a href="#work">Work</a>
+          <Link href="/devon/investor-deal-rooms#decks">Investor decks</Link>
           <Link href="/devon/illustration">Illustration</Link>
           <a href="#ask-ai">AI</a>
           <a href="#skills">Skills</a>
           <a href="#about">About</a>
         </nav>
-        <a className={styles.cta} href="#contact">Get in touch <i>↗</i></a>
+        <Link className={styles.cta} href="/contact">Start a project <i>↗</i></Link>
       </header>
 
       <main className={styles.shell}>
@@ -353,16 +353,17 @@ export default function DevonPortfolioPage() {
                 />
               </div>
               <div className={styles.hireCopy}>
-                <p className={styles.hireTitle}>Hiring a creative technologist?<br />Start with what I&apos;ve shipped.</p>
-                <p className={styles.small}>Live products, real-time builds, and campaign work, all linked below.</p>
-                <a className={styles.pill} href="#work">See the work <i><ArrowDown size={15} /></i></a>
+                <p className={styles.hireTitle}>Investor decks.<br />Websites. Dashboards.</p>
+                <p className={styles.small}>One project or ongoing design and technical support.</p>
+                <Link className={styles.pill} href="/contact?service=project">Start a project <i><ArrowUpRight size={15} /></i></Link>
+                <Link className={styles.hireSecondary} href="/devon/investor-deal-rooms#decks">See investor decks ↗</Link>
               </div>
             </div>
 
             <p className={styles.bio}>
               I&apos;m Devon Archer, a <strong>design engineer and creative technologist</strong> in Lehi, Utah, part of the Salt Lake City metro.
-              I design AI products people can trust, build real-time interactive work, and run a
-              <strong> hospitality creative studio</strong> that ships every week. Concept to deployed code, one loop.
+              I build <strong>investor presentations, project websites and dashboards</strong> for owners and founders,
+              alongside motion, hospitality creative and working AI products. Concept to deployed code.
             </p>
 
             <a className={styles.scroll} href="#work" aria-label="Scroll to work"><ArrowDown size={16} /></a>
@@ -371,35 +372,14 @@ export default function DevonPortfolioPage() {
 
         <ClientBrands />
 
-        <section className={styles.illustrationFeature} id="illustration">
-          <div className={styles.illustrationFeatureCover}>
-            <Image
-              src="/devon/illustration/pedro/page-01.jpg"
-              alt="Cover of Pedro the Star Catcher, an original illustrated children's book"
-              width={1600}
-              height={1200}
-              sizes="(min-width: 1100px) 41vw, 92vw"
-            />
-          </div>
-          <div className={styles.illustrationFeatureText}>
-            <p className={styles.illustrationFeatureKicker}>Illustration · Children's book · Original storytelling</p>
-            <h2>Meet Pedro.<br/><em>Chase the stars.</em></h2>
-            <p>Before the dashboards, motion work, and software, there was a story about a space-pirate monkey who helps a lost star find its way home.</p>
-            <p>Explore <strong>Pedro the Star Catcher</strong>, a complete 19-page illustrated book I wrote and co-illustrated.</p>
-            <Link className={styles.pill} href="/devon/illustration">
-              Read the illustrated book <i><ArrowUpRight size={15} /></i>
-            </Link>
-            <small>Story: Devon Archer · Illustrations &amp; coloring: Camille Alton and Devon Archer</small>
-          </div>
-        </section>
 
         <section className={styles.panel} id="work">
           <div className={styles.sectionHead}>
             <p className={styles.eyebrow}><b /> Selected work</p>
-            <h2><span>Built, shipped</span> and still running.</h2>
+            <h2><span>Investor work.</span> Built and shipped.</h2>
             <p className={styles.lede}>
-              The portfolio is organized around working systems, not categories of deliverables.
-              Labels distinguish live products, client work, and independent concepts.
+              Start with CR91 Park Plaza: investor materials, a project website and a private document system.
+              Explore the live products and independent concepts below.
             </p>
           </div>
         </section>
@@ -450,7 +430,7 @@ export default function DevonPortfolioPage() {
               <li><Link href="/devon/auto">Auto Creative OS ↗</Link></li>
               <li><Link href="/hotel-creative-scorecard">Hotel Creative Scorecard ↗</Link></li>
               <li><Link href="/devon/motion">Motion library ↗</Link></li>
-              <li><Link href="/devon/illustration">Illustration &amp; children&apos;s book ↗</Link></li>
+              <li><Link href="/devon/illustration">Illustration ↗</Link></li>
             </ul>
           </div>
         </nav>
@@ -528,7 +508,7 @@ export default function DevonPortfolioPage() {
         <section className={styles.contact} id="contact">
           <div className={styles.panel + " " + styles.contactMain}>
             <p className={styles.eyebrow}><b /> Work with me</p>
-            <h2>Let&apos;s build something people walk up to.</h2>
+            <h2>Let&apos;s make your next project clear.</h2>
             <Link className={styles.pill} href="/contact">Start a conversation <i><ArrowUpRight size={15} /></i></Link>
           </div>
           <div className={styles.links}>

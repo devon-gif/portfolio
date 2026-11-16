@@ -4268,18 +4268,19 @@
 <script>if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) { document.body.classList.add("lux-preload"); }</script>
 <div id="archer-top-silk" aria-hidden="true"></div>
 <header class="shell header">
- <a class="brand" href="/archer-preview/book/">
+ <a class="brand" href="/">
  <span class="logo logoImage"><img src="/icon%20logo.png" alt="Archer Design logo" /></span>
  <span class="wordmark">Archer<span>Design</span></span>
  </a>
 
  <nav class="nav" aria-label="Main navigation">
- <a href="/archer-preview/book/">Hotels</a>
- <a href="/archer-preview/book/">Restaurants</a>
- <a href="/archer-preview/book/">Spas</a>
- <a href="/archer-preview/book/">Work</a>
- <a href="/archer-preview/book/">Packages</a>
- <a href="/archer-preview/contact/">Contact</a>
+ <a href="/hotels">Hotels</a>
+ <a href="/restaurants">Restaurants</a>
+ <a href="/spa-salon-creative-support">Spas</a>
+ <a href="/#work">Work</a>
+ <a href="/packages">Packages</a>
+ <a href="/devon/investor-deal-rooms">Investor work</a>
+ <a href="/contact">Contact</a>
  </nav>
  </header>
 
@@ -4302,11 +4303,11 @@
  </p>
 
  <div class="actions">
- <a class="button-dark" href="/archer-preview/book/">Book a quick intro <span>→</span></a>
+ <a class="button-dark" href="https://calendly.com/devonavich0/30min">Book a quick intro <span>→</span></a>
  <a class="button-light" href="#work">View our work</a>
  </div>
 
- <p class="hero-note">A 15-minute call. No brief needed. We&rsquo;ll show you a month of finished creative.</p>
+ <p class="hero-note">A 30-minute call. No brief needed. We&rsquo;ll show you a month of finished creative.</p>
 
  <div class="stats">
  <div class="stat">
@@ -4418,6 +4419,29 @@
  </article>
  </div>
  </section>
+
+
+<section class="shell project-support" id="project-support" aria-labelledby="project-support-title">
+  <style>
+    .project-support{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:48px;padding-top:64px;padding-bottom:64px}
+    .project-support figure{margin:0;overflow:hidden;border-radius:22px;background:#e8e3d8;box-shadow:0 22px 55px -32px rgba(37,30,20,.4)}
+    .project-support img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top center}
+    .project-support h2{margin:16px 0;font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(34px,3.8vw,56px);font-weight:400;line-height:1.05;letter-spacing:-.035em}
+    .project-support p:not(.eyebrow){color:#746c61;font-size:15px;line-height:1.75;max-width:53ch}
+    .project-support .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+    @media(max-width:760px){.project-support{grid-template-columns:1fr;gap:28px;padding-top:40px;padding-bottom:40px}}
+  </style>
+  <figure><img src="/devon/investor/cr91-live-investor-room.png" alt="CR91 Park Plaza investor room built by Archer Design" loading="lazy" width="1200" height="750" /></figure>
+  <div>
+    <p class="eyebrow">Client work · CR91 Park Plaza</p>
+    <h2 id="project-support-title">Investor decks, websites and dashboards.</h2>
+    <p>I help owners and founders bring the project story, presentation and digital experience together. For CR91 Park Plaza, that includes investor materials, a project website and a private document system, with updates as the project develops.</p>
+    <div class="actions">
+      <a class="button-dark" href="/devon/investor-deal-rooms">See investor work <span aria-hidden="true">→</span></a>
+      <a class="button-light" href="/contact?service=project">Scope a project</a>
+    </div>
+  </div>
+</section>
 
 <section class="work-section showcase-section" id="work">
  <div class="shell work-shell">
@@ -4781,7 +4805,7 @@
 
  <div class="process-footer">
  <p>“One folder in, a month of finished, on-brand content out.”</p>
- <a href="/archer-preview/book/">Open a property line →</a>
+ <a href="https://calendly.com/devonavich0/30min">Open a property line →</a>
  </div>
  </div>
  </div>
@@ -4866,7 +4890,7 @@
  the more properties you add, the more the creative system, templates, approvals, and brand standards compound.
  </div>
 
- <a class="roi-cta" href="/archer-preview/book/">Build a portfolio creative plan →</a>
+ <a class="roi-cta" href="https://calendly.com/devonavich0/30min">Build a portfolio creative plan →</a>
  </div>
  </div>
 
@@ -4991,9 +5015,9 @@
 
       <div class="footer-col">
         <h3>Hospitality</h3>
-        <a href="#hotels">Hotels</a>
-        <a href="#restaurants">Restaurants</a>
-        <a href="#spas">Spas</a>
+        <a href="/hotels">Hotels</a>
+        <a href="/restaurants">Restaurants</a>
+        <a href="/spa-salon-creative-support">Spas</a>
         <a href="#work">Selected work</a>
       </div>
 
@@ -5090,19 +5114,6 @@
  update();
  });
  })();
- </script>
-
- 
- <script id="book-contact-routing">
- document.addEventListener("click", function (event) {
- const target = event.target.closest("button, a");
- if (!target) return;
- const label = (target.textContent || "").trim().toLowerCase();
- if (label.includes("book a quick intro")) {
- event.preventDefault();
- window.location.href = "/archer-preview/book/";
- }
- });
  </script>
 
 

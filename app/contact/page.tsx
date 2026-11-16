@@ -5,21 +5,27 @@ import { StudioHeader } from "@/components/marketing/StudioHeader";
 import { StudioFooter } from "@/components/marketing/StudioFooter";
 import { fraunces } from "@/components/marketing/studioFont";
 import { CALENDLY_URL } from "@/lib/seo";
+import { CREATIVE_PLANS } from "@/lib/creative-pricing";
+import { CONTACT_SERVICES } from "@/lib/contact-services";
 
 export const metadata: Metadata = {
   title: "Contact Archer Design",
   description:
-    "Send a property link or book a quick intro to see how Archer Design can turn your existing hospitality assets into polished, ongoing creative.",
+    "Talk with Devon Archer about an investor presentation, website, dashboard, or ongoing design and motion support. Start with one clearly scoped project.",
   alternates: { canonical: "/contact" },
 };
 
 const STEPS = [
-  "A property, restaurant, event, spa, or campaign link",
-  "Any existing assets — past professional photos, staff iPhone clips, menus, or event details",
-  "What you'd like to see more of: social, short-form motion, campaign visuals, or booking-support creative",
+  "A project, company, property or website link",
+  "The materials you already have: a draft deck, copy, images, data or brand assets",
+  "The outcome you need, your deadline and a budget range if you have one",
 ];
 
-export default function ContactPage() {
+export default async function ContactPage({ searchParams }: { searchParams: Promise<{ plan?: string; service?: string }> }) {
+  const query = await searchParams;
+  const plan = CREATIVE_PLANS.find((item) => item.id === query.plan);
+  const initialService = plan ? "ongoing-creative" : CONTACT_SERVICES.find((item) => item.value === query.service)?.value ?? "";
+  const engagement = plan ? `${plan.name}, ${plan.price}${plan.period === "one-time" ? " one-time" : plan.period}` : "";
   return (
     <div className={`${fraunces.variable} archer-studio min-h-screen`}>
       <StudioHeader />
@@ -29,12 +35,12 @@ export default function ContactPage() {
           <div className="text-center">
             <span className="st-kicker">Get started</span>
             <h1 className="mt-4 font-serif text-[clamp(30px,4.5vw,50px)] leading-[1.06] text-[var(--st-ink)]">
-              Send a property link.
+              Tell me about your project.
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-[var(--st-ink-soft)]">
-              Share what you already have and we&apos;ll take a practical look at where
-              stronger creative could support your team — no pressure, no full
-              in-house build required. Prefer to talk first? Book a quick intro.
+              Need an investor deck, website, dashboard or ongoing creative support?
+              Share what you already have and what you need to accomplish. We can
+              start with one defined deliverable. Prefer to talk first? Book a quick intro.
             </p>
           </div>
 
@@ -47,9 +53,8 @@ export default function ContactPage() {
               <div>
                 <h2 className="font-serif text-[22px] text-[var(--st-ink)]">Book a quick intro</h2>
                 <p className="mt-1.5 text-[14.5px] leading-relaxed text-[var(--st-ink-soft)]">
-                  Pick a time that works for you. We&apos;ll talk through your
-                  properties, the assets you already have, and the right creative
-                  rhythm to start with.
+                  Pick a time that works for you. We&apos;ll talk through the project,
+                  the materials you have, your timeline and the right first step.
                 </p>
                 <a
                   href={CALENDLY_URL}
@@ -95,16 +100,17 @@ export default function ContactPage() {
             </div>
 
             <div className="mt-6">
-              <ContactForm />
+              <ContactForm key={plan?.id ?? initialService} initialService={initialService} engagement={engagement} />
             </div>
           </section>
 
           <p className="mt-8 text-center text-[13px] text-[var(--st-ink-muted)]">
-            Curious how the work plays out first? See our{" "}
-            <Link href="/case-studies" className="text-[var(--st-gold)] underline underline-offset-4 hover:text-[var(--st-ink)]">
-              hospitality case studies
+            Want to see a relevant example? Explore{" "}
+            <Link href="/devon/investor-deal-rooms" className="text-[var(--st-gold)] underline underline-offset-4 hover:text-[var(--st-ink)]">
+              investor decks and project systems
             </Link>
-            .
+            {" "}or{" "}
+            <Link href="/case-studies" className="text-[var(--st-gold)] underline underline-offset-4 hover:text-[var(--st-ink)]">hospitality creative work</Link>.
           </p>
         </div>
       </main>

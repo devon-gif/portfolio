@@ -147,6 +147,14 @@ const atlas: Record<InvestorAtlasTile, string> = {
 
 const presentations = [
   {
+    eyebrow: "Active investor project · November 2026",
+    title: "CR-91 Park Plaza Investor Deck.",
+    description: "The November 1, 2026 investor presentation for CR-91 Park Plaza, including the updated Phase 1 investment narrative and financial overview.",
+    href: "/devon/presentations/CR91-Investor-Deck-2026-11-01.pdf",
+    button: "View the CR-91 investor deck",
+    meta: "Original PDF · Updated November 1, 2026 · Opens in a new tab",
+  },
+  {
     eyebrow: "Mixed-use real estate / portfolio concept",
     title: "Chicago Exchange.",
     description: "A 24-page investor presentation for a fictional downtown Chicago development, combining a public plaza, premium retail, restaurants, workspaces and cultural programming. An Archer Design portfolio concept.",
@@ -180,14 +188,6 @@ const presentations = [
     href: "/devon/presentations/Archer-Design-Creative-Technology.pdf",
     button: "View the Creative Technology deck",
     meta: "Original PDF · 8 pages · Opens in a new tab",
-  },
-  {
-    eyebrow: "Active investor project · November 2026",
-    title: "CR-91 Park Plaza — Latest Investor Deck.",
-    description: "The November 1, 2026 investor presentation for CR-91 Park Plaza, including the updated Phase 1 investment narrative and financial overview.",
-    href: "/devon/presentations/CR91-Investor-Deck-2026-11-01.pdf",
-    button: "View the CR-91 investor deck",
-    meta: "Original PDF · Updated November 1, 2026 · Opens in a new tab",
   },
   {
     eyebrow: "Hospitality creative / brand presentation",
@@ -243,11 +243,62 @@ export default function InvestorDealRoomsPage() {
             </div>
           </div>
           <div className={sub.heroMedia}>
-            <Image src={atlas.system} alt="Investor system with dashboard, deck, website and supporting materials" fill priority sizes="(min-width: 1000px) 45vw, 94vw" />
+            <Image src="/devon/investor/cr91-live-investor-room.png" alt="CR91 Park Plaza investor room, a client project by Devon Archer" fill priority sizes="(min-width: 1000px) 45vw, 94vw" />
             <div className={sub.mediaCaption}>
-              <span>Concept visualization</span>
-              <strong>Investor ecosystem for a luxury hospitality development</strong>
+              <span>Client work</span>
+              <strong>CR91 Park Plaza investor room</strong>
             </div>
+          </div>
+        </section>
+
+        <section className={sub.dark} id="decks">
+          <SectionHead eyebrow="Featured presentation work" muted="Investor decks" title="and complex storytelling.">
+            Full presentations, linked as the original PDFs so the typography, imagery and charts are exactly as
+            delivered.
+          </SectionHead>
+          <div className={sub.deckGrid}>
+            {presentations.map((d) => (
+              <article className={sub.deck} key={d.title}>
+                <div>
+                  <small>{d.eyebrow}</small>
+                  <h3>{d.title}</h3>
+                  <p>{d.description}</p>
+                </div>
+                <div className={sub.actions}>
+                  <a className={sub.limePill} href={d.href} target="_blank" rel="noreferrer">
+                    {d.button}{" "}
+                    <i>
+                      <ArrowUpRight size={15} />
+                    </i>
+                  </a>
+                  <span className={sub.deckMeta}>{d.meta}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className={opus.panel} id="cr91">
+          <SectionHead eyebrow="Real project system" muted="CR-91 Park Plaza" title="investor room.">
+            A live example of the investor-room work: a project website, secure proof room, pitch materials, diligence
+            structure and rapid update system built around an active hospitality-development raise.
+          </SectionHead>
+          <div className={sub.grid}>
+            {cr91Deliverables.map(({ eyebrow, title, body, image, href, linkLabel }) => (
+              <article className={sub.imageCard} key={title}>
+                <figure>
+                  <Image src={image} alt={`${title} visual`} fill sizes="(min-width: 1100px) 31vw, (min-width: 760px) 47vw, 94vw" />
+                </figure>
+                <small>{eyebrow}</small>
+                <h3>{title}</h3>
+                <p>{body}</p>
+                {href && linkLabel ? (
+                  <a className={sub.textLink} href={href} target="_blank" rel="noreferrer">
+                    {linkLabel} <ArrowUpRight size={14} aria-hidden="true" />
+                  </a>
+                ) : null}
+              </article>
+            ))}
           </div>
         </section>
 
@@ -305,32 +356,6 @@ export default function InvestorDealRoomsPage() {
           </div>
         </section>
 
-        <section className={sub.dark} id="decks">
-          <SectionHead eyebrow="Featured presentation work" muted="Investor decks" title="and complex storytelling.">
-            Full presentations, linked as the original PDFs so the typography, imagery and charts are exactly as
-            delivered.
-          </SectionHead>
-          <div className={sub.deckGrid}>
-            {presentations.map((d) => (
-              <article className={sub.deck} key={d.title}>
-                <div>
-                  <small>{d.eyebrow}</small>
-                  <h3>{d.title}</h3>
-                  <p>{d.description}</p>
-                </div>
-                <div className={sub.actions}>
-                  <a className={sub.limePill} href={d.href} target="_blank" rel="noreferrer">
-                    {d.button}{" "}
-                    <i>
-                      <ArrowUpRight size={15} />
-                    </i>
-                  </a>
-                  <span className={sub.deckMeta}>{d.meta}</span>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
 
         <section className={opus.panel} id="selected-work">
           <SectionHead eyebrow="Selected real-world storytelling" muted="Investor, strategy and" title="executive communication.">
@@ -353,29 +378,6 @@ export default function InvestorDealRoomsPage() {
           </div>
         </section>
 
-        <section className={opus.panel} id="cr91">
-          <SectionHead eyebrow="Real project system" muted="CR-91 Park Plaza" title="investor room.">
-            A live example of the investor-room work: a project website, secure proof room, pitch materials, diligence
-            structure and rapid update system built around an active hospitality-development raise.
-          </SectionHead>
-          <div className={sub.grid}>
-            {cr91Deliverables.map(({ eyebrow, title, body, image, href, linkLabel }) => (
-              <article className={sub.imageCard} key={title}>
-                <figure>
-                  <Image src={image} alt={`${title} visual`} fill sizes="(min-width: 1100px) 31vw, (min-width: 760px) 47vw, 94vw" />
-                </figure>
-                <small>{eyebrow}</small>
-                <h3>{title}</h3>
-                <p>{body}</p>
-                {href && linkLabel ? (
-                  <a className={sub.textLink} href={href} target="_blank" rel="noreferrer">
-                    {linkLabel} <ArrowUpRight size={14} aria-hidden="true" />
-                  </a>
-                ) : null}
-              </article>
-            ))}
-          </div>
-        </section>
 
         <PortfolioContact title="Investor-ready systems for ambitious projects." />
         <p className={sub.crumb} style={{ padding: "4px 18px" }}>
