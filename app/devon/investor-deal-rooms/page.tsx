@@ -245,7 +245,7 @@ export default function InvestorDealRoomsPage() {
           <div className={sub.heroMedia}>
             <Image src="/devon/investor/cr91-live-investor-room.png" alt="CR91 Park Plaza investor room, a client project by Devon Archer" fill priority sizes="(min-width: 1000px) 45vw, 94vw" />
             <div className={sub.mediaCaption}>
-              <span>Client work</span>
+              <span>Client project · visualization</span>
               <strong>CR91 Park Plaza investor room</strong>
             </div>
           </div>

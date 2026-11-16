@@ -134,6 +134,7 @@
 .browserBar span{width:7px;height:7px;border-radius:50%;background:#3c4843}.browserBar span:first-child{background:#ff825d}.browserBar span:nth-child(2){background:#ffd164}.browserBar span:nth-child(3){background:#9fe46e}
 .browserShot{position:relative;aspect-ratio:16/10;background:#0a0c0b;overflow:hidden}
 .browserShot img{object-fit:cover;object-position:top center}
+.projectMediaCaption{position:absolute;bottom:14px;left:14px;max-width:calc(100% - 28px);padding:7px 10px;border-radius:999px;background:rgba(6,39,31,.9);color:var(--paper);font:500 10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace}
 .projectCopy{padding:34px;display:flex;flex-direction:column;justify-content:center}
 .status{width:fit-content;padding:7px 10px;border:1px solid var(--line);border-radius:999px;color:var(--soft);font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase}
 .projectCopy h3{margin:24px 0 0;font-size:clamp(2.7rem,4.3vw,4.8rem);line-height:.9;letter-spacing:-.06em}

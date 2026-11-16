@@ -112,10 +112,7 @@ const projects = [
       "For CR91 Park Plaza, I built the investor presentation, project website and private materials experience. I help owners and founders bring the story, documents and project updates together in one practical system.",
     facts: ["Investor deck + project website", "Private documents + project updates"],
     tone: "paper",
-    image: "/devon/investor/investor-deal-rooms-poster.jpg",
-    video: "/devon/investor/investor-deal-rooms.mp4",
-    videoWebm: "/devon/investor/investor-deal-rooms.webm",
-    videoAlt: "Investor deal room dashboard with charts and metrics animating",
+    image: "/devon/investor/cr91-live-investor-room.png",
     href: "/devon/investor-deal-rooms",
   },
   {
@@ -260,6 +257,7 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
                 style={{ objectFit: "cover", objectPosition: "top center" }}
               />
             ) : null}
+            {project.slug === "deal-rooms" ? <span className={styles.projectMediaCaption}>CR91 Park Plaza · project visualization</span> : null}
           </div>
         </div>
       </div>
