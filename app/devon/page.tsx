@@ -12,6 +12,7 @@ import ProjectVideo from "./components/ProjectVideo";
 import StudioReel from "./components/StudioReel";
 import OpusClock from "./components/OpusClock";
 import ClientBrands from "./components/ClientBrands";
+import { PortfolioNav } from "./components/PortfolioChrome";
 import styles from "./opus.module.css";
 
 const PAGE_TITLE = "Devon Archer — Design Engineer + Creative Technologist";
@@ -301,18 +302,7 @@ export default function DevonPortfolioPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFILE_SCHEMA) }}
       />
-      <header className={styles.nav}>
-        <a className={styles.mark} href="#top" aria-label="Devon Archer, back to top">DA</a>
-        <nav className={styles.navLinks} aria-label="Portfolio sections">
-          <a href="#work">Work</a>
-          <Link href="/devon/investor-deal-rooms#decks">Investor decks</Link>
-          <Link href="/devon/illustration">Illustration</Link>
-          <a href="#ask-ai">AI</a>
-          <a href="#skills">Skills</a>
-          <a href="#about">About</a>
-        </nav>
-        <Link className={styles.cta} href="/contact">Start a project <i>↗</i></Link>
-      </header>
+      <PortfolioNav current="work" />
 
       <main className={styles.shell}>
         <section className={styles.hero} id="top">
@@ -410,8 +400,8 @@ export default function DevonPortfolioPage() {
             <p className={styles.metricNote}>
               Aggregate tracked campaign results through October 2026. Creative performance only; no booking attribution implied.
             </p>
-            <Link className={styles.studioLink} href="/devon/motion">
-              View studio work <span aria-hidden="true">↗</span>
+            <Link className={styles.studioLink} href="/devon/hospitality">
+              View hospitality work <span aria-hidden="true">↗</span>
             </Link>
           </div>
           <div className={styles.reel}>
@@ -428,6 +418,7 @@ export default function DevonPortfolioPage() {
               <li><Link href="/devon/auto">Auto Creative OS ↗</Link></li>
               <li><Link href="/hotel-creative-scorecard">Hotel Creative Scorecard ↗</Link></li>
               <li><Link href="/devon/motion">Motion library ↗</Link></li>
+              <li><Link href="/devon/hospitality">Hospitality work ↗</Link></li>
               <li><Link href="/devon/illustration">Illustration ↗</Link></li>
             </ul>
           </div>

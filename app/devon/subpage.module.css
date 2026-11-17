@@ -5,9 +5,20 @@
  */
 
 /* Nav links: same pills as the homepage, with the current page highlighted. */
-.navLinks{display:flex;justify-content:center;gap:8px}
-.navLinks a{min-width:110px;padding:10px 18px;text-align:center;border-radius:999px;color:var(--soft);font-size:13px;font-weight:600;transition:.2s ease}
+.portfolioNav{gap:clamp(10px,1.6vw,20px)}
+.navLinks{display:flex;justify-content:center;gap:4px;min-width:0}
+.navLinks a{padding:10px 14px;text-align:center;border-radius:999px;color:var(--soft);font-size:13px;font-weight:600;white-space:nowrap;transition:.2s ease}
 .navLinks a:hover,.navLinks a[aria-current="page"]{background:var(--ink);color:var(--paper)}
+.navLinks a:focus-visible,.mobileNav summary:focus-visible,.mobileNav a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.mobileNav{display:none;justify-self:end}
+.mobileNav summary{display:flex;align-items:center;gap:7px;padding:10px 14px;border:1px solid var(--line);border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;list-style:none}
+.mobileNav summary::-webkit-details-marker{display:none}
+.mobileNav[open] summary svg{transform:rotate(180deg)}
+.mobileNav nav{position:absolute;right:0;top:calc(100% + 10px);width:min(330px,calc(100vw - 24px));display:grid;gap:4px;padding:12px;border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:0 20px 50px -22px rgba(6,39,31,.45)}
+.mobileNav nav a{padding:12px 16px;border-radius:14px;font-size:15px;font-weight:650}
+.mobileNav nav a:hover,.mobileNav nav a[aria-current="page"]{background:var(--ink);color:var(--paper)}
+@media(max-width:1100px){.navLinks{display:none}.mobileNav{display:block}}
+@media(max-width:420px){.portfolioNav{gap:8px}.portfolioNav>a:last-child{font-size:11px;padding-left:12px;gap:8px}}
 
 .crumb{display:flex;align-items:center;gap:10px;margin:0;color:var(--soft);font:500 11px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase}
 .crumb a:hover{color:var(--ink)}

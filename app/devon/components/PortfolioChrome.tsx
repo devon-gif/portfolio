@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { PortfolioMobileNav } from "./PortfolioMobileNav";
 import opus from "../opus.module.css";
 import sub from "../subpage.module.css";
 
@@ -10,8 +11,9 @@ import sub from "../subpage.module.css";
  */
 
 const LINKS = [
-  { href: "/devon", label: "Home", key: "home" },
   { href: "/devon#work", label: "Work", key: "work" },
+  { href: "/devon/investor-deal-rooms#decks", label: "Investor decks", key: "investor" },
+  { href: "/devon/hospitality", label: "Hospitality", key: "hospitality" },
   { href: "/devon/illustration", label: "Illustration", key: "illustration" },
   { href: "/devon#ask-ai", label: "AI", key: "ai" },
   { href: "/devon#skills", label: "Skills", key: "skills" },
@@ -22,7 +24,7 @@ export type NavKey = (typeof LINKS)[number]["key"];
 
 export function PortfolioNav({ current }: { current: NavKey }) {
   return (
-    <header className={opus.nav}>
+    <header className={`${opus.nav} ${sub.portfolioNav}`}>
       <Link className={opus.mark} href="/devon" aria-label="Devon Archer portfolio home">
         DA
       </Link>
@@ -33,8 +35,9 @@ export function PortfolioNav({ current }: { current: NavKey }) {
           </Link>
         ))}
       </nav>
-      <Link className={opus.cta} href="/devon#contact">
-        Get in touch <i>↗</i>
+      <PortfolioMobileNav links={LINKS} current={current} />
+      <Link className={opus.cta} href="/contact">
+        Start a project <i aria-hidden="true">↗</i>
       </Link>
     </header>
   );

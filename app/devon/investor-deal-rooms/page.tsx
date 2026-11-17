@@ -216,7 +216,7 @@ function SectionHead({ eyebrow, title, muted, children }: { eyebrow: string; tit
 export default function InvestorDealRoomsPage() {
   return (
     <div className={opus.opusPage}>
-      <PortfolioNav current="work" />
+      <PortfolioNav current="investor" />
 
       <main className={opus.shell}>
         <section className={sub.hero} id="top">

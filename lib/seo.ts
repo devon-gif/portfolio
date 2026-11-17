@@ -34,6 +34,7 @@ export const PUBLIC_PAGES: { path: string; priority: number; changeFrequency: "w
   { path: "/contact", priority: 0.9, changeFrequency: "monthly" },
   { path: "/packages", priority: 0.9, changeFrequency: "monthly" },
   { path: "/case-studies", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/devon/hospitality", priority: 0.8, changeFrequency: "monthly" },
   { path: "/hotel-social-media-management", priority: 0.8, changeFrequency: "monthly" },
   { path: "/hotel-video-marketing", priority: 0.8, changeFrequency: "monthly" },
   { path: "/hospitality-creative-support", priority: 0.8, changeFrequency: "monthly" },
