@@ -12,6 +12,7 @@ import ProjectVideo from "./components/ProjectVideo";
 import StudioReel from "./components/StudioReel";
 import OpusClock from "./components/OpusClock";
 import ClientBrands from "./components/ClientBrands";
+import PlazaTour from "./components/PlazaTour";
 import styles from "./opus.module.css";
 
 const PAGE_TITLE = "Devon Archer — Design Engineer + Creative Technologist";
@@ -418,6 +419,8 @@ export default function DevonPortfolioPage() {
             <StudioReel />
           </div>
         </section>
+
+        <PlazaTour />
 
         <nav className={styles.panel} aria-label="More builds">
           <div className={styles.sectionHead}>
