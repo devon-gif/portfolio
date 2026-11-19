@@ -129,6 +129,20 @@ const projects = [
     href: "https://aura-one-devon-gifs-projects.vercel.app",
   },
   {
+    slug: "promo-generator",
+    title: "Hotel Promo Generator",
+    status: "Working tool · Remotion",
+    tags: "Creative automation, Remotion, React, TypeScript, Motion",
+    summary:
+      "One branded video template that turns a spreadsheet of hotel offers into finished promos for every social format. Marketing edits rows instead of timelines, and a single command renders the whole campaign on brand: 4 offers become 12 videos in three sizes.",
+    facts: ["1 template, 4 offers, 3 formats, 12 videos", "Brand, type and safe zones locked in code", "Spreadsheet in, finished MP4s out"],
+    tone: "night",
+    image: "/devon/projects/promo-generator-grid.jpg",
+    video: "/devon/projects/promo-generator-grid.mp4",
+    videoAlt: "Twelve hotel promo videos generated from one template, playing together in a grid",
+    href: "/devon/promo-generator",
+  },
+  {
     slug: "living-lobby",
     title: "Living Lobby",
     status: "In development · Part 1 built",
