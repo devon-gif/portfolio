@@ -193,7 +193,7 @@ export const TOPICS: Topic[] = [
       /\bopen to (contract|freelance|full[- ]time|part[- ]time)\b/,
     ],
     answer:
-      "Devon should confirm current availability and timing directly, so I won't commit him to a date or a work model. My background supports full-time, contract, fractional and project work, and I can tell you which kinds of roles fit best: Creative Technologist, Design Technologist, Design Engineer, AI Product Designer, and Creative Developer are the strongest.",
+      "Devon should confirm current availability and timing directly, so I won't commit him to a date or a work model. My background supports full-time, contract, fractional and project work, and I can tell you which kinds of roles fit best: AI Creative Technologist, AI Creative Producer, Motion Designer, Digital Designer and interactive experience roles open to AI-assisted implementation are the strongest.",
   },
   {
     id: "secrets",
@@ -279,7 +279,7 @@ export const TOPICS: Topic[] = [
       /\bfigma|photoshop|illustrator|adobe\b/,
     ],
     answer:
-      "For product work: Figma, React, Next.js, TypeScript, Supabase/Postgres, REST APIs, GitHub, Vercel, and Vite. For creative technology: Three.js, GLSL, browser graphics, and live-data APIs like Open-Meteo. For visual and motion work: Photoshop, Illustrator, InDesign, After Effects, Premiere Pro, and Framer, plus Runway, Seedance, Flux, and ComfyUI for generative production. I also use ChatGPT/Codex and Claude heavily for implementation, debugging, iteration, and documentation.",
+      "For product work: Figma, React, Next.js, TypeScript, Supabase/Postgres, REST APIs, GitHub, Vercel, and Vite. For creative technology: Three.js, GLSL, browser graphics, and live-data APIs like Open-Meteo. For visual and motion work: Photoshop, Illustrator, InDesign, After Effects, Premiere Pro, and Framer, plus Runway, Seedance and Flux for generative production. I also use ChatGPT/Codex and Claude heavily for implementation, debugging, iteration, and documentation.",
     more:
       "A few more specifics: I use Resend for transactional and outbound email workflows, and I've worked with Stripe where a product needed payments. Auth and role-aware states are part of most of what I ship, and I deploy through GitHub and Vercel preview builds so design and engineering review happen on the same real build. On the creative-technology side, Living Lobby is a standalone Vite + TypeScript + Three.js build with GPU particles and custom shaders. MediaPipe is on the list for the planned camera phase, but that part isn't shipped yet.",
   },
@@ -296,7 +296,7 @@ export const TOPICS: Topic[] = [
       /\bwrite code\b/,
     ],
     answer:
-      "Yes. I build functional web products with React/Next.js, TypeScript, Supabase/Postgres, APIs, auth, GitHub, and Vercel, and I'm now doing real-time work with Three.js and GLSL. CheckRay is a live example: Next.js, Supabase and Vercel, with admin workflows, stored sources and evaluation. My strongest technical lane is design engineering and product implementation. I'm not a senior infrastructure engineer, and I don't pretend to be one.",
+      "I deliver working web products using Claude Code and Codex for much of the React, Next.js and TypeScript implementation. I can explain the UX, behavior, requirements, testing and deployment of projects like CheckRay, but I cannot independently write substantial JavaScript or React code from scratch today. My strongest lane is creative and product direction with AI-assisted implementation, not independent software engineering.",
     more:
       "The practical difference from a designer who prototypes is that I implement the real states: data, auth, APIs, persistence, review flows, error and recovery states, testing, and deployment. VibeCode+ has 216/216 automated tests passing in its latest documented audit, and Living Lobby runs a GPU particle simulation with adaptive quality and graphics-context recovery. I use AI-assisted development heavily for implementation and debugging, but I own the behavior, the architecture decisions, and what goes live. For low-level platform work or deeply specialized backend architecture, I'd want a specialist beside me.",
   },
@@ -322,7 +322,7 @@ export const TOPICS: Topic[] = [
     id: "fullstack",
     match: [[/\bfull[- ]?stack\b/, 3], /\bbackend|back[- ]end\b/, /\bfrontend|front[- ]end\b/],
     answer:
-      "I'd describe myself as a design engineer who can implement across the stack of the products I build. I work with frontend, APIs, databases, auth, server routes, and deployments, and CheckRay (Next.js, Supabase, Vercel) is the clearest proof. But I wouldn't use \"senior full-stack engineer\" if the job implies deep backend or infrastructure specialization. My deepest lane is the frontend and product-behavior layer.",
+      "I guide AI-assisted implementations across frontend, APIs, auth, databases and deployments, and CheckRay is a working example. I cannot independently write substantial full-stack code without AI assistance, so I am better suited to creative technologist and design/product direction roles than traditional software engineering.",
   },
   {
     id: "years",
@@ -607,7 +607,7 @@ export const TOPICS: Topic[] = [
       /\bgenerative (image|images|video|media)\b/,
     ],
     answer:
-      "Motion is a core part of my background: motion graphics, editing, compositing and short-form video, mostly for hospitality campaigns, collected on the Motion page of the portfolio. I use After Effects and Premiere, plus Runway, Seedance, Flux and ComfyUI in a controlled production workflow, and the generated output isn't the finish line: I still composite, retouch, edit, color, set type and QA the final piece. In product work, motion should explain state, hierarchy or causality, not decorate.",
+      "Motion is a core part of my background: motion graphics, editing, compositing and short-form video, mostly for hospitality campaigns, collected on the Motion page of the portfolio. I use After Effects and Premiere, plus Runway, Seedance and Flux in a controlled production workflow, and the generated output isn't the finish line: I still composite, retouch, edit, color, set type and QA the final piece. In product work, motion should explain state, hierarchy or causality, not decorate.",
   },
   {
     id: "websites",
@@ -925,7 +925,7 @@ const ROLE_RULES: RoleRule[] = [
     level: "stretch",
     role: "Full-Stack Engineer",
     answer:
-      "That's a credible stretch, and how much of one depends on where the weight sits. I implement across the stack of the products I build: frontend, APIs, Supabase/Postgres, auth, server routes and deployment, and CheckRay is live on Next.js, Supabase and Vercel. If the role is product-focused full-stack, that's a reasonable fit. If it implies deep backend or infrastructure specialization, that's the gap. I'd own the frontend and product behavior and carry features through the stack.",
+      "This is a weak match if the role requires independent programming. I guide AI tools to create and test functioning frontend/backend work, as in CheckRay, but cannot hand-write substantial code unaided. My strongest contribution is AI-assisted creative and experience direction.",
   },
   {
     re: /\b(front[- ]?end|frontend engineer|react developer|web developer|product engineer|software engineer)\b/,
@@ -939,7 +939,7 @@ const ROLE_RULES: RoleRule[] = [
     level: "stretch",
     role: "Generative AI Designer / Producer",
     answer:
-      "That's a good fit, between strong and credible stretch depending on how technical it is. I use Runway, Seedance, Flux and ComfyUI in a controlled production workflow and then finish the work by hand, with years of motion and campaign production behind it. The extra I bring is the technical workflow side: building the systems around the generation, like Auto Creative OS. The gap would be research-level model work. I'd own production quality and the workflow behind it.",
+      "That's a good fit, between strong and credible stretch depending on how technical it is. I use Runway, Seedance and Flux in a controlled production workflow and then finish the work by hand, with years of motion and campaign production behind it. The extra I bring is the technical workflow side: building the systems around the generation, like Auto Creative OS. The gap would be research-level model work. I'd own production quality and the workflow behind it.",
   },
   {
     re: /\b(solutions (engineer|architect)|forward[- ]deployed|sales engineer|ai solutions)\b/,
