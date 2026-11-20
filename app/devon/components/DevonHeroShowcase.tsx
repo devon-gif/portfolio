@@ -43,10 +43,10 @@ type SectionConfig = {
 const sections: Record<SectionKey, SectionConfig> = {
   work: {
     label: "Work",
-    kicker: "DESIGN ENGINEER + CREATIVE TECHNOLOGIST",
+    kicker: "CREATIVE TECHNOLOGIST · AI CREATIVE SYSTEMS",
     lines: ["DESIGN.", "BUILD.", "SHIP."],
     lead:
-      "I turn ambiguous ideas into working experiences. Product design, AI systems, web products, motion, and creative direction — from the first interaction model through real states, QA, deployment, and iteration.",
+      "I turn ambiguous concepts into motion, AI creative systems, interactive experiences and working digital products. I lead the visual direction and guide AI-assisted implementation, review and delivery.",
     detailKicker: "SELECTED CAPABILITIES",
     detailTitle: "Design thinking with production muscle.",
     detailBody:
@@ -54,8 +54,8 @@ const sections: Record<SectionKey, SectionConfig> = {
     primary: { label: "Explore product work", href: "#builds" },
     capabilities: [
       ["Product UX", "Interaction design, system states, flows, prototypes, and decision-support experiences."],
-      ["Design engineering", "React / Next.js builds, TypeScript, frontend implementation, APIs, auth, and product QA."],
-      ["Applied AI", "Human-centered AI workflows, structured outputs, evals, trust UX, and visible model behavior."],
+      ["AI-assisted product direction", "I define product behavior, experience quality, requirements and testing, and guide Claude Code/Codex through implementation."],
+      ["AI creative systems", "Generative media, creative automation, repeatable campaigns, quality controls and purposeful AI experiences."],
       ["Rapid prototyping", "Functional prototypes that expose assumptions before a team over-invests in polish."],
       ["Motion & explainers", "Product storytelling, generative motion, interface animation, and launch visuals."],
       ["Creative systems", "Campaign systems, modular brand assets, templates, and repeatable production workflows."],
@@ -282,7 +282,7 @@ const sections: Record<SectionKey, SectionConfig> = {
     kicker: "ABOUT DEVON ARCHER",
     lines: ["DESIGNER.", "BUILDER.", "PARTNER."],
     lead:
-      "I am a design engineer and creative technologist who works across product UX, hospitality creative, motion, AI-assisted production, web development, and visual systems. I am most useful when an idea needs both creative judgment and someone willing to stay with the build until it ships.",
+      "I am a creative technologist focused on motion, AI creative systems, interactive design, hospitality creative, and AI-assisted digital products. I am most useful when an idea needs both creative judgment and someone willing to stay with the build until it ships.",
     detailKicker: "RESUME + BACKGROUND",
     detailTitle: "Creative range, grounded in execution.",
     detailBody:
@@ -292,7 +292,7 @@ const sections: Record<SectionKey, SectionConfig> = {
       ["Archer Design", "Founder, 2021–present. Hospitality creative, motion, websites, product visuals, and AI-assisted digital work."],
       ["SHAIPE Agency", "Graphic Designer & Client-Facing Operator, 2021–2025. Multi-account campaigns, brand assets, and direct client delivery."],
       ["JobGhost", "Co-Founder, Growth Systems & Product Positioning, 2025–2026. Product positioning, workflows, outreach systems, and AI product thinking."],
-      ["Education", "M.S. UX Design and B.S. UX/UI Design, Full Sail University. Graphic Design Certificate, California Institute of the Arts."],
+      ["Education", "B.S. UX/UI Design, Full Sail University. Graphic Design Certificate, California Institute of the Arts."],
       ["Product systems", "React, Next.js, TypeScript, Supabase, Vercel, GitHub, APIs, auth, and AI-assisted development."],
       ["Creative stack", "Figma, Adobe Creative Suite, motion, video, social systems, AI image/video, art direction, and presentation design."],
     ],
@@ -471,7 +471,7 @@ function HeroVisual({ active }: { active: SectionKey }) {
           <strong>Creative technologist for real-world ideas.</strong>
           <ul>
             <li>Founder — Archer Design</li>
-            <li>M.S. UX Design</li>
+            <li>B.S. UX/UI Design</li>
             <li>Hospitality + product + AI</li>
             <li>Design through deployment</li>
           </ul>
@@ -732,7 +732,7 @@ export function DevonHeroShowcase() {
 
         {active === "about" ? (
           <div className="rz-dynamic-about-footer">
-            <div><GraduationCap size={19} /><span>M.S. UX Design · B.S. UX/UI Design · CalArts Graphic Design Certificate</span></div>
+            <div><GraduationCap size={19} /><span>B.S. UX/UI Design · CalArts Graphic Design Certificate</span></div>
             <div><BriefcaseBusiness size={19} /><span>Archer Design · SHAIPE Agency · JobGhost</span></div>
             <div><Play size={19} /><span>Design · Product · AI · Motion · Hospitality · Web</span></div>
           </div>
