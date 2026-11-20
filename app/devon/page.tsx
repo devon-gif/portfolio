@@ -15,9 +15,9 @@ import ClientBrands from "./components/ClientBrands";
 import { PortfolioNav } from "./components/PortfolioChrome";
 import styles from "./opus.module.css";
 
-const PAGE_TITLE = "Devon Archer — Design Engineer + Creative Technologist";
+const PAGE_TITLE = "Devon Archer — Creative Technologist | Motion & AI Creative Systems";
 const PAGE_DESCRIPTION =
-  "Investor presentations, project websites, dashboards and ongoing creative support by Devon Archer, a design engineer and creative technologist in Lehi, Utah.";
+  "Creative technologist combining motion, AI creative systems, interactive 3D experiences and client-ready digital experiences in Lehi, Utah.";
 
 const PROFILE_SCHEMA = {
   "@context": "https://schema.org",
@@ -28,7 +28,7 @@ const PROFILE_SCHEMA = {
       name: "Devon Archer",
       url: absoluteUrl("/devon"),
       image: absoluteUrl("/infuse/brand/devon-archer-portrait.png"),
-      jobTitle: "Design Engineer and Creative Technologist",
+      jobTitle: "Creative Technologist and AI Creative Producer",
       description: PAGE_DESCRIPTION,
       homeLocation: { "@type": "Place", name: "Lehi, Utah, United States" },
       worksFor: { "@id": absoluteUrl("/#organization") },
@@ -66,10 +66,10 @@ export const metadata: Metadata = {
   publisher: "Archer Design LLC",
   keywords: [
     "Creative Technologist",
-    "Design Engineer",
+    "AI Creative Producer",
     "AI Product Designer",
     "Design Technologist",
-    "Creative Developer",
+    "Generative Media",
     "real-time graphics",
     "creative coding",
     "applied AI",
@@ -105,16 +105,18 @@ export const metadata: Metadata = {
 
 const projects = [
   {
-    slug: "deal-rooms",
-    title: "Investor Decks & Deal Rooms",
-    status: "Client work · CR91 Park Plaza",
-    tags: "Investor storytelling, Dashboards, Decks, Web",
+    slug: "promo-generator",
+    title: "Hotel Promo Generator",
+    status: "Working tool · Remotion",
+    tags: "Creative automation, Remotion, React, TypeScript, Motion",
     summary:
-      "For CR91 Park Plaza, I built the investor presentation, project website and private materials experience. I help owners and founders bring the story, documents and project updates together in one practical system.",
-    facts: ["Investor deck + project website", "Private documents + project updates"],
-    tone: "paper",
-    image: "/devon/investor/cr91-live-investor-room.png",
-    href: "/devon/investor-deal-rooms",
+      "A working branded video concept that converts four spreadsheet offers into 12 hotel promos across three formats. I defined the creative system and directed AI-assisted implementation to demonstrate reliable multi-format production.",
+    facts: ["4 offers × 3 formats = 12 video outputs", "Consistent typography, layout and safe zones", "Creative direction and AI-assisted implementation"],
+    tone: "night",
+    image: "/devon/projects/promo-generator-grid.jpg",
+    video: "/devon/projects/promo-generator-grid.mp4",
+    videoAlt: "Twelve hotel promo videos generated from one template, playing together in a grid",
+    href: "/devon/promo-generator",
   },
   {
     slug: "aura-one",
@@ -122,25 +124,23 @@ const projects = [
     status: "Live interactive concept",
     tags: "Interactive 3D, Blender, React Three Fiber, GSAP, Next.js",
     summary:
-      "A fictional luxury headphone launch built as a full interactive product experience. Scroll-controlled exploded assemblies, material configuration, studio-rendered colorways, and cinematic lifestyle transitions bring the design system into working code.",
-    facts: ["Real 3D product model + exploded-view interaction", "Four studio colorways and editorial imagery", "Explore the live 3D site and motion experience"],
+      "A fictional luxury headphone launch combining Blender visuals, interactive product storytelling, scroll-driven 3D motion and a live product experience. I defined the design direction and guided AI-assisted React Three Fiber / GSAP implementation.",
+    facts: ["Concept, art direction and interaction design", "AI-assisted Three.js / GSAP implementation", "Live demo: exploded view and product colorways"],
     tone: "night",
     image: null,
     href: "https://aura-one-devon-gifs-projects.vercel.app",
   },
   {
-    slug: "promo-generator",
-    title: "Hotel Promo Generator",
-    status: "Working tool · Remotion",
-    tags: "Creative automation, Remotion, React, TypeScript, Motion",
+    slug: "deal-rooms",
+    title: "Investor Decks & Deal Rooms",
+    status: "Client work · CR91 Park Plaza",
+    tags: "Investor storytelling, Dashboards, Decks, Web",
     summary:
-      "One branded video template that turns a spreadsheet of hotel offers into finished promos for every social format. Marketing edits rows instead of timelines, and a single command renders the whole campaign on brand: 4 offers become 12 videos in three sizes.",
-    facts: ["1 template, 4 offers, 3 formats, 12 videos", "Brand, type and safe zones locked in code", "Spreadsheet in, finished MP4s out"],
-    tone: "night",
-    image: "/devon/projects/promo-generator-grid.jpg",
-    video: "/devon/projects/promo-generator-grid.mp4",
-    videoAlt: "Twelve hotel promo videos generated from one template, playing together in a grid",
-    href: "/devon/promo-generator",
+      "For CR91 Park Plaza, I designed investor presentations, the project website and a private materials system. I directed AI-assisted implementation to bring real client documents, project updates and storytelling into one experience.",
+    facts: ["Real client project: concept, visual direction and delivery", "Investor decks, site and private document workflows"],
+    tone: "paper",
+    image: "/devon/investor/cr91-live-investor-room.png",
+    href: "/devon/investor-deal-rooms",
   },
   {
     slug: "living-lobby",
@@ -155,19 +155,6 @@ const projects = [
     href: "/devon/living-lobby",
   },
   {
-    slug: "vibecode",
-    live: "https://vibe-code-final.vercel.app/",
-    title: "VibeCode+",
-    status: "Live product",
-    tags: "AI developer tooling, Product UX, Next.js, GitHub",
-    summary:
-      "Inspectable AI code repair. Deterministic health checks, bounded AI fixes, GitHub verification, and human review let a developer see what the system did before accepting a change. Successful repairs land as draft pull requests instead of silent production changes.",
-    facts: ["216/216 automated tests in latest audit", "Draft PRs, never silent changes"],
-    tone: "night",
-    image: "/devon/projects/vibecode-neon-code-repair-hero.png",
-    href: "https://vibe-code-final.vercel.app/",
-  },
-  {
     slug: "checkray",
     live: "https://www.checkray.app/",
     title: "CheckRay",
@@ -179,6 +166,19 @@ const projects = [
     tone: "mint",
     image: "/devon/projects/checkray-home.png",
     href: "https://checkray.app",
+  },
+  {
+    slug: "vibecode",
+    live: "https://vibe-code-final.vercel.app/",
+    title: "VibeCode+",
+    status: "Live product",
+    tags: "AI developer tooling, Product UX, Next.js, GitHub",
+    summary:
+      "Inspectable AI code repair. Deterministic health checks, bounded AI fixes, GitHub verification, and human review let a developer see what the system did before accepting a change. Successful repairs land as draft pull requests instead of silent production changes.",
+    facts: ["216/216 automated tests in latest audit", "Draft PRs, never silent changes"],
+    tone: "night",
+    image: "/devon/projects/vibecode-neon-code-repair-hero.png",
+    href: "https://vibe-code-final.vercel.app/",
   },
   {
     slug: "baseten",
@@ -196,36 +196,18 @@ const projects = [
 ] as const;
 
 const skills = [
-  [
-    "Applied AI product design",
-    "AI features people can trust. I design what the model may do, what it shows as evidence, where uncertainty appears, and where a person stays in control. Then I build it.",
-  ],
-  [
-    "Design engineering",
-    "Design and code as one feedback loop. I take an idea from interaction model to deployed React and Next.js software with real states, data, auth, APIs, QA, and iteration.",
-  ],
-  [
-    "Real-time + interactive",
-    "Experiences that respond to people and the world around them: particle systems, shaders, live data, installation behavior, computer vision, and multi-device interaction.",
-  ],
-  [
-    "Rapid prototyping",
-    "Working prototypes that test the risky part first. I would rather expose an assumption with a real interaction than polish a fake certainty.",
-  ],
-  [
-    "Motion + campaign systems",
-    "Motion, social systems, short-form video, brand assets, and AI-assisted production designed to hold together across large volumes of real client work.",
-  ],
-  [
-    "Creative direction",
-    "Hospitality, F&B, events, investor storytelling, and visual systems, with enough production and technical depth to keep the idea connected to what ships.",
-  ],
+  ["AI creative production systems", "Repeatable image and video workflows, branded variations, visual consistency, editing and quality review for multi-format campaigns."],
+  ["Motion + visual storytelling", "Kinetic typography, interface animation, promotional video, campaign motion and detailed art direction across Adobe tools and generative workflows."],
+  ["Interactive experiences", "Blender visualization, interactive 3D and real-time experiences designed and implemented through AI-assisted Three.js, React and GSAP workflows."],
+  ["AI-assisted product direction", "I define the behavior, states, requirements and quality bar; guide AI coding tools through implementation; review, test and iterate. I do not claim independent JavaScript programming fluency."],
+  ["Client creative production", "Hospitality, food and beverage, wellness and events creative. 2.7K+ assets and aggregate tracked campaign performance."],
+  ["Concept to delivery", "Visual concept, storyboarding, styleframes, prototypes, feedback, production and launch, keeping creative intent intact."],
 ] as const;
 
 const faq = [
   [
-    "Can you actually code, or do you only prototype?",
-    "I build and ship working software. My strongest ground is the line between design and frontend: React, Next.js, TypeScript, APIs, auth, Supabase, GitHub, and Vercel. I use AI-assisted development heavily and stay responsible for behavior, testing, and what goes live. I am not presenting myself as a senior infrastructure engineer, and I know when a problem needs one.",
+    "How much code do you write yourself?",
+    "I direct and ship functioning applications using Claude Code and Codex for much of the implementation. My personal strengths are design, interaction decisions, requirements, reviewing behavior, troubleshooting with AI, and guiding releases. I cannot write substantial React or JavaScript unaided today, so I do not claim to be an independent frontend engineer.",
   ],
   [
     "How do you use AI in your work?",
@@ -237,7 +219,7 @@ const faq = [
   ],
   [
     "What kind of role fits best?",
-    "Creative Technologist, Design Technologist, Design Engineer, AI Product Designer, Creative Developer, or prototyping roles where visual craft, product behavior, and working software overlap.",
+    "AI Creative Technologist, AI Creative Producer, Motion Designer, Interactive Experience Designer or Digital Designer roles emphasizing creative systems and AI-assisted delivery. Coding-heavy engineering positions are not my strongest match today.",
   ],
 ] as const;
 
@@ -330,17 +312,17 @@ export default function DevonPortfolioPage() {
             <path d="M8 18 L48 10 L83 28 L35 48 L75 68 L10 77" vectorEffect="non-scaling-stroke" />
           </svg>
           <ul className={styles.nodes} aria-label="Focus areas">
-            <li className={styles.n1}>Applied AI</li>
-            <li className={styles.n2}>Design engineering</li>
-            <li className={styles.n3}>Real-time graphics</li>
-            <li className={styles.n4}>Product UX</li>
+            <li className={styles.n1}>AI creative systems</li>
+            <li className={styles.n2}>Interactive design</li>
+            <li className={styles.n3}>Generative media</li>
+            <li className={styles.n4}>Art direction</li>
             <li className={styles.n5}>Motion</li>
             <li className={styles.n6}>Hospitality creative</li>
           </ul>
 
           <div className={styles.heroTitle}>
             <h1>Devon Archer</h1>
-            <p className={styles.role}>Design Engineer + Creative Technologist</p>
+            <p className={styles.role}>Creative Technologist · AI Creative Systems · Motion</p>
           </div>
 
           <div className={styles.heroFoot}>
@@ -355,7 +337,7 @@ export default function DevonPortfolioPage() {
                 />
               </div>
               <div className={styles.hireCopy}>
-                <p className={styles.hireTitle}>Investor decks.<br />Websites. Dashboards.</p>
+                <p className={styles.hireTitle}>Motion. Experiences.<br />Creative systems.</p>
                 <p className={styles.small}>One project or ongoing design and technical support.</p>
                 <Link className={styles.pill} href="/contact?service=project">Start a project <i><ArrowUpRight size={15} /></i></Link>
                 <Link className={styles.hireSecondary} href="/devon/investor-deal-rooms#decks">See investor decks ↗</Link>
@@ -363,9 +345,9 @@ export default function DevonPortfolioPage() {
             </div>
 
             <p className={styles.bio}>
-              I&apos;m Devon Archer, a <strong>design engineer and creative technologist</strong> in Lehi, Utah, part of the Salt Lake City metro.
-              I build <strong>investor presentations, project websites and dashboards</strong> for owners and founders,
-              alongside motion, hospitality creative and working AI products. Concept to deployed code.
+              I&apos;m Devon Archer, a <strong>creative technologist</strong> based in Lehi, Utah. I combine
+              <strong> motion, art direction, AI creative systems and interactive experiences</strong> for clients and independent work.
+              I lead the concept and guide AI-assisted implementation, reviewing and refining the finished experience.
             </p>
 
             <a className={styles.scroll} href="#work" aria-label="Scroll to work"><ArrowDown size={16} /></a>
@@ -378,10 +360,10 @@ export default function DevonPortfolioPage() {
         <section className={styles.panel} id="work">
           <div className={styles.sectionHead}>
             <p className={styles.eyebrow}><b /> Selected work</p>
-            <h2><span>Investor work.</span> Built and shipped.</h2>
+            <h2><span>Creative technology.</span> Made real.</h2>
             <p className={styles.lede}>
-              Start with CR91 Park Plaza: investor materials, a project website and a private document system.
-              Explore the live products and independent concepts below.
+              Start with creative automation, interactive 3D product storytelling and real client systems.
+              Each project distinguishes creative direction from AI-assisted implementation.
             </p>
           </div>
         </section>
@@ -462,7 +444,7 @@ export default function DevonPortfolioPage() {
               <div className={styles.sectionHead} style={{ display: "block" }}>
                 <h2><span>What I bring</span> to a team.</h2>
                 <p className={styles.lede} style={{ marginTop: 22 }}>
-                  Product thinking, visual craft, creative direction, and enough engineering to ship the idea.
+                  Visual judgment, repeatable AI workflows, motion craft and product direction through AI-assisted implementation.
                 </p>
               </div>
             </div>
@@ -490,7 +472,6 @@ export default function DevonPortfolioPage() {
               <li><span>2021 to 2025</span><div><strong>Graphic Designer, SHAIPE</strong><small>Multi-account digital design and client delivery.</small></div></li>
             </ul>
             <p className={styles.small} style={{ marginTop: 20 }}>
-              M.S. UX Design, Full Sail University<br />
               B.S. UX/UI Design, Full Sail University<br />
               Graphic Design Certificate, CalArts
             </p>
