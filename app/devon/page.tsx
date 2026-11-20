@@ -148,7 +148,7 @@ const projects = [
     status: "In development · Part 1 built",
     tags: "Real-time graphics, GPU simulation, live data, installation",
     summary:
-      "A generative brand installation for hotel lobbies. Particles move through a world shaped by live time and weather, gather into a wordmark, and respond to people in front of the screen. The system is designed to run unattended like an installation rather than behave like another portfolio demo.",
+      "An in-development generative hospitality installation. The current build animates particles using real time and weather data, including a wordmark sequence, with kiosk-oriented controls. Camera and guest interactions are planned, not yet shipped.",
     facts: ["26K–124K GPU particles", "Live sun + weather inputs", "Director mode + kiosk hardening"],
     tone: "night",
     image: null,
@@ -338,7 +338,7 @@ export default function DevonPortfolioPage() {
               </div>
               <div className={styles.hireCopy}>
                 <p className={styles.hireTitle}>Motion. Experiences.<br />Creative systems.</p>
-                <p className={styles.small}>One project or ongoing design and technical support.</p>
+                <p className={styles.small}>One project or ongoing creative and digital production support.</p>
                 <Link className={styles.pill} href="/contact?service=project">Start a project <i><ArrowUpRight size={15} /></i></Link>
                 <Link className={styles.hireSecondary} href="/devon/investor-deal-rooms#decks">See investor decks ↗</Link>
               </div>
